@@ -1,0 +1,19 @@
+<div
+
+%if layoutId :
+id="${layoutId}"
+%endif
+
+%if layoutClass :
+class="layout1 ${layoutClass}"
+%else :
+class="layout1"
+%endif
+>
+<div class="header">${headerContent or ''}</div>
+<div id="overlay"></div>
+<div class="body">${bodyContent or ''}</div>
+<div class="footer">${footerContent or ''}</div>
+</div>
+
+

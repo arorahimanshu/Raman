@@ -1,0 +1,99 @@
+.primaryTabs {
+    background: none repeat scroll 0 0 #0866C6;
+    border-color: #0866C6 #0866C6 -moz-use-text-color;
+    border-style: solid solid none solid;
+    border-width: 1px;
+    margin: 0;
+
+    height: 2.3em;
+    overflow: hidden;
+    max-width: 100vw;
+}
+
+.primaryTabs div {
+    display: inline-block;
+}
+
+.primaryTabs .staticButton, .primaryTabs .dynamicButtonContainer {
+    text-align: center;
+    color: #FFFFFF;
+    font-size: 13px;
+    font-weight: bold;
+
+    cursor: pointer;
+    height: 100%;
+    margin: 0;
+
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+.primaryTabs .dynamicButton, .primaryTabs .tabCloseButton {
+    padding-left: 0.7em;
+    padding-right: 0.7em;
+}
+
+.primaryTabs .activeTab {
+    background-color: #fff;
+    color: #0866C6;
+    font-size: 13px;
+    font-weight: bold;
+    border-style: none solid none none;
+    border-bottom: 0px solid #000;
+}
+
+.appButton {
+    background-color: #29e;
+    margin: 3px 3px -2px 3px;
+
+    border-radius: 5px;
+    cursor: pointer;
+    width: 150px;
+    height: 60px;
+    text-align: center;
+    font-size: 15px;
+    padding-top: 20px;
+
+}
+
+.primaryTabs .staticTab, .primaryTabs .scrollLeft, .primaryTabs .dynamicTabContainer, .primaryTabs .dynamicButton {
+    float: left
+}
+
+.primaryTabs .scrollRight {
+    float: right;
+}
+
+.primaryTabs .dynamicTabContainer {
+    overflow: hidden;
+    height: 2em;
+    position: relative;
+}
+
+.primaryTabs .innerContainer {
+    width: 200vw;
+    position: absolute;
+}
+
+.primaryTabs .dynamicButtonContainer {
+    position: relative;
+}
+
+#overlay{
+
+    z-index: 1000;
+    position: fixed;
+}
+.appButton2 {
+    background-color: #21669f;
+    margin: 3px 3px -2px 3px;
+
+    border-radius: 5px;
+    cursor: pointer;
+    width: 150px;
+    height: 60px;
+    text-align: center;
+    font-size: 15px;
+    padding-top: 20px;
+
+}

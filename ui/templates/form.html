@@ -1,0 +1,36 @@
+<div
+%if formId :
+id="${formId}"
+%endif
+%if formClass :
+class="${formClass}"
+%endif
+>
+<form>
+	<div class="container">
+		%for formInput in formInputs :
+		<div
+		%if 'id' in formInput :
+		id="${formInput['id']}"
+		%endif
+		%if 'class' in formInput :
+		class="${formInput['class']}"
+		%endif
+		>
+
+		%if 'label' in formInput :
+		<div class="label">${formInput['label']}</div>
+		%endif
+
+		<div class="widget">${formInput['widget']}</div>
+
+		%if 'error' in formInput :
+		<div class="error">${formInput['error']}</div>
+		%endif
+
+	</div>
+	%endfor
+	</div>
+</form
+</div>
+

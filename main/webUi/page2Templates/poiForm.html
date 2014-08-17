@@ -1,0 +1,163 @@
+<script>
+        var classData = []
+        %for item in classdata:
+         classData.push('${item}')
+        %endfor
+    </script>
+
+<div class="errorBox" id="generic"></div>
+
+<div id="primary">
+	<div id="addPoi">
+		<div class="field addPoiDivs" style="background-color:#187DE5;">
+			<div class="label" >Add POI</div>
+		</div>
+		<div class="field addPoiDivs">
+			<div class="label">Select Company</div>
+			<div class="value">
+				<select id="poiCompany">
+					%for item in companyList :
+					<option value='${item['value']}'>${item['display']}</option>
+					% endfor
+				</select>
+			</div>
+		</div>
+		<div class="field addPoiDivs">
+			<div class="label">Select Branch</div>
+			<div class="value">
+				<select id="poiBranch">
+					%for item in branchList :
+					<option value='${item['value']}'>${item['display']}</option>
+					% endfor
+				</select>
+			</div>
+		</div>
+		<div class="field addPoiDivs">
+			<div class="label">Select Vehicle</div>
+			<div class="value">
+				<select id='PoiVehicleList'>
+					<option value='0'>All</option>
+					%for item in vehicleList :
+					<option value='${item['value']}'>${item['display']}</option>
+					% endfor
+				</select>
+			</div>
+		</div>
+
+		<div class="field addPoiDivs">
+			<button id="addPoiButton" style="width:100%;">Add POI</button>
+		</div>
+	</div>
+
+	<div id="report">
+		<div id="controls" style="display:inline-block;">
+		<div class="row">
+			<div class="field cell">
+				<div class="label">Company</div>
+				<div class="value">
+					<select id="reportCompany">
+						%for item in companyList :
+					<option value='${item['value']}'>${item['display']}</option>
+					% endfor
+					</select>
+				</div>
+			</div>
+			<div class="field cell">
+				<div class="label">Address Category</div>
+				<div class="value">
+					<select id="reportAddressCategory">
+						%for item in addressList :
+					<option value='${item['display']}'>${item['display']}</option>
+					% endfor
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="field cell">
+				<div class="label">Branch &nbsp;&nbsp;&nbsp;</div>
+				<div class="value">
+					<select id="reportBranch">
+						%for item in branchList :
+					<option value='${item['value']}'>${item['display']}</option>
+					% endfor
+					</select>
+				</div>
+			</div>
+
+		</div>
+
+				<div >
+				<button id="show" class="submit">Go</button>
+			</div>
+
+		</div>
+		<div id="reportData">
+			<table id="showTable"></table>
+		</div>
+	</div>
+
+</div>
+
+<div id="secondary" hidden="true">
+	<div id="map-canvas" style="width: 65%; height: 500px; float:right"></div>
+	<div id="detailsBox">
+
+
+
+		<div class="field">
+			<div class="label">Place Name</div>
+			<div class="errorBox" id="placeNameError"></div>
+			<div class="value">
+				<input type="text" id="placeName"/><span id="searchButtonImg" ><img src="/etc/page2/specific/images/magnifying.jpg" style="display:inline;width:27px;"></span>
+			</div>
+		</div>
+
+		<div class="field">
+			<div class="label">POI Name</div>
+			<div class="errorBox" id="poiplaceNameError"></div>
+			<div class="value">
+				<input type="text" id="poiplaceName"/>
+			</div>
+		</div>
+
+		<div class="field">
+			<div class="label">Address Category</div>
+			<div class="value">
+				<select id="addressCategory">
+					%for item in addressList :
+					<option value='${item['display']}'>${item['display']}</option>
+					%endfor
+				</select>
+			</div>
+		</div>
+
+		<div class="field">
+			<div class="label">Street</div>
+			<div class="errorBox" id="streetError"></div>
+			<div class="value">
+				<input type="text" id="street"/>
+			</div>
+		</div>
+		<div class="field">
+			<div class="label">City</div>
+			<div class="errorBox" id="cityError"></div>
+			<div class="value">
+				<input type="text" id="city"/>
+			</div>
+		</div>
+		<div class="field">
+			<div class="label">State</div>
+			<div class="errorBox" id="stateError"></div>
+			<div class="value">
+				<input type="text" id="state"/>
+			</div>
+		</div>
+		<button id="save" class="submit">Save</button>
+		<button id="cancel" class="submit">Cancel</button>
+	</div>
+
+</div>
+<input type="text" id="lat" hidden="true">
+<input type="text" id="lng" hidden="true">
+

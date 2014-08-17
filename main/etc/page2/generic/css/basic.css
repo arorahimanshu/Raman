@@ -1,0 +1,179 @@
+/* styling for checkbox starts */
+/*
+   checkbox inputs class should be 'css-checkbox' 
+   & corresponding label should have class 'css-label' 
+   with for attribute equal to id of checbox
+*/
+input[type=checkbox].css-checkbox {
+	display:none;
+}
+
+input[type=checkbox].css-checkbox + label.css-label {
+	padding-left:23px;
+	height:19px;
+	display:inline-block;
+	line-height:19px;
+	background-repeat:no-repeat;
+	background-position: 0 0;
+	cursor:pointer;
+}
+
+input[type=checkbox].css-checkbox:checked + label.css-label {
+	background-position: 0 -19px;
+}
+
+label.css-label {
+	background-image:url(images/csscheckbox2.png);
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+/* styling for checkbox ends */
+
+/* styling for number input starts */
+input[type=number]::-webkit-inner-spin-button { 
+    -webkit-appearance: none;
+    cursor:pointer;
+    display:block;
+    width:8px;
+    color: #333;
+    text-align:center;
+    position:relative;
+}
+
+input[type=number]::-webkit-inner-spin-button:hover { 
+    color: #236DCD;
+}
+
+input[type=number]::-webkit-inner-spin-button:before,
+input[type=number]::-webkit-inner-spin-button:after {
+    content: "^";
+    position:absolute;
+    right: 0;
+    font-family:monospace;
+}
+
+input[type=number]::-webkit-inner-spin-button:before {
+    top:0px;
+}
+
+input[type=number]::-webkit-inner-spin-button:after {
+    bottom:0px;
+    -webkit-transform: rotate(180deg);
+}
+/* styling for number input ends */
+
+/*  contains thw whole form  */
+.formContainer{
+	display: table;
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-size: 18px;
+	padding: 6%;
+	border: 2px solid #187DE0;
+	border-radius: 20px;
+	background-color: #EBF5FF; /* delete/comment the line if background color of form not needed */
+}
+
+/* contains the row containing label and their corresponding inputs */
+.formRow{
+	display: table-row;
+
+}
+
+.formCell>label{
+	white-space: nowrap;
+	overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 2%;
+}
+
+/* contains the single cell or <td> contents */
+.formCell{
+	display: table-cell;
+	padding-bottom: 0.5em;
+	padding-top: 0.5em;
+	padding-left: 2%;
+	padding-right: 2%;
+}
+
+.formHead{
+	display: table-cell;
+	text-align: center;
+	font-weight: bold;
+	font-size: 20px;
+	padding-bottom: 0.5em;
+	padding-top: 0.5em;
+}
+
+/* custom form button styling */
+.formButton{
+	display: inline-block;
+	margin-left: 5px;
+	margin-right: 5px;
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-size: 13px;
+	font-weight: bold;
+	color: #ffffff;
+	background-color: #187DE5;
+	width: 30%;
+	border: 1px solid grey;
+	border-radius: 5px;
+	text-align: center;
+	padding: 6%;
+	cursor: pointer;
+}
+
+.formButton:hover{
+	-moz-box-shadow:    inset 0 0 10px #000000;
+   	-webkit-box-shadow: inset 0 0 10px #000000;
+   	box-shadow:         inset 0 0 10px #000000;
+   	background-color: #1364B7;
+}
+
+/* text and password inputs styling start */
+.formContainer input[type="text"],.formContainer input[type="password"],.formContainer input[type="number"],.formContainer select {
+	display: inline-block;
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	min-height: 30px;
+	min-width: 250px;
+	padding: 10px 30px 10px 20px;
+	border: solid 1px #dcdcdc;
+	transition: box-shadow 0.3s, border 0.3s;
+}
+
+.formContainer input[type="text"]:focus,.formContainer input[type="password"]:focus,.formContainer input[type="number"]:focus,.formContainer select:focus {
+  	border: solid 1px #707070;
+  	box-shadow: 0 0 5px 1px #969696;
+}
+/* text and password inputs styling end */
+
+/* error class for error message (add error class and remove success class)*/
+.formContainer .error {
+	color: #ff2233;
+	white-space: nowrap;
+	overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* success class for success message (add success class and remove error class)*/
+.formContainer .success {
+	color: #009900;
+	white-space: nowrap;
+	overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* css for including error and success images to input box */
+/* start */
+.formContainer span {
+	margin-left: -28px;
+}
+
+span>img {
+	display: none; /* change display = true to show image */
+	vertical-align: middle;
+}
+/* end */

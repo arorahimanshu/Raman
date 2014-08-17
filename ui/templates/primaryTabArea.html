@@ -1,0 +1,83 @@
+<script>
+    jQuery(window).load(function() {
+        jQuery('#logOut').click(function () {
+            sendAjaxRequest('logoutAction', undefined, logoutSuccess)
+        })
+    })
+    function logoutSuccess(result)
+    {
+        console.log(result)
+    }
+</script>
+
+
+<div
+%if containerId :
+id="${containerId}"
+%endif
+
+%if containerClass :
+class="${containerClass} unselectable"
+%else :
+class="unselectable"
+%endif
+>
+<div
+%if activeTab and activeTab == 'home' :
+class="homeButton activeTab"
+%else :
+class="homeButton"
+%endif
+>
+</div>
+
+<div
+%if activeTab and activeTab == 'dashboard' :
+class="dashboardButton activeTab"
+%else :
+class="dashboardButton"
+%endif
+>
+<div class="container">
+	<div class="button">Dashboards</div>
+</div>
+         <div class="logout container" style="align:right;">
+            <div id="logOut" class="button">Logout</div>
+        </div>
+</div>
+
+<div class="scrollLeft">
+	<div class="container">
+		<div class="button">&lt;</div>
+	</div>
+</div>
+
+<div class="tabOuterContainer">
+
+	<div class="scrollRight">
+		<div class="container">
+			<div class="button">&gt;</div>
+		</div>
+	</div>
+
+	<div class="tabInnerContainer">
+		%for tab in tabs :
+		<div
+		%if activeTab and activeTab == tab['id'] :
+		class="tabButtonContainer activeTab"
+		%else :
+		class="tabButtonContainer"
+		%endif
+		id="${tab['id']}"
+		>
+		<div class="tabButton">${tab['title']}</div>
+		<div class="tabCloseButton">X</div>
+	</div>
+	%endfor
+</div>
+</div>
+
+</div>
+<div style="clear:both"></div>
+
+

@@ -1,0 +1,24 @@
+<%!
+import html, json
+%>
+
+<div id="${appInfo['name']}" style="display: table-cell;float: left;margin: 3%">
+	<div
+
+	%if containerId :
+	id="${containerId}"
+	%endif
+
+	class="appButton unselectable ${containerClass or ''}"
+
+	data-info="${html.escape (json.dumps (appInfo))}"
+
+	>
+
+		${appInfo['displayName']}
+
+	</div>
+</div>
+
+
+

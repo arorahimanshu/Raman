@@ -1,0 +1,182 @@
+* {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -khtml-box-sizing: border-box;
+
+    white-space: nowrap;
+}
+
+.unselectable {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    border: 0;
+
+    /*background-color: #0866C6;*/
+}
+
+.outerLayout {
+    position: relative;
+    width: 100%;
+}
+
+.outerLayout .header {
+    height: 100px;
+}
+
+.outerLayout .body {
+    min-height: 80vh;
+    padding-bottom: 70px;
+}
+
+.ptContainer {
+    background: none repeat scroll 0 0 #0866C6;
+    border-color: #0866C6 #0866C6 -moz-use-text-color;
+/ / border-image : none;
+    border-style: solid solid none solid;
+    border-width: 1px;
+    height: 40px;
+    margin: 0;
+}
+
+.ptContainer .homeButton,
+.ptContainer .dashboardButton,
+.ptContainer .scrollLeft,
+.ptContainer .scrollRight,
+.ptContainer .tabButtonContainer {
+    cursor: pointer;
+/ / border : 0 none;
+/ / border-radius : 0;
+/ / border-color : #fff;
+    color: #FFFFFF;
+    margin: 0;
+    text-align: center;
+    height: 100%;
+    font-family: 'RobotoRegular', 'Helvetica Neue', Helvetica, sans-serif;
+    color: #0866C6;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.ptContainer .homeButton .container,
+.ptContainer .dashboardButton .container,
+.ptContainer .scrollLeft .container,
+.ptContainer .scrollRight .container,
+.ptContainer .tabButtonContainer {
+    font-family: 'RobotoRegular', 'Helvetica Neue', Helvetica, sans-serif;
+    background-color: #0866C6;
+    color: #fff;
+    font-size: 13px;
+    font-weight: bold;
+    border: 1px;
+    border-style: none solid none none;
+    border-color: #fff;
+    height: 100%;
+    padding: 10px 10px 10px 10px;
+}
+
+.ptContainer .activeTab .container,
+.ptContainer .tabInnerContainer .activeTab {
+    font-family: 'RobotoRegular', 'Helvetica Neue', Helvetica, sans-serif;
+    background-color: #fff;
+    color: #0866C6;
+    font-size: 13px;
+    font-weight: bold;
+    border-style: none solid none none;
+
+    border-bottom: 0px solid #000;
+}
+
+.outerLayout a:link {
+    color: #0866C6;
+}
+
+.ptContainer .scrollLeft {
+    padding-left: 20px;
+}
+
+.ptContainer {
+/ / display : table;
+    width: 100%;
+}
+
+.ptContainer .homeButton,
+.ptContainer .dashboardButton,
+.ptContainer .scrollLeft,
+.ptContainer .scrollRight,
+.ptContainer .tabOuterContainer {
+    /*display: table-cell;
+    //width: auto;
+    //position:relative;*/
+    display: inline-block;
+    vertical-align: top;
+}
+
+.ptContainer .homeButton {
+    padding-right: 0px;
+    padding-left: 10px;
+    float: left;
+}
+
+.ptContainer .dashboardButton {
+    padding-right: 0px;
+    padding-left: 0px;
+    float: left;
+}
+
+.ptContainer .scrollLeft {
+    padding-right: 0px;
+    padding-left: 0px;
+    float: left;
+    border-left: 20px solid #fff;
+
+}
+
+.ptContainer .scrollRight {
+    height: 100%;
+    padding-left: 0px;
+    padding-right: 20px;
+    float: right;
+    border-left: 1px solid #fff;
+/ / border-right : 20 px solid #fff;
+    border-bottom: 0px none;
+
+}
+
+.ptContainer .scrollRight .container {
+    border-right: 20px solid #fff;
+    border-bottom: none;
+
+}
+
+.ptContainer div.tabOuterContainer {
+    /*background-color:red;
+    //display:inline-block;
+    //float:left;*/
+    display: block;
+    overflow: hidden;
+
+}
+
+.ptContainer .tabOuterContainer div {
+    display: inline-block;
+}
+
+.ptContainer div.tabInnerContainer {
+    display: block;
+    overflow: hidden;
+}
+
+.ptContainer .tabButtonContainer {
+    position: relative;
+}
+

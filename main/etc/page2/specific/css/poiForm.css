@@ -1,0 +1,115 @@
+#detailsBox {
+    float: left;
+    width: 35%;
+    padding-top: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.field {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.label, .value {
+    display: inline;
+}
+
+#primary {
+    margin: 2%;
+}
+
+#primary div > select {
+    height: 30px;
+    margin-bottom: 5px;
+    padding-left: 10px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 13px;
+    border: 1px solid #ccc;
+}
+
+#secondary div > input, div > select {
+
+    height: 30px;
+    width: 100%;
+    margin-bottom: 5px;
+    padding-left: 10px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 13px;
+    border: 1px solid #ccc;
+}
+
+button {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #187DE5;
+    text-align: center;
+    height: 45px;
+    width: 45%;
+    cursor: pointer;
+    border: 1px solid #0C57A3;
+    transition: all 0.2s ease-out 0s;
+    padding-top: 0.9em;
+    padding-bottom: 0.8em;
+    padding-left: 2em;
+    padding-right: 2em;;
+}
+
+#addPoi {
+    display: flex;
+    width: 80%;
+    margin-left: 10%;
+    margin-top: 5%;
+    margin-bottom: 4%;
+}
+
+.addPoiDivs {
+    display: inline !important;
+    border: black;
+    border-left-style: inset;
+    border-top-style: inset;
+    border-bottom-style: inset;
+    padding: 3%;
+}
+
+#addPoi :nth-child(5) {
+    border-right-style: inset;
+}
+
+#controls {
+    margin-top: 2%;
+    margin-bottom: 2%;
+}
+
+.row {
+    display: table-row;
+}
+
+.row > .cell {
+    display: table-cell;
+    border: 5px solid transparent;
+    background-clip: padding-box;
+}
+
+table {
+
+    width: 100%;
+}
+
+.success {
+    color: #279f0a;
+    float: right;
+}
+
+.errorBox {
+    color: #f00;
+    float: right;
+}
+
+#searchButtonImg {
+
+    margin: -29px;
+
+}

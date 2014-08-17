@@ -1,0 +1,68 @@
+<script type="text/javascript">
+	function addToTable() {
+		flag = 0
+		var table = jQuery('.Details');
+
+		%for obj in tableData:
+			var data = "<tr><td>${obj['Vehicle_Id']}</td>";
+			data += "<td> ${obj['Geofence_Name']}  </td>";
+			data += "<td> ${obj['Latitude']} </td>";
+			data += "<td> ${obj['Longitude']} </td></tr>";
+
+			table.append(data)
+		%endfor
+	}
+
+	function addVehicle() {
+    jQuery('.Cars').html('Cars')
+	%for item in vehicleList :
+    jQuery('.Cars').append("<div class=carlist> ${item['display']} </div>")
+  	%endfor
+}
+</script>
+
+
+<div class="main">
+	<div id="googleMap"></div>
+	<div class="wrap">
+		<table border="2" cellpadding="5" class="tableDetails">
+			<thead>
+			<tr>
+
+				<th>
+					Vehicle ID
+				</th>
+				<th>
+					Fence Name
+				</th>
+				<th>
+					Latitude
+				</th>
+				<th>
+					Longitude
+				</th>
+			</tr>
+			</thead>
+			<tbody class="Details">
+
+			</tbody>
+
+		</table>
+	</div>
+	<div class="Cars">Cars
+	</div>
+	<div class="Poly">GeoFence
+		<label>Name: </label>
+		<input type="text" class="Fename"/><br/>
+		<label>Vehicle : </label>
+		<select class='vid'>"
+				%for item in vehicleList :
+		           <option value='${item['value']}'>${item['display']}</option>
+			   % endfor
+		</select><br>
+
+		<button class="start">Start</button>
+		<button class="save">Save</button>
+	</div>
+
+</div>

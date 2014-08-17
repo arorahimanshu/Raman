@@ -1,0 +1,142 @@
+.userManagement
+{
+	padding-top: 0.5em;
+	padding-left: 0.3em;
+	font-size: 13px;
+    display: table;
+    margin-left: auto;
+    margin-right: auto;
+    width:25%;
+
+}
+
+.userManagement .field
+{
+	padding-top:0.3em;
+	padding-bottom:0.3em;
+}
+
+.userManagement .field label
+{
+	display:block;
+}
+
+.userManagement .personDataType {
+	display:inline-block;
+	background-color: #0866c6;
+    width:100%;
+	display:flex;
+}
+
+.userManagement .personDataType  div
+{
+
+	flex:2;
+	padding:0.1em;
+	cursor:pointer;
+	border: 0.2em solid #0866c6;
+	font-weight:bold;
+
+}
+
+.userManagement .personDataType .active {
+	background-color: #fff;
+	color: #0866c6;
+}
+.userManagement .personDataType .inactive {
+	color: #fff;
+	background-color: #0866c6;
+}
+
+
+.userManagement  input,select{
+	width:100%;
+	height : 45px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	padding-left : 10px;
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-size: 13px;
+
+}
+
+
+.userManagement .byDetailsContainer.inactive {
+	visibility:hidden;
+	display:none;
+}
+
+.userManagement .byIdContainer.inactive {
+	visibility:hidden;
+	display:none;
+}
+
+
+
+.userManagement .error {
+	color:#f00;
+}
+
+.userManagement .field .error {
+	display:inline-block;
+}
+
+.ok , .cancel, .editbutton {
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-size: 13px;
+	font-weight: bold;
+	color: #ffffff;
+	background-color: #187DE5;
+	margin-top: 5px;
+	text-align: center;
+	height: 45px;
+	width: 49%;
+	display:inline-block;
+	cursor: pointer;
+	border: 1px solid #0C57A3;
+	transition: all 0.2s ease-out 0s;
+	padding-top:0.9em;
+	padding-bottom:0.8em;
+	padding-left:2em;
+	padding-right:2em;
+}
+
+input[type=checkbox].check {
+	display:none;
+}
+
+input[type=checkbox].check + label.css-label {
+	padding-left:23px;
+	height:19px;
+	display:inline-block;
+	line-height:19px;
+	background-repeat:no-repeat;
+	background-position: 0 0;
+	cursor:pointer;
+}
+
+input[type=checkbox].check:checked + label.css-label {
+	background-position: 0 -19px;
+}
+
+label.css-label {
+	background-image:url(csscheckbox.png);
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.errorBox {
+	color:#f00;
+	float:right;
+}
+
+.success
+{
+    color: #279f0a;
+    float:right;
+}
+

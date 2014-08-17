@@ -1,0 +1,30 @@
+<%!
+import json
+%>
+<!DOCTYPE html>
+<html>
+<head>
+	%for css in params.get ('externalCss', []) :
+	<link rel="stylesheet" type="text/css" href="${css}">
+	%endfor
+	<style type="text/css">
+		${params.get ('internalCss', '')}
+	</style>
+</head>
+
+<body>
+%for js in params.get ('externalJs', []) :
+<script src="${js}"></script>
+%endfor
+
+<script>
+	fitx.config =
+	${json.dumps (params['config'])}
+
+	${params.get ('internalJs', '')}
+</script>
+
+${bodyContent or 'Hello World'}
+</body>
+</html>
+

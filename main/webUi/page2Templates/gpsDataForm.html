@@ -1,0 +1,35 @@
+<div class="errorBox"></div>
+
+
+
+<div id="map">
+
+<div class="filterSettings" style="border: 2px solid blue; padding: 10px 40px; background: #dddddd; border-radius: 25px;">
+	Filter Settings
+
+	<div class="search">
+		Search Vehicle:<br/>
+		<input class="searchField">
+		<button class="searchButton">Search</button>
+	</div>
+	<div class="vehicles">
+		%for item in vehicleGroup:
+		<div id="vehicleGroup_${item['value']}">
+			<label>${item['value']}</label>
+			<div>
+			%for vehicle in item['display'] :
+		    <input type="checkbox" id="vehicle_${vehicle['vid']}" class="vehicleSelection"><label>${vehicle['name']}</label><br>
+			%endfor
+
+			</div>
+
+		</div>
+		%endfor
+		<button id="trackNow">Track Now</button>
+	</div>
+
+
+</div>
+
+</div>
+

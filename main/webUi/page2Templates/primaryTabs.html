@@ -1,0 +1,68 @@
+<%!
+import html, json
+%>
+
+<div
+%if containerId :
+id="${containerId}"
+%endif
+
+class="${containerClass or ''} unselectable primaryTabs"
+>
+
+<div class="
+		homeTab
+		staticButton
+		staticTab
+		${'activeTab' if activeTab == 'home' else ''}
+	">Home
+</div>
+
+<div class="
+		dashboardTab
+		staticButton
+		staticTab
+		${'activeTab' if activeTab == 'dashboardButton' else ''}
+	">Dashboard
+</div>
+
+<div class="
+		scrollLeft
+		staticButton
+	">&lt;</div>
+
+<div class="
+		scrollRight
+		staticButton
+	">&gt;</div>
+
+<div class="dynamicTabContainer">
+	<div class="innerContainer">
+
+		% for tabInfo in tabs :
+		<div class="
+				dynamicButtonContainer
+				${'activeTab' if activeTab == tabInfo['id'] else ''}
+			"
+
+			 data-info="${html.escape (json.dumps (tabInfo))}"
+				>
+			<div class="dynamicButton">${tabInfo['title']}</div>
+			<div class="tabCloseButton">X</div>
+		</div>
+		% endfor
+
+	</div>
+</div>
+</div>
+<div style="clear:both"></div>
+<div
+%if contentContainerId :
+id="${contentContainerId}"
+%endif
+
+class="primaryTabsContent ${contentContainerClass or ''} "
+>
+
+${bodyContent or ''}
+

@@ -1,0 +1,9 @@
+#! /bin/bash
+
+fastServer \
+--main main.app \
+--static /lib /home/hallofrks/rks_temp/www_lib \
+--static /etc ../main/etc \
+--static /etc2 ./etc \
+--static /assets /home/hallofrks/rks_temp/temp/assets
+

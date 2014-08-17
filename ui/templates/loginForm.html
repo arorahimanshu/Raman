@@ -1,0 +1,20 @@
+<div
+%if formId :
+id="${formId}"
+%endif
+%if formClass :
+class="${formClass}"
+%endif
+method="POST" action="#"
+>
+
+<form>
+	<div class="username"><input placeholder="Username"/></div>
+	<div class="password"><input placeholder="Password" type="password"/></div>
+	<div class="submit unselectable">
+		<div class="container">
+			<div class="content">Login</div>
+		</div>
+	</div>
+</form>
+</div>

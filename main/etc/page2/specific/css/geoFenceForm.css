@@ -1,0 +1,90 @@
+html, body,  #googleMap {
+    height: 500px;
+    margin: 0px;
+    padding: 0px
+}
+
+
+.Cars {
+    width: auto;
+    height: 30px;
+    background-color: black;
+    border-width: thin;
+    border-style: solid;
+    border-color: #BCC6CC;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    position: absolute;
+    left: 1%;
+    top: 60%;
+    color: white;
+    padding-left: 10px;
+    padding-top: 10px;
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+.carlist {
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    padding-bottom: 10px;
+    background-color: black;
+    display: none;
+}
+
+.Poly {
+    background-color: black;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    position: absolute;
+    left: 5%;
+    top: 30%;
+    color: white;
+    padding-left: 10px;
+    padding-top: 10px;
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+.GeoFence {
+    display: none;
+}
+
+.DetailsTable {
+    left: 10%;
+    top: 50%;
+    display: table;
+    position: absolute;
+    border-collapse: collapse;
+    border-spacing: 2px;
+    border-color: gray;
+    background-color: black;
+    color: white;
+    overflow-y: scroll;
+    overflow-x: scroll;
+    height: 100px;
+    display: block;
+    opacity: 0.6;
+}
+
+table tr td {
+
+    border: 1px solid #eee;
+
+    word-wrap: break-word;
+}
+
+td, th {
+
+    border-bottom: 1px solid white;
+    border-right: 1px solid white;
+}
+
+.wrap {
+    width: 352px;
+}
+
+.wrap table {
+    width:900px;
+    table-layout: fixed;
+}

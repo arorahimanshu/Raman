@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+	%for css in params.get ('css', []) :
+	<link rel="stylesheet" type="text/css" href="${css}">
+	%endfor
+</head>
+
+<body>
+%for js in params.get ('js', []) :
+<script src="${js}"></script>
+%endfor
+
+${bodyContent}
+</body>
+</html>
+

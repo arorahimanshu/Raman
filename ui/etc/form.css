@@ -1,0 +1,40 @@
+* {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -khtml-box-sizing: border-box;
+
+    white-space: nowrap;
+}
+
+.unselectable {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    border: 0;
+
+    background-color: #0866C6;
+}
+
+.outerLayout {
+    position: relative;
+    width: 100%;
+}
+
+.outerLayout .header {
+    height: 100px;
+}
+
+.outerLayout .body {
+    min-height: 80vh;
+    padding-bottom: 70px;
+}
+

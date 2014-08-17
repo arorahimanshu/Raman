@@ -1,0 +1,8 @@
+__pycache__*
+*.pyc
+*~
+~*
+appConfig.py
+testAppConfig.py
+*.swp
+.temp

@@ -1,0 +1,127 @@
+<div class="errorBox"></div>
+
+<div class='playback'>
+	Playback
+	<div class='date'></div>
+</div>
+
+<div class="options">
+	<div class="subOptions">
+		<button class="toggleFilter">Show/Hide Filter</button>
+		<button class="toggleGeofence">No Geofence Define</button>
+		<button class="toggleDatetime">Hide Datetime</button>
+		<button class="resetMap">Reset Map</button>
+		<button class="start">start</button>
+		<button class="pause">pause</button>
+		<button class="increaseAnimationSpeed">Increase Animation Speed</button>
+		<button class="decreaseAnimationSpeed">Decrease Animation Speed</button>
+	</div>
+	<div class="filterSettings">
+		Filter Settings
+		<div class="dateType">
+			Date Type<br/>
+			<input type="radio" name="type" value="Relative">Relative
+			<input type="radio" name="type" value="Fix">Fix
+		</div>
+
+		<div class="typeRelative">
+			Relative Day<br/>
+			<input type="radio" name="relative" value="today">Today
+			<input type="radio" name="relative" value="yesterday">Yesterday
+			<input type="radio" name="relative" value="yesterday1">Yesterday-1
+		</div>
+
+		<div class="typeFix">
+			From<br/>
+			<input class="from"><br/>
+			To<br/>
+			<input class="to"><br/>
+		</div>
+
+		<div class="search">
+			Search Vehicle:<br/>
+			<input class="searchField">
+			<button class="SearchButton">Search</button>
+		</div>
+		
+		<div class="filterType">
+				<button class="all">All</button>
+				<button class="filter">Filter</button>
+			
+			<div class="typeAll">
+				<div class="demo">
+					<button class="show">Show</button>
+					<button class="hide">Hide</button>
+					Demo
+					<div class="delhi">
+						<button class="show">Show</button>
+						<button class="hide">Hide</button>
+						Delhi<br/>
+					</div>
+				</div>
+			</div>
+
+			<div class="typeFilter">
+				<div class="company">
+					<select multiselect>
+						<option>All</option>
+						<option>Demo</option>
+					</select>
+				</div>
+
+				<div class="branch">
+					<select multiselect>
+						<option>All</option>
+						<option>Delhi</option>
+					</select>
+				</div>
+
+				<div class="vehicleFilter">
+					Vehicle:<br/>
+					<input type="radio" name="vehicle" value="Type">Vehicle Type
+					<input type="radio" name="vehicle" value="Group">Vehicle Group
+		
+					<div class="typeVehicle">
+						Vehicle Type:<br/>
+						<select multiple>
+							<option>All</option>
+							<option>Truck</option>
+						</select>
+						
+						<br/>
+						
+						Vehicle Number:<br/>
+						<select multiple>
+							<option>All</option>
+							<option>empty</option>
+						</select>
+					</div>
+					
+					<div class="groupVehicle">
+						Vehicle Group:<br/>
+						<select multiple>
+							<option>no groups</option>
+						</select>
+
+						<br/>
+
+						Vehicle Number:<br/>
+						<select multiple>
+						</select>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--
+		<div class="hiddenTemplate">
+			<button class="show">Show</button>
+			<button class="hide">Hide</button>
+			<label class="label"></label>
+		</div>-->
+	</div>
+</div>
+<div id="map" style="height:750px">
+	<Button id="loadMap">Load Map</button>
+</div>
+<!--<div class="speedDetails" style="position:absolute; top: 500px; left:200px;"></div>-->
+

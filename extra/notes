@@ -1,0 +1,7 @@
+sugar.js
+string.js
+validate.js
+
+selenium js note: js will be executed "before" next page is loaded. Make sure
+to look for any item on next page or wait for the page to refresh somehow.
+

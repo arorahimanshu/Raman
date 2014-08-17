@@ -1,0 +1,23 @@
+* {
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-ms-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-khtml-box-sizing: border-box;
+}
+
+.unselectable {
+	-webkit-user-select:none;
+	-moz-user-select:none;
+	-ms-user-select:none;
+	-o-user-select:none;
+	user-select:none;
+}
+
+body {
+	margin:0;
+	padding:0;
+	border:0;
+	font-family: 'RobotoRegular','Helvetica Neue',Helvetica,sans-serif;
+}
+

@@ -1,0 +1,25 @@
+.layout1 {
+	position:relative;
+	/*background-color: #0866C6;*/
+	width:100%;
+	display:table;
+}
+
+.layout1 > .header {
+	min-height:20vh;
+	width:100%;
+}
+
+.layout1 > .footer {
+	background-color: #187DE5;
+	height:50px;
+	width:100%;
+	position:absolute;
+	bottom:0;
+}
+
+.layout1 > .body {
+	min-height:80vh;
+	padding-bottom:70px;
+}
+
