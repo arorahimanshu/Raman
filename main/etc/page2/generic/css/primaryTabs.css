@@ -1,5 +1,5 @@
 .primaryTabs {
-    background: none repeat scroll 0 0 #0866C6;
+    background: none repeat scroll 0 0 #5133AB;
     border-color: #0866C6 #0866C6 -moz-use-text-color;
     border-style: solid solid none solid;
     border-width: 1px;
@@ -28,6 +28,11 @@
     padding-right: 1em;
 }
 
+.staticButton:hover:not(.activeTab), .primaryTabs:hover:not(.activeTab) .dynamicButtonContainer:hover{
+
+    background-color: #643EBF;
+}
+
 .primaryTabs .dynamicButton, .primaryTabs .tabCloseButton {
     padding-left: 0.7em;
     padding-right: 0.7em;
@@ -43,17 +48,22 @@
 }
 
 .appButton {
-    background-color: #29e;
+    background-color: #5133AB;
     margin: 3px 3px -2px 3px;
-
-    border-radius: 5px;
+    color: #FFF;
+    border-radius: 2px;
     cursor: pointer;
     width: 150px;
     height: 60px;
     text-align: center;
-    font-size: 15px;
+    font-size: 13px;
     padding-top: 20px;
+    font-weight: bold;
 
+}
+
+.appButton:hover {
+     background-color: #643EBF;
 }
 
 .primaryTabs .staticTab, .primaryTabs .scrollLeft, .primaryTabs .dynamicTabContainer, .primaryTabs .dynamicButton {
