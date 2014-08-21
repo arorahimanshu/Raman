@@ -4,6 +4,8 @@ from sqlalchemy import func
 from sqlalchemy import and_
 import datetime
 import time
+from sqlalchemy.sql.sqltypes import DateTime
+
 
 class DbHelper(Component):
 
@@ -400,7 +402,7 @@ class DbHelper(Component):
 		}
 		return dataSend
 
-	def returnLiveCarData(self, vehicleIds, time, date):
+	def returnLiveCarData(self, vehicleIds, time):
 		num = []
 		db = self.app.component('dbManager')
 		with db.session() as session:
@@ -414,6 +416,29 @@ class DbHelper(Component):
 					num.append({"position": {"latitude": str(obj.Latitude), "longitude": str(obj.Longitude)},
 					            "time": {"hour": int(obj.Time[0:2]), "minute": int(obj.Time[2:4]),
 					                     "second": int(obj.Time[4:6])}, "vehicleId": int(obj.Vehicle_Id)})
+				except:
+					pass
+
+		return num
+	#
+
+	def returnLiveCarDataHim(self, deviceIds, dateTime):
+		date = dateTime['year'] + '-' + dateTime['mon'] + '-' + dateTime['day']
+		time = dateTime['hour'] + ':' + dateTime['min'] + ':' + dateTime['sec']
+		timestamp = date + ' ' + time
+		num = []
+		db = self.app.component('dbManager')
+		with db.session() as session:
+			for item in deviceIds:
+				query = session.query(db.gpsDeviceMessage1).filter(
+					and_(db.gpsDeviceMessage1.deviceId == item, db.gpsDeviceMessage1.timestamp == timestamp))
+				try:
+					obj = query.one()
+					num.append({"position": {"latitude": str(obj.Latitude), "longitude": str(obj.Longitude)},
+								"speed": int(obj.speed),
+								"orientation": obj.orientation,
+					            "time": {"hour": int(dateTime['hour']), "minute": int(dateTime['min']),
+					                     "second": int(dateTime['sec'])}, "vehicleId": int(obj.deviceId)})
 				except:
 					pass
 

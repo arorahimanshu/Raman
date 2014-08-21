@@ -117,8 +117,8 @@ class GpsData(Page2Component):
 		self.gmtAdjust = formData['gmt']
 
 	def getTime(self):
-		self.time = time.gmtime()
-		self.time = self.time.tm_hour * 3600 + self.time.tm_min * 60 + self.time.tm_sec + self.gmtAdjust
+		gmtime = time.gmtime()
+		self.time = gmtime.tm_hour * 3600 + gmtime.tm_min * 60 + gmtime.tm_sec + self.gmtAdjust
 		if self.time // 3600 > 24:
 			self.hour = (self.time // 3600) - 24
 		else:
@@ -138,11 +138,58 @@ class GpsData(Page2Component):
 	def _newGpsDataFormAction(self, requestPath):
 
 		db = self.app.component('dbHelper')
-		data = db.returnLiveCarData(self.carToTracked,self.getTime())
+		data = db.returnLiveCarData(self.carToTracked,self.getDateAndTime())
 		print(data)
 		return self.jsonSuccess(data)
 
-
-
 		#
+	#
+
+	def getDateAndTime(self):
+		gmtime = time.gmtime()
+		newTime = {}
+		seconds = gmtime.tm_hour * 3600 + gmtime.tm_min * 60 + gmtime.tm_sec + self.gmtAdjust
+		if seconds // 3600 > 24:
+			newTime['hour'] = (seconds // 3600) - 24
+			gmtime.tm_mday += 1
+			if gmtime.tm_mday == 32:
+				gmtime.tm_mday = 1
+				gmtime.tm_mon += 1
+			elif gmtime.tm_mday == 31:
+				month = gmtime.tm_mon
+				if (month == 4 or
+					month == 6 or
+					month == 9 or
+					month == 11):
+					gmtime.tm_mday = 1
+					gmtime.tm_mon += 1
+			elif gmtime.tm_mon == 2:
+				if ((gmtime.tm_mday == 30 and gmtime.tm_year % 400 == 0) or
+					(gmtime.tm_mday == 29 and gmtime.tm_year % 100 == 0) or
+					(gmtime.tm_mday == 30 and gmtime.tm_year % 4 == 0)):
+					gmtime.tm_mon += 1
+					gmtime.tm_mday = 1
+			if gmtime.tm_mon == 13:
+				gmtime.tm_mon = 1
+				gmtime.tm_year += 1
+		else:
+			newTime['hour'] = seconds // 3600
+		newTime['hour'] = str(newTime['hour'])
+		newTime['min'] = str((seconds % 3600) // 60)
+		newTime['sec'] = str((seconds % 3600) % 60)
+		if len(newTime['hour']) == 1:
+			newTime['hour'] = "0" + newTime['hour']
+		if len(newTime['min']) == 1:
+			newTime['min'] = "0" + newTime['min']
+		if len(newTime['sec']) == 1:
+			newTime['sec'] = "0" + newTime['sec']
+
+		newTime['day'] = str(gmtime.tm_mday)
+		newTime['mon'] = str(gmtime.tm_mon)
+		newTime['year'] = str(gmtime.tm_year)
+		if len(newTime['day']) == 1:
+			newTime['day'] = "0" + newTime['day']
+		if len(newTime['mon']) == 1:
+			newTime['mon'] = "0" + newTime['mon']
+		return newTime
 	#
