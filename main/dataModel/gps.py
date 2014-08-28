@@ -5,7 +5,7 @@ from sqlalchemy import Column
 from sqlalchemy import PrimaryKeyConstraint
 from sqlalchemy import ForeignKeyConstraint
 from sqlalchemy import UniqueConstraint
-from sqlalchemy import Integer, Float, Date, Numeric, String
+from sqlalchemy import Integer, Float, Date, Numeric, String, CHAR, DateTime
 from sqlalchemy.orm import relationship
 from componentConfig import PermissionConfig
 import os, sys
@@ -101,6 +101,20 @@ def defineTables(db):
 	)
 	class Gps_Poi_Data(DbEntity): pass
 
+	@db.table(
+		'gpsDeviceMessage1',
+		Column('deviceId', String(32), nullable=False),
+		Column('messageType', CHAR(4), nullable=False),
+		Column('latitude', Float, nullable=False),
+		Column('longitude', Float, nullable=False),
+		Column('timestamp', DateTime(timezone=False), nullable=False),
+		Column('speed', Float, nullable=False),
+		Column('orientation', Float, nullable=False),
+
+		PrimaryKeyConstraint('deviceId', 'timestamp'),
+
+	)
+	class gpsDeviceMessage1(DbEntity): pass
 
 def loadInitialData(db, params=None):
 	with db.session() as session:
@@ -161,5 +175,3 @@ def loadPermission(db):
 	for item in PermissionConfig:
 		if (item['appName'] != ''):
 			db.addPermissions(**{item['name']: item['appName']})
-
-

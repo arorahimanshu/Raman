@@ -19,6 +19,8 @@ class GpsData(Page2Component):
 			return self._newGpsDataFormAction(requestPath)
 		elif nextPart == 'newGpsDataCarSetup':
 			return self._newGpsDataCarSetup(requestPath)
+		elif nextPart == 'newGpsDataFormVehicleList':
+			return self._newGpsDataFormVehicleList(requestPath)
 		elif nextPart == 'newDashboardForm':
 			return self._newDashboardForm(requestPath)
 		elif nextPart == 'newDashboardFormAction':
@@ -97,9 +99,11 @@ class GpsData(Page2Component):
 		                'display': [{'vid': 33, 'name': 'Alfa Romeo'}, {'vid': 24, 'name': 'Ferrari'},
 		                            {'vid': 34, 'name': 'Veyron'}]},
 		]
+		vehiclesList = self._newGpsDataFormVehicleList(requestPath)
+		vehiclesList = json.loads(vehiclesList)
 		return self._renderWithTabs(
 			proxy, params,
-			bodyContent=proxy.render('gpsDataForm.html', vehicleGroup=vehicleGroup),
+			bodyContent=proxy.render('gpsDataForm.html', vehicleGroup=vehicleGroup, vehiclesList = vehiclesList),
 			newTabTitle='Track My Vehicle',
 			url=requestPath.allPrevious(),
 		)
@@ -138,11 +142,30 @@ class GpsData(Page2Component):
 	def _newGpsDataFormAction(self, requestPath):
 
 		db = self.app.component('dbHelper')
-		data = db.returnLiveCarData(self.carToTracked,self.getDateAndTime())
+		data = db.returnLiveCarDataHim(self.carToTracked,self.getDateAndTime())
 		print(data)
 		return self.jsonSuccess(data)
 
 		#
+	#
+
+	def _newGpsDataFormVehicleList(self, requestPath):
+		vehiclesList = []
+		db = self.app.component('dbHelper')
+		orgId = '123'
+		branchList = db.returnBranchListForOrg(orgId)
+
+		for branch in branchList:
+			vehicleGroupList = db.returnVehicleGroupListForBranch(branch['value'])
+			groups = []
+			for vehicleGroup in vehicleGroupList:
+				vehicleList = db.returnVehicleListForVehicleGroup(vehicleGroup['value'])
+				group = {'vehicleGroupDetails':{'vehicleGroupName':vehicleGroup['display'], 'vehicleGroupId':vehicleGroup['value']}, 'vehicles':vehicleList}
+				groups.append (group)
+			branch = {'branchDetails':{'branchName':branch['display'], 'branchId':branch['value']}, 'vehicleGroups':groups}
+			vehiclesList.append(branch)
+		vehiclesList = json.dumps(vehiclesList)
+		return vehiclesList
 	#
 
 	def getDateAndTime(self):

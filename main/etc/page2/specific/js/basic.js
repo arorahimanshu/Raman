@@ -371,3 +371,10 @@ function getLiveInfoWindowContent (vehicleName, companyName, speed, distance, sp
 			field2;
 	return content;
 }
+
+function getPositionObject (position) {
+	var lat = parseFloat(position.latitude);
+	var lng = parseFloat(position.longitude);
+	var latlng = new google.maps.LatLng(lat,lng);
+	return latlng;
+}

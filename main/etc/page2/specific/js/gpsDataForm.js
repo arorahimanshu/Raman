@@ -2,34 +2,9 @@ fitx.utils.require(['fitx', 'page2', 'newGpsDataForm']);
 
 jQuery(window).load(function () {
     //setupAJAXSubmit('newGpsDataFrom', 'newGpsDataFormAction', setupData, setupConstraints, '.searchButton', null, successFunc);
+	sendAjaxRequest('newGpsDataFormVehicleList',{},allVehicles)
 
-
-
-
-    jQuery('#trackNow').click(function () {
-        var carToTracked=[]
-        clearInterval(abc)
-        jQuery('.vehicleSelection:checked').each(function () {
-           carToTracked.push(jQuery(this).prop('id').split('_')[1])
-        })
-        if (carToTracked != null) {
-
-            var specific={}
-            var curdate = new Date()
-            var offset =-1* curdate.getTimezoneOffset()
-            specific.gmt=(parseInt(offset/60)*3600)+(offset%60)*60
-            specific.carToTracked=carToTracked
-
-            sendAjaxRequest('newGpsDataCarSetup', specific, undefined);
-
-            abc=setInterval(function () {
-                sendAjaxRequest('newGpsDataFormAction',undefined,successFunc)
-            }, 2000);
-        }
-
-
-    })
-
+	onLoad_liveTracking()
 
 });
 var speedLimit = false;
@@ -40,8 +15,8 @@ var map;
 var rawData;
 var marker;
 var previousPath;
+var trackRequestTime = 2000;
 
-var abc;
 function initializeMap() {
     var centre = new google.maps.LatLng(23.25, 77.417);
     var mapOptions = setMapProperties(12, centre, google.maps.MapTypeId.ROADMAP);
@@ -79,13 +54,19 @@ function getIcon(vehicleId) {
 function successFunc(rawData) {
     rawData = rawData.message;
 
-    map.setCenter(getPosition(rawData[0].position));
+	if (rawData.length == 0)
+		return;
+
+    map.setCenter(getPositionObject(rawData[0].position));
 
     function animatePath(index) {
         if (index < rawData.length) {
             var obj = rawData[index];
             var currentId = obj.vehicleId;
-            var position = getPosition(obj.position);
+            var position = getPositionObject(obj.position);
+
+			if(vehicleIdsWithNoData[currentId])
+				delete vehicleIdsWithNoData[currentId];
 
             try {
                 vehiclesData[currentId].path.push(position);
@@ -101,7 +82,7 @@ function successFunc(rawData) {
                     var time = getTimeDifference(vehiclesData[currentId].previousTime, vehiclesData[currentId].currentTime);
                     var distance = google.maps.geometry.spherical.computeDistanceBetween(vehiclesData[currentId].previousPosition, vehiclesData[currentId].currentPosition);
                     vehiclesData[currentId].totalDistance += convertMToKm(distance);
-                    var speed = distance / time;
+                    var speed = obj.speed;
                     speed = convertMpsToKmph(speed);
                     vehiclesData[currentId].speed = speed;
                     setTimeout(function () {
@@ -143,12 +124,13 @@ function successFunc(rawData) {
                 });
                 marker.setMap(map);
 
-                var infoWindowContent = getLiveInfoWindowContent('empty', 'empty', 0, 0, 0, 0, 0, 0);
+                var infoWindowContent = getLiveInfoWindowContent('empty', 'empty', 0, 0, 0);//, 0, 0, 0);
                 var infoWindow = new google.maps.InfoWindow({
                     content: infoWindowContent
                 });
                 infoWindow.open(map, marker);
 
+				/*
                 var div = jQuery('<div/>', {
                     'class': 'vehicle' + currentId,
                 });
@@ -194,7 +176,7 @@ function successFunc(rawData) {
                     var vehicleId = parseInt(parent[0].className.substring(7));
                     vehiclesData[vehicleId].visible = !vehiclesData[vehicleId].visible;
                 });
-
+				*/
                 vehiclesData[currentId] = {
                     'vehicleName': name,
                     'companyName': name,
@@ -220,7 +202,7 @@ function successFunc(rawData) {
 
             var currentData = vehiclesData[currentId];
 
-            vehiclesData[currentId].infoWindow.setContent(getLiveInfoWindowContent(currentData.vehicleName, currentData.companyName, currentData.speed, currentData.totalDistance, currentData.brokenSpeedLimit, 0, 0, 0));
+            vehiclesData[currentId].infoWindow.setContent(getLiveInfoWindowContent(currentData.vehicleName, currentData.companyName, currentData.speed, currentData.totalDistance, currentData.brokenSpeedLimit));//, 0, 0, 0));
 
         }
     }
@@ -230,5 +212,48 @@ function successFunc(rawData) {
 
 
 google.maps.event.addDomListener(window, 'load', initializeMap);
-	
 
+vehicleIdsWithNoData = []
+function allVehicles(result) {
+	result = JSON.parse(result)
+	jQuery.each (result, function (index, branch){
+		var branchName = branch['branchDetails']['branchName']
+		var vehicleGroups = branch['vehicleGroups']
+		jQuery.each (vehicleGroups, function (i, vehicleGroup){
+			var vehicleGroupName = vehicleGroup['vehicleGroupDetails']['vehicleGroupName']
+			var vehicles = vehicleGroup['vehicles']
+			jQuery.each (vehicles, function (j, vehicle){
+				vehicleIdsWithNoData.push(vehicle['value'])
+			})
+		})
+	})
+}
+
+function onLoad_liveTracking () {
+	//jQuery ('.branch').hide ()
+	//jQuery ('.vehicleGroup').hide ()
+	//jQuery ('.vehicle').hide ()
+	setupCarsAndTime ();
+	trackRequest=setInterval(function () {
+            sendAjaxRequest('newGpsDataFormAction',undefined,successFunc)
+        }, trackRequestTime);
+}
+
+var carsToTrack = []
+var trackRequest;
+function setupCarsAndTime () {
+	clearInterval(trackRequest)
+    jQuery('.vehicle:checked').each(function () {
+        carsToTrack.push(jQuery(this).prop('value'))
+    })
+    if (carsToTrack != null) {
+
+        var specific={}
+        var curdate = new Date()
+        var offset =-1* curdate.getTimezoneOffset()
+        specific.gmt=(parseInt(offset/60)*3600)+(offset%60)*60
+        specific.carToTracked=carsToTrack
+
+        sendAjaxRequest('newGpsDataCarSetup', specific, undefined);
+    }
+}

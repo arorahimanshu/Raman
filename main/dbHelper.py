@@ -431,7 +431,7 @@ class DbHelper(Component):
 		with db.session() as session:
 			for item in deviceIds:
 				query = session.query(db.gpsDeviceMessage1).filter(
-					and_(db.gpsDeviceMessage1.deviceId == item, db.gpsDeviceMessage1.timestamp == timestamp))
+					and_(db.gpsDeviceMessage1.deviceId == item, str(db.gpsDeviceMessage1.timestamp) == timestamp))
 				try:
 					obj = query.one()
 					num.append({"position": {"latitude": str(obj.Latitude), "longitude": str(obj.Longitude)},
@@ -441,6 +441,32 @@ class DbHelper(Component):
 					                     "second": int(dateTime['sec'])}, "vehicleId": int(obj.deviceId)})
 				except:
 					pass
-
+		print(timestamp)
+		print(num)
 		return num
+	#
+
+	def returnOrgList(self,orgId):
+		db = self.app.component('dbManager')
+		orgList = []
+		with db.session() as session:
+			data = session.query(db.Organization).filter_by(parent_id=orgId).all()
+			for item in data:
+				org = {}
+				org['display']  = item.name
+				org['value'] = item.id
+				orgList.append(org)
+		#
+		return orgList
+
+	def returnVehicleListForVehicleGroup(self,groupId):
+		return self.returnOrgList (groupId)
+	#
+
+	def returnVehicleGroupListForBranch(self,branchId):
+		return self.returnOrgList (branchId)
+	#
+
+	def returnBranchListForOrg(self,orgId):
+		return self.returnOrgList (orgId)
 	#

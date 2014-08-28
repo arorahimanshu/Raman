@@ -75,7 +75,7 @@ Page2Config = [
 	    'newGpsDataCarSetup',
 	    'newDashboardForm',
 		'newDashboardFormAction',
-
+		'newGpsDataFormVehicleList',
 	],
 	'component': 'webUi.page2Components.gpsData.GpsData',
 	'apps': [
