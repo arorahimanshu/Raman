@@ -257,3 +257,7 @@ function setupCarsAndTime () {
         sendAjaxRequest('newGpsDataCarSetup', specific, undefined);
     }
 }
+
+function manageVehiclesWithNoData () {
+
+}

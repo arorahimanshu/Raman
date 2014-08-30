@@ -4,7 +4,7 @@ from utils import Validator
 import cherrypy
 import json
 import time
-
+from datetime import datetime, timedelta
 
 class GpsData(Page2Component):
 	def __init__(self, parent, **kwargs):
@@ -21,6 +21,8 @@ class GpsData(Page2Component):
 			return self._newGpsDataCarSetup(requestPath)
 		elif nextPart == 'newGpsDataFormVehicleList':
 			return self._newGpsDataFormVehicleList(requestPath)
+		elif nextPart == 'newGpsDataFormLastRecord':
+			return self._newGpsDataFormLastRecord(requestPath)
 		elif nextPart == 'newDashboardForm':
 			return self._newDashboardForm(requestPath)
 		elif nextPart == 'newDashboardFormAction':
@@ -142,7 +144,7 @@ class GpsData(Page2Component):
 	def _newGpsDataFormAction(self, requestPath):
 
 		db = self.app.component('dbHelper')
-		data = db.returnLiveCarDataHim(self.carToTracked,self.getDateAndTime())
+		data = db.returnLiveCarDataForVehicles(self.carToTracked,self.getDateAndTime())
 		print(data)
 		return self.jsonSuccess(data)
 
@@ -168,51 +170,23 @@ class GpsData(Page2Component):
 		return vehiclesList
 	#
 
+	def _newGpsDataFormLastRecord(self, requestPath):
+		formData = json.loads(cherrypy.request.params['formData'])
+		remainingVehicles = formData['remainingVehicles']
+		db = self.app.component('dbHelper')
+		records = []
+		for deviceId in remainingVehicles:
+			obj = db.getLastRecordForVehicle(deviceId)
+			records.append({"position": {"latitude": str(obj.Latitude), "longitude": str(obj.Longitude)},
+								"speed": int(obj.speed),
+								"orientation": obj.orientation,
+					            "timestamp": str(obj.timestamp), "vehicleId": int(obj.deviceId)})
+		return records
+	#
+
 	def getDateAndTime(self):
 		gmtime = time.gmtime()
-		newTime = {}
-		seconds = gmtime.tm_hour * 3600 + gmtime.tm_min * 60 + gmtime.tm_sec + self.gmtAdjust
-		if seconds // 3600 > 24:
-			newTime['hour'] = (seconds // 3600) - 24
-			gmtime.tm_mday += 1
-			if gmtime.tm_mday == 32:
-				gmtime.tm_mday = 1
-				gmtime.tm_mon += 1
-			elif gmtime.tm_mday == 31:
-				month = gmtime.tm_mon
-				if (month == 4 or
-					month == 6 or
-					month == 9 or
-					month == 11):
-					gmtime.tm_mday = 1
-					gmtime.tm_mon += 1
-			elif gmtime.tm_mon == 2:
-				if ((gmtime.tm_mday == 30 and gmtime.tm_year % 400 == 0) or
-					(gmtime.tm_mday == 29 and gmtime.tm_year % 100 == 0) or
-					(gmtime.tm_mday == 30 and gmtime.tm_year % 4 == 0)):
-					gmtime.tm_mon += 1
-					gmtime.tm_mday = 1
-			if gmtime.tm_mon == 13:
-				gmtime.tm_mon = 1
-				gmtime.tm_year += 1
-		else:
-			newTime['hour'] = seconds // 3600
-		newTime['hour'] = str(newTime['hour'])
-		newTime['min'] = str((seconds % 3600) // 60)
-		newTime['sec'] = str((seconds % 3600) % 60)
-		if len(newTime['hour']) == 1:
-			newTime['hour'] = "0" + newTime['hour']
-		if len(newTime['min']) == 1:
-			newTime['min'] = "0" + newTime['min']
-		if len(newTime['sec']) == 1:
-			newTime['sec'] = "0" + newTime['sec']
-
-		newTime['day'] = str(gmtime.tm_mday)
-		newTime['mon'] = str(gmtime.tm_mon)
-		newTime['year'] = str(gmtime.tm_year)
-		if len(newTime['day']) == 1:
-			newTime['day'] = "0" + newTime['day']
-		if len(newTime['mon']) == 1:
-			newTime['mon'] = "0" + newTime['mon']
+		gt = datetime(gmtime.tm_year, gmtime.tm_mon, gmtime.tm_mday, gmtime.tm_hour, gmtime.tm_min, gmtime.tm_sec)
+		newTime = gt + timedelta(seconds=self.gmtAdjust)
 		return newTime
 	#

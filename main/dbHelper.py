@@ -422,7 +422,7 @@ class DbHelper(Component):
 		return num
 	#
 
-	def returnLiveCarDataHim(self, deviceIds, dateTime):
+	def returnLiveCarDataForVehicles(self, deviceIds, dateTime):
 		date = dateTime['year'] + '-' + dateTime['mon'] + '-' + dateTime['day']
 		time = dateTime['hour'] + ':' + dateTime['min'] + ':' + dateTime['sec']
 		timestamp = date + ' ' + time
@@ -431,7 +431,9 @@ class DbHelper(Component):
 		with db.session() as session:
 			for item in deviceIds:
 				query = session.query(db.gpsDeviceMessage1).filter(
-					and_(db.gpsDeviceMessage1.deviceId == item, str(db.gpsDeviceMessage1.timestamp) == timestamp))
+					and_(db.gpsDeviceMessage1.deviceId == item.split()[0], str(db.gpsDeviceMessage1.timestamp) == '2014-08-12 18:37:00'))
+				temp2 = item.split()[0]
+				temp = query.all()[0]
 				try:
 					obj = query.one()
 					num.append({"position": {"latitude": str(obj.Latitude), "longitude": str(obj.Longitude)},
@@ -469,4 +471,20 @@ class DbHelper(Component):
 
 	def returnBranchListForOrg(self,orgId):
 		return self.returnOrgList (orgId)
+	#
+
+	def getCoordinatesForVehicle(self, deviceId, order):
+		db = self.app.component('dbManager')
+		data = None
+		with db.session() as session:
+			data = session.query(db.gpsDeviceMessage1).filter_by(db.gpsDeviceMessage1.deviceId == deviceId)
+			if order == 'desc' :
+				data = data.order_by(db.gpsDeviceMessage1.timestamp.desc)
+		return data
+	#
+
+	def getLastRecordForVehicle(self, deviceId):
+		db = self.app.component('dbManager')
+		data = self.getCoordinatesForVehicle(deviceId, 'desc').first()
+		return data
 	#
