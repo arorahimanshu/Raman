@@ -72,7 +72,7 @@ Page2Config = [
 	'urls': [
 		'newGpsDataForm',
 		'newGpsDataFormAction',
-	    'newGpsDataCarSetup',
+	    'newCarSetup',
 	    'newDashboardForm',
 		'newDashboardFormAction',
 		'newGpsDataFormVehicleList',

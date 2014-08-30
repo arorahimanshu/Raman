@@ -56,7 +56,11 @@ function setupConstraints() {
 }
 
 function getReport1Rows (rawData) {
+	if (rawData == undefined)
+		return null;
 	rawData=rawData.message;
+	if (rawData.length == 0)
+		return null;
 	function getRow() {
 		runningDuration[runningDurationIndex]--;
 		var totalRunningDuration = 0
@@ -85,14 +89,18 @@ function getReport1Rows (rawData) {
 		}
 		var coordinates = [];
 		jQuery.each (pathPoints,function(i,v){
-			coordinates[coordinates.length]=getPosition(v.position);
+			coordinates[coordinates.length]=getPositionObject(v.position);
+			if (maxSpeed < v.speed)
+				maxSpeed = v.speed;
 		})
 		var distance = getDistanceFromPath (coordinates);
+		/*
 		var time = getTimeDifference (pathPoints[0].time, pathPoints[pathPoints.length-1].time);
 		var speed = distance/time;
 		if (maxSpeed < speed) {
 			maxSpeed = speed;
 		}
+		*/
 		distanceTravelled += distance;
 		pathPoints = [pathPoints[pathPoints.length-1]];
 		return pathPoints;
@@ -116,7 +124,7 @@ function getReport1Rows (rawData) {
 	var lastTime = 0;
 	
 	jQuery.each (rawData, function (index,obj) {
-		var currentPosition = getPosition (obj.position);
+		var currentPosition = getPositionObject (obj.position);
 		if (currentVehicleId != obj.vehicleId) {
 			manageDistanceAndMaxSpeed (pathPoints);
 			var extraTime = getTimeDifference (rawData[index-1].time, obj.time);
@@ -180,6 +188,8 @@ function getReport1Rows (rawData) {
 
 function makeDashboard(rawData) {
 		var rows = getReport1Rows (rawData);
+		if (rows == null)
+			return;
 		jQuery('table tbody').remove();
 		var table = ''
 		jQuery.each (rows, function (key, data){

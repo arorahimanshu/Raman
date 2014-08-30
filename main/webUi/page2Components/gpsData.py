@@ -17,12 +17,10 @@ class GpsData(Page2Component):
 			return self._newGpsDataForm(requestPath)
 		elif nextPart == 'newGpsDataFormAction':
 			return self._newGpsDataFormAction(requestPath)
-		elif nextPart == 'newGpsDataCarSetup':
-			return self._newGpsDataCarSetup(requestPath)
-		elif nextPart == 'newGpsDataFormVehicleList':
-			return self._newGpsDataFormVehicleList(requestPath)
-		elif nextPart == 'newGpsDataFormLastRecord':
-			return self._newGpsDataFormLastRecord(requestPath)
+		elif nextPart == 'newCarSetup':
+			return self._newCarSetup(requestPath)
+		elif nextPart == 'newVehicleList':
+			return self._newVehicleList(requestPath)
 		elif nextPart == 'newDashboardForm':
 			return self._newDashboardForm(requestPath)
 		elif nextPart == 'newDashboardFormAction':
@@ -64,7 +62,12 @@ class GpsData(Page2Component):
 		#formData = json.loads(cherrypy.request.params['formData'])
 		db = self.app.component('dbHelper')
 		#data = db.returnCarsDataByDates(formData['fromDate'],formData['toDate'])
-		data = db.returnLiveCarsData()
+		self.gmtAdjust = 19800
+		fromTime = self.getDateAndTime_add ()
+		fromTime = self.getDateAndTime_subtract (datetime (fromTime.year, fromTime.month, fromTime.day, 0, 0, 0))
+		toTime = self.getGMTDateAndTime()
+		data = db.returnCoordinatesForVehiclesBetween(self.carToTracked, fromTime, toTime)
+		#data = db.returnLiveCarsData ()
 		#errors = self._newDashboardFormValidate(formData)
 		#if errors:
 		#	return self.jsonFailure('validation failed', errors=errors)
@@ -92,20 +95,11 @@ class GpsData(Page2Component):
 			self.server.appUrl('etc', 'page2', 'specific', 'js', 'basic.js')
 		)
 
-		vehicleGroup = [{
-		                'value': 'VehicleGroup1',
-		                'display': [{'vid': 1, 'name': 'Alfa Romeo'}, {'vid': 2, 'name': 'Ferrari'},
-		                            {'vid': 3, 'name': 'Veyron'}]},
-		                {
-		                'value': 'VehicleGroup2',
-		                'display': [{'vid': 33, 'name': 'Alfa Romeo'}, {'vid': 24, 'name': 'Ferrari'},
-		                            {'vid': 34, 'name': 'Veyron'}]},
-		]
-		vehiclesList = self._newGpsDataFormVehicleList(requestPath)
+		vehiclesList = self._newVehicleList(requestPath)
 		vehiclesList = json.loads(vehiclesList)
 		return self._renderWithTabs(
 			proxy, params,
-			bodyContent=proxy.render('gpsDataForm.html', vehicleGroup=vehicleGroup, vehiclesList = vehiclesList),
+			bodyContent=proxy.render('gpsDataForm.html', vehiclesList = vehiclesList),
 			newTabTitle='Track My Vehicle',
 			url=requestPath.allPrevious(),
 		)
@@ -117,7 +111,7 @@ class GpsData(Page2Component):
 		pass
 
 	#
-	def _newGpsDataCarSetup(self, requestPath):
+	def _newCarSetup(self, requestPath):
 		formData = json.loads(cherrypy.request.params['formData'])
 		self.carToTracked = formData['carToTracked']
 		self.gmtAdjust = formData['gmt']
@@ -144,13 +138,13 @@ class GpsData(Page2Component):
 	def _newGpsDataFormAction(self, requestPath):
 
 		db = self.app.component('dbHelper')
-		data = db.returnLiveCarDataForVehicles(self.carToTracked,self.getDateAndTime())
+		data = db.returnLiveCarDataForVehicles(self.carToTracked,self.getDateAndTime_add())
 		return self.jsonSuccess(data)
 
 		#
 	#
 
-	def _newGpsDataFormVehicleList(self, requestPath):
+	def _newVehicleList(self, requestPath):
 		vehiclesList = []
 		db = self.app.component('dbHelper')
 		orgId = '123'
@@ -183,9 +177,23 @@ class GpsData(Page2Component):
 		return records
 	#
 
-	def getDateAndTime(self):
-		gmtime = time.gmtime()
-		gt = datetime(gmtime.tm_year, gmtime.tm_mon, gmtime.tm_mday, gmtime.tm_hour, gmtime.tm_min, gmtime.tm_sec)
+	def getDateAndTime_add(self, gt=None):
+		if gt == None:
+			#gmtime = time.gmtime()
+			gt = self.getGMTDateAndTime()
 		newTime = gt + timedelta(seconds=self.gmtAdjust)
 		return newTime
 	#
+
+	def getDateAndTime_subtract(self, gt=None):
+		if gt == None:
+			#gmtime = time.gmtime()
+			gt = self.getGMTDateAndTime()
+		newTime = gt - timedelta(seconds=self.gmtAdjust)
+		return newTime
+	#
+
+	def getGMTDateAndTime(self):
+		gmtime = time.gmtime()
+		gt = datetime(gmtime.tm_year, gmtime.tm_mon, gmtime.tm_mday, gmtime.tm_hour, gmtime.tm_min, gmtime.tm_sec)
+		return gt

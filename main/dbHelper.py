@@ -501,8 +501,25 @@ class DbHelper(Component):
 		return data
 	#
 
-	def getLastRecordForVehicle(self, deviceId):
+	def returnCoordinatesForVehiclesBetween(self, deviceIds, fromTime, toTime):
+		num = []
 		db = self.app.component('dbManager')
-		data = self.getCoordinatesForVehicle(deviceId, 'desc').first()
-		return data
+		with db.session() as session:
+			for item in deviceIds:
+				query = session.query(db.gpsDeviceMessage1).filter(
+					and_(db.gpsDeviceMessage1.deviceId == item.split()[0], db.gpsDeviceMessage1.timestamp >= fromTime, db.gpsDeviceMessage1.timestamp <= toTime)).order_by(
+					db.gpsDeviceMessage1.timestamp)
+				objs = query.all()
+				for obj in objs:
+					num.append({"position": {"latitude": str(obj.latitude), "longitude": str(obj.longitude)},
+								"speed": int(obj.speed),
+								"orientation": obj.orientation,
+					            "time": {"hour": obj.timestamp.hour, "minute": obj.timestamp.minute,
+										 "second": obj.timestamp.second, "day": obj.timestamp.day,
+										 "month": obj.timestamp.month, "year": obj.timestamp.year},
+								"vehicleId": int(obj.deviceId)})
+				#
+			#
+		#
+		return num
 	#

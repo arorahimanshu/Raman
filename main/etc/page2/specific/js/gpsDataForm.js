@@ -274,7 +274,7 @@ function setupCarsAndTime () {
         specific.gmt=(parseInt(offset/60)*3600)+(offset%60)*60
         specific.carToTracked=carsToTrack
 
-        sendAjaxRequest('newGpsDataCarSetup', specific, undefined);
+        sendAjaxRequest('newCarSetup', specific, undefined);
 
         trackRequest=setInterval(function () {
             sendAjaxRequest('newGpsDataFormAction',undefined,successFunc)
