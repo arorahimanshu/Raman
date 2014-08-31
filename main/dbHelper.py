@@ -433,7 +433,7 @@ class DbHelper(Component):
 		with db.session() as session:
 			for item in deviceIds:
 				query = session.query(db.gpsDeviceMessage1).filter(
-					and_(db.gpsDeviceMessage1.deviceId == item.split()[0], db.gpsDeviceMessage1.timestamp >= dateTime - timedelta(minutes=trackTime), db.gpsDeviceMessage1.timestamp <= dateTime)).order_by(
+					and_(db.gpsDeviceMessage1.deviceId == item.split()[0], db.gpsDeviceMessage1.timestamp >= dateTime - timedelta(minutes=trackTime))).order_by(
 					db.gpsDeviceMessage1.timestamp.desc())
 				try:
 					obj = query.all()[0]
@@ -446,8 +446,7 @@ class DbHelper(Component):
 										 "month": obj.timestamp.month, "year": obj.timestamp.year},
 								"vehicleId": int(obj.deviceId)})
 				except:
-					query = session.query(db.gpsDeviceMessage1).filter(
-						and_(db.gpsDeviceMessage1.deviceId == item.split()[0]), db.gpsDeviceMessage1.timestamp <= dateTime).order_by(
+					query = session.query(db.gpsDeviceMessage1).filter(db.gpsDeviceMessage1.deviceId == item.split()[0]).order_by(
 						db.gpsDeviceMessage1.timestamp.desc())
 					try:
 						obj2 = query.all()[0]
