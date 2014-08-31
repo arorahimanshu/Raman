@@ -70,10 +70,7 @@ function successFunc(rawData) {
             }
             var position = getPositionObject(obj.position);
 
-			if(vehicleIdsWithNoData[currentId])
-				delete vehicleIdsWithNoData[currentId];
-
-            try {
+			try {
                 vehiclesData[currentId].path.push(position);
                 vehiclesData[currentId].previousTime = vehiclesData[currentId].currentTime;
                 vehiclesData[currentId].currentTime = obj.time;
@@ -88,7 +85,6 @@ function successFunc(rawData) {
                     var distance = google.maps.geometry.spherical.computeDistanceBetween(vehiclesData[currentId].previousPosition, vehiclesData[currentId].currentPosition);
                     vehiclesData[currentId].totalDistance += convertMToKm(distance);
                     var speed = obj.speed;
-                    speed = convertMpsToKmph(speed);
                     vehiclesData[currentId].speed = speed;
                     setTimeout(function () {
                         var path = setPath(vehiclesData[currentId].path, vehiclesData[currentId].color);
@@ -96,7 +92,7 @@ function successFunc(rawData) {
                             vehiclesData[currentId].oldFlightPaths.push(path);
                             drawLine(path, map);
                             vehiclesData[currentId].marker.setMap(map);
-                            vehiclesData[currentId].marker.setPosition(getPosition(obj.position));
+                            vehiclesData[currentId].marker.setPosition(getPositionObject(obj.position));
                         } else {
                             jQuery.each(vehiclesData[currentId].oldFlightPaths, function (index, p) {
                                 p.setMap(null);
@@ -115,7 +111,7 @@ function successFunc(rawData) {
                         } else {
                             vehiclesData[currentId].checkBrokenSpeedLimit = true;
                         }
-                    }, unitAnimationSpeed / vehiclesData[currentId].speed);
+                    }, 2000);//unitAnimationSpeed / vehiclesData[currentId].speed);
                 } else {
                     animatePath(index + 1);
                 }
@@ -209,7 +205,8 @@ function successFunc(rawData) {
 
             vehiclesData[currentId].infoWindow.setContent(getLiveInfoWindowContent(currentData.vehicleName, currentData.companyName, currentData.speed, currentData.totalDistance, currentData.brokenSpeedLimit));//, 0, 0, 0));
 		} else {
-			manageVehiclesWithNoTrack (obj)
+			manageVehiclesWithNoTrack (obj);
+			animatePath (index+1);
 		}
         }
     }

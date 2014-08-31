@@ -360,15 +360,15 @@ function getInfoWindowContent (vehicleName, speed, ignition, ac) {
 	return content;
 }
 
-function getLiveInfoWindowContent (vehicleName, companyName, speed, distance, speedLimitBroken, field1, others, field2) {
+function getLiveInfoWindowContent (vehicleName, companyName, speed, distance, speedLimitBroken) {//, field1, others, field2) {
 	var content = vehicleName + '<br/>' +
 			companyName + '<br/>' +
 			speed + ' kmph' +'<br/>' +
-			distance + 'km' + '<br/>' +
-			speedLimitBroken + '<br/>' +
-			field1 + '<br/>' +
-			others + '<br/>' +
-			field2;
+			distance.toFixed(2) + ' km' + '<br/>' +
+			speedLimitBroken// + '<br/>' +
+			//field1 + '<br/>' +
+			//others + '<br/>' +
+			//field2;
 	return content;
 }
 
