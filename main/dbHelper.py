@@ -5,6 +5,7 @@ from sqlalchemy import and_
 import datetime
 import time
 from sqlalchemy.sql.sqltypes import DateTime
+from datetime import timedelta, datetime
 
 
 class DbHelper(Component):
@@ -423,28 +424,44 @@ class DbHelper(Component):
 	#
 
 	def returnLiveCarDataForVehicles(self, deviceIds, dateTime):
-		date = dateTime['year'] + '-' + dateTime['mon'] + '-' + dateTime['day']
-		time = dateTime['hour'] + ':' + dateTime['min'] + ':' + dateTime['sec']
-		timestamp = date + ' ' + time
+		#date = dateTime['year'] + '-' + dateTime['mon'] + '-' + dateTime['day']
+		#time = dateTime['hour'] + ':' + dateTime['min'] + ':' + dateTime['sec']
+		#timestamp = date + ' ' + time
 		num = []
+		trackTime = 5
 		db = self.app.component('dbManager')
 		with db.session() as session:
 			for item in deviceIds:
 				query = session.query(db.gpsDeviceMessage1).filter(
-					and_(db.gpsDeviceMessage1.deviceId == item.split()[0], str(db.gpsDeviceMessage1.timestamp) == '2014-08-12 18:37:00'))
-				temp2 = item.split()[0]
-				temp = query.all()[0]
+					and_(db.gpsDeviceMessage1.deviceId == item.split()[0], db.gpsDeviceMessage1.timestamp >= dateTime - timedelta(minutes=trackTime))).order_by(
+					db.gpsDeviceMessage1.timestamp.desc())
 				try:
-					obj = query.one()
-					num.append({"position": {"latitude": str(obj.Latitude), "longitude": str(obj.Longitude)},
+					obj = query.all()[0]
+					num.append({"found": "yes",
+								"position": {"latitude": str(obj.latitude), "longitude": str(obj.longitude)},
 								"speed": int(obj.speed),
 								"orientation": obj.orientation,
-					            "time": {"hour": int(dateTime['hour']), "minute": int(dateTime['min']),
-					                     "second": int(dateTime['sec'])}, "vehicleId": int(obj.deviceId)})
+					            "time": {"hour": obj.timestamp.hour, "minute": obj.timestamp.minute,
+										 "second": obj.timestamp.second, "day": obj.timestamp.day,
+										 "month": obj.timestamp.month, "year": obj.timestamp.year},
+								"vehicleId": int(obj.deviceId)})
 				except:
-					pass
-		print(timestamp)
-		print(num)
+					query = session.query(db.gpsDeviceMessage1).filter(db.gpsDeviceMessage1.deviceId == item.split()[0]).order_by(
+						db.gpsDeviceMessage1.timestamp.desc())
+					try:
+						obj2 = query.all()[0]
+						num.append({"found": "old",
+								"position": {"latitude": str(obj2.latitude), "longitude": str(obj2.longitude)},
+								"speed": int(obj2.speed),
+								"orientation": obj2.orientation,
+					            "time": {"hour": obj2.timestamp.hour, "minute": obj2.timestamp.minute,
+										 "second": obj2.timestamp.second, "day": obj2.timestamp.day,
+										 "month": obj2.timestamp.month, "year": obj2.timestamp.year},
+								"vehicleId": int(obj2.deviceId)})
+					except:
+						num.append({"found": "no", "vehicleId": int(obj2.deviceId)})
+			#
+		#
 		return num
 	#
 

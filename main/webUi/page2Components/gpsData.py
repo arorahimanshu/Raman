@@ -145,7 +145,6 @@ class GpsData(Page2Component):
 
 		db = self.app.component('dbHelper')
 		data = db.returnLiveCarDataForVehicles(self.carToTracked,self.getDateAndTime())
-		print(data)
 		return self.jsonSuccess(data)
 
 		#

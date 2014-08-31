@@ -2,7 +2,7 @@ fitx.utils.require(['fitx', 'page2', 'newGpsDataForm']);
 
 jQuery(window).load(function () {
     //setupAJAXSubmit('newGpsDataFrom', 'newGpsDataFormAction', setupData, setupConstraints, '.searchButton', null, successFunc);
-	sendAjaxRequest('newGpsDataFormVehicleList',{},allVehicles)
+	//sendAjaxRequest('newGpsDataFormVehicleList',{},allVehicles)
 
 	onLoad_liveTracking()
 
@@ -15,7 +15,7 @@ var map;
 var rawData;
 var marker;
 var previousPath;
-var trackRequestTime = 2000;
+var trackRequestTime = 10000;
 
 function initializeMap() {
     var centre = new google.maps.LatLng(23.25, 77.417);
@@ -54,7 +54,7 @@ function getIcon(vehicleId) {
 function successFunc(rawData) {
     rawData = rawData.message;
 
-	if (rawData.length == 0)
+	if (rawData == undefined || rawData.length == 0)
 		return;
 
     map.setCenter(getPositionObject(rawData[0].position));
@@ -62,7 +62,12 @@ function successFunc(rawData) {
     function animatePath(index) {
         if (index < rawData.length) {
             var obj = rawData[index];
+            if(obj.found == "yes") {
+
             var currentId = obj.vehicleId;
+            if (jQuery ('.remainingVehicles #' + currentId)) {
+            	jQuery ('.remainingVehicles').remove ('#' + currentId)
+            }
             var position = getPositionObject(obj.position);
 
 			if(vehicleIdsWithNoData[currentId])
@@ -203,7 +208,9 @@ function successFunc(rawData) {
             var currentData = vehiclesData[currentId];
 
             vehiclesData[currentId].infoWindow.setContent(getLiveInfoWindowContent(currentData.vehicleName, currentData.companyName, currentData.speed, currentData.totalDistance, currentData.brokenSpeedLimit));//, 0, 0, 0));
-
+		} else {
+			manageVehiclesWithNoTrack (obj)
+		}
         }
     }
 
@@ -213,6 +220,7 @@ function successFunc(rawData) {
 
 google.maps.event.addDomListener(window, 'load', initializeMap);
 
+/*
 vehicleIdsWithNoData = []
 function allVehicles(result) {
 	result = JSON.parse(result)
@@ -228,25 +236,40 @@ function allVehicles(result) {
 		})
 	})
 }
+*/
 
 function onLoad_liveTracking () {
 	//jQuery ('.branch').hide ()
 	//jQuery ('.vehicleGroup').hide ()
 	//jQuery ('.vehicle').hide ()
+
+	jQuery ('.vehicle').change (function (){
+		setupCarsAndTime ();
+	});
 	setupCarsAndTime ();
-	trackRequest=setInterval(function () {
-            sendAjaxRequest('newGpsDataFormAction',undefined,successFunc)
-        }, trackRequestTime);
+
 }
 
 var carsToTrack = []
 var trackRequest;
 function setupCarsAndTime () {
 	clearInterval(trackRequest)
+	carsToTrack = []
+	for (var key in vehiclesData) {
+		try {
+			vehiclesData[key].visible = false;
+		} catch (err) {
+		}
+	}
     jQuery('.vehicle:checked').each(function () {
-        carsToTrack.push(jQuery(this).prop('value'))
+    	var id = jQuery (this).prop ('value');
+        carsToTrack.push(id)
+		try {
+        	vehiclesData[id].visible = true;
+        } catch (err) {
+        }
     })
-    if (carsToTrack != null) {
+    if (carsToTrack != null && carsToTrack.length!=0) {
 
         var specific={}
         var curdate = new Date()
@@ -255,9 +278,31 @@ function setupCarsAndTime () {
         specific.carToTracked=carsToTrack
 
         sendAjaxRequest('newGpsDataCarSetup', specific, undefined);
+
+        trackRequest=setInterval(function () {
+            sendAjaxRequest('newGpsDataFormAction',undefined,successFunc)
+        }, trackRequestTime);
     }
 }
 
-function manageVehiclesWithNoData () {
+function manageVehiclesWithNoTrack (obj) {
+	var id = obj.vehicleId;
+	var remainingVehicles = jQuery ('.remainingVehicles');
+	var notFoundId = remainingVehicles.find ("#" + id);
+	if(notFoundId == undefined || notFoundId.length == 0) {
+		remainingVehicles.append ('<div id="' + id + '"></div>')
+	}
+	if (obj.found == "old") {
+	jQuery ('.remainingVehicles #' + id).text (
+		"" + id + " " + getLocation (obj.position) + " at " +
+		obj.time.day + "-" + obj.time.month + "-" + obj.time.year + " " +
+		obj.time.hour + ":" + obj.time.minute + ":" + obj.time.second
+	)
+	} else if (objj.found == "no"){
+		jQuery ('.remainingVehicles #' + id).text ("No Data")
+	}
+}
 
+function getLocation (position) {
+	return "here";
 }
