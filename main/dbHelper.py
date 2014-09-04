@@ -491,7 +491,7 @@ class DbHelper(Component):
 		return self.returnOrgList (orgId)
 	#
 
-	def getCoordinatesForVehicle(self, deviceId, order):
+	def getCoordinatesForVehicle(self, deviceId, order=None):
 		db = self.app.component('dbManager')
 		data = None
 		with db.session() as session:

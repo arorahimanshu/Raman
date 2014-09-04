@@ -295,7 +295,7 @@ function manageVehiclesWithNoTrack (obj) {
 		obj.time.day + "-" + obj.time.month + "-" + obj.time.year + " " +
 		obj.time.hour + ":" + obj.time.minute + ":" + obj.time.second
 	)
-	} else if (objj.found == "no"){
+	} else if (obj.found == "no"){
 		jQuery ('.remainingVehicles #' + id).text ("No Data")
 	}
 }
