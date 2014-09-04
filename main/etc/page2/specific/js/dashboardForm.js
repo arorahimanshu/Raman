@@ -3,7 +3,9 @@ fitx.utils.require(['fitx', 'page2', 'newreport1Form']);
 jQuery(window).load(function () {
 	jQuery ('.dateSelection input').datepicker ();
 
+	onLoad_Dashboard ();
     //setupAJAXSubmit('newReport1From', 'newReport1FormAction', setupData, setupConstraints, '.dateSelection button', null, successFunc);
+
 	sendAjaxRequest('newDashboardFormAction', setupData(), successFunc)
     jQuery('.from').datepicker({
         changeMonth: true,
@@ -22,15 +24,8 @@ jQuery(window).load(function () {
 
 function setupData() {
     
-	/*
-	var from = dateFromDatePicker (jQuery('.from'))
-	var to = dateFromDatePicker (jQuery('.to'))
+	setupCarsAndTime ();
 
-	var specificFormData = {
-		'fromDate' : from,
-		'toDate' : to,
-	}
-*/
 	var specificFormData = {}
     return specificFormData
 }
@@ -215,10 +210,75 @@ function makeDashboard(rawData) {
 			table += row;
 		})
 		jQuery('table').append(table);
-	}
+}
 	
-	function successFunc (rawData) {
-		makeDashboard (rawData);
+function successFunc (rawData) {
+	makeDashboard (rawData);
+}
+
+var carsToTrack = []
+var trackRequest;
+var trackRequestTime = 10000
+function setupCarsAndTime () {
+	clearInterval(trackRequest)
+	carsToTrack = []
+	for (var key in vehiclesData) {
+		try {
+			vehiclesData[key].visible = false;
+		} catch (err) {
+		}
 	}
+    jQuery('.vehicle:checked').each(function () {
+    	var id = jQuery (this).prop ('value');
+        carsToTrack.push(id)
+		try {
+        	vehiclesData[id].visible = true;
+        } catch (err) {
+        }
+    })
+    if (carsToTrack != null && carsToTrack.length!=0) {
 
+        var specific={}
+        var curdate = new Date()
+        var offset =-1* curdate.getTimezoneOffset()
+        specific.gmt=(parseInt(offset/60)*3600)+(offset%60)*60
+        specific.carToTracked=carsToTrack
 
+        sendAjaxRequest('newCarSetup', specific, undefined);
+
+        trackRequest=setInterval(function () {
+            sendAjaxRequest('newGpsDataFormAction',undefined,successFunc)
+        }, trackRequestTime);
+    }
+}
+
+function onLoad_Dashboard ()
+{
+	sendAjaxRequest('newGpsVehicleList',{},makeVehicleList);
+}
+
+function resetCompany () {
+	resetBranch ();
+}
+
+function resetBranch () {
+	resetBranch ();
+}
+
+function resetVehicleType () {
+	resetVehicleGroup ();
+}
+
+function resetVehicleGroup () {
+	resetStatus ();
+}
+
+function resetStatus () {
+
+}
+
+var vehiclesList;
+function makeVehicleList (list) {
+	list = JSON.parse (list);
+	vehiclesList = list;
+}

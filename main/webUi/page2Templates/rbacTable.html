@@ -6,63 +6,83 @@ id="${containerId}"
 class="authSettings ${containerClass or ''}"
 >
 
-<div class="body">
+<!--<div class="heading">
+	<div class="role">Designation</div>
+	<div class="users">Users</div>
+	<div class="permissions">Permissions</div>
+</div>-->
 
-    <div class="formContainer">
-        <div align="center">
-            <label style="font-size: 17px;font-weight: bolder;">Select Role:</label>
-            <select id="roleSelect">
-            <option value="0" selected="selected">---Choose Role---</option>
-            %for role in tableData['roles'] :
-                <option value="${role['description']}">${role['description']}</option>
-            %endfor
-            </select>
-        </div>
-        <div align="center" style="margin-top: 2%;">
-            <table border="3" cellpadding="10" id="rbacTable" style="border: 3px solid #0af; display: none;">
-                <thead>
-                    <tr id="titles">
-                        <th>Users</th>
-                        <th>Permissions</th>
-                    </tr>
-                </thead>
-                <tbody>
+<div class="body">
+<div class="formContainer" style="margin-top:2%;margin-left: auto;margin-right: auto;">
+    <div class="formContainer selectBoxContainer" align="center" style="margin-left: 150px;margin-bottom: 50px;">
+        <div class="formRow" id="selectRole">
+            <div class="formCell"><label>Select Role:</label></div>
+            <div class="formCell">
+                <select id="role">
+                    <option value="0" selected="selected">---Choose Role---</option>
                     %for role in tableData['roles'] :
-                    <tr id="${role['name']}">
-                        <td>
-                            %for user in tableData['users'] :
-                                <div style="margin-top: 7px;margin-bottom: 7px;">
-                                    <input type="checkbox" class="css-checkbox"
-                                    %if user['username'] in role['users'] :
-                                    checked="checked"
-                                    %endif
-                                    id="${role['description']}${user['username']}"
-                                    value="${user['username']}"</input>
-                                    <label for="${role['description']}${user['username']}" class="css-label">${user['username']}</label>
-                                </div>
-                            %endfor
-                        </td>
-                        <td>
-                            %for permission in tableData['permissions'] :
-                                <div style="margin-top: 7px;margin-bottom: 7px;">
-                                    <input type="checkbox" class="css-checkbox"
-                                    %if permission['name'] in role['permissions'] :
-                                    checked="checked"
-                                    %endif
-                                    id="${role['description']}${permission['name']}"
-                                    value="${permission['name']}"</input>
-                                    <label for="${role['description']}${permission['name']}" class="css-label">${permission['description']}</label>
-                                </div>
-                            %endfor
-                        </td>
-                    </tr>
-                %endfor
-                </tbody>
-            </table>
-            <div id="actionButtons" style="display:none;width:200px;padding-left:6%;margin-top: 2%;">
-                <div class="formButton" id="save" style="margin-top: 2% !important;">Save</div>
-                <div class="formButton" id="cancel" style="margin-top: 2% !important;">Cancel</div>
+                    <option value="${role['description']}">${role['description']}</option>
+                    %endfor
+                </select>
             </div>
         </div>
     </div>
+    <!--<div class="formRow">
+        <div class="formHead" style="text-align:center;width:20%;">Designation</div>
+        <div class="formHead" style="width:20%">Users</div>
+        <div class="formHead" style="width:20%">Permissions</div>
+    </div>-->
+	%for role in tableData['roles'] :
+    <div class="formRow" id="${role['description']}Heading" style="display: none;">
+        <div class="formHead">Users</div>
+        <div class="formHead">Permissions</div>
+    </div>
+	<div class="formRow" id="${role['description']}" style="display: none;">
+		<!--<div class="formCell role" align="center" data-roleName="${role['name']}">${role['description']}</div>-->
+
+		<div class="formCell users">
+			%for user in tableData['users'] :
+			<div>
+				<input type="checkbox" class="css-checkbox"
+				%if user['username'] in role['users'] :
+				checked="checked"
+				%endif
+                id="${role['description']}${user['username']}"
+				value="${user['username']}"</input>
+				<label for="${role['description']}${user['username']}" class="css-label">${user['username']}</label>
+			</div>
+			%endfor
+		</div>
+
+		<div class="formCell permissions">
+			%for permission in tableData['permissions'] :
+			<div>
+				<input type="checkbox" class="css-checkbox"
+				%if permission['name'] in role['permissions'] :
+				checked="checked"
+				%endif
+                id="${role['description']}${permission['name']}"
+				value="${permission['name']}"</input>
+				<label for="${role['description']}${permission['name']}" class="css-label">${permission['description']}</label>
+			</div>
+			%endfor
+		</div>
+	</div>
+	%endfor
+    <div class="formRow" id="actionButtons" style="display: none;">
+        <div class="formCell">
+            <div class="formButton" id="save">Save</div>
+        </div>
+        <div class="formCell">
+            <div class="formButton" id="cancel">Cancel</div>
+        </div>
+    </div>
 </div>
+	<!--<div class="buttonContainer">
+		<button class="submit" id="save">Save</button>
+		<button class="submit" id="cancel">Cancel</button>
+	</div>-->
+
+</div>
+</div>
+

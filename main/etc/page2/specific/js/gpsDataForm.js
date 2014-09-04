@@ -52,9 +52,13 @@ function getIcon(vehicleId) {
 }
 
 function successFunc(rawData) {
+
+	if (rawData == undefined)
+		return;
+
     rawData = rawData.message;
 
-	if (rawData == undefined || rawData.length == 0)
+	if (rawData.length == 0)
 		return;
 
     map.setCenter(getPositionObject(rawData[0].position));
