@@ -6,12 +6,14 @@ jQuery(window).load(function () {
 
 	setupAJAXSubmit('paymentReceipt', 'paymentReceiptFormActionFormLoad', paymentData, paymentDataConstraints, '#go_Date', null, showReport);
 	setupFlexiGrid('#viewPayment', undefined, "Payment Details", undefined, undefined, undefined, undefined, classData)
-
+	
+	//add handler is handled in onAddOrDelete handler
+	/*
 	jQuery('.add').click(function () {
 		jQuery('#paymentReceipt').show();
 		jQuery('#paymentReport').hide();
 	})
-
+	*/
 
 	jQuery("#fromDate").datepicker({
 									   changeMonth: true,
@@ -197,7 +199,7 @@ function setupFlexiGrid(selector, datatype, title, noOfPages, width, height, sin
 								   buttons: [
 									   {name: 'Add', bclass: 'add', onpress: onAddOrDelete},
 									   {name: 'Delete', bclass: 'delete', onpress: onAddOrDelete},
-
+										{name: 'Edit', bclass: 'edit', onpress: onAddOrDelete},
 									   {separator: true}
 								   ],
 								   title: title,
@@ -285,7 +287,8 @@ function onAddOrDelete(com, grid) {
 		}
 	}
 	else if (com == "Add") {
-
+		jQuery('#paymentReceipt').show();
+		jQuery('#paymentReport').hide();
 	}
 	else if (com == "Delete") {
 		var c = 0
