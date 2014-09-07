@@ -1,13 +1,19 @@
 .layout1 {
 	position:relative;
-	/*background-color: #0866C6;*/
+	background-color: #FFF;
 	width:100%;
 	display:table;
+
+	border-width: 2px;
+    border: solid;
+    height:100%;
 }
 
 .layout1 > .header {
-	min-height:20vh;
+	min-height:10vh;
 	width:100%;
+	background-color: 	#FFF;
+	display:block;
 }
 
 .layout1 > .footer {
@@ -22,4 +28,48 @@
 	min-height:80vh;
 	padding-bottom:70px;
 }
+
+.topheader{
+
+  display:inline;
+
+}
+.topheader img{
+    margin:10px;
+	border:2px;
+    display:inline;
+	width: 200px;
+	height:60px;
+}
+.topheader article{
+
+     margin: 10px 10px 10px 800px;
+     display:inline;
+     align: right;
+
+
+}
+.topheader p{
+
+
+     display:inline;
+
+}
+
+
+
+
+.topheader  button{
+
+     margin: 10px;
+
+     width:100px;
+     height:30px;
+     padding:5px;
+     border-radius:        8px;
+    -moz-border-radius:    8px;
+    -webkit-border-radius: 8px;
+}
+
+
 
