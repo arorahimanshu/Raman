@@ -273,8 +273,10 @@ function onAddOrDelete(com, grid) {
 					}
 				})
 
-				jQuery("#tableDiv").toggle('showOrHide')
-				jQuery('#addUser').toggle('showOrHide')
+				//jQuery("#tableDiv").toggle('showOrHide')
+				//jQuery('#addUser').toggle('showOrHide')
+				jQuery('#paymentReceipt').show();
+				jQuery('#paymentReport').hide();
 				div.find('.ok').text('Edit')
 				div.find('.ok').removeClass('ok')
 					.addClass('editbutton')
