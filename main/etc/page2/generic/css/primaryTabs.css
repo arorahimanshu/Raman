@@ -8,6 +8,9 @@
     height: 2.3em;
     overflow: hidden;
     max-width: 100vw;
+    border-radius:         15px;
+    -moz-border-radius:    15px;
+    -webkit-border-radius: 15px;
 }
 
 .primaryTabs div {
@@ -53,17 +56,24 @@
     color: #FFF;
     border-radius: 2px;
     cursor: pointer;
-    width: 150px;
-    height: 60px;
+    width: 180px;
+    height: 70px;
     text-align: center;
-    font-size: 13px;
+    font-size: 15px;
     padding-top: 20px;
     font-weight: bold;
+    border-radius:         8px;
+    -moz-border-radius:    8px;
+    -webkit-border-radius: 8px;
+    border-width: 0px;
+    border: solid;
+
 
 }
 
 .appButton:hover {
-     background-color: #643EBF;
+     background-color: 		#8063C8;
+     color: #FFF;
 }
 
 .primaryTabs .staticTab, .primaryTabs .scrollLeft, .primaryTabs .dynamicTabContainer, .primaryTabs .dynamicButton {
@@ -105,5 +115,6 @@
     text-align: center;
     font-size: 15px;
     padding-top: 20px;
+
 
 }

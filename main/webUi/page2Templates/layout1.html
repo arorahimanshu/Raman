@@ -10,7 +10,18 @@ class="layout1 ${layoutClass}"
 class="layout1"
 %endif
 >
-<div class="header">${headerContent or ''}</div>
+<div class="header">${headerContent or ''}
+<div class="topheader">
+
+<img src="/etc/img/logo.png">
+
+<article>
+<p>Welcome,Nitin </p>
+<button class="submit">Logout</button>
+</article>
+</div>
+
+</div>
 <div id="overlay"></div>
 <div class="body">${bodyContent or ''}</div>
 <div class="footer">${footerContent or ''}</div>
