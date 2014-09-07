@@ -1,0 +1,43 @@
+.dateSelection {
+   align: center;
+   border: 1px solid black;
+   padding: 5px;
+   margin: 20px 40px;
+}
+
+#h2{
+    align: center;
+
+}
+
+.dateSelection label {
+    text-align: center;
+    color: Blue;
+    font-size: 30px;
+    font-family: "Times New Roman", Times, serif;
+}
+
+
+table, th, td {
+    border: 1px solid black;
+    align: center;
+} 
+
+td, th {
+	text-align: center;
+	padding: 5px;
+}
+
+th {
+	background-color: red;
+	color: white;
+}
+
+table {
+	margin: auto;
+}
+
+header {
+	margin: 0 auto;
+	display:inline-block;
+}
