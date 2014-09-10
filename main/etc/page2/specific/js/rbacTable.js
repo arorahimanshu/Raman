@@ -38,11 +38,11 @@ jQuery(window).load(function () {
 function setupData() {
     var specificFormData = {}
     specificFormData.Roles=[]
-    jQuery('.row').each(function(){
+    jQuery('.formRow').each(function(){
         role ={}
         row=jQuery(this)
 
-        role.name=row.children('.role').data('rolename')
+        role.name=row.children('.role').data('roleName')
         role.description=row.children('.role').text()
 
         role.users=[]

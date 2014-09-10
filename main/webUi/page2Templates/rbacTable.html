@@ -38,7 +38,7 @@ class="authSettings ${containerClass or ''}"
         <div class="formHead">Permissions</div>
     </div>
 	<div class="formRow" id="${role['description']}" style="display: none;">
-		<!--<div class="formCell role" align="center" data-roleName="${role['name']}">${role['description']}</div>-->
+		<div class="formCell role" align="center" data-roleName="${role['name']}">${role['description']}</div>
 
 		<div class="formCell users">
 			%for user in tableData['users'] :
