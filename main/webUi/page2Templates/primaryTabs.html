@@ -2,14 +2,12 @@
 import html, json
 %>
 
-<div class="topheader">
+<div class="header_logo">
 
-<img src="/etc/img/logo.png">
+<img class="lab_logo"  src="/etc/img/logo.png" >
+<img class="client_logo" src="/etc/img/Amazon.jpg">
 
-<article>
-<p>Welcome,Nitin </p>
-<button class="submit">Logout</button>
-</article>
+
 </div>
 
 <div
@@ -41,12 +39,12 @@ class="${containerClass or ''} unselectable primaryTabs"
 <div class="
 		scrollLeft
 		staticButton
-	">&lt;</div>
+	"> <img class="leftArrow"  src="/etc/img/arrow3.png" ></div>
 
 <div class="
 		scrollRight
 		staticButton
-	">&gt;</div>
+	"><img class="rightArrow"  src="/etc/img/arrow3.png" ></div>
 
 <div class="dynamicTabContainer">
 	<div class="innerContainer">
@@ -66,7 +64,10 @@ class="${containerClass or ''} unselectable primaryTabs"
 
 	</div>
 </div>
+
+
 </div>
+
 <div style="clear:both"></div>
 <div
 %if contentContainerId :
