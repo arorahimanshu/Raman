@@ -5,7 +5,9 @@
 		<label>Company:</label>
 		<select>
 			<option>All</option>
-			<option>Demo</option>
+            %for org in vehiclesList:
+                <option>${org['orgDetails']['orgName']}</option>
+            %endfor
 		</select>
 	</div>
 
@@ -13,6 +15,11 @@
 		<label>Branch:</label>
 		<select>
 			<option>All</option>
+            %for org in vehiclesList:
+                %for branch in org['branches']:
+                    <option>${branch['branchDetails']['branchName']}</option>
+                %endfor
+            %endfor
 		</select>
 	</div>
 
@@ -29,6 +36,13 @@
 		<label>Vehicle Group:</label>
 		<select>
 			<option>All</option>
+            %for org in vehiclesList:
+                %for branch in org['branches']:
+                    %for vehicleGroup in branch['vehicleGroups']:
+                        <option>${vehicleGroup['vehicleGroupDetails']['vehicleGroupName']}</option>
+                       %endfor
+                %endfor
+            %endfor
 		</select>
 	</div>
 <!--
@@ -52,13 +66,16 @@
 			<option>Idle</option>
 			<option>Stop</option>
 			<option>Inactive</option>
-			<option>Nodata</option>
+			<option>No Data</option>
 			
 		</select>
 	</div>
 
 	<button class="submit">Go</button>
 </div>
+
+<div class="loadMessage">Loading Data...</div>
+
 <div class="table">
 	<table>
 		<thead>
@@ -84,3 +101,4 @@
 		</thead>
 	</table>
 </div>
+

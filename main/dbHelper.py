@@ -42,7 +42,7 @@ class DbHelper(Component):
 
 		attrNames =self.returnClassData('Payment')
 
-		sessionQueryObj = session.query(db.Payment).filter(and_(db.Payment.payee_id == userId,db.Payment.when >=datetime.date(*fromDate),db.Payment.when <= datetime.date(*toDate)))
+		sessionQueryObj = session.query(db.Payment).filter(and_(db.Payment.payee_id == userId,db.Payment.when >=datetime(*fromDate),db.Payment.when <= datetime(*toDate)))
 		count = 0
 		dataSend = {
 			'total':count,
@@ -491,7 +491,7 @@ class DbHelper(Component):
 		return self.returnOrgList (orgId)
 	#
 
-	def getCoordinatesForVehicle(self, deviceId, order):
+	def getCoordinatesForVehicle(self, deviceId, order=None):
 		db = self.app.component('dbManager')
 		data = None
 		with db.session() as session:

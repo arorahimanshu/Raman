@@ -58,7 +58,7 @@ class RbacAuth(Page2Component):
                     break
             if (flag):
                 db = self.app.component('dbHelper')
-                db.updateRolePermissions(item['name'], item['permissions'], formData['organizationId'])
-                db.updateRoleFacet(item['name'], item['users'], formData['organizationId'])
-
-
+                #db.updateRolePermissions(item['name'], item['permissions'], formData['organizationId'])
+                #db.updateRoleFacet(item['name'], item['users'], formData['organizationId'])
+                db.updateRolePermissions(item['description'], item['permissions'], formData['organizationId'])
+                db.updateRoleFacet(item['description'], item['users'], formData['organizationId'])

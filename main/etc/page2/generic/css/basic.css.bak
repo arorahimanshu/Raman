@@ -70,12 +70,11 @@ input[type=number]::-webkit-inner-spin-button:after {
 .formContainer{
 	display: table;
 	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-	font-size: 12px;
+	font-size: 18px;
 	padding: 6%;
-    width: 650px;
-	/*border: 2px solid #187DE0;*/
+	border: 2px solid #187DE0;
 	border-radius: 20px;
-/*	background-color: #EBF5FF; /* delete/comment the line if background color of form not needed */
+	background-color: #EBF5FF; /* delete/comment the line if background color of form not needed */
 }
 
 /* contains the row containing label and their corresponding inputs */
@@ -94,6 +93,10 @@ input[type=number]::-webkit-inner-spin-button:after {
 /* contains the single cell or <td> contents */
 .formCell{
 	display: table-cell;
+	padding-bottom: 0.5em;
+	padding-top: 0.5em;
+	padding-left: 2%;
+	padding-right: 2%;
 }
 
 .formHead{
@@ -106,21 +109,21 @@ input[type=number]::-webkit-inner-spin-button:after {
 }
 
 /* custom form button styling */
-.formButton {
-    display: inline-block;
-    margin-right: 15px;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 13px;
-    font-weight: bold;
-    color: #ffffff;
-    background-color: #187DE5;
-    width: 40% !important;
-    border: 1px solid grey;
-    border-radius: 5px;
-    text-align: center;
-    padding: 6%;
-    cursor: pointer;
-    margin-top: 50px !important;
+.formButton{
+	display: inline-block;
+	margin-left: 5px;
+	margin-right: 5px;
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-size: 13px;
+	font-weight: bold;
+	color: #ffffff;
+	background-color: #187DE5;
+	width: 30%;
+	border: 1px solid grey;
+	border-radius: 5px;
+	text-align: center;
+	padding: 6%;
+	cursor: pointer;
 }
 
 .formButton:hover{
@@ -131,29 +134,14 @@ input[type=number]::-webkit-inner-spin-button:after {
 }
 
 /* text and password inputs styling start */
-.formContainer input[type="text"],.formContainer input[type="password"],.formContainer input[type="number"] {
+.formContainer input[type="text"],.formContainer input[type="password"],.formContainer input[type="number"],.formContainer select {
 	display: inline-block;
 	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-	padding: 5px 10px 0px 15px;
+	min-height: 30px;
+	min-width: 250px;
+	padding: 10px 30px 10px 20px;
 	border: solid 1px #dcdcdc;
-    min-width: 70%;
-    max-width: 70%;
-    margin-left: 50px;
 	transition: box-shadow 0.3s, border 0.3s;
-}
-.formContainer select {
-
-	display: inline-block;
-	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-	padding: 5px 10px 0px 15px;
-	border: solid 1px #dcdcdc;
-   transition: box-shadow 0.3s, border 0.3s;
-    width: -moz-fit-content;  /*for mozilla */
-
-    width: auto; /*for chrome*/
-    margin-left: 50px;
-    max-width: 60%;
-
 }
 
 .formContainer input[type="text"]:focus,.formContainer input[type="password"]:focus,.formContainer input[type="number"]:focus,.formContainer select:focus {
@@ -168,7 +156,6 @@ input[type=number]::-webkit-inner-spin-button:after {
 	white-space: nowrap;
 	overflow: hidden;
     text-overflow: ellipsis;
-
 }
 
 /* success class for success message (add success class and remove error class)*/
@@ -182,11 +169,11 @@ input[type=number]::-webkit-inner-spin-button:after {
 /* css for including error and success images to input box */
 /* start */
 .formContainer span {
-	margin: 15px;
+	margin-left: -28px;
 }
 
 span>img {
 	display: none; /* change display = true to show image */
-	vertical-align: sub;
+	vertical-align: middle;
 }
 /* end */

@@ -9,43 +9,28 @@ jQuery(window).load(function () {
     jQuery('.selectBoxContainer').css('margin-left','auto')
     jQuery('.selectBoxContainer').css('margin-bottom','0')
 
-//    jQuery('#role').on('change',function(){
-//        var role = jQuery(this).val()
-//        jQuery('.formRow').hide()
-//        jQuery('#selectRole').show()
-//        jQuery('.selectBoxContainer').css('margin-left','auto')
-//        jQuery('.selectBoxContainer').css('margin-bottom','0')
-//        if(role == 0){
-//            //jQuery('.formRow').hide()
-//            //jQuery('.selectBoxContainer').css('margin-left','auto')
-//            //jQuery('.selectBoxContainer').css('margin-bottom','0')
-//        }
-//        else{
-//            //jQuery('.formRow').hide()
-//            jQuery('#'+role).show(100,function(){
-//                jQuery('#actionButtons').show()
-//                jQuery('#selectRole').show()
-//                jQuery('#'+jQuery(this).prop('id')+'Heading').show()
-//                jQuery('.selectBoxContainer').css('margin-left','150px')
-//                jQuery('.selectBoxContainer').css('margin-bottom','50px')
-//                //jQuery(this).css('display','table-row')
-//                //jQuery('.formCell').css('display','table-cell')
-//            })
-//        }
-//    })
-
-    jQuery('#roleSelect').on('change',function(){
+    jQuery('#role').on('change',function(){
         var role = jQuery(this).val()
-        jQuery('#rbacTable').hide()
-        jQuery('#actionButtons2').hide()
-        if(role != 0){
-            jQuery('#rbacTable').show()
-            jQuery('tr').hide()
-            jQuery('tr[id=titles]').show()
-            jQuery('tr[id='+role+']').show(500)
-            jQuery('#actionButtons').show()
-        }else{
-            alert('Select Valid Role')
+        jQuery('.formRow').hide()
+        jQuery('#selectRole').show()
+        jQuery('.selectBoxContainer').css('margin-left','auto')
+        jQuery('.selectBoxContainer').css('margin-bottom','0')
+        if(role == 0){
+            //jQuery('.formRow').hide()
+            //jQuery('.selectBoxContainer').css('margin-left','auto')
+            //jQuery('.selectBoxContainer').css('margin-bottom','0')
+        }
+        else{
+            //jQuery('.formRow').hide()
+            jQuery('#'+role).show(100,function(){
+                jQuery('#actionButtons').show()
+                jQuery('#selectRole').show()
+                jQuery('#'+jQuery(this).prop('id')+'Heading').show()
+                jQuery('.selectBoxContainer').css('margin-left','150px')
+                jQuery('.selectBoxContainer').css('margin-bottom','50px')
+                //jQuery(this).css('display','table-row')
+                //jQuery('.formCell').css('display','table-cell')
+            })
         }
     })
 })
@@ -53,11 +38,11 @@ jQuery(window).load(function () {
 function setupData() {
     var specificFormData = {}
     specificFormData.Roles=[]
-    jQuery('.row').each(function(){
+    jQuery('.formRow').each(function(){
         role ={}
         row=jQuery(this)
 
-        role.name=row.children('.role').data('rolename')
+        role.name=row.children('.role').data('roleName')
         role.description=row.children('.role').text()
 
         role.users=[]

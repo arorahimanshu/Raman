@@ -289,6 +289,7 @@ class Page2(Component):
 		params['externalCss'].extend(
 			[
 				self.server.appUrl('etc', 'page2', 'generic', 'css', 'base1.css'),
+				self.server.appUrl('etc', 'page2', 'generic', 'css', 'basic.css'),
 				self.server.appUrl('etc', 'page2', 'generic', 'css', 'layout1.css'),
 				self.server.appUrl('etc', 'page2', 'specific', 'css', 'loginPage.css'),
 			]

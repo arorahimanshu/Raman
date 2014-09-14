@@ -42,9 +42,12 @@ class GpsData(Page2Component):
 			self.server.appUrl('etc', 'page2', 'specific', 'js', 'dashboardForm.js')
 		)
 
+		vehiclesList = self._newVehicleList(requestPath)
+		vehiclesList = json.loads(vehiclesList)
+
 		return self._renderWithTabs(
 			proxy, params,
-			bodyContent=proxy.render('dashboardForm.html'),
+			bodyContent=proxy.render('dashboardForm.html', vehiclesList = vehiclesList),
 			newTabTitle='Dashboard',
 			url=requestPath.allPrevious(),
 		)
@@ -138,7 +141,7 @@ class GpsData(Page2Component):
 	def _newGpsDataFormAction(self, requestPath):
 
 		db = self.app.component('dbHelper')
-		data = db.returnLiveCarDataForVehicles(self.carToTracked,self.getDateAndTime_add())
+		data = db.returnLiveCarDataForVehicles (self.carToTracked, self.getGMTDateAndTime())
 		return self.jsonSuccess(data)
 
 		#
@@ -147,39 +150,37 @@ class GpsData(Page2Component):
 	def _newVehicleList(self, requestPath):
 		vehiclesList = []
 		db = self.app.component('dbHelper')
-		orgId = '123'
-		branchList = db.returnBranchListForOrg(orgId)
+		primaryOrganizationId = None
+		with self.server.session() as serverSession :
+			primaryOrganizationId = serverSession['primaryOrganizationId']
 
-		for branch in branchList:
-			vehicleGroupList = db.returnVehicleGroupListForBranch(branch['value'])
-			groups = []
-			for vehicleGroup in vehicleGroupList:
-				vehicleList = db.returnVehicleListForVehicleGroup(vehicleGroup['value'])
-				group = {'vehicleGroupDetails':{'vehicleGroupName':vehicleGroup['display'], 'vehicleGroupId':vehicleGroup['value']}, 'vehicles':vehicleList}
-				groups.append (group)
-			branch = {'branchDetails':{'branchName':branch['display'], 'branchId':branch['value']}, 'vehicleGroups':groups}
-			vehiclesList.append(branch)
+		orgList = db.returnOrgList (primaryOrganizationId)
+
+		for org in orgList:
+			if org['value'] != primaryOrganizationId:
+				branchList = db.returnBranchListForOrg(org['value'])
+				branches = []
+				for branch in branchList:
+					vehicleGroupList = db.returnVehicleGroupListForBranch(branch['value'])
+					groups = []
+					for vehicleGroup in vehicleGroupList:
+						vehicleList = db.returnVehicleListForVehicleGroup(vehicleGroup['value'])
+						group = {'vehicleGroupDetails':{'vehicleGroupName':vehicleGroup['display'], 'vehicleGroupId':vehicleGroup['value']}, 'vehicles':vehicleList}
+						groups.append (group)
+					#
+					branch = {'branchDetails':{'branchName':branch['display'], 'branchId':branch['value']}, 'vehicleGroups':groups}
+					branches.append (branch)
+				#
+				org = {'orgDetails':{'orgName':org['display'], 'orgId':org['value']}, 'branches':branches}
+				vehiclesList.append(org)
+			#
+		#
 		vehiclesList = json.dumps(vehiclesList)
 		return vehiclesList
 	#
 
-	def _newGpsDataFormLastRecord(self, requestPath):
-		formData = json.loads(cherrypy.request.params['formData'])
-		remainingVehicles = formData['remainingVehicles']
-		db = self.app.component('dbHelper')
-		records = []
-		for deviceId in remainingVehicles:
-			obj = db.getLastRecordForVehicle(deviceId)
-			records.append({"position": {"latitude": str(obj.Latitude), "longitude": str(obj.Longitude)},
-								"speed": int(obj.speed),
-								"orientation": obj.orientation,
-					            "timestamp": str(obj.timestamp), "vehicleId": int(obj.deviceId)})
-		return records
-	#
-
 	def getDateAndTime_add(self, gt=None):
 		if gt == None:
-			#gmtime = time.gmtime()
 			gt = self.getGMTDateAndTime()
 		newTime = gt + timedelta(seconds=self.gmtAdjust)
 		return newTime
@@ -187,7 +188,6 @@ class GpsData(Page2Component):
 
 	def getDateAndTime_subtract(self, gt=None):
 		if gt == None:
-			#gmtime = time.gmtime()
 			gt = self.getGMTDateAndTime()
 		newTime = gt - timedelta(seconds=self.gmtAdjust)
 		return newTime

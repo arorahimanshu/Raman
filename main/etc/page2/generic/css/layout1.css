@@ -1,10 +1,9 @@
 .layout1 {
 	position:relative;
 	background-color: #FFF;
-	width:90%;   /*  NV   SEP14  */
+ 	width:90%;   /*  NV   SEP14  */
 	display:block;
 	margin: auto;
-
 	border-width: 0px; /*  NV   SEP14  */
     margin:0 ;
     box-sizing: border-box;
@@ -71,6 +70,50 @@
 
 }
 
+
+
+
+.topheader{
+
+  display:inline;
+
+}
+.topheader img{
+    margin:10px;
+	border:2px;
+    display:inline;
+	width: 200px;
+	height:60px;
+}
+.topheader article{
+
+     margin: 10px 10px 10px 800px;
+     display:inline;
+     align: right;
+
+
+}
+.topheader p{
+
+
+     display:inline;
+
+}
+
+
+
+
+.topheader  button{
+
+     margin: 10px;
+
+     width:100px;
+     height:30px;
+     padding:5px;
+     border-radius:        8px;
+    -moz-border-radius:    8px;
+    -webkit-border-radius: 8px;
+}
 
 
 
