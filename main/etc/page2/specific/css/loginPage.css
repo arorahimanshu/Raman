@@ -3,6 +3,7 @@
     margin-left: auto;
     margin-right: auto;
     margin-top: 15px;
+    transition: all 0.2s ease-out 0s;
 }
 
 .loginForm input {
@@ -18,18 +19,20 @@
 
 .loginForm div.submit {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 13px;
+    font-size: 15px;
     font-weight: bold;
+    text-align: center;
+    padding-left: 10px;
     color: #ffffff;
-    background-color: #187DE5;
-    margin-top: 5px;
+    background-color: #5133AB;
+
     text-align: center;
     height: 45px;
     width: 100%;
     display: table;
     cursor: pointer;
     border: 1px solid #0C57A3;
-    transition: all 0.2s ease-out 0s;
+
 }
 
 .loginForm div.submit:hover {
@@ -43,14 +46,16 @@
 .loginForm div.container {
     display: table-cell;
     vertical-align: middle;
+    width: 100%;
 }
 
 .imgContainer {
     text-align: center;
+    margin: 5% 0 0 0 ;
 }
 
 .imgContainer img {
-    width: 300px;
-    height: 100px;
+    width:  300px;
+    height: 150px;
 }
 
