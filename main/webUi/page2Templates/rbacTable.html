@@ -13,13 +13,13 @@ class="authSettings ${containerClass or ''}"
 </div>-->
 
 <div class="body">
-<div class="formContainer" style="margin-top:2%;margin-left: auto;margin-right: auto;">
-    <div class="formContainer selectBoxContainer" align="center" style="margin-left: 150px;margin-bottom: 50px;">
+<div class="formContainer" >
+    <div class="selectBoxContainer" style="margin-left: 0px; margin-bottom: 0px;" >
         <div class="formRow" id="selectRole">
             <div class="formCell"><label>Select Role:</label></div>
             <div class="formCell">
                 <select id="role">
-                    <option value="0" selected="selected">---Choose Role---</option>
+                    <option value="0" selected="selected">Select Role</option>
                     %for role in tableData['roles'] :
                     <option value="${role['description']}">${role['description']}</option>
                     %endfor
@@ -32,10 +32,12 @@ class="authSettings ${containerClass or ''}"
         <div class="formHead" style="width:20%">Users</div>
         <div class="formHead" style="width:20%">Permissions</div>
     </div>-->
-	%for role in tableData['roles'] :
-    <div class="formRow" id="${role['description']}Heading" style="display: none;">
-        <div class="formHead">Users</div>
-        <div class="formHead">Permissions</div>
+	<div class="permissionDataContainer">
+    <div class="formHead" style="margin-bottom: 50px;">Users Permissions</div>
+    %for role in tableData['roles'] :
+     <div class="formRow" id="${role['description']}Heading" style="display: none;">
+
+
     </div>
 	<div class="formRow" id="${role['description']}" style="display: none;">
 		<div class="formCell role" align="center" data-roleName="${role['name']}">${role['description']}</div>
@@ -76,6 +78,7 @@ class="authSettings ${containerClass or ''}"
         <div class="formCell">
             <div class="formButton" id="cancel">Cancel</div>
         </div>
+    </div>
     </div>
 </div>
 	<!--<div class="buttonContainer">
