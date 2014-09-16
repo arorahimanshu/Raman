@@ -1,15 +1,20 @@
 #detailsBox {
     float: left;
-    width: 35%;
+
     padding-top: 10px;
     padding-left: 20px;
     padding-right: 20px;
 }
 
-.field {
-    margin-top: 15px;
-    margin-bottom: 15px;
-}
+
+.iHandler
+ {
+  background-image: url("../images/indicator.png");
+  height:100%;
+  width:100%;
+ }
+
+
 
 .label, .value {
     display: inline;
@@ -63,14 +68,12 @@ button {
     margin-left: 10%;
     margin-top: 5%;
     margin-bottom: 4%;
+    height:100px;
 }
 
 .addPoiDivs {
-    display: inline !important;
-    border: black;
-    border-left-style: inset;
-    border-top-style: inset;
-    border-bottom-style: inset;
+    display: inline;
+
     padding: 3%;
 }
 

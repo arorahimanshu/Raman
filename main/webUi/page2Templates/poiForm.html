@@ -9,11 +9,11 @@
 
 <div id="primary">
 	<div id="addPoi">
-		<div class="field addPoiDivs" style="background-color:#187DE5;">
-			<div class="label" >Add POI</div>
+		<div class="field addPoiDivs" >
+			<img class="iHandler"  src="/etc/img/indicator.png" >
 		</div>
 		<div class="field addPoiDivs">
-			<div class="label">Select Company</div>
+			<div class="label">Select Organization</div>
 			<div class="value">
 				<select id="poiCompany">
 					%for item in companyList :
@@ -32,6 +32,19 @@
 				</select>
 			</div>
 		</div>
+
+        <div class="field addPoiDivs">
+			<div class="label">Select Vehicle Group</div>
+			<div class="value">
+				<select id='PoiVehicleList'>
+					<option value='0'>All</option>
+					%for item in vehicleList :
+					<option value='${item['value']}'>${item['display']}</option>
+					% endfor
+				</select>
+			</div>
+		</div>
+
 		<div class="field addPoiDivs">
 			<div class="label">Select Vehicle</div>
 			<div class="value">
