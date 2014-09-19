@@ -111,8 +111,10 @@
     color: #FFF;
     border-radius: 2px;
     cursor: pointer;
+
     width: 200px;
     height: 43px;
+
     text-align: center;
     font-size: 15px;
     padding-top: 20px;
@@ -124,14 +126,15 @@
     border: solid;
     display:inline-block;
 
-
-
 }
 
 
 
 .appButton:hover {
-         background-color: #1E82E8;
+
+
+     background-color: #1E82E8;
+
      color: #FFF;
 }
 

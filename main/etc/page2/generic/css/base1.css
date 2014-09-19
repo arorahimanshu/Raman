@@ -30,6 +30,7 @@
 }
 
 body {
+
     position:relative;
 	padding:0;
 	border:0;
@@ -44,6 +45,7 @@ body {
 	-ms-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	-khtml-box-sizing: border-box;
+
 
 
 }

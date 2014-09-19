@@ -1,0 +1,15 @@
+-----------------------------------------------------------------------------------------------------------
+Use these generic classes for your HTML elements. For changing the width & height USE !important attribute.
+------------------------------------------------------------------------------------------------------------
+
+All these elements are present in Basic.CSS file.
+
+1) Button
+
+.genericButton
+
+
+
+2) Select
+
+.genericSelect

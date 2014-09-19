@@ -1,26 +1,75 @@
 #detailsBox {
     float: left;
-   
     padding-top: 10px;
-    padding-left: 20px;
+    padding-left: 10px;
     padding-right: 20px;
+     border: 3px solid #ccc;
+     width: 32%;
 }
 
-.field {
-    margin-top: 15px;
-    margin-bottom: 15px;
+
+.iHandler
+ {
+  background-image: url("images/indicator.png");
+  height:71px;
+  width:151px;
+  margin: 0 1% 0 0;
+  display:flex;
+
+ }
+.iHandlerTxt {
+ padding: 15% 0 0 9%;
+
+ font-family: "RobotoRegular","Helvetica Neue",Helvetica,sans-serif;
+ font-size: 14px;
+ font-weight: bold;
+ color: #FFF;
+
 }
+
+.reportText  {
+ padding: auto 0;
+ margin:0 0 0 40%;
+ font-family: inherit;
+ font-size: 16px;
+
+ color: #5133AB;;
+
+}
+
+.iHandler1
+ {
+  background-image: url("../images/indicator.png");
+  height: 70px !important;
+  margin: 0 40px 0 10px;
+  width:150px;
+
+ }
+
 
 .label, .value {
     display: inline;
 }
 
-#primary {
-    margin: 2%;
+.value {
+    display: inline;
+    width: 200px;
+    align:right;
 }
 
-#primary div > select {
-    height: 30px;
+
+
+#primary {
+    margin: 2%;
+    border: 2px solid #ccc;
+}
+
+
+
+#primary div > input  {
+
+    height: 40px;
+    width: 100%;
     margin-bottom: 5px;
     padding-left: 10px;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -28,13 +77,15 @@
     border: 1px solid #ccc;
 }
 
-#secondary div > input, div > select {
 
-    height: 30px;
+#primary div > select {
+
+    height: 40px;
     width: 100%;
     margin-bottom: 5px;
+    margin: 0 0 0 3% !important;
     padding-left: 10px;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color:#000;
     font-size: 13px;
     border: 1px solid #ccc;
 }
@@ -59,38 +110,71 @@ button {
 
 #addPoi {
     display: flex;
-    width: 80%;
-    margin-left: 10%;
-    margin-top: 5%;
-    margin-bottom: 4%;
+    width: 95%;
+    margin-left: 1%;
+    margin-top: 0px;
+    margin-bottom: 10px;
+    height:80px;
+ 
 }
+
+#report {
+    border: 2px solid #A52A2A;
+     width: 95%;
+     margin: 0 0 0 2%;
+     margin-top: 20px;
+
+}
+
+#addPoiButton {
+    height:50px !important;
+    width: 180px !important;
+    margin: 0% !important;
+    padding: 0% 0 0 0 !important;
+    text-align: center;
+}
+
 
 .addPoiDivs {
-    display: inline !important;
-    border: black;
-    border-left-style: inset;
-    border-top-style: inset;
-    border-bottom-style: inset;
-    padding: 3%;
+    display: inline;
+    padding: 20% 0 0 1%;
+    width: 200px !important;
+
 }
 
-#addPoi :nth-child(5) {
-    border-right-style: inset;
-}
 
 #controls {
-    margin-top: 2%;
-    margin-bottom: 2%;
+
+    border: 1px solid #A52AAA;
+    height: 100px !important;
+    width: 100%;
+    display: flex;
+    margin: 2% 0 0 0 !important;
+}
+
+#reportData {
+
+    margin: 1% 0 0 6% !important;
+    border: 1px solid #000;
+    display: inline-block;
+    width:90%;
 }
 
 .row {
-    display: table-row;
+    display: inline;
 }
 
-.row > .cell {
-    display: table-cell;
-    border: 5px solid transparent;
-    background-clip: padding-box;
+.cell {
+    display: inline-block;
+    border: 0px solid transparent;
+    margin: 0 2% 0 0 !important;
+    padding: 0 0 0 0 !important;
+    height: 50px !important;
+    width:200px   !important;
+    color:#FFF;
+    font-family: "RobotoRegular","Helvetica Neue",Helvetica,sans-serif;
+    font-size: 14px;
+    font-weight: bold;
 }
 
 table {
@@ -111,5 +195,21 @@ table {
 #searchButtonImg {
 
     margin: -29px;
+
+}
+
+
+#show {
+
+    height:50px !important;
+    margin: 10px 0 0 20px !important;
+    text-align: center;
+}
+
+.reportImg {
+    display: inline-block;
+    margin: 30px 0 0 0 !important;
+    height: 50px !important;
+    width:200px   !important;
 
 }
