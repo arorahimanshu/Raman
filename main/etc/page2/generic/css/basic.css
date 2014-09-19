@@ -190,3 +190,64 @@ span>img {
 	vertical-align: sub;
 }
 /* end */
+
+/* --------------------------------------------------Generic Elements------------------------------------------ */
+
+
+
+/* ----------------Generic Button---------------- */
+
+.genericButton {
+    font-family: "RobotoRegular","Helvetica Neue",Helvetica,sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #5133AB;
+    text-align: center;
+    height: 45px;
+    width: 100%;
+    cursor: pointer;
+    border: 1px solid #0C57A3;
+    transition: box-shadow 0.3s ease 0s, border 0.3s ease 0s;
+}
+
+
+.genericButton:hover{
+    background-color: 	#634BAB;
+}
+
+
+/* ----------------Generic Button Ends---------------- */
+
+
+/* ----------------Generic Select---------------- */
+
+.genericSelect {
+    font-family: "RobotoRegular","Helvetica Neue",Helvetica,sans-serif;
+    font-size: 14px;
+    font-weight: bold;
+    color: #00000;
+    text-align: left;
+    height: 40px;
+    width: 200px;
+    cursor: pointer;
+    transition: box-shadow 0.3s ease 0s, border 0.3s ease 0s;
+}
+
+
+
+/* ----------------Generic Select---------------- */
+
+/* ----------------Generic INPUT---------------- */
+.genericInput {
+    width: 200px;
+    height: 45px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding-left: 10px;
+    font-family:  "RobotoRegular","Helvetica Neue",Helvetica,sans-serif";
+    font-size: 13px;
+
+}
+
+/* ----------------Generic INPUT---------------- */
