@@ -64,7 +64,7 @@
 	</div>
 
 	<div id="report">
-        <p class="reportText">  Add any details here for user</p>
+        <p class="reportText">  View/Edit Point of interest </p>
 
 		<div id="controls"  >
             <div class="field cell" >
@@ -74,6 +74,7 @@
 				<div class="label">Organization</div>
 				<div class="value">
 					<select id="reportCompany" class="genericSelect">
+                    <option value="0"> Select Organization</option>
 						%for item in companyList :
 					<option value='${item['value']}'>${item['display']}</option>
 					% endfor
@@ -84,6 +85,7 @@
 				<div class="label">Address Category</div>
 				<div class="value">
 					<select id="reportAddressCategory" class="genericSelect">
+                     <option value="0">Select Address Category</option>
 						%for item in addressList :
 					<option value='${item['display']}'>${item['display']}</option>
 					% endfor
@@ -95,6 +97,7 @@
 				<div class="label">Branch &nbsp;&nbsp;&nbsp;</div>
 				<div class="value">
 					<select id="reportBranch" class="genericSelect">
+                    <option value="0">Select Branch</option>
 						%for item in branchList :
 					<option value='${item['value']}'>${item['display']}</option>
 					% endfor
@@ -121,56 +124,60 @@
 
 
 
-		<div class="field">
-			<div class="label">Place Name</div>
+		<div class="field1">
+			<div class="label1">Place Name</div>
 			<div class="errorBox" id="placeNameError"></div>
-			<div class="value">
-				<input class="genericInput " type="text" id="placeName"/><span id="searchButtonImg" ><img src="/etc/page2/specific/images/magnifying.jpg" style="display:inline;width:27px;"></span>
+			<div class="value1">
+				<input   class="genericInput " type="text"   id="placeName"/>
+
+
+                <div id="searchButtonImg" ><img src="/etc/page2/specific/images/search.png" ></div>
 			</div>
 		</div>
 
-		<div class="field">
-			<div class="label">POI Name</div>
+		<div class="field1">
+			<div class="label1">POI Name</div>
 			<div class="errorBox" id="poiplaceNameError"></div>
-			<div class="value">
+			<div class="value1">
 				<input class="genericInput " type="text" id="poiplaceName"/>
 			</div>
 		</div>
 
-		<div class="field">
-			<div class="label">Address Category</div>
-			<div class="value">
+		<div class="field1">
+			<div class="label1">Address Category</div>
+			<div class="value1">
 				<select class="genericSelect "  id="addressCategory">
-					%for item in addressList :
+					<option value="0"> Select category</option>
+                    %for item in addressList :
 					<option value='${item['display']}'>${item['display']}</option>
 					%endfor
 				</select>
 			</div>
 		</div>
 
-		<div class="field">
-			<div class="label">Street</div>
+		<div class="field1">
+			<div class="label1">Street</div>
 			<div class="errorBox" id="streetError"></div>
-			<div class="value">
+			<div class="value1">
 				<input class="genericInput "  type="text" id="street"/>
 			</div>
 		</div>
-		<div class="field">
-			<div class="label">City</div>
+		<div class="field1">
+			<div class="label1">City</div>
 			<div class="errorBox" id="cityError"></div>
-			<div class="value">
+			<div class="value1">
 				<input  class="genericInput "  type="text" id="city"/>
 			</div>
 		</div>
-		<div class="field">
-			<div class="label">State</div>
+		<div class="field1">
+			<div class="label1">State</div>
 			<div class="errorBox" id="stateError"></div>
-			<div class="value">
+			<div class="value1">
 				<input class="genericInput "  type="text" id="state"/>
 			</div>
 		</div>
-		<button id="save" class="submit genericButton ">Save</button>
-		<button id="cancel" class="submit genericButton ">Cancel</button>
+		<button id="save" class="submit genericButton poiButton">Save</button>
+		<button id="cancel" class="submit genericButton poiButton">Cancel</button>
 	</div>
 
 </div>

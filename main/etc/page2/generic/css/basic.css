@@ -225,7 +225,7 @@ span>img {
 .genericSelect {
     font-family: "RobotoRegular","Helvetica Neue",Helvetica,sans-serif;
     font-size: 14px;
-    font-weight: bold;
+    font-weight: normal;
     color: #00000;
     text-align: left;
     height: 40px;
