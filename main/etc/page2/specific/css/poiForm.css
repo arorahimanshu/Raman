@@ -3,8 +3,9 @@
     padding-top: 10px;
     padding-left: 10px;
     padding-right: 20px;
-     border: 3px solid #ccc;
-     width: 32%;
+    border: 3px solid #FFF;
+    width: 32%;
+
 }
 
 
@@ -19,7 +20,6 @@
  }
 .iHandlerTxt {
  padding: 15% 0 0 9%;
-
  font-family: "RobotoRegular","Helvetica Neue",Helvetica,sans-serif;
  font-size: 14px;
  font-weight: bold;
@@ -32,6 +32,7 @@
  margin:0 0 0 40%;
  font-family: inherit;
  font-size: 16px;
+  font-weight: bold;
 
  color: #5133AB;;
 
@@ -61,7 +62,7 @@
 
 #primary {
     margin: 2%;
-    border: 2px solid #ccc;
+   <!--- border: 2px solid #ccc; --->
 }
 
 
@@ -119,10 +120,10 @@ button {
 }
 
 #report {
-    border: 2px solid #A52A2A;
+  <!---  border: 2px solid #A52A2A; -->
      width: 95%;
-     margin: 0 0 0 2%;
-     margin-top: 20px;
+     margin: 8% 0 0 2%;
+
 
 }
 
@@ -145,7 +146,7 @@ button {
 
 #controls {
 
-    border: 1px solid #A52AAA;
+  <!---  border: 1px solid #A52AAA;  -->
     height: 100px !important;
     width: 100%;
     display: flex;
@@ -154,10 +155,11 @@ button {
 
 #reportData {
 
-    margin: 1% 0 0 6% !important;
+    margin: 5% 0 0 6% !important;
     border: 1px solid #000;
     display: inline-block;
     width:90%;
+
 }
 
 .row {
@@ -193,11 +195,22 @@ table {
 }
 
 #searchButtonImg {
-
-    margin: -29px;
+   height:48px !important;
+   width: 48px !important;
+   float: right!important;
+   cursor: pointer;
 
 }
 
+#searchButtonImg > img{
+
+     display:inline;
+     width:48px;
+     margin:3px 0 0 5px;
+     height:48px;
+     float:right;
+
+}
 
 #show {
 
@@ -213,3 +226,45 @@ table {
     width:200px   !important;
 
 }
+
+.label1{
+   float:left !important;
+   display:flex;
+   font-weight: bold;
+   padding: 5% 0 0 0;
+}
+
+.value1{
+   float:right !important;
+   display:inline;
+}
+
+
+
+.value1 .genericSelect  {
+   height:49px !important;
+   width: 213px !important;
+   margin-top: 5px !important;
+   margin-bottom: 5px !important;
+   padding-left: 10px !important;
+}
+
+.field1{
+
+  display:inline-block;
+  width:100% !important;
+  <!---- border: 1px solid #A52AAA; -->
+
+}
+
+#placeName{
+
+ width:152px !important;
+ height:40px !important;
+}
+
+.poiButton{
+  width:40% !important;
+  margin: 5% 0 0 5%;
+}
+

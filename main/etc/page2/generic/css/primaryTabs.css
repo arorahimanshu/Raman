@@ -33,7 +33,8 @@
 
 .staticButton:hover:not(.activeTab), .primaryTabs:hover:not(.activeTab) .dynamicButtonContainer:hover{
 
-        background-color: #1E82E8;
+         background-color: #1E82E8;
+
 }
 
 .primaryTabs .dynamicButton, .primaryTabs .tabCloseButton {
@@ -75,8 +76,8 @@
 }
 
 .primaryTabs .activeTab {
-    background-color: #fff;
-    color: #0866C6;
+    background-color: #00AABB;
+    color: #FFF;
     font-size: 13px;
     font-weight: bold;
     border-style: none solid none none;
@@ -131,9 +132,9 @@
 
 
 .appButton:hover {
-
-
+ 
      background-color: #1E82E8;
+
 
      color: #FFF;
 }
