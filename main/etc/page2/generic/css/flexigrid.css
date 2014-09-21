@@ -8,6 +8,8 @@
 	border: 0px solid #eee;
 	overflow: hidden;
 	color: #000;
+	margin: 20px 0 0 0;
+	width:80%;
 }
 
 .flexigrid.hideBody {
@@ -107,7 +109,7 @@
 }
 
 .flexigrid div.mDiv {
-	background: url(images/wbg.gif) repeat-x top;
+
 	border: 1px solid #ccc;
 	border-bottom: 0px;
 	border-top: 0px;
@@ -116,10 +118,14 @@
 	overflow: hidden;
 	white-space: nowrap;
 	position: relative;
+	background-color: #5133AB;
+    color: #FFF;
+    font-size: 16px;
+    text-align: center;
 }
 
 .flexigrid div.mDiv div {
-	padding: 6px;
+	padding: 3px 0 3px 0;
 	white-space: nowrap;
 }
 
@@ -133,6 +139,7 @@
 	overflow: hidden;
 	border: 1px solid #ccc;
 	cursor: pointer;
+	background-color: #FFF !important;
 }
 
 .flexigrid div.mDiv div.ptogtitle:hover {
@@ -155,11 +162,12 @@
 }
 
 .flexigrid div.tDiv /*toolbar*/ {
-	background: #fafafa url(images/bg.gif) repeat-x top;
+
 	position: relative;
 	border: 1px solid #ccc;
 	border-bottom: 0px;
 	overflow: hidden;
+	background-color:#FFF;
 }
 
 .flexigrid div.tDiv2 {
@@ -230,10 +238,10 @@
 
 /* end toolbar*/
 .flexigrid div.hDiv {
-	background: #fafafa url(images/fhbg.gif) repeat-x bottom;
+
 	position: relative;
 	border: 1px solid #ccc;
-	border-bottom: 0px;
+
 	overflow: hidden;
 }
 
@@ -313,7 +321,7 @@
 }
 
 .flexigrid div.vGrip {
-	height: 5px;
+	height: 2px;
 	overflow: hidden;
 	position: relative;
 	background: #fafafa url(images/wbg.gif) repeat-x 0px -1px;
@@ -523,7 +531,7 @@ div.colCopy {
 
 /* end novstripe */
 .flexigrid div.pDiv {
-	background: url(images/wbg.gif) repeat-x 0 -1px;
+
 	border: 1px solid #ccc;
 	border-top: 0px;
 	overflow: hidden;
@@ -541,25 +549,38 @@ div.colCopy {
 div.pGroup {
 	float: left;
 	background: none;
-	height: 24px;
+	height: 20px;
 	margin: 0px 5px;
 }
 
 .flexigrid div.pDiv .pPageStat,.flexigrid div.pDiv .pcontrol {
 	position: relative;
-	top: 5px;
+	top: 0px;
 	overflow: visible;
 }
 
 .flexigrid div.pDiv input {
 	vertical-align: text-top;
 	position: relative;
-	top: -5px;
-	margin: 3px;
+    margin: 5px 0 0 0 !important;
+    width:  30px !important;
+	height: 20px !important;
+	min-width: 0 !important;
+    max-width: 30 !important;
+    margin-left: 0 !important;
 }
 
 .flexigrid div.pDiv select {
-	margin: 3px;
+    width:60px !important;
+	height : 24px !important;
+	margin-bottom: 5px;
+	margin-top : 0px;
+	padding-left : 10px;
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-size: 13px;
+	min-width: 0 !important;
+    max-width: 60 !important;
+    margin-left: 0 !important;
 }
 
 .flexigrid div.pDiv  div.pButton {
