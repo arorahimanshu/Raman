@@ -229,11 +229,14 @@ span>img {
     color: #ffffff;
     background-color: #5133AB;
     text-align: center;
-    height: 45px;
+    height: 45px !important;
     width: 100%;
     cursor: pointer;
     border: 1px solid #0C57A3;
     transition: box-shadow 0.3s ease 0s, border 0.3s ease 0s;
+    vertical-align: middle;
+    text-align: center;
+
 }
 
 
@@ -253,8 +256,9 @@ span>img {
     font-weight: normal;
     color: #00000;
     text-align: left;
-    height: 40px;
-    width: 200px;
+    height: 52px;
+    width: 213px;
+    padding-left: 10px;
     cursor: pointer;
     transition: box-shadow 0.3s ease 0s, border 0.3s ease 0s;
 }

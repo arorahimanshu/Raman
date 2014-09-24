@@ -20,13 +20,13 @@
 
 		<div class="field">
 			<label>Name:</label>
-			<input type="text" id="name">
+			<input type="text" id="name" class="genericInput ">
 			<div class="errorBox" id="nameError"></div>
 		</div>
 
 		<div class="field">
 			<label>Category</label>
-				<select id="category">
+				<select id="category" class="genericSelect ">
 					%for item in category:
 					<option value="${item['value']}">${item['display']}</option>
 					%endfor
@@ -36,34 +36,34 @@
 
 		<div class="field">
 			<label>Address Line 1:</label>
-			<input type="text" id="address1">
+			<input type="text" id="address1" class="genericInput ">
 			<div class="errorBox" id="address1Error"></div>
 		</div>
 
 		<div class="field">
 			<label>Address Line 2:</label>
-			<input type="text" id="address2">
+			<input type="text" id="address2" class="genericInput ">
 			<div class="errorBox" id="address2Error"></div>
 		</div>
 
 		<div class="field">
 			<label>City</label>
-			<input type="text" id="city">
+			<input type="text" id="city" class="genericInput ">
 			<div class="errorBox" id="cityError"></div>
 		</div>
 		<div class="field">
 			<label>State</label>
-			<input type="text" id="state">
+			<input type="text" id="state" class="genericInput ">
 			<div class="errorBox" id="stateError"></div>
 		</div>
 		<div class="field">
 			<label>Pin Code</label>
-			<input type="text" id="pincode">
+			<input type="text" id="pincode" class="genericInput ">
 			<div class="errorBox" id="pincodeError"></div>
 		</div>
 		<div class="field unselectable">
-			<div class="ok">Ok</div>
-			<div class="cancel">Cancel</div>
+			<div class="ok genericButton"  >Ok</div>
+			<div class="cancel genericButton"  >Cancel</div>
 		</div>
 	</div>
 		<div id="tablediv">

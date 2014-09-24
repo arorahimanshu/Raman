@@ -6,7 +6,8 @@
     display: table;
     margin-left: auto;
     margin-right: auto;
-    width:25%;
+    width:35%;
+        border: 1px solid #caa;
 
 }
 
@@ -14,11 +15,16 @@
 {
 	padding-top:0.3em;
 	padding-bottom:0.3em;
+	border: 1px solid #cca;
+    display:inline-block;
+    width:100%;
 }
 
 .organizationManagement .field label
 {
-	display:block;
+	display:inline;
+	width:100px;
+
 }
 
 .organizationManagement .personDataType {
@@ -50,8 +56,7 @@
 
 
 .organizationManagement  select{
-	width:60px;
-	height : 20px;
+
 	margin-top: 5px;
 	margin-bottom: 5px;
 	padding-left : 10px;
@@ -60,8 +65,7 @@
 
 }
 .organizationManagement  input{
-	width:30px;
-	height : 20px;
+
 
 	margin-bottom: 5px;
 	padding-left : 10px;
