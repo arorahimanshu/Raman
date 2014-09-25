@@ -63,27 +63,59 @@
 
 	<button class="submit">Go</button>
 </div>
-<div class="table">
-	<table>
-		<thead>
-			<tr>
-				<th>Company</th>
-				<th>Branch</th>
-				<th>Vehicle Information</th>
-				<th>Driver Information</th>
-				<th>Start Location</th>
-				<th>Total Running (km)</th>
-				<th>Total Running Duration</th>
-				<th>Total Idle Duration</th>
-				<th>Total Stop duration</th>
-				<th>Total Inactive Duration</th>
-				<th>Avg Speed</th>
-				<th>Max Speed</th>
-				<th>Times Stopped</th>
-				<th>Times Idle</th>
-				<th>Alert</th>
-				<th>End Location</th>
-			</tr>
-		</thead>
-	</table>
+<div class="tableBox">
+	<header>
+		<label>Travel Report</header>
+		<button class="showHideTableButton">Hide</button>
+	</header>
+	<div class="table">
+		<table>
+			<thead>
+				<tr>
+					<th>Company</th>
+					<th>Branch</th>
+					<th>Vehicle Information</th>
+					<th>Driver Information</th>
+					<th>Start Location</th>
+					<th>Total Running (km)</th>
+					<th>Total Running Duration</th>
+					<th>Total Idle Duration</th>
+					<th>Total Stop duration</th>
+					<th>Total Inactive Duration</th>
+					<th>Avg Speed</th>
+					<th>Max Speed</th>
+					<th>Times Stopped</th>
+					<th>Times Idle</th>
+					<th>Alert</th>
+					<th>End Location</th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+	<footer class="tableFooter">
+		<select class="rowsPerPage">
+			<option>10</option>
+			<option>25</option>
+		</select>
+		<button class="firstPage"><<</button>
+		<button class="previousPage"><</button>
+		<div>
+			<label>Page<label>
+			<input class="currentPage"/>
+			<label>of</label>
+			<label class="totalPages">0</label>
+		</div>
+		<button class="nextPage">></button>
+		<button class="lastPage">>></button>
+		<button class="refreshButton">Refresh</button>
+		<div>
+			<label>Displaying</label>
+			<label class="firstItem">0</label>
+			<label>to</label>
+			<label class="lastItem">0</label>
+			<label>of</label>
+			<label class="totalItems">0</label>
+			<label>items</label>
+		</div>
+	</footer>
 </div>
