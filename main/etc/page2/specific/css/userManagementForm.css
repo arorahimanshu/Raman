@@ -21,13 +21,7 @@
 
 }
 
-.userManagement .field label
-{
-	display:inline;
-	width:150px;
 
-	vertical-align: middle;
-}
 
 .userManagement .personDataType {
 	display:inline-block;
@@ -86,19 +80,6 @@
 	display:inline-block;
 }
 
-.ok   {
-
-  display:inline;
-  width:100px;
-
-}
-
-.cancel {
-
-  display:inline;
-  width:100px;
-
-}
 
 
 
@@ -127,7 +108,7 @@ input[type=checkbox].check {
 	display:none;
 }
 
-input[type=checkbox].check + label.css-label {
+ .css-label {
 	padding-left:20px;
 	height:19px;
 	display:inline-block;
@@ -135,13 +116,6 @@ input[type=checkbox].check + label.css-label {
 	background-repeat:no-repeat;
 	background-position: 0 0;
 	cursor:pointer;
-}
-
-input[type=checkbox].check:checked + label.css-label {
-	background-position: 0 -19px;
-}
-
-label.css-label {
 	background-image:url(csscheckbox.png);
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
@@ -150,6 +124,12 @@ label.css-label {
 	-ms-user-select: none;
 	user-select: none;
 }
+
+input[type=checkbox].check:checked + label.css-label {
+	background-position: 0 -19px;
+}
+
+
 
 .errorBox {
 	color:#f00;
@@ -162,3 +142,13 @@ label.css-label {
     float:right;
 }
 
+.buttonContainer{
+
+  display:inline-block;
+}
+
+.uButton {
+  padding:10px 0 0 0;
+  height:30px !important;
+  margin: 0 0 0 10%;
+}

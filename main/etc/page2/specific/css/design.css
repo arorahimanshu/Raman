@@ -6,12 +6,27 @@
 }
 
 .field{
-	margin-top:5px;
+	margin-top:10px;
 	margin-bottom:5px;
+    height:75px;
+    
+
+}
+
+.payField{
+	margin-top:10px;
+	margin-bottom:5px;
+    height:60px;
+    width:50%;
+    border: 1px solid black;
+     display:inline-block;
+
 }
 
 .label, .value{
     display: inline;
+    padding:20px 0 0 0;
+
 }
 
 .choose{
@@ -246,4 +261,10 @@ button:active {
 
 .basicTableDesign table td:nth-child(8){
     width: 20%;
+}
+
+.payInput {
+ margin: 0 2% !important;
+ float:right;
+
 }
