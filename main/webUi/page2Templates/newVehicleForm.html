@@ -5,37 +5,42 @@
     %endfor
 </script>
 <div class="newVehicleForm">
-    <div class="formContainer">
-    <div class="formRow">
-        <div class="formCell"><label>Vehicle Reg No.:</label></div>
-        <div class="formCell"><input type="text" id="vehicleRegNo"><span id="vehicleRegNoErrorImg"><img src=""></span></div>
-        <div class="formCell error" id="vehicleRegNoError"></div>
+
+     <div class="field">
+			<div class="genericFormHeader">Vehicle Data</div>
+
+	 </div>
+
+    <div class="field">
+         <label class="genericFormLabel">Vehicle Reg No.:</label>
+           <input type="text" id="vehicleRegNo" class="genericInput "><span id="vehicleRegNoErrorImg"><img src=""></span>
+        <div class="  error" id="vehicleRegNoError"></div>
     </div>
-    <div class="formRow">
-        <div class="formCell"><label>Vehicle Name:</label></div>
-        <div class="formCell"><input type="text" id="vehicleName"><span id="vehicleNameErrorImg"><img src=""></span></div>
-        <div class="formCell error" id="vehicleNameError"></div>
+    <div class="field">
+         <label class="genericFormLabel">Vehicle Name:</label>
+          <input type="text" id="vehicleName" class="genericInput "><span id="vehicleNameErrorImg"><img src=""></span>
+        <div class="  error" id="vehicleNameError"></div>
     </div>
-    <div class="formRow">
-        <div class="formCell"><label>Vehicle Make:</label></div>
-        <div class="formCell"><input type="text" id="vehicleMake"><span id="vehicleMakeErrorImg"><img src=""></span></div>
-        <div class="formCell error" id="vehicleMakeError"></div>
+    <div class="field">
+         <label class="genericFormLabel">Vehicle Make:</label>
+         <input type="text" id="vehicleMake" class="genericInput "><span id="vehicleMakeErrorImg"><img src=""></span>
+        <div class="  error" id="vehicleMakeError"></div>
     </div>
-    <div class="formRow">
-        <div class="formCell"><label>Vehicle Type:</label></div>
-        <div class="formCell"><input type="text" id="vehicleType"><span id="vehicleTypeErrorImg"><img src=""></span></div>
-        <div class="formCell error" id="vehicleTypeError"></div>
+    <div class="field">
+        <label class="genericFormLabel">Vehicle Type:</label>
+         <input type="text" id="vehicleType" class="genericInput "><span id="vehicleTypeErrorImg"><img src=""></span>
+        <div class="  error" id="vehicleTypeError"></div>
     </div>
-    <div class="formRow">
-        <div class="formCell"></div>
-        <div class="formCell">
-            <div id="submit" class="formButton">Submit</div>
-            <div id="cancel" class="formButton">Cancel</div>
+    <div class="field">
+        
+        <div class=" ">
+            <div id="submit" class="vButton genericButton">Submit</div>
+            <div id="cancel" class="vButton genericButton">Cancel</div>
         </div>
-        <div class="formCell"></div>
+        <div class=" "></div>
     </div>
 </div>
-</div>
+
         <div class="vehicleTable" align="center">
         <table id="vehicleTable"></table>
             </div>

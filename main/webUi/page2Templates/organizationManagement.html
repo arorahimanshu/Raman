@@ -16,17 +16,20 @@
 	<div class="message"></div>
 	<div id="addOrganization" hidden="true">
 
+        <div class="field">
+			<div class="genericFormHeader">Add New Organization</div>
 
+		</div>
 
 		<div class="field">
-			<label>Name:</label>
+			<label class="genericFormLabel">Name:</label>
 			<input type="text" id="name" class="genericInput ">
 			<div class="errorBox" id="nameError"></div>
 		</div>
 
 		<div class="field">
-			<label>Category</label>
-				<select id="category" class="genericSelect ">
+			<label class="genericFormLabel">Category</label>
+				<select id="category" class="oSelect genericSelect ">
 					%for item in category:
 					<option value="${item['value']}">${item['display']}</option>
 					%endfor
@@ -35,35 +38,35 @@
 		</div>
 
 		<div class="field">
-			<label>Address Line 1:</label>
+			<label class="genericFormLabel">Address Line 1:</label>
 			<input type="text" id="address1" class="genericInput ">
 			<div class="errorBox" id="address1Error"></div>
 		</div>
 
 		<div class="field">
-			<label>Address Line 2:</label>
+			<label class="genericFormLabel">Address Line 2:</label>
 			<input type="text" id="address2" class="genericInput ">
 			<div class="errorBox" id="address2Error"></div>
 		</div>
 
 		<div class="field">
-			<label>City</label>
+			<label class="genericFormLabel">City</label>
 			<input type="text" id="city" class="genericInput ">
 			<div class="errorBox" id="cityError"></div>
 		</div>
 		<div class="field">
-			<label>State</label>
+			<label class="genericFormLabel">State</label>
 			<input type="text" id="state" class="genericInput ">
 			<div class="errorBox" id="stateError"></div>
 		</div>
 		<div class="field">
-			<label>Pin Code</label>
+			<label class="genericFormLabel">Pin Code</label>
 			<input type="text" id="pincode" class="genericInput ">
 			<div class="errorBox" id="pincodeError"></div>
 		</div>
 		<div class="field unselectable">
-			<div class="ok genericButton"  >Ok</div>
-			<div class="cancel genericButton"  >Cancel</div>
+			<div class="ok oButton genericButton"  >Ok</div>
+			<div class="cancel oButton genericButton"  >Cancel</div>
 		</div>
 	</div>
 		<div id="tablediv">

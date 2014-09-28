@@ -7,7 +7,7 @@
     margin-left: auto;
     margin-right: auto;
     width:35%;
-        border: 1px solid #caa;
+
 
 }
 
@@ -15,7 +15,7 @@
 {
 	padding-top:0.3em;
 	padding-bottom:0.3em;
-	border: 1px solid #cca;
+
     display:inline-block;
     width:100%;
 }
@@ -99,23 +99,7 @@
 }
 
 .ok , .cancel , .editbutton {
-	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-	font-size: 13px;
-	font-weight: bold;
-	color: #ffffff;
-	background-color: #187DE5;
-	margin-top: 5px;
-	text-align: center;
-	height: 45px;
-	width: 49%;
-	display:inline-block;
-	cursor: pointer;
-	border: 1px solid #0C57A3;
-	transition: all 0.2s ease-out 0s;
-	padding-top:0.9em;
-	padding-bottom:0.8em;
-	padding-left:2em;
-	padding-right:2em;
+
 }
 
 input[type=checkbox].check {
@@ -144,4 +128,14 @@ label.css-label {
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
+}
+
+.oButton {
+  padding:10px 0 0 0;
+  height:30px !important;
+  margin: 0 0 0 10%;
+}
+
+.oSelect{
+  float:right;
 }
