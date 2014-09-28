@@ -9,6 +9,7 @@
 	margin-top:10px;
 	margin-bottom:5px;
     height:75px;
+
     
 
 }
@@ -30,8 +31,11 @@
 }
 
 .choose{
-	display:block;
+	display: block;
 	margin:30px 15px 15px auto;
+	height:50px;
+
+
 }
 
 .overlay {
@@ -268,3 +272,38 @@ button:active {
  float:right;
 
 }
+
+
+.date1 {
+ float:left !important;
+ margin:0 2%;
+
+}
+
+
+
+.label1 {
+ width:18% !important;
+ padding:10px 0 0 0;
+
+}
+
+.submit1  {
+   margin:10px 0 0 20px !important;
+
+}
+
+
+#paymentReceipt{
+
+
+}
+
+.payMode{
+ height:300px !important;
+
+
+}
+
+
+

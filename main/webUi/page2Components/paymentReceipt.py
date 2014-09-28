@@ -28,7 +28,7 @@ class PaymentReceipt(Page2Component):
 	#
 
 	def paymentReceiptDelAction(self):
-		formData = cherrypy.request.params
+		formData = json.loads(cherrypy.request.params['formData'])
 		db = self.app.component('dbManager')
 
 		i=db.PaymentDetail.delete({
