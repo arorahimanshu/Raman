@@ -23,7 +23,7 @@ input[type=checkbox].css-checkbox:checked + label.css-label {
 }
 
 label.css-label {
-	background-image:url(images/csscheckbox2.png);
+
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
 	-khtml-user-select: none;
@@ -292,6 +292,7 @@ span>img {
 	width:100%;
     font-weight: bold;
 	vertical-align: middle;
+
 }
 
 /* ----------------Generic FORM FIELD LABEL---------------- */
@@ -301,7 +302,7 @@ span>img {
 .genericCheckbox {
 	padding-left:20px;
 	height:19px;
-	margin:0 0 0 37%;;
+	margin:0 0 0 0;
 	width:100%;;
 	display:inline-block;
 	line-height:19px;
@@ -349,36 +350,20 @@ span>img {
     width: 80%;
     margin: 2% 0 0 10%;
     font-weight: bold;
-	border: 2px solid #5133AB;
+ 	border: 2px solid #5133AB;
 	border-radius: 5px;
 /*	background-color: #EBF5FF; /* delete/comment the line if background color of form not needed */
 }
 
 
 
-
-
-
-
-
-
 .genInlineBlock
 {
-  display: inline-block;
-  width:100%;
-   border: 1px solid black;
+   display: flex !important;
+   width:100%;
 
 
-}
-
-
-.date1 {
- float:left !important;
- margin:0 2%;
 
 }
 
-.submit1 {
 
- margin : 0 !important;
-}
