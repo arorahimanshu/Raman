@@ -15,7 +15,8 @@ PrimaryAppComponents = [
 	('autoBrowser', 'autoBrowserComponent.AutoBrowserComponent'),
 	('commandConsole', 'commandConsole.CommandConsole'),
 	('testComponent', 'testComponent.TestComponent'),
-	('dbHelper', 'dbHelper.DbHelper')
+	('dbHelper', 'dbHelper.DbHelper'),
+	('gpsHelper', 'gpsHelper.GpsHelper')
 ]
 
 MainAppComponent = 'commandConsole'
@@ -279,6 +280,24 @@ Page2Config = [
 				'name': 'addTravelReportForm',
 				'displayName': 'Travel Report',
 				'url': ['newTravelReportForm'],
+			}
+		],
+
+	},
+
+	{
+
+		'name': 'travelReport2',
+		'urls': [
+			'newTravelReportForm2',
+			'newTravelReportFormAction2',
+		],
+		'component': 'webUi.page2Components.travelReport2.TravelReport2',
+		'apps': [
+			{
+				'name': 'addTravelReportForm2',
+				'displayName': 'Travel Report2',
+				'url': ['newTravelReportForm2'],
 			}
 		],
 
