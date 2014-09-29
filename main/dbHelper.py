@@ -523,3 +523,28 @@ class DbHelper(Component):
 		#
 		return num
 	#
+
+	def getVehiclesListNested(self, primaryOrganizationId):
+		vehiclesList = []
+		orgList = self.returnOrgList (primaryOrganizationId)
+
+		for org in orgList:
+			if org['value'] != primaryOrganizationId:
+				branchList = self.returnBranchListForOrg(org['value'])
+				branches = []
+				for branch in branchList:
+					vehicleGroupList = self.returnVehicleGroupListForBranch(branch['value'])
+					groups = []
+					for vehicleGroup in vehicleGroupList:
+						vehicleList = self.returnVehicleListForVehicleGroup(vehicleGroup['value'])
+						group = {'vehicleGroupDetails':{'vehicleGroupName':vehicleGroup['display'], 'vehicleGroupId':vehicleGroup['value']}, 'vehicles':vehicleList}
+						groups.append (group)
+					#
+					branch = {'branchDetails':{'branchName':branch['display'], 'branchId':branch['value']}, 'vehicleGroups':groups}
+					branches.append (branch)
+				#
+				org = {'orgDetails':{'orgName':org['display'], 'orgId':org['value']}, 'branches':branches}
+				vehiclesList.append(org)
+			#
+		#
+		return vehiclesList
