@@ -4,31 +4,31 @@
                 classData.push('${item}')
                 % endfor
             </script>
-<div class="formContainer">
+<div class="genFormContainer">
 
-    <div id="paymentReport">
+    <div id="paymentReport" >
             <div class="errorBox" id="genericError"></div>
 
-            <div>
-                <div class="field message"></div>
-                <div class="label">Select Date :</div>
+            <div class="genInlineBlock">
+
+                <div class="genericFormLabel label1">Select Date :</div>
 
 
                 <div class="field">
                     <div class="errorBox" id="fromDateError"></div>
                     <div class="value">
-                        <input type="text" class="date" id="fromDate" placeholder="from"/>
+                        <input type="text" class="date1 genericInput " id="fromDate" placeholder="from"/>
                     </div>
                 </div>
 
                 <div class="field">
                     <div class="errorBox" id="toDateError"></div>
                     <div class="value">
-                        <input type="text" class="date" id="toDate" placeholder="to"/>
+                        <input type="text" class="date1 genericInput " id="toDate" placeholder="to"/>
                     </div>
                 </div>
 
-                <button id="go_Date" class="submit">Go</button>
+                <button id="go_Date" class="submit1 genericButton " >Go</button>
 
             </div>
 
@@ -44,59 +44,60 @@
     <div id="paymentReceipt" hidden="true">
 
 
-            <div class="field message"></div>
+
             <div class="field">
                 <div class="label">&squf; Payment ID :</div>
                 <div class="value paymentID"></div>
                 <div class="errorBox" id="paymentIDError"></div>
             </div>
+
             <div class="field">
                 <div class="label">&squf; Payee Name</div>
                 <div class="errorBox" id="payeeNameError"></div>
                 <div class="value">
-                    <input type="text" id="payeeName"/>
+                    <input type="text" id="payeeName" class="genericInput "/>
                 </div>
             </div>
             <div class="field">
                 <div class="label">&squf; Date</div>
                 <div class="errorBox" id="dateError"></div>
                 <div class="value">
-                    <input type="text" readonly id="date"/>
+                    <input type="text" readonly id="date" class="genericInput "/>
                 </div>
             </div>
-            <div class="field">
+            <div class="field payMode">
                 <div class="label">&squf; Mode of Payment</div>
                 <div class="errorBox" id="paymentModeError"></div>
                 <div class="value mode">
                     <div class="choose">
-                        <input type="checkbox" id="cashMode" class="check"/>
+                        <input type="checkbox" id="cashMode" class="check "/>
                         <label for="cashMode" class="css-label">Cash</label>
 
                         <div class="errorBox" id="cashModeError"></div>
                         <div class="cashFields">
-                            <input type="text" id="cashAmount" placeholder="Amount"/>
+                            <input type="text" id="cashAmount" placeholder="Amount" class="genericInput "/>
                         </div>
                     </div>
                     <div class="choose">
-                        <input type="checkbox" id="chequeMode" class="check"/>
+                        <input type="checkbox" id="chequeMode" class="check "/>
                         <label for="chequeMode" class="css-label">Cheque</label>
 
                         <div class="errorBox" id="chequeModeError"></div>
                         <div class="chequeFields">
-                            <input type="text" id="chequeAmount" placeholder="Amount"/>
-                            <input type="text" id="chequeBName" placeholder="Bank Name"/>
-                            <input type="text" id="chequeBLocation" placeholder="Bank Location"/>
+                            <input type="text" id="chequeAmount" placeholder="Amount" class="genericInput "/>
+                            <input type="text" id="chequeBName" placeholder="Bank Name" class="genericInput "/>
+                            <input type="text" id="chequeBLocation" placeholder="Bank Location" class="genericInput "/>
                         </div>
                     </div>
                     <div class="choose">
-                        <input type="checkbox" id="onlineMode" class="check"/>
+                        <input type="checkbox" id="onlineMode" class="check "/>
                         <label for="onlineMode" class="css-label">Online</label>
 
                         <div class="errorBox" id="onlineModeError"></div>
                         <div class="onlineFields">
-                            <input type="text" id="onlineAmount" placeholder="Amount"/>
-                            <input type="text" id="onlineBName" placeholder="Bank Name"/>
-                            <input type="text" id="onlineBLocation" placeholder="Bank Location"/>
+                            <input type="text" id="onlineAmount" placeholder="Amount" class="genericInput "/>
+                            <input type="text" id="onlineBName" placeholder="Bank Name" class="genericInput "/>
+                            <input type="text" id="onlineBLocation" placeholder="Bank Location" class="genericInput "/>
                         </div>
                         <div class="same">
                             <input type="checkbox" class="check" id="sameValues"/>
@@ -107,10 +108,15 @@
             </div>
             <div class="buttons" align="center">
 
-                <button id="submit_paymentReceipt" class="submit">Submit</button>
-                <button id="cancel" class="cancel">Cancel</button>
+                <button id="submit_paymentReceipt" class="submit genericButton">Submit</button>
+                <button id="cancel" class="cancel genericButton ">Cancel</button>
 
             </div>
+
+
+
+
+
         </div>
     </div>
 

@@ -22,20 +22,20 @@
 
 	<div class="byDetailsContainer">
 		<div class="field">
-			<label>Name</label>
-			<input type="text" class="name" id="name">
+			<label class="genericFormLabel">Name</label>
+			<input type="text" class="name genericInput  " id="name">
 			<div class="errorBox" id="nameError" ></div>
 		</div>
 
 		<div class="field">
-			<label>Date of Birth</label>
-			<input type="text"  class="dob" id="dob" readonly>
+			<label class="genericFormLabel">Date of Birth</label>
+			<input type="text"  class="dob genericInput " id="dob" readonly>
 			<div class="errorBox" id="dobError" ></div>
 		</div>
 
 		<div class="field">
-			<label>Sex</label>
-			<select class="sex" id="sex">
+			<label class="genericFormLabel">Sex</label>
+			<select class="sex genericSelect" id="sex">
 				<option value="male">Male</option>
 				<option value="female">Female</option>
 			</select>
@@ -44,62 +44,64 @@
 		</div>
 
 		<div class="field">
-			<label>Address</label>
-			<input type="text" class="address" id="address">
+			<label class="genericFormLabel">Address</label>
+			<input type="text" class="address genericInput " id="address">
 			<div class="errorBox" id="addressError"></div>
 		</div>
 
 		<div class="field">
-			<label>Email</label>
-			<input type="text" class="email" id="email">
+			<label class="genericFormLabel">Email</label>
+			<input type="text" class="email genericInput " id="email">
 			<div class="errorBox" id="emailError"></div>
 		</div>
 
 		<div class="field">
-			<label>Mobile</label>
-			<input type="text" class="mobile" id="mobile">
+			<label class="genericFormLabel">Mobile</label>
+			<input type="text" class="mobile genericInput " id="mobile">
 			<div class="errorBox" id="mobileError"></div>
 		</div>
 	</div>
 
 	<div class="byIdContainer inactive">
 		<div class="field">
-			<label>ID:</label>
+			<label >ID:</label>
 			<input type="text" id="personId" class="personId">
 			<div class="errorBox" id="personIdError"></div>
 		</div>
 	</div>
 
 	<div class="field">
-		<label>Username</label>
-		<input type="text" class="username">
+		<label class="genericFormLabel">Username</label>
+		<input type="text" class="username genericInput ">
 		<div class="errorBox" id="usernameError"></div>
 	</div>
 
 	<div class="field">
-		<label>Password</label>
-		<input type="password" id="password" class="password">
+		<label class="genericFormLabel">Password</label>
+		<input type="password" id="password" class="password genericInput ">
 		<div class="errorBox" id="passwordError"></div>
 	</div>
 
 	<div class="field">
-		<label>Password (Confirm)</label>
-		<input type="password" class="passwordConfirm" id="passwordConfirm">
+		<label class="genericFormLabel">Password (Confirm)</label>
+		<input type="password" class="passwordConfirm genericInput " id="passwordConfirm">
 		<div class="errorBox" id="passwordConfirmError"></div>
 	</div>
 
-    <div class="field">
-		<label>Role : </label>
+    <div class="field genInlineBlock">
+		<label class="genericFormLabel">Role : </label>
+        <div class="genericCheckBoxContainer">
 		%for role in roleList:
-        <input type="checkbox" id="${role}" class="check"><label for="${role}" class="css-label" >${role}</label>
+        <input type="checkbox" id="${role}" class="check"><label for="${role}" class="genericCheckbox css-label" >${role}</label>
         %endfor
-		<div class="errorBox" id="RoleError"></div>
+		</div>
+        <div class="errorBox" id="RoleError"></div>
 	</div>
 
 
-	<div class="field unselectable">
-		<div class="ok">Ok</div>
-		<div class="cancel">Cancel</div>
+	<div class="field buttonContainer">
+		<div class=" ok uButton genericButton ">OK</div>
+		<div class="cancel uButton  genericButton ">Cancel</div>
 	</div>
     </div>
 <div id="tableDiv">

@@ -35,6 +35,7 @@ jQuery(window).load(function () {
 
 });
 var setupData_payRec = function () {
+
 	var data = {};
 	data.id = jQuery('.paymentID').text();
 	data.payeeName = jQuery('#payeeName').val();

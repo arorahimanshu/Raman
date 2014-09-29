@@ -6,7 +6,8 @@
     display: table;
     margin-left: auto;
     margin-right: auto;
-    width:25%;
+    width:35%;
+
 
 }
 
@@ -14,11 +15,16 @@
 {
 	padding-top:0.3em;
 	padding-bottom:0.3em;
+
+    display:inline-block;
+    width:100%;
 }
 
 .organizationManagement .field label
 {
-	display:block;
+	display:inline;
+	width:100px;
+
 }
 
 .organizationManagement .personDataType {
@@ -50,8 +56,7 @@
 
 
 .organizationManagement  select{
-	width:60px;
-	height : 20px;
+
 	margin-top: 5px;
 	margin-bottom: 5px;
 	padding-left : 10px;
@@ -60,8 +65,7 @@
 
 }
 .organizationManagement  input{
-	width:30px;
-	height : 20px;
+
 
 	margin-bottom: 5px;
 	padding-left : 10px;
@@ -95,23 +99,7 @@
 }
 
 .ok , .cancel , .editbutton {
-	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-	font-size: 13px;
-	font-weight: bold;
-	color: #ffffff;
-	background-color: #187DE5;
-	margin-top: 5px;
-	text-align: center;
-	height: 45px;
-	width: 49%;
-	display:inline-block;
-	cursor: pointer;
-	border: 1px solid #0C57A3;
-	transition: all 0.2s ease-out 0s;
-	padding-top:0.9em;
-	padding-bottom:0.8em;
-	padding-left:2em;
-	padding-right:2em;
+
 }
 
 input[type=checkbox].check {
@@ -140,4 +128,14 @@ label.css-label {
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
+}
+
+.oButton {
+  padding:10px 0 0 0;
+  height:30px !important;
+  margin: 0 0 0 10%;
+}
+
+.oSelect{
+  float:right;
 }
