@@ -2,7 +2,9 @@ fitx.utils.require(['fitx', 'page2', 'newTravelReportForm2']);
 
 jQuery (window).load (function (){
 	setupFlexiGrid('#showTravelReport', undefined, "Travel Report", undefined, 1650, undefined, undefined, classData);
-	
+
+	sendAjaxRequest('travelReportVehicleListNested', {}, setupVehicles);
+
 	onLoadTravelReport();
 });
 
@@ -55,6 +57,79 @@ function createColModel(colList) {
 
 }
 
+var originalFilter = 0;
+var allVehiclesListNested = 0;
+
+function setupVehicles(data) {
+	allVehiclesListNested = JSON.parse(data);
+	originalFilter = jQuery('.filter').clone();
+	print (originalFilter);
+}
+
 function onLoadTravelReport() {
-	
+	jQuery ('.filter .company select').change (resetCompany);
+	jQuery ('.filter .branch select').change (resetBranch);
+	jQuery ('.filter .branch select').change (resetVehicleGroup);
+}
+
+function resetCompany () {
+	resetBranch();
+}
+
+function resetBranch () {
+	addOptions ('.branch', '.company');
+
+
+
+	/*
+	if (company == 'All') {
+		var branches1 = originalFilter.find ('.branch select option').clone ();
+		branches.append (branches1);
+	} else {
+		branches.append (originalFilter.find ('.branch select .All').clone ());
+		jQuery.each (allVehiclesListNested, function (index1, org) {
+			if(org['orgDetails']['orgName'] == company) {
+				jQuery.each (org['branches'], function (index2, branch) {
+					var id = '#' + branch['branchDetails']['branchId'];
+					var options = originalFilter.find ('.branch select .' + company);
+					branches.append (options);
+				});
+			}
+		});
+		var t = 0;
+	}
+	*/
+	resetVehicleGroup();
+}
+
+function resetVehicleGroup () {
+	var company = jQuery ('.filter .company select option:selected');
+	var branch = jQuery ('.filter .branch select option:selected');
+}
+
+function addOptions (currentSelector, parentSelector) {
+	var parentString = jQuery ('.filter ' + parentSelector + ' select option:selected').text ();
+
+	var currentIdentifierString = '.filter ' + currentSelector + ' select';
+	var currentElement = jQuery (currentIdentifierString);
+	currentElement.empty ();
+
+	if (parentString == 'All') {
+		var currentSelect1 = originalFilter.find (currentIdentifierString + ' option').clone ();
+		currentElement.append (currentSelect1);
+	} else {
+		currentElement.append (originalFilter.find (currentIdentifierString + ' .All').clone ());
+		jQuery.each (allVehiclesListNested, function (index1, org) {
+			if (currentSelector != 'org') {
+
+			}
+			if(org['orgDetails']['orgName'] == company) {
+				jQuery.each (org['branches'], function (index2, branch) {
+					var options = originalFilter.find ('.branch select .' + company);
+					branches.append (options);
+				});
+			}
+		});
+		var t = 0;
+	}
 }

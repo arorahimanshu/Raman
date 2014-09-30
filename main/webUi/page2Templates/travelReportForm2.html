@@ -18,9 +18,9 @@
 		<div class="company">
 			<label>Company:</label>
 			<select>
-				<option>All</option>
+				<option class="All">All</option>
 				%for org in vehicleListNested:
-                    <option id="${org['orgDetails']['orgName']}">${org['orgDetails']['orgName']}</option>
+                    <option id="${org['orgDetails']['orgId']}">${org['orgDetails']['orgName']}</option>
                 %endfor
 			</select>
 		</div>
@@ -28,10 +28,10 @@
 		<div class="branch">
 			<label>Branch:</label>
 			<select>
-				<option>All</option>
+				<option class="All">All</option>
 				%for org in vehicleListNested:
 					%for branch in org['branches']:
-						<option id="${branch['branchDetails']['branchName']}">${branch['branchDetails']['branchName']}</option>
+						<option id="${branch['branchDetails']['branchId']}" class="${org['orgDetails']['orgName']}">${branch['branchDetails']['branchName']}</option>
 					%endfor
                 %endfor
 			</select>
@@ -40,7 +40,7 @@
 		<div class="vehicleGroup">
 			<label>Vehicle Group:</label>
 			<select>
-				<option>All</option>
+				<option class="All">All</option>
 				%for org in vehicleListNested:
 					%for branch in org['branches']:
 						%for vehicleGroup in branch['vehicleGroups']:
@@ -54,7 +54,7 @@
 		<div class="vehicleType">
 			<label>Vehicle Type:</label>
 			<select>
-				<option>All</option>
+				<option class="All">All</option>
 				<option value="ambulance">Ambulance</option>
 				<option value="bicycle">Bicycle</option>
 			</select>
@@ -63,7 +63,7 @@
 		<div class="vehicleBrand">
 			<label>Vehicle Brand:</label>
 			<select>
-				<option>All</option>
+				<option class="All">All</option>
 				<option value="tata">Tata</option>
 				<option value="maruti">Maruti</option>
 			</select>
@@ -72,7 +72,7 @@
 		<div class="vehicleModel">
 			<label>Vehicle Model:</label>
 			<select>
-				<option>All</option>
+				<option class="All">All</option>
 				<option value="suv">SUV</option>
 			</select>
 		</div>

@@ -17,6 +17,8 @@ class TravelReport2(Page2Component):
 			return self._newTravelReportForm(requestPath)
 		elif nextPart == 'newTravelReportFormAction2':
 			return self._newTravelReportFormAction(requestPath)
+		elif nextPart == 'travelReportVehicleListNested':
+			return self._travelReportVehicleListNested(requestPath)
 		#
 
 	#
@@ -58,15 +60,13 @@ class TravelReport2(Page2Component):
 		with self.server.session() as serverSession :
 			primaryOrganizationId = serverSession['primaryOrganizationId']
 		dbHelp = self.app.component('dbHelper')
-		vehiclesListNested = dbHelp.getVehiclesListNested (primaryOrganizationId)
-		t =  self._renderWithTabs(
+		vehiclesListNested = self._travelReportVehicleListNested(requestPath)
+		return  self._renderWithTabs(
 			proxy, params,
-			bodyContent=proxy.render('travelReportForm2.html', classdata=classData, vehicleListNested = vehiclesListNested, vehicles = json.dumps(vehiclesListNested)),
+			bodyContent=proxy.render('travelReportForm2.html', classdata=classData, vehicleListNested = json.loads(vehiclesListNested), vehicles = json.dumps(vehiclesListNested)),
 			newTabTitle='Travel Report2',
 			url=requestPath.allPrevious(),
 		)
-		print(t)
-		return t
 	#
 
 
@@ -90,4 +90,13 @@ class TravelReport2(Page2Component):
 		else:
 			return self.jsonFailure('No Data Found')
 		#
+	#
+
+	def _travelReportVehicleListNested(self, requestPath):
+		primaryOrganizationId = None
+		with self.server.session() as serverSession :
+			primaryOrganizationId = serverSession['primaryOrganizationId']
+		dbHelp = self.app.component('dbHelper')
+		vehiclesListNested = json.dumps(dbHelp.getVehiclesListNested (primaryOrganizationId))
+		return vehiclesListNested
 	#

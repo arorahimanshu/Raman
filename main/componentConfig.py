@@ -291,6 +291,7 @@ Page2Config = [
 		'urls': [
 			'newTravelReportForm2',
 			'newTravelReportFormAction2',
+			'travelReportVehicleListNested',
 		],
 		'component': 'webUi.page2Components.travelReport2.TravelReport2',
 		'apps': [
