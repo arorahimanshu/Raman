@@ -36,14 +36,12 @@ function setupFlexiGrid(selector, datatype, title, noOfPages, width, height, sin
         width: width,
         height: height,
         singleSelect: singleSelect
-
     })
 }
 
 function createColModel(colList) {
     colModel = []
     jQuery.each(colList, function (k, v) {
-        console.log(v)
         var dict = {
             display: v,
             name: v,
@@ -67,69 +65,31 @@ function setupVehicles(data) {
 }
 
 function onLoadTravelReport() {
-	jQuery ('.filter .company select').change (resetCompany);
-	jQuery ('.filter .branch select').change (resetBranch);
+	jQuery ('.filter .company select').change (resetBranch);
 	jQuery ('.filter .branch select').change (resetVehicleGroup);
 }
 
-function resetCompany () {
-	resetBranch();
-}
-
 function resetBranch () {
-	addOptions ('.branch', '.company');
-
-
-
-	/*
-	if (company == 'All') {
-		var branches1 = originalFilter.find ('.branch select option').clone ();
-		branches.append (branches1);
-	} else {
-		branches.append (originalFilter.find ('.branch select .All').clone ());
-		jQuery.each (allVehiclesListNested, function (index1, org) {
-			if(org['orgDetails']['orgName'] == company) {
-				jQuery.each (org['branches'], function (index2, branch) {
-					var id = '#' + branch['branchDetails']['branchId'];
-					var options = originalFilter.find ('.branch select .' + company);
-					branches.append (options);
-				});
-			}
-		});
-		var t = 0;
-	}
-	*/
+	filterOptions ('.branch', '.company');
 	resetVehicleGroup();
 }
 
 function resetVehicleGroup () {
-	var company = jQuery ('.filter .company select option:selected');
-	var branch = jQuery ('.filter .branch select option:selected');
+	filterOptions ('.vehicleGroup', '.branch');
 }
 
-function addOptions (currentSelector, parentSelector) {
+function filterOptions (currentSelector, parentSelector) {
 	var parentString = jQuery ('.filter ' + parentSelector + ' select option:selected').text ();
 
-	var currentIdentifierString = '.filter ' + currentSelector + ' select';
-	var currentElement = jQuery (currentIdentifierString);
+	var currentIdentifier = currentSelector + ' select';
+	var currentElement = jQuery ('.filter ' + currentIdentifier);
 	currentElement.empty ();
 
 	if (parentString == 'All') {
-		var currentSelect1 = originalFilter.find (currentIdentifierString + ' option').clone ();
-		currentElement.append (currentSelect1);
+		currentElement.append (originalFilter.find (currentIdentifier + ' option').clone ());
 	} else {
-		currentElement.append (originalFilter.find (currentIdentifierString + ' .All').clone ());
-		jQuery.each (allVehiclesListNested, function (index1, org) {
-			if (currentSelector != 'org') {
-
-			}
-			if(org['orgDetails']['orgName'] == company) {
-				jQuery.each (org['branches'], function (index2, branch) {
-					var options = originalFilter.find ('.branch select .' + company);
-					branches.append (options);
-				});
-			}
-		});
-		var t = 0;
+		currentElement.append (originalFilter.find (currentIdentifier + ' .All').clone ());
+		var options = originalFilter.find (currentIdentifier + ' .' + parentString).clone ();
+		currentElement.append (options);
 	}
 }

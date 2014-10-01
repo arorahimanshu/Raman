@@ -44,7 +44,7 @@
 				%for org in vehicleListNested:
 					%for branch in org['branches']:
 						%for vehicleGroup in branch['vehicleGroups']:
-							<option id="${vehicleGroup['vehicleGroupDetails']['vehicleGroupName']}">${vehicleGroup['vehicleGroupDetails']['vehicleGroupName']}</option>
+							<option id="${vehicleGroup['vehicleGroupDetails']['vehicleGroupName']}" class="${branch['branchDetails']['branchName']}">${vehicleGroup['vehicleGroupDetails']['vehicleGroupName']}</option>
 						%endfor
 					%endfor
                 %endfor
