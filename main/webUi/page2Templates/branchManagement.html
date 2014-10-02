@@ -1,0 +1,70 @@
+<script>
+    var classData = []
+    %for item in classdata:
+     classData.push('${item}')
+    %endfor
+</script>
+
+<div
+	%if formId :
+	id="${formId}"
+	%endif
+
+	class="branchManagement ${formClass or ''}"
+>
+
+<div class="newVehicleForm" hidden="true">
+
+     <div class="field">
+			<div class="genericFormHeader">Branch Data</div>
+
+	 </div>
+
+    <div class="field">
+         <label class="genericFormLabel">Branch name:</label>
+           <input type="text" id="branchName" class="genericInput "><span id="branchNameErrorImg"><img src=""></span>
+        <div class="  error" id="branchNameError"></div>
+    </div>
+    <div class="field">
+         <label class="genericFormLabel">Address Line 1:</label>
+          <input type="text" id="branchAdd1" class="genericInput "><span id="branchAdd1ErrorImg"><img src=""></span>
+        <div class="  error" id="branchAdd1Error"></div>
+    </div>
+     <div class="field">
+         <label class="genericFormLabel">Address Line 2:</label>
+          <input type="text" id="branchAdd2" class="genericInput "><span id="branchAdd2ErrorImg"><img src=""></span>
+        <div class="  error" id="branchAdd2Error"></div>
+    </div>
+
+
+    <div class="field">
+        <label class="genericFormLabel">City:</label>
+         <input type="text" id="branchCity" class="genericInput "><span id="branchCityErrorImg"><img src=""></span>
+        <div class="  error" id="branchCityError"></div>
+    </div>
+     <div class="field">
+        <label class="genericFormLabel">State:</label>
+         <input type="text" id="branchState" class="genericInput "><span id="branchStateErrorImg"><img src=""></span>
+        <div class="  error" id="branchStateError"></div>
+    </div>
+    <div class="field">
+        <label class="genericFormLabel">Pincode:</label>
+         <input type="text" id="branchPin" class="genericInput "><span id="branchPinErrorImg"><img src=""></span>
+        <div class="  error" id="branchPinError"></div>
+    </div>
+
+    <div class="field">
+        
+        <div class=" ">
+            <div id="submit" class="ok bButton genericButton">Submit</div>
+            <div id="cancel" class="cancel bButton genericButton">Cancel</div>
+        </div>
+        <div class=" "></div>
+    </div>
+</div>
+
+	  	<div id="tablediv">
+            <table id="showBranch"></table>
+        </div>
+
+</div>

@@ -163,6 +163,24 @@ Page2Config = [
 		}
 	]
 	},
+    	{
+	'name': 'branchManagement',
+	'urls': [
+		'branchManagementForm',
+		'branchManagementFormAction',
+		'branchData',
+	    'editBranch',
+		'delBranch'
+	],
+	'component': 'webUi.page2Components.branchManagement.Branch',
+	'apps': [
+		{
+		'name': 'branchManagement',
+		'displayName': 'Manage Branch',
+		'url': ['branchManagementForm'],
+		}
+	]
+	},
 	{
 	'name': 'newVehicle',
 	'urls': [
