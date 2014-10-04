@@ -125,7 +125,7 @@ function setupFlexiGrid(selector, datatype, title, noOfPages, width, height, sin
     if (title == undefined)
         title = 'Table'
     if (noOfPages == undefined)
-        noOfPages = 10
+        noOfPages = 20
     if (width == undefined)
         width = 1000
     if (height == undefined)

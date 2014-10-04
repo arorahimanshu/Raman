@@ -548,3 +548,36 @@ class DbHelper(Component):
 			#
 		#
 		return vehiclesList
+
+	def filterVehicles(self, vehiclesListNested, orgId, branchId, vehicleGroupId):
+		vehicleIds = []
+		for org in vehiclesListNested:
+			if orgId == 'All' or org['orgDetails']['orgId'] == orgId:
+				for branch in org['branches']:
+					if branchId == 'All' or branch['branchDetails']['branchId'] == branchId:
+						for vehicleGroup in branch['vehicleGroups']:
+							if vehicleGroupId == 'All' or vehicleGroup['vehicleGroupDetails']['vehicleGroupId'] == vehicleGroupId:
+								for vehicle in vehicleGroup['vehicles']:
+									vehicleIds.append(vehicle['value'])
+		#
+		return vehicleIds
+
+	def getRawCoordinatesForDeviceBetween(self, deviceId, fromTime=None, toTime=None):
+		db = self.app.component('dbManager')
+		deviceId = self.correctDeviceId(deviceId)
+		query = None
+		with db.session() as session:
+			query = session.query(db.gpsDeviceMessage1).filter(db.gpsDeviceMessage1.deviceId == deviceId)
+			if (fromTime != None):
+				query = query.filter (db.gpsDeviceMessage1.timestamp >= fromTime)
+			if (toTime != None):
+				query = query.filter (db.gpsDeviceMessage1.timestamp <= toTime)
+		#
+		return query
+	#
+
+	def getVehicleDetails(self, deviceId):
+		return {}
+
+	def correctDeviceId(self, deviceId):
+		return deviceId.split()[0]

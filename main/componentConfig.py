@@ -16,7 +16,8 @@ PrimaryAppComponents = [
 	('commandConsole', 'commandConsole.CommandConsole'),
 	('testComponent', 'testComponent.TestComponent'),
 	('dbHelper', 'dbHelper.DbHelper'),
-	('gpsHelper', 'gpsHelper.GpsHelper')
+	('gpsHelper', 'gpsHelper.GpsHelper'),
+	('timeHelper', 'timeHelper.TimeHelper')
 ]
 
 MainAppComponent = 'commandConsole'
@@ -266,13 +267,13 @@ Page2Config = [
 
 	},
 
-
 	{
 
 		'name': 'travelReport',
 		'urls': [
 			'newTravelReportForm',
 			'newTravelReportFormAction',
+			'travelReportVehicleListNested',
 		],
 		'component': 'webUi.page2Components.travelReport.TravelReport',
 		'apps': [
@@ -280,25 +281,6 @@ Page2Config = [
 				'name': 'addTravelReportForm',
 				'displayName': 'Travel Report',
 				'url': ['newTravelReportForm'],
-			}
-		],
-
-	},
-
-	{
-
-		'name': 'travelReport2',
-		'urls': [
-			'newTravelReportForm2',
-			'newTravelReportFormAction2',
-			'travelReportVehicleListNested',
-		],
-		'component': 'webUi.page2Components.travelReport2.TravelReport2',
-		'apps': [
-			{
-				'name': 'addTravelReportForm2',
-				'displayName': 'Travel Report2',
-				'url': ['newTravelReportForm2'],
 			}
 		],
 
