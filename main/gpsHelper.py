@@ -36,6 +36,7 @@ class GpsHelper(Component):
 
 		timeHelp = self.app.component ('timeHelper')
 
+		#TODO: change these variables to enum
 		idleTime = 300				#in seconds
 		stopTime = 1800				#in seconds
 

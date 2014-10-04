@@ -14,10 +14,11 @@
 >
 	<div class="message"></div>
 
-	<div class="filter">
+	<div class="filter travelReport">
+      <div class="genInlineBlock">
 		<div class="company">
 			<label>Company:</label>
-			<select>
+			<select class="genericSelect">
 				<option class="All">All</option>
 				%for org in vehicleListNested:
                     <option id="${org['orgDetails']['orgId']}">${org['orgDetails']['orgName']}</option>
@@ -27,7 +28,7 @@
 
 		<div class="branch">
 			<label>Branch:</label>
-			<select>
+			<select class="genericSelect">
 				<option class="All">All</option>
 				%for org in vehicleListNested:
 					%for branch in org['branches']:
@@ -39,7 +40,7 @@
 
 		<div class="vehicleGroup">
 			<label>Vehicle Group:</label>
-			<select>
+			<select class="genericSelect">
 				<option class="All">All</option>
 				%for org in vehicleListNested:
 					%for branch in org['branches']:
@@ -53,16 +54,17 @@
 
 		<div class="vehicleType">
 			<label>Vehicle Type:</label>
-			<select>
+			<select class="genericSelect">
 				<option class="All">All</option>
 				<option value="ambulance">Ambulance</option>
 				<option value="bicycle">Bicycle</option>
 			</select>
 		</div>
-
+      </div>
+       <div class="genInlineBlock">
 		<div class="vehicleBrand">
 			<label>Vehicle Brand:</label>
-			<select>
+			<select class="genericSelect">
 				<option class="All">All</option>
 				<option value="tata">Tata</option>
 				<option value="maruti">Maruti</option>
@@ -71,27 +73,27 @@
 
 		<div class="vehicleModel">
 			<label>Vehicle Model:</label>
-			<select>
+			<select class="genericSelect">
 				<option class="All">All</option>
 				<option value="suv">SUV</option>
 			</select>
 		</div>
 
-		<div class="dateSelection">
+
 			<div>
 				<Label>From Date:</Label>
-				<input id="fromDate">
+				<input id="fromDate" class="genericInput">
 			</div>
 
 			<div>
 				<Label>To Date:</Label>
-				<input id="toDate">
+				<input id="toDate" class="genericInput">
 			</div>
-		</div>
 
-		<button class="submit">Go</button>
+
+		<button class="submit" class="genericButton">Go</button>
 	</div>
-
+    </div>
 	<div id="tablediv">
 		<table id="showTravelReport"></table>
 	</div>
