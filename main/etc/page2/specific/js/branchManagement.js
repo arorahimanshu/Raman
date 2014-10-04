@@ -1,6 +1,6 @@
 fitx.utils.require(['fitx', 'page2', 'branchManagement'])
 jQuery(window).load(function () {
-
+    jQuery('#addBranch').hide();
     setupAJAXSubmit('branchManagementForm', 'branchManagementFormAction', setupData, setupConstraints, '.ok', errorFunc, successFunc)
     setupAJAXSubmit('branchManagementForm', 'editBranch', setupData2, setupConstraints, '.editbutton', errorFunc, successFunc)
     setupFlexiGrid('#showBranch', undefined, "Branch Details", undefined, undefined, undefined, undefined, classData)
@@ -52,16 +52,17 @@ function successFunc() {
 
 var idToEdit;
 var setupData = function () {
+    alert('ADD')
     var data = {}
 
-    data.name = jQuery('#name').val()
-    data.category = jQuery("#category option:selected").val()
-    data.address1 = jQuery('#address1').val()
-    data.address2 = jQuery('#address2').val()
-    data.city = jQuery('#city').val()
-    data.state = jQuery('#state').val()
-    data.pincode = jQuery('#pincode').val()
+    data.name = jQuery('#branchName').val()
 
+    data.address1 = jQuery('#branchAdd1').val()
+    data.address2 = jQuery('#branchAdd2').val()
+    data.city = jQuery('#branchCity').val()
+    data.state = jQuery('#branchState').val()
+    data.pincode = jQuery('#branchPin').val()
+    alert(data)
     return data
 }
 var setupData2 = function () {
@@ -78,6 +79,7 @@ var setupConstraints = function () {
 
         name: {presence: true},
         address1: {presence: true},
+        address2: {presence: true},
         city: {presence: true},
         state: {presence: true},
         pincode: {presence: true,
@@ -216,8 +218,8 @@ function onAddOrDelete(com, grid) {
                 editFields.push({id: jQuery(this).data('id')})
                 editFields.push({'name': jQuery('td[abbr="Branch Name"] >div', this).html()})
                 editFields.push({'category': jQuery('td[abbr="Category"] >div', this).html()})
-                editFields.push({'address1': jQuery('td[abbr="Addrs_line1"] >div', this).html()})
-                editFields.push({'address2': jQuery('td[abbr="Addrs_line2"] >div', this).html()})
+                editFields.push({'address1': jQuery('td[abbr="Address_line1"] >div', this).html()})
+                editFields.push({'address2': jQuery('td[abbr="Address_line2"] >div', this).html()})
                 editFields.push({'city': jQuery('td[abbr="City"] >div', this).html()})
                 editFields.push({'state': jQuery('td[abbr="State"] >div', this).html()})
                 editFields.push({'pincode': jQuery('td[abbr="Pincode"] >div', this).html()})

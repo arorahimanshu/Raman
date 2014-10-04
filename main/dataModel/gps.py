@@ -116,6 +116,23 @@ def defineTables(db):
 	)
 	class gpsDeviceMessage1(DbEntity): pass
 
+
+	@db.table(
+	'branch',
+	Column('branch_id', DbTypes.Uuid, nullable=False),
+        Column('organization_id', DbTypes.Uuid, nullable=False),
+        Column('Branch_name',  DbTypes.VeryLongString, nullable=False),
+        Column('Addrs_line1',  DbTypes.VeryLongString, nullable=False),
+        Column('Addrs_line2',  DbTypes.VeryLongString, nullable=False),
+        Column('state',  DbTypes.VeryLongString, nullable=False),
+		Column('city',  DbTypes.VeryLongString, nullable=False),
+        Column('pincode', Integer, nullable=False),
+
+		PrimaryKeyConstraint('branch_id', 'organization_id'),
+
+	)
+	class branch(DbEntity): pass
+
 def loadInitialData(db, params=None):
 	with db.session() as session:
 

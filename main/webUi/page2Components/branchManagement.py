@@ -184,7 +184,7 @@ class Branch(Page2Component):
 		with self.server.session() as serverSession:
 			with db.session() as session:
 				id = serverSession['userId']
-				sendData = dbHelp.getOrganizationDataForFlexiGrid(pageNo, session, db,
+				sendData = dbHelp.getBranchDataForFlexiGrid(pageNo, session, db,
 																  serverSession['primaryOrganizationId'], id,
 																  self.numOfObj)
 

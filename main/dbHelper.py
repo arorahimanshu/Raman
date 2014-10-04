@@ -363,6 +363,52 @@ class DbHelper(Component):
 		return self.getSlicedData(rows,pageNo,numOfObj)
 	#
 
+	def getBranchDataForFlexiGrid(self,pageNo,session,db,orgId,curId,numOfObj=10):
+		sessionQueryObj = session.query(db.branch)
+
+		rows = []
+		i = (pageNo - 1) * numOfObj + 1
+
+		for data in sessionQueryObj.all():
+
+			cell = {}
+			cell['cell'] = []
+			cell['cell'].append(i)
+			cell['cell'].append(data.Branch_name)
+			queryObj2 = session.query(db.Info).filter((db.Info.entity_id == data.id))
+			try:
+				data2 = queryObj2.one()
+				address=data2.data
+				parts=address.split(';')
+				cell['cell'].append('')
+				cell['cell'].append(parts[0])
+				cell['cell'].append(parts[1])
+				cell['cell'].append(parts[2])
+				cell['cell'].append(parts[3])
+				cell['cell'].append(parts[4])
+				cell['id'] = i
+
+
+
+			except:
+				cell['cell'].append('')
+				cell['cell'].append('')
+				cell['cell'].append('')
+				cell['cell'].append('')
+				cell['cell'].append('')
+				cell['cell'].append('')
+				pass
+			finally:
+
+
+				cell['cell'].append(data.id)
+				i += 1
+				rows.append(cell)
+
+		return self.getSlicedData(rows,pageNo,numOfObj)
+	#
+
+
 
 	def returnLiveCarsData(self):
 		num = []
