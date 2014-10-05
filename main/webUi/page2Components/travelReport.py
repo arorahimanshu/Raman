@@ -211,7 +211,7 @@ class TravelReport(Page2Component):
         (totalStopDuration, totalStopCount) = getDurationAndCount(stopped)
 
         if totalRunCount == 0:
-            avgDuration = 'None'
+            avgDuration = None
         else:
             avgDuration = totalRunningDuration / totalRunCount
 
@@ -222,6 +222,8 @@ class TravelReport(Page2Component):
         totalIdleDuration = gpsHelp.noneCheck(totalIdleDuration, '0:00:00')
         totalStopDuration = gpsHelp.noneCheck(totalStopDuration, '0:00:00')
         totalInactiveDuration = gpsHelp.noneCheck(totalInactiveDuration, '0:00:00')
+
+        avgDuration = gpsHelp.noneCheck(avgDuration, '0:00:00')
 
         return {
             'startLocation': startLocation,
