@@ -576,8 +576,27 @@ class DbHelper(Component):
 		return query
 	#
 
-	def getVehicleDetails(self, deviceId):
-		return {}
+	def getVehicleDetails(self, vehiclesListNested, deviceId):
+		for org in vehiclesListNested:
+			for branch in org['branches']:
+				for vehicleGroup in branch['vehicleGroups']:
+					for vehicle in vehicleGroup['vehicles']:
+						if vehicle['value'] == deviceId:
+							return {
+								'company' : org['orgDetails']['orgName'],
+								'branch' : branch['branchDetails']['branchName'],
+								'vehicleInfo' : 'empty',
+								'driverInfo' : 'empty',
+								}
+		#
+		return {
+			'company' : 'company',
+			'branch' : 'branch',
+			'vehicleInfo' : 'empty',
+			'driverInfo' : 'empty',
+		}
+	#
 
 	def correctDeviceId(self, deviceId):
 		return deviceId.split()[0]
+	#

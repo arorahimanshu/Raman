@@ -121,7 +121,6 @@ var allVehiclesListNested = 0;
 function setupVehicles(data) {
 	allVehiclesListNested = JSON.parse(data);
 	originalFilter = jQuery('.filter').clone();
-	print (originalFilter);
 }
 
 function onLoadTravelReport() {

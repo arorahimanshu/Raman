@@ -28,8 +28,9 @@ class TimeHelper(Component):
 		return gt
 
 	def getTimeDifferenceInSeconds (self, timestamp1, timestamp2):
-		difference = timestamp2 - timestamp1
-		return difference.seconds
+		timeDifference = self.getTimeDifference(timestamp1, timestamp2)
+		difference = timeDifference.days * 24 * 3600 + timeDifference.seconds
+		return difference
 	#
 
 	def isDayDifferent (self, timestamp1, timestamp2):
@@ -37,3 +38,10 @@ class TimeHelper(Component):
 			return False
 		else:
 			return True
+
+	def getTimeDifference(self, timestamp1, timestamp2):
+		if timestamp2 >= timestamp1:
+			timeDifference = timestamp2 - timestamp1
+		else:
+			timeDifference = timestamp1 - timestamp2
+		return timeDifference
