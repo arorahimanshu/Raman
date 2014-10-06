@@ -186,3 +186,75 @@ class GpsHelper(Component):
         if field == value:
             field = replacement
         return field
+
+    def makeReport(self, coordinates):
+        def getDurationAndCount(data):
+            timesCount = 0
+            totalDuration = None
+            for day in data:
+                for count in day:
+                    if (len(count) >= 1):
+                        timesCount += 1
+                        duration = timeHelp.getTimeDifference(count[0].timestamp, count[len(count) - 1].timestamp)
+                        if totalDuration == None:
+                            totalDuration = duration
+                        else:
+                            totalDuration += duration
+            return (totalDuration, timesCount)
+
+        # /getDurationAndCount
+
+        timeHelp = self.app.component('timeHelper')
+        data = self.separateRecords(coordinates)
+
+        running = data['running']
+        stopped = data['stopped']
+        idle = data['idle']
+        inactive = data['inactive']
+
+        totalRunningDistance = 0
+
+        startLocation = self.getLocation(coordinates[0])
+        endLocation = self.getLocation(coordinates[len(coordinates) - 1])
+
+        for day in running:
+            for count in day:
+                totalRunningDistance += self.getDistance(count)
+        #
+
+        (totalRunningDuration, totalRunCount) = getDurationAndCount(running)
+        (totalIdleDuration, totalIdleCount) = getDurationAndCount(idle)
+        (totalInactiveDuration, totalInactiveCount) = getDurationAndCount(inactive)
+        (totalStopDuration, totalStopCount) = getDurationAndCount(stopped)
+
+        if totalRunCount == 0:
+            avgDuration = None
+        else:
+            avgDuration = totalRunningDuration / totalRunCount
+
+        avgSpeed = self.getAvgSpeed(running, totalRunningDistance)
+        maxSpeed = self.getMaxSpeed(running)
+
+        totalRunningDuration = self.noneCheck(totalRunningDuration, '0:00:00')
+        totalIdleDuration = self.noneCheck(totalIdleDuration, '0:00:00')
+        totalStopDuration = self.noneCheck(totalStopDuration, '0:00:00')
+        totalInactiveDuration = self.noneCheck(totalInactiveDuration, '0:00:00')
+
+        avgDuration = self.noneCheck(avgDuration, '0:00:00')
+
+        return {
+            'startLocation': startLocation,
+            'totalRunningDistance': totalRunningDistance,
+            'totalRunningDuration': totalRunningDuration,
+            'totalIdleDuration': totalIdleDuration,
+            'totalStopDuration': totalStopDuration,
+            'totalInactiveDuration': totalInactiveDuration,
+            'avgDuration': avgDuration,
+            'avgSpeed': avgSpeed,
+            'maxSpeed': maxSpeed,
+            'timesStopped': totalStopCount,
+            'timesIdle': totalIdleCount,
+            'alert': '0',
+            'endLocation': endLocation,
+        }
+    #

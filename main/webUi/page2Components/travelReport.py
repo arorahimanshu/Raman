@@ -88,6 +88,7 @@ class TravelReport(Page2Component):
         branchId = formData['branch']
         vehicleGroupId = formData['vehicleGroup']
 
+        gpsHelp = self.app.component('gpsHelper')
         db = self.app.component('dbManager')
         dbHelp = self.app.component('dbHelper')
         vehiclesListNested = json.loads(self._travelReportVehicleListNested(requestPath))
@@ -104,10 +105,8 @@ class TravelReport(Page2Component):
         for id in vehicleIds:
             rawCoordinates = dbHelp.getRawCoordinatesForDeviceBetween(id, fromTime, toTime)
             rawCoordinates = rawCoordinates.order_by(db.gpsDeviceMessage1.timestamp)
-            report = self._makeTravelReport(rawCoordinates.all())
+            report = gpsHelp.makeReport(rawCoordinates.all())
             vehicleData = dbHelp.getVehicleDetails(vehiclesListNested, id)
-            # data = gpsHelp.getTravelReport (rawCoordinates.all())
-            #data = self._dummyFunction(id)
             row = {}
             row['cell'] = [len(rows) + 1]
             row['cell'].append(vehicleData['company'])
@@ -160,84 +159,4 @@ class TravelReport(Page2Component):
         vehiclesListNested = json.dumps(dbHelp.getVehiclesListNested(primaryOrganizationId))
         return vehiclesListNested
 
-    #
-
-    def _dummyFunction(self, id):
-        row = {}
-        row['cell'] = [1]
-        for i in range(0, 17):
-            row['cell'].append(id)
-        return row
-
-    def _makeTravelReport(self, coordinates):
-        def getDurationAndCount(data):
-            timesCount = 0
-            totalDuration = None
-            for day in data:
-                for count in day:
-                    if (len(count) >= 1):
-                        timesCount += 1
-                        duration = timeHelp.getTimeDifference(count[0].timestamp, count[len(count) - 1].timestamp)
-                        if totalDuration == None:
-                            totalDuration = duration
-                        else:
-                            totalDuration += duration
-            return (totalDuration, timesCount)
-
-        # /getDurationAndCount
-
-        gpsHelp = self.app.component('gpsHelper')
-        timeHelp = self.app.component('timeHelper')
-        data = gpsHelp.separateRecords(coordinates)
-
-        running = data['running']
-        stopped = data['stopped']
-        idle = data['idle']
-        inactive = data['inactive']
-
-        totalRunningDistance = 0
-
-        startLocation = gpsHelp.getLocation(coordinates[0])
-        endLocation = gpsHelp.getLocation(coordinates[len(coordinates) - 1])
-
-        for day in running:
-            for count in day:
-                totalRunningDistance += gpsHelp.getDistance(count)
-        #
-
-        (totalRunningDuration, totalRunCount) = getDurationAndCount(running)
-        (totalIdleDuration, totalIdleCount) = getDurationAndCount(idle)
-        (totalInactiveDuration, totalInactiveCount) = getDurationAndCount(inactive)
-        (totalStopDuration, totalStopCount) = getDurationAndCount(stopped)
-
-        if totalRunCount == 0:
-            avgDuration = None
-        else:
-            avgDuration = totalRunningDuration / totalRunCount
-
-        avgSpeed = gpsHelp.getAvgSpeed(running, totalRunningDistance)
-        maxSpeed = gpsHelp.getMaxSpeed(running)
-
-        totalRunningDuration = gpsHelp.noneCheck(totalRunningDuration, '0:00:00')
-        totalIdleDuration = gpsHelp.noneCheck(totalIdleDuration, '0:00:00')
-        totalStopDuration = gpsHelp.noneCheck(totalStopDuration, '0:00:00')
-        totalInactiveDuration = gpsHelp.noneCheck(totalInactiveDuration, '0:00:00')
-
-        avgDuration = gpsHelp.noneCheck(avgDuration, '0:00:00')
-
-        return {
-            'startLocation': startLocation,
-            'totalRunningDistance': totalRunningDistance,
-            'totalRunningDuration': totalRunningDuration,
-            'totalIdleDuration': totalIdleDuration,
-            'totalStopDuration': totalStopDuration,
-            'totalInactiveDuration': totalInactiveDuration,
-            'avgDuration': avgDuration,
-            'avgSpeed': avgSpeed,
-            'maxSpeed': maxSpeed,
-            'timesStopped': totalStopCount,
-            'timesIdle': totalIdleCount,
-            'alert': '0',
-            'endLocation': endLocation,
-        }
     #

@@ -1,193 +1,159 @@
-fitx.utils.require(['fitx', 'page2', 'newreport4Form']);
+fitx.utils.require(['fitx', 'page2', 'newReport4Form']);
 
-jQuery(window).load(function () {
-	jQuery ('.dateSelection input').datepicker ();
+jQuery (window).load (function (){
+	setupFlexiGrid('#showReport4', undefined, "Report 4", undefined, undefined, undefined, undefined, classData);
 
-    setupAJAXSubmit('newReport4From', 'newReport4FormAction', setupData, setupConstraints, '.dateSelection button', null, successFunc);
-    jQuery('.from').datepicker({
-        changeMonth: true,
-        changeYear: true,
-        yearRange: '-150:+0',
-        dateFormat: 'DD, dd/MM/yy'
-    });
-
-	jQuery('.to').datepicker({
-        changeMonth: true,
-        changeYear: true,
-        yearRange: '-150:+0',
-        dateFormat: 'DD, dd/MM/yy'
-    });
-})
+	setupAJAXSubmit('report4', 'newReport4FormAction', setupData, setupConstraints, '.submit', null, showReport);
+	
+	jQuery("#fromDate").datepicker({
+									   changeMonth: true,
+									   changeYear: true,
+									   yearRange: '-150:+0',
+									   dateFormat: 'DD, dd/MM/yy',
+									   onSelect: function (selected) {
+										   jQuery("#toDate").datepicker("option", "minDate", selected)
+									   }
+								   });
+	jQuery("#toDate").datepicker({
+									 changeMonth: true,
+									 changeYear: true,
+									 yearRange: '-150:+0',
+									 dateFormat: 'DD, dd/MM/yy',
+									 onSelect: function (selected) {
+										 jQuery("#fromDate").datepicker("option", "maxDate", selected)
+									 }
+								 });
+	rp = parseInt(jQuery('.pGroup select option:selected').text())
+	onLoadReport4();
+});
 
 function setupData() {
-    
-	var from = dateFromDatePicker (jQuery('.from'))
-	var to = dateFromDatePicker (jQuery('.to'))
-
-	var specificFormData = {
-		'fromDate' : from,
-		'toDate' : to,
-	}
-
-    return specificFormData
+	var curdate = new Date();
+    var offset =-1* curdate.getTimezoneOffset();
+    var gmtAdjust=offset*60;
+		
+	var fromDate = returnDate ('fromDate');
+	var toDate = returnDate ('toDate');
+	
+	var specificData = {
+		'fromDate' : fromDate,
+		'toDate' : toDate,
+		'gmtAdjust' : gmtAdjust
+	};
+	
+	rp = parseInt(jQuery('.pGroup select option:selected').text())
+	specificData['rp'] = rp
+	
+	return specificData;
 }
-
-function dateFromDatePicker(element) {
-
-	var date = element.datepicker('getDate');
-	if (date) {
-		data = [
-			parseInt(date.getFullYear()),
-				date.getMonth() + 1,
-			date.getDate()
-		]
-		return data
-	}
-
-}
-
 
 function setupConstraints() {
-    var specificFormConstraints = {}
-    return specificFormConstraints
+	return null;
 }
 
-function getReport4Rows (rawData) {
-	rawData = rawData.message;
-	
-	function getRow() {
-		var avgSpeed = distanceTravelled/runningDuration;
-		row = {
-			'vehicleName' : 'Empty',
-			'vehicleModel' : 'Empty',
-			'runningDuration' : convertDuration(runningDuration),
-			'distanceTravelled' : convertDistance(distanceTravelled),
-			'stopDuration' : convertDuration(stopDuration),
-			'noOfStops' : noOfStops,
-			'avgSpeed' : convertMpsToKmph(avgSpeed)
-		};
-		return row;
-	}
-	
-	function manageDistanceAndMaxSpeed (pathPoints) {
-		if (pathPoints.length == 0 || pathPoints.length == 1) {
-			return pathPoints;
-		}
-		var coordinates = [];
-		jQuery.each (pathPoints,function(i,v){
-			coordinates[coordinates.length]=getPosition(v.position);
-		})
-		var distance = getDistanceFromPath (coordinates);
-		var time = getTimeDifference (pathPoints[0].time, pathPoints[pathPoints.length-1].time);
-		var speed = distance/time;
-		if (maxSpeed < speed) {
-			maxSpeed = speed;
-		}
-		distanceTravelled += distance;
-		pathPoints = [pathPoints[pathPoints.length-1]];
-		return pathPoints;
-	}
-	
-	function manageDistance (pathPoints) {
-		if (pathPoints.length == 0 || pathPoints.length == 1) {
-			return pathPoints;
-		}
-		var distance = getDistanceFromPath (pathPoints);
-		distanceTravelled += distance;
-		pathPoints = [pathPoints[pathPoints.length-1]];
-		return pathPoints;
-	}
-	
-	var currentVehicleId = rawData[0].vehicleId;
-	var rows = {};
-	rows[currentVehicleId] = {};
-	var totalData = rawData.length;
-	var minStopDuration = 1;
-	var vehicleStop = false;
-	var runningDuration = 0;
-	var distanceTravelled = 0;
-	var stopDuration = 0;
-	var noOfStops = 0;
-	var pathPoints = [];
-	
-	jQuery.each (rawData, function (index,obj) {
-		var currentPosition = getPosition (obj.position);
-		if (currentVehicleId != obj.vehicleId) {
-			pathPoints = manageDistanceAndMaxSpeed (pathPoints);
-			var extraTime = getTimeDifference (rawData[index-1].time, obj.time);
-			runningDuration -= extraTime;
-			rows[currentVehicleId] = getRow();
-			currentVehicleId = obj.vehicleId;
-			vehicleStop = false;
-			runningDuration = 0;
-			distanceTravelled = 0;
-			stopDuration = 0;
-			maxSpeed = 0;
-			noOfStops = 0;
-			pathPoints = [];
-		}
-		if (index == totalData-1) {
-			return false;
-		}
-		if (vehicleStop == false) {
-			if (   (index + minStopDuration < totalData)
-			    && (currentVehicleId == rawData[index + minStopDuration])
-			    && (obj.position == rawData[index + minStopDuration].position)) {
-				pathPoints = manageDistance(pathPoints);
-				vehicleStop = true;
-				noOfStops++;
-				stopDuration += getTimeDifference (obj.time, rawData[index+1].time);
-				return true;
-			}
-			var nextVehicleId = rawData[index+1].vehicleId;
-			if (currentVehicleId == nextVehicleId) {
-				pathPoints[pathPoints.length] = currentPosition;
-				runningDuration += getTimeDifference (obj.time, rawData[index+1].time);
-			} else {
-				pathPoints = manageDistance (pathPoints);
-			}
-		} else {
-			stopDuration += getTimeDifference (obj.time, rawData[index+1].time);
-			var nextVehicleId = rawData[index+1].vehicleId;
-			if (currentVehicleId != nextVehicleId) {
-				vehicleStop = false;
-			}
-			else if (obj.position != rawData[index+1].position) {
-				vehicleStop = false;
-			}
-			
-		}
-	})
-	
-	pathPoints = manageDistance(pathPoints);
-	rows[currentVehicleId] = getRow();
-		
-	return rows;
+function setupFlexiGrid(selector, datatype, title, noOfPages, width, height, singleSelect, classData, extraCols) {
+    if (datatype == undefined)
+        datatype = 'json'
+    if (title == undefined)
+        title = 'Table'
+    if (noOfPages == undefined)
+        noOfPages = 10
+    if (width == undefined)
+        width = 1000
+    if (height == undefined)
+        height = 200
+    if (singleSelect == undefined)
+        singleSelect = true
+    var colData = createColModel(classData)
+    for (var items in extraCols) {
+        colData.push(items)
+    }
+    jQuery(selector).flexigrid({
+        dataType: datatype,
+        colModel: colData,
+        usepager: true,
+        title: title,
+        useRp: true,
+        rp: noOfPages,
+        showTableToggleBtn: true,
+        width: width,
+        height: height,
+        singleSelect: singleSelect
+    })
 }
 
-function makeReport4(rawData) {
-	var rows = getReport4Rows (rawData);
-	jQuery('table tbody').remove();
-	var table = ''
-	jQuery.each (rows, function (key, data){
-		var row = '<tbody><tr>';
-		row += '<td>' + key + '</td>';
-		row += '<td>' + data.vehicleName + '</td>';
-		row += '<td>' + data.vehicleModel + '</td>';
-		var from = jQuery ('.from').val ();
-		var to = jQuery ('.to').val ();
-		row += '<td>' + from + '-' + to + '</td>';
-		row += '<td>' + data.runningDuration + '</td>';
-		row += '<td>' + data.distanceTravelled + '</td>';
-		row += '<td>' + data.stopDuration + '</td>';
-		row += '<td>' + data.noOfStops + '</td>';
-		row += '<td>' + data.avgSpeed + '</td>';
-		row += '</tr></tbody>';
-		table += row;
-	})
-	jQuery('table').append(table);
+function createColModel(colList) {
+    colModel = []
+    jQuery.each(colList, function (k, v) {
+        var dict = {
+            display: v,
+            name: v,
+            width: v.length * 6,
+            align: 'center',
+            sortable: true
+        }
+        colModel.push(dict)
+    })
+    return colModel
+
 }
-	
-function successFunc (rawData) {
-	makeReport4 (rawData);
+
+function onLoadReport4() {
+
+	jQuery('.pPrev.pButton').click(function () {
+        onPrevPageRequest()
+    })
+    jQuery('.pNext').click(function () {
+        onNextPageRequest()
+    })
+    jQuery('.pGroup select').change(function () {
+        //onRpChange()
+		rp = parseInt(jQuery('.pGroup select option:selected').text())
+    })
+    jQuery('.pFirst.pButton').click(function () {
+        onFirstPageRequest()
+    })
+    jQuery('.pLast.pButton').click(function () {
+        onLastPageRequest()
+    })
+    jQuery('.pReload.pButton').click(function () {
+        onReload()
+    })
+    jQuery('.pcontrol input').keypress(function (e) {
+        var key = e.which;
+        if (key == 13)  // the enter key code
+        {
+            var pageNo = parseInt(jQuery('.pcontrol input').val())
+            sendAjaxRequest('newReport4FormAction', auxiPaymentData(pageNo), showReport)
+        }
+    })
+}
+
+
+function showReport(result) {
+	jQuery('#showReport4').flexAddData(result.message.sendData)
+    total = result.message.sendData.total
+}
+
+var total = 0
+function onPrevPageRequest() {
+    var pageNo = parseInt(jQuery('.pcontrol input').val()) - 1
+    sendAjaxRequest('newReport4FormAction', auxi(pageNo), showReport)
+}
+function onNextPageRequest() {
+    var pageNo = parseInt(jQuery('.pcontrol input').val()) + 1
+    sendAjaxRequest('newReport4FormAction', {'pageNo': pageNo}, showReport)
+}
+function onFirstPageRequest() {
+    sendAjaxRequest('newReport4FormAction', {'pageNo': 1}, showReport)
+}
+function onLastPageRequest() {
+	if (!rp)
+		rp = 10
+    pageNo = parseInt(total / rp) + 1
+    sendAjaxRequest('newReport4FormAction', {'pageNo': pageNo}, showReport)
+}
+function onReload() {
+    var pageNo = parseInt(jQuery('.pcontrol input').val()) + 1
+    sendAjaxRequest('newReport4FormAction', {'pageNo': pageNo}, showReport)
 }

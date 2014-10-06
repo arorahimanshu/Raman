@@ -587,6 +587,8 @@ class DbHelper(Component):
 								'branch' : branch['branchDetails']['branchName'],
 								'vehicleInfo' : 'empty',
 								'driverInfo' : 'empty',
+                                'vehicleName' : 'empty',
+                                'vehicleModel' : 'empty',
 								}
 		#
 		return {
@@ -594,6 +596,8 @@ class DbHelper(Component):
 			'branch' : 'branch',
 			'vehicleInfo' : 'empty',
 			'driverInfo' : 'empty',
+            'vehicleName' : 'empty',
+            'vehicleModel' : 'empty',
 		}
 	#
 

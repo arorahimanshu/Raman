@@ -45,7 +45,7 @@ class="authSettings ${containerClass or ''}"
 		<div class="formCell users">
 			%for user in tableData['users'] :
 			<div>
-				<input type="checkbox" class="css-checkbox"
+				<input type="checkbox" class="css-checkbox1"
 				%if user['username'] in role['users'] :
 				checked="checked"
 				%endif
@@ -59,7 +59,7 @@ class="authSettings ${containerClass or ''}"
 		<div class="formCell permissions">
 			%for permission in tableData['permissions'] :
 			<div>
-				<input type="checkbox" class="css-checkbox"
+				<input type="checkbox" class="css-checkbox1" disabled="disabled"
 				%if permission['name'] in role['permissions'] :
 				checked="checked"
 				%endif
