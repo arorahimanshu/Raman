@@ -600,3 +600,26 @@ class DbHelper(Component):
 	def correctDeviceId(self, deviceId):
 		return deviceId.split()[0]
 	#
+
+	def createNewRole(self, roleName, orgId):
+		db = self.app.component('dbManager')
+		with db.session() as session:
+			session.add(db.Role.newFromParams(
+				name=roleName,
+				description=roleName,
+				organization_id=orgId
+			))
+	#
+
+	def deleteRole(self, roleName):
+		db = self.app.component('dbManager')
+
+		db.Permission_Role.delete({
+			'role_name':roleName
+		})
+
+		db.Role.delete({
+			'name':roleName
+		})
+
+	#
