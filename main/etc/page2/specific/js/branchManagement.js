@@ -55,14 +55,14 @@ var setupData = function () {
     alert('ADD')
     var data = {}
 
-    data.name = jQuery('#branchName').val()
+    data.branchName = jQuery('#branchName').val()
 
-    data.address1 = jQuery('#branchAdd1').val()
-    data.address2 = jQuery('#branchAdd2').val()
-    data.city = jQuery('#branchCity').val()
-    data.state = jQuery('#branchState').val()
-    data.pincode = jQuery('#branchPin').val()
-    alert(data)
+    data.branchAdd1 = jQuery('#branchAdd1').val()
+    data.branchAdd2 = jQuery('#branchAdd2').val()
+    data.branchCity= jQuery('#branchCity').val()
+    data.branchState= jQuery('#branchState').val()
+    data.branchPin = jQuery('#branchPin').val()
+
     return data
 }
 var setupData2 = function () {
@@ -77,13 +77,16 @@ var setupConstraints = function () {
 
     var constraints = {
 
-        name: {presence: true},
-        address1: {presence: true},
-        address2: {presence: true},
-        city: {presence: true},
-        state: {presence: true},
-        pincode: {presence: true,
+        branchName : {presence: true},
+        branchAdd1: {presence: true},
+        branchAdd2: {presence: true},
+        branchCity: {presence: true},
+        branchState: {presence: true},
+        branchPin: {presence: true,
             numericality: true}
+
+
+
     }
     return constraints
 }

@@ -261,6 +261,42 @@ class _Worker:
 
 	#
 
+
+	def createBranch(self, details=None):
+		details = dict() if details == None else details
+		db = self.app.component('dbManager')
+
+		branchName = details.get(
+			'name', None
+		)
+
+
+
+		entityId = details.get('entityId', None)
+		if entityId == None:
+			entity = db.Entity.newUnique()
+			self.session.add(entity)
+		else:
+			entity = self.session.query(
+				db.Entity
+			).filter_by(
+				id=entityId
+			).one()
+		#
+		parent = 'asdasdd'
+		newBranch = db.branch.newFromParams({
+		'id': entity.id,
+		'parent': parent,
+		'name': details['name'],
+		})
+
+		self.session.add(newBranch)
+
+
+		return newBranch
+
+	#
+
 	def assignPermissionRole(self, details):
 		details = dict() if details == None else details
 		db = self.app.component('dbManager')

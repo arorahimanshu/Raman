@@ -84,6 +84,8 @@ def defineTables (db) :
 			Person = 7
 			Website = 8
 			ServiceTaxNumber = 9
+			parentOrganization = 10
+
 		#
 	#
 

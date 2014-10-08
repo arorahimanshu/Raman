@@ -375,7 +375,7 @@ class DbHelper(Component):
 			cell['cell'] = []
 			cell['cell'].append(i)
 			cell['cell'].append(data.Branch_name)
-			queryObj2 = session.query(db.Info).filter((db.Info.entity_id == data.id))
+			queryObj2 = session.query(db.Info).filter((db.Info.entity_id == data.branch_id))
 			try:
 				data2 = queryObj2.one()
 				address=data2.data
@@ -401,7 +401,7 @@ class DbHelper(Component):
 			finally:
 
 
-				cell['cell'].append(data.id)
+				cell['cell'].append(data.branch_id)
 				i += 1
 				rows.append(cell)
 

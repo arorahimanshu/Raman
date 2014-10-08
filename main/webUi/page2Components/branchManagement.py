@@ -149,22 +149,33 @@ class Branch(Page2Component):
 
 		with dataUtils.worker() as worker:
 			details = {
-			'name': formData['name']
+			'name': formData['branchName']
 			}
 
-			newBranch = worker.createBranch(details)
+		newBranch = worker.createBranch(details)
 		# >>>>>>>>>>> more analysis is required
-		address = formData['address1'] + ";" + formData['address2'] + ";" + formData['state'] + ";" + formData[
-			'city'] + ";" + formData['pincode']
+
+
+        # add all branch table field to table
+        # TODO organization Id is added correctly here
+		# print("record going to add")
+
+		newBranchId=db.Entity.newUuid()
+
+
+		newOrganizationId=db.Entity.newUuid()
+
+
 		with db.session() as session:
-			session.add(db.Info.newFromParams({
-			'id': db.Entity.newUuid(),
-			'entity_id': newBranch.id,
-			'enumType': db.Info.Type.Address,
-			'preference': 0,
-			'data': address,
-			}))
+				session.add(db.Info.newFromParams({
+				'id': newBranchId,
+				'entity_id': newOrganizationId,
+				'enumType': db.Info.Type.parentOrganization,
+				'preference': 0,
+				'data': formData['branchName'],
+				}))
 		#
+		print("record  added")
 		return self.jsonSuccess('Branch created')
 
 	#
