@@ -63,7 +63,7 @@ function editButtonClick(com, grid, c, selectedData) {
 			
 			jQuery("#tableDiv").toggle('showOrHide')
 			jQuery('#addRole').toggle('showOrHide')
-			div.find('.ok').text('Edit')
+			div.find('.ok').text('Update')
 			div.find('.ok').removeClass('ok')
 				.addClass('editbutton')
 		})
