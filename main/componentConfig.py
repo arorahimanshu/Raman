@@ -57,17 +57,18 @@ Page2Config = [
     },
 
     {
-        'name': 'authSettings',
-        'urls': ['rbacAuth', 'rbacAuthAction'],
-        'component': 'webUi.page2Components.rbacAuth.RbacAuth',
+        'name': 'securitySettings',
+        'urls': ['securitySettings', 'securitySettingsAction', 'userSecuritySettings', 'roleSecuritySettings'],
+        'component': 'webUi.page2Components.securitySettings.SecuritySettings',
         'apps': [
             {
                 'name': 'securitySettings',
                 'displayName': 'Security Settings',
-                'url': ['rbacAuth'],
+                'url': ['securitySettings'],
             },
         ]
     },
+
     {
 
         'name': 'addGps',

@@ -627,3 +627,17 @@ class DbHelper(Component):
 		})
 
 	#
+	def updateRoleFacetForUser(self, userName, roleList, orgId):
+		db = self.app.component('dbManager')
+		with db.session() as session:
+			query = session.query(db.Facet_Role).filter(db.Facet_Role.username == userName)
+			for x in query.all():
+				session.delete(x)
+
+			for role in roleList:
+				session.add(db.Facet_Role.newFromParams(
+					username=userName,
+					role_name=role,
+					organization_id=orgId
+				))
+	#
