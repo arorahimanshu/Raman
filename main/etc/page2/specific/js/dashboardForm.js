@@ -1,284 +1,206 @@
-fitx.utils.require(['fitx', 'page2', 'newreport1Form']);
+fitx.utils.require(['fitx', 'page2', 'newDashboardForm']);
 
-jQuery(window).load(function () {
-	jQuery ('.dateSelection input').datepicker ();
+jQuery (window).load (function (){
+	setupFlexiGrid('#showDashboard', undefined, "Dashboard", undefined, 1300, undefined, undefined, classData);
 
-	onLoad_Dashboard ();
-    //setupAJAXSubmit('newReport1From', 'newReport1FormAction', setupData, setupConstraints, '.dateSelection button', null, successFunc);
+	sendAjaxRequest('dashboardVehicleListNested', {}, setupVehicles);
+	
+	setupAJAXSubmit('dashboard', 'newDashboardFormAction', setupData2, setupConstraints, '.submit', null, showReport);
+	
+	setupData();
+	sendAjaxRequest('newDashboardFormAction', setupData2(), showReport);
+	
+	var requestTime = 60000;			//in milliseconds
+	
+	trackRequest=setInterval(function () {
+            sendAjaxRequest('newDashboardFormAction', setupData2(), showReport)
+        }, requestTime);
 
-	sendAjaxRequest('newDashboardFormAction', setupData(), successFunc)
-    jQuery('.from').datepicker({
-        changeMonth: true,
-        changeYear: true,
-        yearRange: '-150:+0',
-        dateFormat: 'DD, dd/MM/yy'
-    });
-
-	jQuery('.to').datepicker({
-        changeMonth: true,
-        changeYear: true,
-        yearRange: '-150:+0',
-        dateFormat: 'DD, dd/MM/yy'
-    });
-})
+	rp = parseInt(jQuery('.pGroup select option:selected').text())
+	onLoadDashboard();
+});
 
 function setupData() {
-    
-	setupCarsAndTime ();
+	var curdate = new Date();
+    var offset =-1* curdate.getTimezoneOffset();
+    gmtAdjust=offset*60;
+		
+	company = jQuery ('.filter .company select option:selected')[0].id;
+	if (company == '')
+		company = 'All';
 
-	var specificFormData = {}
-    return specificFormData
+	branch = jQuery ('.filter .branch select option:selected')[0].id;
+	if (branch == '')
+		branch = 'All'
+		
+	vehicleGroup = jQuery ('.filter .vehicleGroup select option:selected')[0].id;
+	if (vehicleGroup == '')
+		vehicleGroup = 'All'
+	
 }
 
-function dateFromDatePicker(element) {
-
-	var date = element.datepicker('getDate');
-	if (date) {
-		data = [
-			parseInt(date.getFullYear()),
-				date.getMonth() + 1,
-			date.getDate()
-		]
-		return data
-	}
-
+function setupData2() {
+	var specificData = {
+		'company' : company,
+		'branch' : branch,
+		'vehicleGroup' : vehicleGroup,
+		'gmtAdjust' : gmtAdjust
+	};
+	
+	rp = parseInt(jQuery('.pGroup select option:selected').text())
+	specificData['rp'] = rp
+	
+	return specificData;
 }
-
 
 function setupConstraints() {
-    var specificFormConstraints = {}
-    return specificFormConstraints
+	return null;
 }
 
-function getReport1Rows (rawData) {
-	if (rawData == undefined)
-		return null;
-	rawData=rawData.message;
-	if (rawData.length == 0)
-		return null;
-	function getRow() {
-		runningDuration[runningDurationIndex]--;
-		var totalRunningDuration = 0
-		jQuery.each (runningDuration, function (index, duration) {
-			totalRunningDuration += duration;
-		})
-		row = {
-			'vehicleName' : 'Empty',
-			'vehicleModel' : 'Empty',
-			'distanceTravelled' : convertDistance(distanceTravelled),
-			'totalRunningDuration' : convertDuration(totalRunningDuration),
-			'totalIdleDuration' : convertDuration(totalIdleDuration),
-			'totalStopDuration' : 'empty',
-			'totalInactiveDuration' : 'empty',
-			'speed' : 0,
-			'odometer' : 0,
-			'location' : 0,
-			'alert' : 0
-		};
-		return row;
-	}
-	
-	function manageDistanceAndMaxSpeed (pathPoints) {
-		if (pathPoints.length == 0 || pathPoints.length == 1) {
-			return pathPoints;
-		}
-		var coordinates = [];
-		jQuery.each (pathPoints,function(i,v){
-			coordinates[coordinates.length]=getPositionObject(v.position);
-			if (maxSpeed < v.speed)
-				maxSpeed = v.speed;
-		})
-		var distance = getDistanceFromPath (coordinates);
-		/*
-		var time = getTimeDifference (pathPoints[0].time, pathPoints[pathPoints.length-1].time);
-		var speed = distance/time;
-		if (maxSpeed < speed) {
-			maxSpeed = speed;
-		}
-		*/
-		distanceTravelled += distance;
-		pathPoints = [pathPoints[pathPoints.length-1]];
-		return pathPoints;
-	}
-	
-	var currentVehicleId = rawData[0].vehicleId;
-	var rows = {};
-	rows[currentVehicleId] = {};
-	var totalData = rawData.length;
-	var minStopDuration = 60;
-	var maxSpeedCalculationDuration = 5;
-	var vehicleStop = false;
-	var runningDurationInADay = 0;
-	var runningDurationIndex = 0;
-	var runningDuration = [0];
-	var distanceTravelled = 0;
-	var totalIdleDuration = 0;
-	var maxSpeed = 0;
-	var pathPoints = [];
-	var firstTime = rawData[0].time;
-	var lastTime = 0;
-	
-	jQuery.each (rawData, function (index,obj) {
-		var currentPosition = getPositionObject (obj.position);
-		if (currentVehicleId != obj.vehicleId) {
-			manageDistanceAndMaxSpeed (pathPoints);
-			var extraTime = getTimeDifference (rawData[index-1].time, obj.time);
-			runningDuration[runningDurationIndex] -= extraTime;
-			rows[currentVehicleId] = getRow();
-			currentVehicleId = obj.vehicleId;
-			vehicleStop = false;
-			runningDurationIndex = 0;
-			runningDuration = [0];
-			distanceTravelled = 0;
-			totalIdleDuration = 0;
-			maxSpeed = 0;
-			pathPoints = [];
-		} 
-		if (vehicleStop == false) {
-			if (   (index + minStopDuration < totalData)
-			    && (currentVehicleId == rawData[index + minStopDuration])
-			    && (obj.position == rawData[index + minStopDuration])) {
-				pathPoints = manageDistanceAndMaxSpeed (pathPoints);
-				vehicleStop = true;
-				totalIdleDuration += getTimeDifference (obj.time, rawData[index+1].time);
-				return true;
-			}
-			if (   obj.time.hour==0 
-				&& obj.time.minute==0 
-				&& obj.time.second==0) {
-				runningDuration[runningDurationIndex]-= getTimeDifference (rawData[index-1].time, obj.time);
-				runningDurationIndex++;
-				runningDuration[runningDurationIndex]=0
-
-				}
-			if (index == totalData-1) {
-				return false;
-			}
-			var nextVehicleId = rawData[index+1].vehicleId;
-			pathPoints[pathPoints.length] = obj;
-			runningDuration[runningDurationIndex] += getTimeDifference (obj.time, rawData[index+1].time);
-			if (currentVehicleId == nextVehicleId) {
-				if (pathPoints.length % maxSpeedCalculationDuration == 0) {
-					pathPoints = manageDistanceAndMaxSpeed (pathPoints);
-				}
-			} else {
-				pathPoints = manageDistanceAndMaxSpeed (pathPoints);
-			}
-		} else {
-			totalIdleDuration += getTimeDifference (obj.time, rawData[index+1].time);
-			var nextVehicleId = rawData[index+1].vehicleId;
-			if (currentVehicleId != nextVehicleId) {
-				vehicleStop = false;
-			} else if (obj.position != rawData[index+1].position) {
-				vehicleStop = false;
-			}
-		}
-	})
-		
-	pathPoints = manageDistanceAndMaxSpeed (pathPoints);
-	rows[currentVehicleId] = getRow();
-		
-	return rows;
+function setupFlexiGrid(selector, datatype, title, noOfPages, width, height, singleSelect, classData, extraCols) {
+    if (datatype == undefined)
+        datatype = 'json'
+    if (title == undefined)
+        title = 'Table'
+    if (noOfPages == undefined)
+        noOfPages = 10
+    if (width == undefined)
+        width = 1000
+    if (height == undefined)
+        height = 200
+    if (singleSelect == undefined)
+        singleSelect = true
+    var colData = createColModel(classData)
+    for (var items in extraCols) {
+        colData.push(items)
+    }
+    jQuery(selector).flexigrid({
+        dataType: datatype,
+        colModel: colData,
+        usepager: true,
+        title: title,
+        useRp: true,
+        rp: noOfPages,
+        showTableToggleBtn: true,
+        width: width,
+        height: height,
+        singleSelect: singleSelect
+    })
 }
 
-function makeDashboard(rawData) {
-		var rows = getReport1Rows (rawData);
-		if (rows == null)
-			return;
-		jQuery('table tbody').remove();
-		var table = ''
-		jQuery.each (rows, function (key, data){
-			var row = '<tbody><tr>';
-			row += '<td>' + key + '</td>';
-			row += '<td>' + 'Demo' + '</td>';
-			row += '<td>' + data.vehicleModel + '</td>';
-			row += '<td>' + data.distanceTravelled + '</td>';
-			row += '<td>' + data.totalRunningDuration + '</td>';
-			row += '<td>' + data.totalIdleDuration + '</td>';
-			row += '<td>' + data.totalStopDuration + '</td>';
-			row += '<td>' + data.totalInactiveDuration + '</td>';
-			row += '<td>' + data.speed + '</td>';
-			row += '<td>' + data.odometer + '</td>';
-			row += '<td>' + data.location + '</td>';
-			row += '<td>' + data.alert + '</td>';
-			row += '<td>' + 'empty' + '</td>';
-			row += '<td>' + 'IGN' + '</td>';
-			row += '<td>' + 'PWR' + '</td>';
-			row += '<td>' + 'AC' + '</td>';
-			row += '<td>' + 'GPS' + '</td>';
-			row += '</tr></tbody>';
-			table += row;
-		})
-		jQuery('table').append(table);
-}
-	
-function successFunc (rawData) {
-	makeDashboard (rawData);
+function createColModel(colList) {
+    colModel = []
+    jQuery.each(colList, function (k, v) {
+        var dict = {
+            display: v,
+            name: v,
+            width: v.length * 6,
+            align: 'center',
+            sortable: true
+        }
+        colModel.push(dict)
+    })
+    return colModel
+
 }
 
-var carsToTrack = []
-var trackRequest;
-var trackRequestTime = 10000
-function setupCarsAndTime () {
-	clearInterval(trackRequest)
-	carsToTrack = []
-	for (var key in vehiclesData) {
-		try {
-			vehiclesData[key].visible = false;
-		} catch (err) {
-		}
-	}
-    jQuery('.vehicle:checked').each(function () {
-    	var id = jQuery (this).prop ('value');
-        carsToTrack.push(id)
-		try {
-        	vehiclesData[id].visible = true;
-        } catch (err) {
+var originalFilter = 0;
+var allVehiclesListNested = 0;
+
+function setupVehicles(data) {
+	allVehiclesListNested = JSON.parse(data);
+	originalFilter = jQuery('.filter').clone();
+}
+
+function onLoadDashboard() {
+	jQuery ('.filter .company select').change (resetBranch);
+	jQuery ('.filter .branch select').change (resetVehicleGroup);
+	
+	jQuery('.pPrev.pButton').click(function () {
+        onPrevPageRequest()
+    })
+    jQuery('.pNext').click(function () {
+        onNextPageRequest()
+    })
+    jQuery('.pGroup select').change(function () {
+        //onRpChange()
+		rp = parseInt(jQuery('.pGroup select option:selected').text())
+    })
+    jQuery('.pFirst.pButton').click(function () {
+        onFirstPageRequest()
+    })
+    jQuery('.pLast.pButton').click(function () {
+        onLastPageRequest()
+    })
+    jQuery('.pReload.pButton').click(function () {
+        onReload()
+    })
+    jQuery('.pcontrol input').keypress(function (e) {
+        var key = e.which;
+        if (key == 13)  // the enter key code
+        {
+            var pageNo = parseInt(jQuery('.pcontrol input').val())
+            sendAjaxRequest('newDashboardFormAction', auxiPaymentData(pageNo), showReport)
         }
     })
-    if (carsToTrack != null && carsToTrack.length!=0) {
-
-        var specific={}
-        var curdate = new Date()
-        var offset =-1* curdate.getTimezoneOffset()
-        specific.gmt=(parseInt(offset/60)*3600)+(offset%60)*60
-        specific.carToTracked=carsToTrack
-
-        sendAjaxRequest('newCarSetup', specific, undefined);
-
-        trackRequest=setInterval(function () {
-            sendAjaxRequest('newGpsDataFormAction',undefined,successFunc)
-        }, trackRequestTime);
-    }
-}
-
-function onLoad_Dashboard ()
-{
-	sendAjaxRequest('newGpsVehicleList',{},makeVehicleList);
-}
-
-function resetCompany () {
-	resetBranch ();
 }
 
 function resetBranch () {
-	resetBranch ();
-}
-
-function resetVehicleType () {
-	resetVehicleGroup ();
+	filterOptions ('.branch', '.company');
+	resetVehicleGroup();
 }
 
 function resetVehicleGroup () {
-	resetStatus ();
+	filterOptions ('.vehicleGroup', '.branch');
+	
+	setupData();
 }
 
-function resetStatus () {
+function filterOptions (currentSelector, parentSelector) {
+	var parentString = jQuery ('.filter ' + parentSelector + ' select option:selected').text ();
 
+	var currentIdentifier = currentSelector + ' select';
+	var currentElement = jQuery ('.filter ' + currentIdentifier);
+	currentElement.empty ();
+
+	if (parentString == 'All') {
+		currentElement.append (originalFilter.find (currentIdentifier + ' option').clone ());
+	} else {
+		currentElement.append (originalFilter.find (currentIdentifier + ' .All').clone ());
+		var options = originalFilter.find (currentIdentifier + ' .' + parentString).clone ();
+		currentElement.append (options);
+	}
 }
 
-var vehiclesList;
-function makeVehicleList (list) {
-	list = JSON.parse (list);
-	vehiclesList = list;
+function showReport(result) {
+	if (result.success == false)
+		jQuery ('.message').text(result.message)
+	else {
+		jQuery('#showDashboard').flexAddData(result.message.sendData)
+		total = result.message.sendData.total
+		jQuery ('.message').text('Loaded')
+	}
+}
+
+var total = 0
+function onPrevPageRequest() {
+    var pageNo = parseInt(jQuery('.pcontrol input').val()) - 1
+    sendAjaxRequest('newDashboardFormAction', auxi(pageNo), showReport)
+}
+function onNextPageRequest() {
+    var pageNo = parseInt(jQuery('.pcontrol input').val()) + 1
+    sendAjaxRequest('newDashboardFormAction', {'pageNo': pageNo}, showReport)
+}
+function onFirstPageRequest() {
+    sendAjaxRequest('newDashboardFormAction', {'pageNo': 1}, showReport)
+}
+function onLastPageRequest() {
+	if (!rp)
+		rp = 10
+    pageNo = parseInt(total / rp) + 1
+    sendAjaxRequest('newDashboardFormAction', {'pageNo': pageNo}, showReport)
+}
+function onReload() {
+    var pageNo = parseInt(jQuery('.pcontrol input').val()) + 1
+    sendAjaxRequest('newDashboardFormAction', {'pageNo': pageNo}, showReport)
 }

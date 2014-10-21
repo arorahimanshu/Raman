@@ -33,7 +33,7 @@ jQuery(window).load(function () {
 			jQuery(this).val('')
 		})
 	})
-	
+	/*
 	jQuery ('.check').click (function (evt) {
 		var target = evt.target;
 		
@@ -42,6 +42,7 @@ jQuery(window).load(function () {
 			jQuery(target).prop ("checked", true);
 		}
 	})
+	*/
 })
 function setupButtonDict() {
 	var buttons = []

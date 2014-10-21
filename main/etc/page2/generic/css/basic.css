@@ -361,9 +361,7 @@ span>img {
 {
    display: flex !important;
    width:100%;
-
-
-
+	margin:1%;
 }
 
 #tableDiv

@@ -154,3 +154,9 @@ input[type=checkbox].check:checked + label.css-label {
   height:30px !important;
   margin: 0 0 0 10%;
 }
+
+.list {
+	width:200px;
+	height:100px;
+	overflow:scroll;
+}

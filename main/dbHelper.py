@@ -657,3 +657,121 @@ class DbHelper(Component):
 		#
 		return num
 	#
+
+	def getVehiclesListNested(self, primaryOrganizationId):
+		vehiclesList = []
+		orgList = self.returnOrgList (primaryOrganizationId)
+
+		for org in orgList:
+			if org['value'] != primaryOrganizationId:
+				branchList = self.returnBranchListForOrg(org['value'])
+				branches = []
+				for branch in branchList:
+					vehicleGroupList = self.returnVehicleGroupListForBranch(branch['value'])
+					groups = []
+					for vehicleGroup in vehicleGroupList:
+						vehicleList = self.returnVehicleListForVehicleGroup(vehicleGroup['value'])
+						group = {'vehicleGroupDetails':{'vehicleGroupName':vehicleGroup['display'], 'vehicleGroupId':vehicleGroup['value']}, 'vehicles':vehicleList}
+						groups.append (group)
+					#
+					branch = {'branchDetails':{'branchName':branch['display'], 'branchId':branch['value']}, 'vehicleGroups':groups}
+					branches.append (branch)
+				#
+				org = {'orgDetails':{'orgName':org['display'], 'orgId':org['value']}, 'branches':branches}
+				vehiclesList.append(org)
+			#
+		#
+		return vehiclesList
+
+	def filterVehicles(self, vehiclesListNested, orgId, branchId, vehicleGroupId):
+		vehicleIds = []
+		for org in vehiclesListNested:
+			if orgId == 'All' or org['orgDetails']['orgId'] == orgId:
+				for branch in org['branches']:
+					if branchId == 'All' or branch['branchDetails']['branchId'] == branchId:
+						for vehicleGroup in branch['vehicleGroups']:
+							if vehicleGroupId == 'All' or vehicleGroup['vehicleGroupDetails']['vehicleGroupId'] == vehicleGroupId:
+								for vehicle in vehicleGroup['vehicles']:
+									vehicleIds.append(vehicle['value'])
+		#
+		return vehicleIds
+
+	def getRawCoordinatesForDeviceBetween(self, deviceId, fromTime=None, toTime=None):
+		db = self.app.component('dbManager')
+		deviceId = self.correctDeviceId(deviceId)
+		query = None
+		with db.session() as session:
+			query = session.query(db.gpsDeviceMessage1).filter(db.gpsDeviceMessage1.deviceId == deviceId)
+			if (fromTime != None):
+				query = query.filter (db.gpsDeviceMessage1.timestamp >= fromTime)
+			if (toTime != None):
+				query = query.filter (db.gpsDeviceMessage1.timestamp <= toTime)
+		#
+		return query
+	#
+
+	def getVehicleDetails(self, vehiclesListNested, deviceId):
+		for org in vehiclesListNested:
+			for branch in org['branches']:
+				for vehicleGroup in branch['vehicleGroups']:
+					for vehicle in vehicleGroup['vehicles']:
+						if vehicle['value'] == deviceId:
+							return {
+								'company' : org['orgDetails']['orgName'],
+								'branch' : branch['branchDetails']['branchName'],
+								'vehicleInfo' : 'empty',
+								'driverInfo' : 'empty',
+                                'vehicleName' : 'empty',
+                                'vehicleModel' : 'empty',
+								}
+		#
+		return {
+			'company' : 'company',
+			'branch' : 'branch',
+			'vehicleInfo' : 'empty',
+			'driverInfo' : 'empty',
+            'vehicleName' : 'empty',
+            'vehicleModel' : 'empty',
+		}
+	#
+
+	def correctDeviceId(self, deviceId):
+		return deviceId.split()[0]
+	#
+
+	def createNewRole(self, roleName, orgId):
+		db = self.app.component('dbManager')
+		with db.session() as session:
+			session.add(db.Role.newFromParams(
+				name=roleName,
+				description=roleName,
+				organization_id=orgId
+			))
+	#
+
+	def deleteRole(self, roleName):
+		db = self.app.component('dbManager')
+
+		db.Permission_Role.delete({
+			'role_name':roleName
+		})
+
+		db.Role.delete({
+			'name':roleName
+		})
+
+	#
+	def updateRoleFacetForUser(self, userName, roleList, orgId):
+		db = self.app.component('dbManager')
+		with db.session() as session:
+			query = session.query(db.Facet_Role).filter(db.Facet_Role.username == userName)
+			for x in query.all():
+				session.delete(x)
+
+			for role in roleList:
+				session.add(db.Facet_Role.newFromParams(
+					username=userName,
+					role_name=role,
+					organization_id=orgId
+				))
+	#

@@ -1,22 +1,4 @@
-table, th, td {
-    border: 1px solid black;
-} 
-
-td, th {
-	text-align: center;
-	padding: 15px;
-}
-
-th {
-	background-color: green;
-	color: white;
-}
-
-table {
-	margin: auto;
-}
-
-header {
-	margin: 0 auto;
-	display:inline-block;
+.travelReport {
+	width:90%;
+	margin:2%;
 }

@@ -1,0 +1,55 @@
+<script>
+        var classData = []
+        %for item in classdata:
+         classData.push('${item}')
+        %endfor
+		
+		var permissionList
+</script>
+
+<div
+	%if formId :
+	id="${formId}"
+	%endif
+
+	class="roleManagement ${formClass or ''}"
+>
+
+	<div class="message" id="genericError"></div>
+	<div id="addRole" hidden="true">
+
+        <div class="field">
+			<div class="genericFormHeader">Add New Role</div>
+		</div>
+		
+		<div class="field" hidden="true">
+			<label class="genericFormLabel">Old Name:</label>
+			<input type="text" id="oldName" class="genericInput ">
+			<div class="errorBox" id="oldNameError"></div>
+		</div>
+		
+		<div class="field">
+			<label class="genericFormLabel">Name:</label>
+			<input type="text" id="name" class="genericInput ">
+			<div class="errorBox" id="nameError"></div>
+		</div>
+
+		<div class="field permissions">
+			<label class="genericFormLabel">Permissions</label>
+				%for item in permissions:
+					<input type="checkbox" id="${item['name']}"><label class="css-label">${item['name']}</label></input>
+				%endfor
+			<div class="errorBox" id="permissionError"></div>
+		</div>
+		
+		<div class="field unselectable">
+			<div class="ok genericButton">Ok</div>
+			<div class="cancel genericButton">Cancel</div>
+		</div>
+	</div>
+	
+	<div id="tableDiv">
+		<table id="showRole"></table>
+	</div>
+	
+</div>

@@ -1,25 +1,36 @@
-<div class="errorBox"></div>
-<header><h2>Report  (4)   Vehicles Utilization report</h2></header>
-<div class="dateSelection">
-	<Label>Select Date</Label>
-	<input class="from">
-	<input class="to">
-	<button class="submit">Submit</button>
-</div>
-<div class="table">
-	<table>
-		<thead>
-			<tr>
-				<th>Vehicle Id</th>
-				<th>Vehicle name</th>
-				<th>Vehicle model</th>
-				<th>Date range</th>
-				<th>Running duration</th>
-				<th>Distance travelled</th>
-				<th>Stop duration</th>
-				<th>No of stops</th>
-				<th>Avg Speed</th>
-			</tr>
-		</thead>
-	</table>
+<script>
+        var classData = []
+        %for item in classdata:
+         classData.push('${item}')
+        %endfor
+</script>
+
+<div
+	%if formId :
+	id="${formId}"
+	%endif
+
+	class="report1Form ${formClass or ''}"
+>
+	<div class="message"></div>
+
+	<div class="filter report1">
+      <div class="genInlineBlock">
+			<div>
+				<Label>From Date:</Label>
+				<input id="fromDate" class="genericInput">
+			</div>
+
+			<div>
+				<Label>To Date:</Label>
+				<input id="toDate" class="genericInput">
+			</div>
+
+		<button class="submit" class="genericButton">Go</button>
+	  </div>
+    </div>
+	<div id="tablediv">
+		<table id="showReport4"></table>
+	</div>
+
 </div>
