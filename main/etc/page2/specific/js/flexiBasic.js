@@ -35,7 +35,7 @@ function setupFlexiGrid(selector, datatype, title, noOfPages, width, height, sin
 	if (width == undefined)
 		width = 700
 	if (height == undefined)
-		height = 200
+		height = 400
 	if (singleSelect == undefined)
 		singleSelect = true
 	var colData = createColModel(classData)

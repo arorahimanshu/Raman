@@ -81,7 +81,7 @@ class Vehicle(Page2Component):
 
 		'fieldInfo': self._clientFieldInfo,
 		})
-		attrNames = ['User_Id', 'Vehicle_Id', 'Vehicle_Name', 'Vehicle_Make', 'Vehicle_Reg_No', 'Vehicle_Type','Vehicle_Model','Group_id','Device_id']
+		attrNames = ['S.No', 'Vehicle_Id', 'Vehicle_Name', 'Vehicle_Make', 'Vehicle_Reg_No', 'Vehicle_Type']
 		return self._renderWithTabs(
 			proxy, params,
 			bodyContent=proxy.render('newVehicleForm.html', classdata=attrNames),
@@ -127,17 +127,45 @@ class Vehicle(Page2Component):
 		#
 
 		db = self.app.component('dbManager')
+		with self.server.session() as serverSession :
+			parentOrganizationId = serverSession['primaryOrganizationId']
 
 		with db.session() as session:
+
+			newVehicleID = db.Entity.newUnique()
+
+			session.add(newVehicleID)
+
 			vehicle_data = db.Gps_Vehicle_Info.addOrUpdateFromParams('add', {
-			'Vehicle_Id': db.Entity.newUuid(),
-			'User_Id': self.userId,
-			'Vehicle_Reg_No': formData['vehicleRegNo'],
-			'Vehicle_Name': formData['vehicleName'],
-			'Vehicle_Make': formData['vehicleMake'],
-			'Vehicle_Type': formData['vehicleType'],
+			'id': newVehicleID.id,
+			'parent_id': parentOrganizationId,
+			'name': formData['vehicleName']
+
 			})
 			session.add(vehicle_data)
+
+			session.add(db.Info.newFromParams({
+				'id': db.Entity.newUuid(),
+				'entity_id': newVehicleID.id,
+				'enumType': db.Info.Type.vehicleRegNo,
+				'preference': 0,
+				'data': formData['vehicleRegNo'],
+			}))
+
+			session.add(db.Info.newFromParams({
+				'id': db.Entity.newUuid(),
+				'entity_id': newVehicleID.id,
+				'enumType': db.Info.Type.vehicleMake,
+				'preference': 0,
+				'data': formData['vehicleMake'],
+			}))
+			session.add(db.Info.newFromParams({
+				'id': db.Entity.newUuid(),
+				'entity_id': newVehicleID.id,
+				'enumType': db.Info.Type.vehicleType,
+				'preference': 0,
+				'data': formData['vehicleType'],
+			}))
 
 		return self.jsonSuccess('Vehicle Added')
 
@@ -147,18 +175,29 @@ class Vehicle(Page2Component):
 		db = self.app.component('dbManager')
 		dbHelp = self.app.component('dbHelper')
 		formData = json.loads(cherrypy.request.params['formData'])
-		pageNo = int(formData.get('pageNo', '1'))
-		numOfObj = int(formData.get('rp', '10'))
 
-		attrNames = ['User_Id', 'Vehicle_Id', 'Vehicle_Name', 'Vehicle_Make', 'Vehicle_Reg_No', 'Vehicle_Type','Vehicle_Model','Group_id','Device_id']
+		numOfObj = int(formData.get('rp', '10'))
+		pageNo = int((cherrypy.request.params).get('pageNo', '1'))
+		classData = ['User_Id', 'Vehicle_Id', 'Vehicle_Name', 'Vehicle_Make', 'Vehicle_Reg_No', 'Vehicle_Type']
+
+
+		if 'pageNo' not in cherrypy.request.params:
+			self.numOfObj = 10
+		if 'rp' in cherrypy.request.params and 'pageNo' in cherrypy.request.params:
+			self.numOfObj = int(cherrypy.request.params['rp'])
 		with self.server.session() as serverSession:
 			with db.session() as session:
 				id = serverSession['userId']
-				queryObj = session.query(db.Gps_Vehicle_Info).filter_by(User_Id=id)
-				sendData = dbHelp.getDataForFlexiGrid(pageNo, queryObj, attrNames, numOfObj)
+				sendData = dbHelp.getVehicleDataForFlexiGrid(pageNo, session, db,
+																  serverSession['primaryOrganizationId'], id,
+																  self.numOfObj)
+
 		actuallySendData = {
-		'sendData': sendData
+		'classData': classData,
+		'sendData': sendData,
+
 		}
+
 		return self.jsonSuccess(actuallySendData)
 
 	#
@@ -166,22 +205,18 @@ class Vehicle(Page2Component):
 	def delVehicle(self):
 		formData = json.loads(cherrypy.request.params['formData'])
 		db = self.app.component('dbManager')
+		dataUtils = self.app.component('dataUtils')
+		with dataUtils.worker() as worker:
+			db.Info.delete({
+				'entity_id':formData['id']
+			})
 
-		db.Gps_Vehicle_Info.delete({
-		'Vehicle_Id': formData['id'],
-		})
-		db.Gps_Geofence_Data.delete({
-		'Vehicle_Id': formData['id'],
-		})
-		db.Gps_Coordinate_Data.delete({
-		'Vehicle_Id': formData['id'],
-		})
-		db.Gps_Poi_Data.delete({
-		'Vehicle_Id': formData['id'],
-		})
-		db.Gps_Poi_Info.delete({
-		'Vehicle_Id': formData['id'],
-		})
+			db.Gps_Vehicle_Info.delete({
+				'id':formData['id']
+			})
+			db.Entity.delete({
+				'id':formData['id']
+			})
 
 	#
 

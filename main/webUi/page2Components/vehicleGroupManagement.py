@@ -8,48 +8,46 @@ import datetime
 from uuid import uuid4
 
 
-class Branch(Page2Component):
+class vehicleGroup(Page2Component):
 	def __init__(self, parent, **kwargs):
 		Page2Component.__init__(self, parent, **kwargs)
 
 	#
 
 	def handler(self, nextPart, requestPath):
-		if nextPart == 'branchManagementForm':
-			return self._branchManagementForm(requestPath)
-		elif nextPart == 'branchManagementFormAction':
-			return self._branchManagementFormAction(requestPath)
-		elif nextPart == 'branchData':
-			return self._branchData(requestPath)
-		elif nextPart == 'editBranch':
-			return self._editBranchData(requestPath)
-		elif nextPart == 'delBranch':
-			return self.delBranch()
+		if nextPart == 'vehicleGroupManagementForm':
+			return self._vehicleGroupManagementForm(requestPath)
+		elif nextPart == 'vehicleGroupManagementFormAction':
+			return self._vehicleGroupManagementFormAction(requestPath)
+		elif nextPart == 'vehicleGroupData':
+			return self._vehicleGroupData(requestPath)
+		elif nextPart == 'editVehicleGroup':
+			return self._editVehicleGroupData(requestPath)
+		elif nextPart == 'delVehicleGroup':
+			return self.delVehicleGroup()
 		#
 
 	#
 
-	def delBranch(self):
+	def delVehicleGroup(self):
 		formData = json.loads(cherrypy.request.params['formData'])
 		db = self.app.component('dbManager')
 		dataUtils = self.app.component('dataUtils')
 		with dataUtils.worker() as worker:
-			db.Info.delete({
-				'entity_id':formData['id']
-			})
 
-			db.branch.delete({
+			db.VehicleGroup.delete({
 				'id':formData['id']
 			})
 			db.Entity.delete({
 				'id':formData['id']
 			})
+
 		#
 
 
 
 
-	def _branchManagementForm(self, requestPath):
+	def _vehicleGroupManagementForm(self, requestPath):
 		proxy, params = self.newProxy()
 
 		params['externalCss'].append(
@@ -60,7 +58,7 @@ class Branch(Page2Component):
 		)
 
 		params['externalJs'].append(
-			self.server.appUrl('etc', 'page2', 'specific', 'js', 'branchManagement.js')
+			self.server.appUrl('etc', 'page2', 'specific', 'js', 'vehicleGroupManagement.js')
 		)
 
 		params['externalJs'].append(
@@ -78,9 +76,9 @@ class Branch(Page2Component):
 		)
 
 		params['config'].update({
-		'branchManagementFormAction': requestPath.allPrevious(
+		'vehicleGroupManagementFormAction': requestPath.allPrevious(
 			ignore=1,
-			additional=['branchManagementFormAction'],
+			additional=['vehicleGroupManagementFormAction'],
 		)
 
 
@@ -88,51 +86,40 @@ class Branch(Page2Component):
 		with self.server.session() as session:
 			self.userId = session['userId']
 
-		classData = ['Sno','Organization_id','branch_name', 'Addrs_line1', 'Addrs_line2',
-					 'City', 'State', 'Pincode','BranchId']
+		classData = ['Sno','Branch_id','Vehicle_Group_Name', 'Category','Id']
 
 		return self._renderWithTabs(
 			proxy, params,
-			bodyContent=proxy.render('branchManagement.html', classdata=classData, userId=self.userId,
+			bodyContent=proxy.render('vehicleGroupManagement.html', classdata=classData, userId=self.userId,
 								   ),
-			newTabTitle='New Branch',
+			newTabTitle='New VehicleGroup',
 			url=requestPath.allPrevious(),
 		)
 
 	#
 
-	def _branchManagementFormValidate(self, formData):
+	def _vehicleGroupManagementFormValidate(self, formData):
 		db = self.app.component('dbManager')
 		v = Validator(formData)
 
-		branchName = v.required('branchName')
-		branchName.validate('type', str)
+		vehicleGroupName = v.required('vehicleGroupName')
+		vehicleGroupName.validate('type', str)
 
-		branchAdd1 = v.required('branchAdd1')
-		branchAdd1.validate('type', str)
+		vehicleGroupCat = v.required('vehicleGroupCat')
+		vehicleGroupCat.validate('type', str)
 
-		branchAdd2 = v.required('branchAdd2')
-		branchAdd2.validate('type', str)
 
-		branchState = v.required('branchState')
-		branchState.validate('type', str)
-
-		branchCity = v.required('branchCity')
-		branchCity.validate('type', str)
-
-		branchPin = v.required('branchPin')
-		branchPin.validate('type', str)
 
 		return v.errors
 
 	#
 
-	def _branchManagementFormAction(self, requestPath):
+	def _vehicleGroupManagementFormAction(self, requestPath):
 		formData = json.loads(cherrypy.request.params['formData'])
 		dataUtils = self.app.component('dataUtils')
 		db = self.app.component('dbManager')
 
-		errors = self._branchManagementFormValidate(formData)
+		errors = self._vehicleGroupManagementFormValidate(formData)
 
 		if errors:
 			return self.jsonFailure('validation failed', errors=errors)
@@ -143,7 +130,7 @@ class Branch(Page2Component):
 		with dataUtils.worker() as worker:
 			details = formData
 			details['parentOrgId'] = parentOrganizationId
-			newBranch = worker.createBranch(details)
+			newVehicleGroup = worker.createVehicleGroup(details)
 
 
 
@@ -157,17 +144,16 @@ class Branch(Page2Component):
 
 		#
 
-		return self.jsonSuccess('Branch created')
+		return self.jsonSuccess('VehicleGroup created')
 
 	#
 
 	numOfObj = 10
 
-	def _branchData(self, requestPath):
+	def _vehicleGroupData(self, requestPath):
 		db = self.app.component('dbManager')
 		dbHelp = self.app.component('dbHelper')
-		classData = ['S.No1', 'Organization Name', 'Category', 'Addrs_line1', 'Addrs_line2',
-					 'City', 'State', 'Pincode','BranchId']
+		classData = ['Sno','Branch_id','Vehicle_Group_Name', 'Category']
 		pageNo = int((cherrypy.request.params).get('pageNo', '1'))
 		if 'pageNo' not in cherrypy.request.params:
 			self.numOfObj = 10
@@ -176,7 +162,7 @@ class Branch(Page2Component):
 		with self.server.session() as serverSession:
 			with db.session() as session:
 				id = serverSession['userId']
-				sendData = dbHelp.getBranchDataForFlexiGrid(pageNo, session, db,
+				sendData = dbHelp.getVehicleGroupDataForFlexiGrid(pageNo, session, db,
 																  serverSession['primaryOrganizationId'], id,
 																  self.numOfObj)
 
@@ -190,14 +176,14 @@ class Branch(Page2Component):
 
 	#
 
-	def _editBranchData(self,requestPath):
+	def _editVehicleGroupData(self,requestPath):
 		formData = json.loads(cherrypy.request.params['formData'])
 		# TODO:Checking errors in the database
 		# errors = self._userManagementFormValidate(formData)
-		return self.addOrEditBranchToDatabase('edit', formData)
+		return self.addOrEditVehicleGroupToDatabase('edit', formData)
 	#
 
-	def addOrEditBranchToDatabase(self, query, formData):
+	def addOrEditVehicleGroupToDatabase(self, query, formData):
 		dataUtils = self.app.component('dataUtils')
 		db = self.app.component('dbManager')
 		details = dict()
@@ -205,10 +191,10 @@ class Branch(Page2Component):
 
 		with dataUtils.worker() as worker:
 			if(query=='edit'):
-				db.branch.updateFromParams({
+				db.VehicleGroup.updateFromParams({
 				'id':formData['id']
 
-				},**{'name':formData['branchName']})
+				},**{'name':formData['vehicleGroupName'],'category':formData['vehicleGroupCat']})
 
 			#
 			#	address= formData['address1'] + ";" + formData['address2'] + ";" + formData['state'] + ";" + formData[

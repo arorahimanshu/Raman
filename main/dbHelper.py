@@ -363,52 +363,140 @@ class DbHelper(Component):
 		return self.getSlicedData(rows,pageNo,numOfObj)
 	#
 
-	def getBranchDataForFlexiGrid(self,pageNo,session,db,orgId,curId,numOfObj=10):
+	def getBranchDataForFlexiGrid(self,pageNo,session,db,orgId,curId,numOfObj=10, branchFields=None):
 		sessionQueryObj = session.query(db.branch)
 
 		rows = []
 		i = (pageNo - 1) * numOfObj + 1
+
+
 
 		for data in sessionQueryObj.all():
 
 			cell = {}
 			cell['cell'] = []
 			cell['cell'].append(i)
-			cell['cell'].append(data.Branch_name)
-			queryObj2 = session.query(db.Info).filter((db.Info.entity_id == data.branch_id))
-			try:
-				data2 = queryObj2.one()
-				address=data2.data
-				parts=address.split(';')
-				cell['cell'].append('')
-				cell['cell'].append(parts[0])
-				cell['cell'].append(parts[1])
-				cell['cell'].append(parts[2])
-				cell['cell'].append(parts[3])
-				cell['cell'].append(parts[4])
-				cell['id'] = i
+			cell['cell'].append(data.parent_id)
+			cell['cell'].append(data.name)
+			# Clear off old values
+			branchFields1 = {'first': 'NA'}
+			branchFields1['add1'] = 'NA'
+			branchFields1['add2'] = 'NA'
+			branchFields1['city'] = 'NA'
+			branchFields1['state'] = 'NA'
+			branchFields1['pinCode'] = 'NA'
 
 
-
-			except:
-				cell['cell'].append('')
-				cell['cell'].append('')
-				cell['cell'].append('')
-				cell['cell'].append('')
-				cell['cell'].append('')
-				cell['cell'].append('')
-				pass
-			finally:
+			queryObj2 = session.query(db.Info).filter((db.Info.entity_id == data.id))
 
 
-				cell['cell'].append(data.branch_id)
-				i += 1
-				rows.append(cell)
+			for  data2 in 	queryObj2.all():
+
+					if data2.type == 11:
+						branchFields1['add1'] = data2.data
+					elif data2.type == 12:
+						branchFields1['add2'] = data2.data
+					elif data2.type == 13:
+						branchFields1['city'] = data2.data
+					elif data2.type == 14:
+						branchFields1['state'] = data2.data
+					elif data2.type == 15:
+						branchFields1['pinCode'] = data2.data
+
+				 
+
+			cell['cell'].append(branchFields1['add1'])
+			cell['cell'].append(branchFields1['add2'])
+			cell['cell'].append(branchFields1['city'])
+			cell['cell'].append(branchFields1['state'])
+			cell['cell'].append(branchFields1['pinCode'])
+			cell['cell'].append(data.id)
+			cell['id'] = i
+
+
+			i += 1
+			rows.append(cell)
 
 		return self.getSlicedData(rows,pageNo,numOfObj)
 	#
 
+	def getVehicleGroupDataForFlexiGrid(self,pageNo,session,db,orgId,curId,numOfObj=10, branchFields=None):
+		sessionQueryObj = session.query(db.VehicleGroup)
 
+		rows = []
+		i = (pageNo - 1) * numOfObj + 1
+
+
+
+		for data in sessionQueryObj.all():
+
+			cell = {}
+			cell['cell'] = []
+			cell['cell'].append(i)
+			cell['cell'].append(data.parent_id)
+			cell['cell'].append(data.name)
+			cell['cell'].append(data.category)
+
+			cell['cell'].append(data.id)
+			cell['id'] = i
+
+
+			i += 1
+			rows.append(cell)
+
+		return self.getSlicedData(rows,pageNo,numOfObj)
+	#
+
+	def getVehicleDataForFlexiGrid(self,pageNo,session,db,orgId,curId,numOfObj=10, branchFields=None):
+		sessionQueryObj = session.query(db.Gps_Vehicle_Info)
+
+		rows = []
+		i = (pageNo - 1) * numOfObj + 1
+
+
+
+		for data in sessionQueryObj.all():
+
+			cell = {}
+			cell['cell'] = []
+			cell['cell'].append(i)
+			cell['cell'].append(data.id)
+			cell['cell'].append(data.name)
+			# Clear off old values
+			vehicleFields1 = {'first': 'NA'}
+			vehicleFields1['regNo'] = 'NA'
+			vehicleFields1['make'] = 'NA'
+			vehicleFields1['type'] = 'NA'
+
+
+
+			queryObj2 = session.query(db.Info).filter((db.Info.entity_id == data.id))
+
+
+			for  data2 in 	queryObj2.all():
+
+					if data2.type == 16:
+						vehicleFields1['regNo'] = data2.data
+					elif data2.type == 17:
+						vehicleFields1['make'] = data2.data
+					elif data2.type == 18:
+						vehicleFields1['type'] = data2.data
+
+
+
+			cell['cell'].append(vehicleFields1['make'])
+			cell['cell'].append(vehicleFields1['regNo'])
+			cell['cell'].append(vehicleFields1['type'])
+
+			cell['cell'].append(data.id)
+			cell['id'] = i
+
+
+			i += 1
+			rows.append(cell)
+
+		return self.getSlicedData(rows,pageNo,numOfObj)
+	#
 
 	def returnLiveCarsData(self):
 		num = []

@@ -9,7 +9,9 @@
 	overflow: hidden;
 	color: #000;
 	margin: 20px 0 0 0;
-	width:80%;
+	width: 100% !important;
+	height: 450px !important;
+
 }
 
 .flexigrid.hideBody {
@@ -298,6 +300,7 @@
 	background: #fff;
 	overflow: auto;
 	position: relative;
+	height: 65% !important;
 }
 
 .flexigrid div.bDiv table {

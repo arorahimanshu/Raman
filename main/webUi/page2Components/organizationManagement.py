@@ -29,7 +29,7 @@ class Organization(Page2Component):
 	#
 
 	def delOrganization(self):
-		formData = cherrypy.request.params
+		formData = json.loads(cherrypy.request.params['formData'])
 		db = self.app.component('dbManager')
 
 		db.Info.delete({

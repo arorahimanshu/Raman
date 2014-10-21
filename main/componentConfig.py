@@ -181,6 +181,25 @@ Page2Config = [
 		}
 	]
 	},
+		    	{
+	'name': 'vehicleGroupManagement',
+	'urls': [
+		'vehicleGroupManagementForm',
+		'vehicleGroupManagementFormAction',
+		'vehicleGroupData',
+	    'editVehicleGroup',
+		'delVehicleGroup'
+	],
+	'component': 'webUi.page2Components.vehicleGroupManagement.vehicleGroup',
+	'apps': [
+		{
+		'name': 'vehicleGroupManagement',
+		'displayName': 'Manage Vehicle Group',
+		'url': ['vehicleGroupManagementForm'],
+		}
+	]
+	},
+
 	{
 	'name': 'newVehicle',
 	'urls': [

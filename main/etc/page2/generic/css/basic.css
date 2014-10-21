@@ -350,7 +350,7 @@ span>img {
     width: 80%;
     margin: 2% 0 0 10%;
     font-weight: bold;
- 	border: 2px solid #5133AB;
+ 	border: 0px solid #5133AB;
 	border-radius: 5px;
 /*	background-color: #EBF5FF; /* delete/comment the line if background color of form not needed */
 }
@@ -366,4 +366,12 @@ span>img {
 
 }
 
+#tableDiv
+{
+ height:90% !important;
+}
 
+#showBranch
+{
+ height:100% !important;
+}

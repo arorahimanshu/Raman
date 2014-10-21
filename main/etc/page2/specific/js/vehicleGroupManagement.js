@@ -1,10 +1,10 @@
-fitx.utils.require(['fitx', 'page2', 'branchManagement'])
+fitx.utils.require(['fitx', 'page2', 'vehicleGroupManagement'])
 jQuery(window).load(function () {
-    jQuery('#addBranch').hide();
-    setupAJAXSubmit('branchManagementForm', 'branchManagementFormAction', setupData, setupConstraints, '.ok', errorFunc, successFunc)
-    setupAJAXSubmit('branchManagementForm', 'editBranch', setupData2, setupConstraints, '.editbutton', errorFunc, successFunc)
-    setupFlexiGrid('#showBranch', undefined, "Branch Details", undefined, undefined, undefined, undefined, classData)
-    sendAjaxRequest('branchData', setupDataFlexi(), showReport)
+    jQuery('#addVehicleGroup').hide();
+    setupAJAXSubmit('vehicleGroupManagementForm', 'vehicleGroupManagementFormAction', setupData, setupConstraints, '.ok', errorFunc, successFunc)
+    setupAJAXSubmit('vehicleGroupManagementForm', 'editVehicleGroup', setupData2, setupConstraints, '.editbutton', errorFunc, successFunc)
+    setupFlexiGrid('#showVehicleGroup', undefined, "VehicleGroup Details", undefined, undefined, undefined, undefined, classData)
+    sendAjaxRequest('vehicleGroupData', setupDataFlexi(), showReport)
 
 
     jQuery('.cancel').click(function () {
@@ -36,12 +36,12 @@ jQuery(window).load(function () {
         if (key == 13)  // the enter key code
         {
             var pageNo = parseInt(jQuery('.pcontrol input').val())
-            sendAjaxRequest('branchData', auxiPaymentData(pageNo), showReport)
+            sendAjaxRequest('vehicleGroupData', auxiPaymentData(pageNo), showReport)
         }
     })
 
     jQuery('.add').click(function () {
-        jQuery('#addBranch').show();
+        jQuery('#addVehicleGroup').show();
         jQuery('.flexigrid').hide();
     })
 
@@ -55,12 +55,9 @@ var setupData = function () {
     alert('ADD')
     var data = {}
 
-    data.branchName = jQuery('#branchName').val()
-    data.branchAdd1 = jQuery('#branchAdd1').val()
-    data.branchAdd2 = jQuery('#branchAdd2').val()
-    data.branchCity= jQuery('#branchCity').val()
-    data.branchState= jQuery('#branchState').val()
-    data.branchPin = jQuery('#branchPin').val()
+    data.vehicleGroupName = jQuery('#vehicleGroupName').val()
+    data.vehicleGroupCat = jQuery('#vehicleGroupCat').val()
+
 
     return data
 }
@@ -76,12 +73,9 @@ var setupConstraints = function () {
 
     var constraints = {
 
-        branchName : {presence: true},
-        branchAdd1: {presence: true},
-        branchAdd2: {presence: true},
-        branchCity: {presence: true},
-        branchState: {presence: true},
-        branchPin: {presence: true,
+        vehicleGroupName : {presence: true},
+
+        vehicleGroupCat: {presence: true,
             numericality: true}
 
     }
@@ -169,29 +163,29 @@ function setupDataFlexi() {
 
 function showReport(result) {
     console.log(result.message.sendData)
-    jQuery('#showBranch').flexAddData(result.message.sendData)
+    jQuery('#showVehicleGroup').flexAddData(result.message.sendData)
     total = result.message.sendData.total
 }
 
 var total = 0
 function onPrevPageRequest() {
     var pageNo = parseInt(jQuery('.pcontrol input').val()) - 1
-    sendAjaxRequest('branchData', auxi(pageNo), showReport)
+    sendAjaxRequest('vehicleGroupData', auxi(pageNo), showReport)
 }
 function onNextPageRequest() {
     var pageNo = parseInt(jQuery('.pcontrol input').val()) + 1
-    sendAjaxRequest('branchData', {'pageNo': pageNo}, showReport)
+    sendAjaxRequest('vehicleGroupData', {'pageNo': pageNo}, showReport)
 }
 function onFirstPageRequest() {
-    sendAjaxRequest('branchData', {'pageNo': 1}, showReport)
+    sendAjaxRequest('vehicleGroupData', {'pageNo': 1}, showReport)
 }
 function onLastPageRequest() {
     pageNo = parseInt(total / 10) + 1
-    sendAjaxRequest('branchData', {'pageNo': pageNo}, showReport)
+    sendAjaxRequest('vehicleGroupData', {'pageNo': pageNo}, showReport)
 }
 function onReload() {
     var pageNo = parseInt(jQuery('.pcontrol input').val()) + 1
-    sendAjaxRequest('branchData', {'pageNo': pageNo}, showReport)
+    sendAjaxRequest('vehicleGroupData', {'pageNo': pageNo}, showReport)
 }
 function paymentData(pageNo) {
     var data = {}
@@ -208,6 +202,7 @@ function auxiPaymentData(pageNo) {
 function onAddOrDelete(com, grid) {
     if (com == "Edit") {
         alert("first")
+        jQuery('.flexigrid').hide();
         var c = 0
         jQuery('.trSelected', grid).each(function () {
             c += 1
@@ -217,14 +212,11 @@ function onAddOrDelete(com, grid) {
             jQuery('.trSelected', grid).each(function () {
                 var editFields = Array()
                 editFields.push({id: jQuery(this).data('id')})
-                editFields.push({'branchName': jQuery('td[abbr="branch_name"] >div', this).html()})
+                editFields.push({'vehicleGroupName': jQuery('td[abbr="Vehicle_Group_Name"] >div', this).html()})
 
-                editFields.push({'branchAdd1': jQuery('td[abbr="Addrs_line1"] >div', this).html()})
-                editFields.push({'branchAdd2': jQuery('td[abbr="Addrs_line2"] >div', this).html()})
-                editFields.push({'branchCity': jQuery('td[abbr="City"] >div', this).html()})
-                editFields.push({'branchState': jQuery('td[abbr="State"] >div', this).html()})
-                editFields.push({'branchPin': jQuery('td[abbr="Pincode"] >div', this).html()})
-                var div = jQuery('#addBranch')
+                editFields.push({'vehicleGroupCat': jQuery('td[abbr="Category"] >div', this).html()})
+
+                var div = jQuery('#addVehicleGroup')
                 jQuery.each(editFields, function (k, v) {
                     for (var key in v) {
                         var value = v[key];
@@ -232,10 +224,10 @@ function onAddOrDelete(com, grid) {
 
                     }
                 })
-                idToEdit=jQuery('td[abbr="BranchId"] >div', this).html()
+                idToEdit=jQuery('td[abbr="Id"] >div', this).html()
 
                 jQuery("#tableDiv").toggle('showOrHide')
-                jQuery('#addBranch').toggle('showOrHide')
+                jQuery('#addVehicleGroup').toggle('showOrHide')
                 div.find('.ok').text('Edit')
                 div.find('.ok').removeClass('ok')
                     .addClass('editbutton')
@@ -255,10 +247,10 @@ function onAddOrDelete(com, grid) {
 		if (c == 1) {
 			jQuery('.trSelected', grid).each(function () {
 				var delFields = {}
-				delFields.id=jQuery('td[abbr="BranchId"] >div', this).html()
+				delFields.id=jQuery('td[abbr="Id"] >div', this).html()
 				alert(delFields.id)
-				sendAjaxRequest('delBranch',delFields,function(){
-					sendAjaxRequest('branchData', setupDataFlexi(), showReport)
+				sendAjaxRequest('delVehicleGroup',delFields,function(){
+					sendAjaxRequest('vehicleGroupData', setupDataFlexi(), showReport)
 				})
 
 			})

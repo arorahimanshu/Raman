@@ -85,6 +85,15 @@ def defineTables (db) :
 			Website = 8
 			ServiceTaxNumber = 9
 			parentOrganization = 10
+			branchAddLine1 = 11
+			branchAddLine2 = 12
+			branchCity = 13
+			branchState = 14
+			branchPin = 15
+			vehicleRegNo=16
+			vehicleMake=17
+			vehicleType=18
+
 
 		#
 	#

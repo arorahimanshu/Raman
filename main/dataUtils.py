@@ -5,6 +5,7 @@ from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 from sqlalchemy import func, and_, or_, not_
 
 from contextlib import contextmanager
+ 
 
 
 class DataUtils(Component):
@@ -276,6 +277,7 @@ class _Worker:
 		if entityId == None:
 			entity = db.Entity.newUnique()
 			self.session.add(entity)
+
 		else:
 			entity = self.session.query(
 				db.Entity
@@ -283,17 +285,96 @@ class _Worker:
 				id=entityId
 			).one()
 		#
-		parent = 'asdasdd'
+
+
 		newBranch = db.branch.newFromParams({
 		'id': entity.id,
-		'parent': parent,
-		'name': details['name'],
+		'parent_id': details['parentOrgId'],
+		'name': details['branchName'],
 		})
 
 		self.session.add(newBranch)
 
+		self.session.add(db.Info.newFromParams({
+		'id': db.Entity.newUuid(),
+		'entity_id': newBranch.id,
+		'enumType': db.Info.Type.branchAddLine1,
+		'preference': 0,
+		'data': details['branchAdd1'],
+		}))
+
+		self.session.add(db.Info.newFromParams({
+		'id':  db.Entity.newUuid(),
+		'entity_id': newBranch.id,
+		'enumType': db.Info.Type.branchAddLine2,
+		'preference': 0,
+		'data': details['branchAdd2'],
+		}))
+
+		self.session.add(db.Info.newFromParams({
+		'id': db.Entity.newUuid(),
+		'entity_id': newBranch.id,
+		'enumType': db.Info.Type.branchCity,
+		'preference': 0,
+		'data': details['branchAdd1'],
+		}))
+
+		self.session.add(db.Info.newFromParams({
+		'id': db.Entity.newUuid(),
+		'entity_id': newBranch.id,
+		'enumType': db.Info.Type.branchState,
+		'preference': 0,
+		'data': details['branchState'],
+		}))
+
+		self.session.add(db.Info.newFromParams({
+		'id': db.Entity.newUuid(),
+		'entity_id': newBranch.id,
+		'enumType': db.Info.Type.branchPin,
+		'preference': 0,
+		'data': details['branchPin'],
+		}))
+
 
 		return newBranch
+
+	#
+	def createVehicleGroup(self, details=None):
+		details = dict() if details == None else details
+		db = self.app.component('dbManager')
+
+		branchName = details.get(
+			'name', None
+		)
+
+
+
+		entityId = details.get('entityId', None)
+		if entityId == None:
+			entity = db.Entity.newUnique()
+			self.session.add(entity)
+
+		else:
+			entity = self.session.query(
+				db.Entity
+			).filter_by(
+				id=entityId
+			).one()
+		#
+
+
+		newVehicleGroup = db.VehicleGroup.newFromParams({
+		'id': entity.id,
+		'parent_id': details['parentOrgId'],
+		'name': details['vehicleGroupName'],
+		'category':details['vehicleGroupCat']
+		})
+
+		self.session.add(newVehicleGroup)
+
+
+
+		return newVehicleGroup
 
 	#
 

@@ -38,19 +38,14 @@ def defineTables(db):
 
 	@db.table(
 		'Gps_Vehicle_Info',
-		Column('User_Id', DbTypes.Uuid, nullable=False),
-		Column('Vehicle_Id', DbTypes.Uuid, nullable=False),
-		Column('Vehicle_Name', String(20), nullable=False),
-		Column('Vehicle_Make', String(20), nullable=False),
-		Column('Vehicle_Reg_No', String(16)),
-		Column('Vehicle_Type', String(16)),
-		Column('Vehicle_Model', String(16)),
-		Column('Group_id', DbTypes.Uuid),
-		Column('Device_id', Numeric(16, 0)),
+		Column('id', DbTypes.Uuid, nullable=False),
+        Column('parent_id', DbTypes.Uuid, nullable=False),
+        Column('name',  DbTypes.VeryLongString, nullable=False),
 
-		PrimaryKeyConstraint('Vehicle_Id'),
-
-		UniqueConstraint('User_Id', 'Vehicle_Id')
+		PrimaryKeyConstraint('id'),
+		ForeignKeyConstraint (['id'], ['entity.id']),
+		ForeignKeyConstraint (['parent_id'], ['entity.id']),
+ 		UniqueConstraint('id', 'parent_id')
 
 	)
 	class Gps_Vehicle_Info(DbEntity): pass
@@ -119,19 +114,29 @@ def defineTables(db):
 
 	@db.table(
 	'branch',
-	Column('branch_id', DbTypes.Uuid, nullable=False),
-        Column('organization_id', DbTypes.Uuid, nullable=False),
-        Column('Branch_name',  DbTypes.VeryLongString, nullable=False),
-        Column('Addrs_line1',  DbTypes.VeryLongString, nullable=False),
-        Column('Addrs_line2',  DbTypes.VeryLongString, nullable=False),
-        Column('state',  DbTypes.VeryLongString, nullable=False),
-		Column('city',  DbTypes.VeryLongString, nullable=False),
-        Column('pincode', Integer, nullable=False),
-
-		PrimaryKeyConstraint('branch_id', 'organization_id'),
+		Column('id', DbTypes.Uuid, nullable=False),
+        Column('parent_id', DbTypes.Uuid, nullable=False),
+        Column('name',  DbTypes.VeryLongString, nullable=False),
+		ForeignKeyConstraint (['id'], ['entity.id']),
+		ForeignKeyConstraint (['parent_id'], ['entity.id']),
+		PrimaryKeyConstraint('id', 'parent_id'),
 
 	)
 	class branch(DbEntity): pass
+
+	@db.table(
+	'VehicleGroup',
+		Column('id', DbTypes.Uuid, nullable=False),
+        Column('parent_id', DbTypes.Uuid, nullable=False),
+        Column('name',  DbTypes.VeryLongString, nullable=False),
+		Column('category', Integer, nullable=False),
+		ForeignKeyConstraint (['id'], ['entity.id']),
+		ForeignKeyConstraint (['parent_id'], ['entity.id']),
+		PrimaryKeyConstraint('id', 'parent_id'),
+
+	)
+	class VehicleGroup(DbEntity): pass
+
 
 def loadInitialData(db, params=None):
 	with db.session() as session:
