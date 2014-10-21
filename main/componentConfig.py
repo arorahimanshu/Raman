@@ -76,9 +76,9 @@ Page2Config = [
             'newGpsDataForm',
             'newGpsDataFormAction',
             'newCarSetup',
-            'newDashboardForm',
+            '''newDashboardForm',
             'newDashboardFormAction',
-            'newGpsDataFormVehicleList',
+            'newGpsDataFormVehicleList','''
         ],
         'component': 'webUi.page2Components.gpsData.GpsData',
         'apps': [
@@ -303,6 +303,25 @@ Page2Config = [
                 'name': 'addRoleManagement',
                 'displayName': 'Role Management',
                 'url': ['newRoleManagementForm'],
+            }
+        ],
+
+    },
+	
+	{
+
+        'name': 'dashboard',
+        'urls': [
+            'newDashboardForm',
+            'newDashboardFormAction',
+            'dashboardVehicleListNested',
+        ],
+        'component': 'webUi.page2Components.dashboard.Dashboard',
+        'apps': [
+            {
+                'name': 'addDashboardForm',
+                'displayName': 'Dashboard',
+                'url': ['newDashboardForm'],
             }
         ],
 
