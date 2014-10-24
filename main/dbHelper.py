@@ -614,15 +614,45 @@ class DbHelper(Component):
 		return orgList
 
 	def returnVehicleListForVehicleGroup(self,groupId):
-		return self.returnOrgList (groupId)
+		db = self.app.component('dbManager')
+		vehicleList = []
+		with db.session() as session:
+			data = session.query(db.Gps_Vehicle_Info).filter_by(parent_id=groupId).all()
+			for item in data:
+				vehicle = {}
+				vehicle['display']  = item.name
+				vehicle['value'] = item.id
+				vehicleList.append(vehicle)
+		#
+		return vehicleList
 	#
 
 	def returnVehicleGroupListForBranch(self,branchId):
-		return self.returnOrgList (branchId)
+		db = self.app.component('dbManager')
+		groupList = []
+		with db.session() as session:
+			data = session.query(db.VehicleGroup).filter_by(parent_id=branchId).all()
+			for item in data:
+				group = {}
+				group['display']  = item.name
+				group['value'] = item.id
+				groupList.append(group)
+		#
+		return groupList
 	#
 
 	def returnBranchListForOrg(self,orgId):
-		return self.returnOrgList (orgId)
+		db = self.app.component('dbManager')
+		branchList = []
+		with db.session() as session:
+			data = session.query(db.branch).filter_by(parent_id=orgId).all()
+			for item in data:
+				branch = {}
+				branch['display']  = item.name
+				branch['value'] = item.id
+				branchList.append(branch)
+		#
+		return branchList
 	#
 
 	def getCoordinatesForVehicle(self, deviceId, order=None):
