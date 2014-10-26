@@ -81,16 +81,18 @@ class vehicleGroup(Page2Component):
 			additional=['vehicleGroupManagementFormAction'],
 		)
 
-
 		})
 		with self.server.session() as session:
 			self.userId = session['userId']
 
 		classData = ['Sno','Branch_id','Vehicle_Group_Name', 'Category','Id']
 
+		dbHelp = self.app.component('dbHelper')
+		branchList = dbHelp.returnVehicleGroupListForBranch(None)
+
 		return self._renderWithTabs(
 			proxy, params,
-			bodyContent=proxy.render('vehicleGroupManagement.html', classdata=classData, userId=self.userId,
+			bodyContent=proxy.render('vehicleGroupManagement.html', classdata=classData, userId=self.userId, branchList=branchList,
 								   ),
 			newTabTitle='New VehicleGroup',
 			url=requestPath.allPrevious(),

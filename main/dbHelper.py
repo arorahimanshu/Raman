@@ -604,7 +604,10 @@ class DbHelper(Component):
 		db = self.app.component('dbManager')
 		orgList = []
 		with db.session() as session:
-			data = session.query(db.Organization).filter_by(parent_id=orgId).all()
+			data = session.query(db.Organization)
+			if orgId != None:
+				data=data.filter_by(parent_id=orgId)
+			data=data.all()
 			for item in data:
 				org = {}
 				org['display']  = item.name
@@ -617,7 +620,10 @@ class DbHelper(Component):
 		db = self.app.component('dbManager')
 		vehicleList = []
 		with db.session() as session:
-			data = session.query(db.Gps_Vehicle_Info).filter_by(parent_id=groupId).all()
+			data = session.query(db.Gps_Vehicle_Info)
+			if groupId != None:
+				data=data.filter_by(parent_id=groupId)
+			data=data.all()
 			for item in data:
 				vehicle = {}
 				vehicle['display']  = item.name
@@ -631,7 +637,10 @@ class DbHelper(Component):
 		db = self.app.component('dbManager')
 		groupList = []
 		with db.session() as session:
-			data = session.query(db.VehicleGroup).filter_by(parent_id=branchId).all()
+			data = session.query(db.VehicleGroup)
+			if branchId != None:
+				data=data.filter_by(parent_id=branchId)
+			data=data.all()
 			for item in data:
 				group = {}
 				group['display']  = item.name
@@ -645,7 +654,10 @@ class DbHelper(Component):
 		db = self.app.component('dbManager')
 		branchList = []
 		with db.session() as session:
-			data = session.query(db.branch).filter_by(parent_id=orgId).all()
+			data = session.query(db.branch)
+			if orgId != None:
+				data=data.filter_by(parent_id=orgId)
+			data=data.all()
 			for item in data:
 				branch = {}
 				branch['display']  = item.name
