@@ -35,6 +35,8 @@ function addButtonClick(com, grid, c, selectedData) {
 	jQuery('input').val('');
 	jQuery('input[type=checkbox]:checked').prop("checked", false);
 	
+	jQuery('#name').removeAttr("disabled")
+	
 }
 
 function editButtonClick(com, grid, c, selectedData) {
@@ -66,6 +68,8 @@ function editButtonClick(com, grid, c, selectedData) {
 			div.find('.ok').text('Update')
 			div.find('.ok').removeClass('ok')
 				.addClass('editbutton')
+				
+			jQuery('#name').prop("disabled", "disabled")
 		})
 	}
 	else {
