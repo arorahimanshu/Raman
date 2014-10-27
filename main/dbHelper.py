@@ -161,9 +161,9 @@ class DbHelper(Component):
 		vehicleList = []
 		db = self.app.component('dbManager')
 		with db.session() as session:
-			query = session.query(db.Gps_Vehicle_Info).filter_by(User_Id=uid)
+			query = session.query(db.Gps_Vehicle_Info)#.filter_by(User_Id=uid)
 			for x in query.all():
-				vehicleList.append({'value': x.Vehicle_Id, 'display': x.Vehicle_Name})
+				vehicleList.append({'value': x.id, 'display': x.name})
 
 		return vehicleList
 	#
