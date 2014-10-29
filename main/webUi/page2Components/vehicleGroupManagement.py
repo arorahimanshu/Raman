@@ -88,7 +88,7 @@ class vehicleGroup(Page2Component):
 		classData = ['Sno','Branch_id','Vehicle_Group_Name', 'Category','Id']
 
 		dbHelp = self.app.component('dbHelper')
-		branchList = dbHelp.returnVehicleGroupListForBranch(None)
+		branchList = dbHelp.returnBranchListForOrg(None)
 
 		return self._renderWithTabs(
 			proxy, params,
