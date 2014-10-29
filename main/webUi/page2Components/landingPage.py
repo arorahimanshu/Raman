@@ -1,5 +1,5 @@
 from .page2Component import Page2Component
-from componentConfig import Page2Config
+from componentConfig import Page2Config , Page2ConfigChild
 
 import operator
 from io import StringIO
@@ -39,6 +39,20 @@ class LandingPage(Page2Component):
 
 	def _renderAppButtons(self, proxy, params):
 		apps = []
+		appsChild = []
+		for itemChild in Page2ConfigChild:
+			for itemChildApp in itemChild.get('apps', []):
+				appsChild.append(
+							{
+							'name': itemChildApp['name'],
+							'displayName': itemChildApp['displayName'],
+							'url': self.server.appUrl(*itemChildApp['url']),
+							'type': itemChild['type'],
+							'parent': itemChild['parent']
+							}
+				)
+
+
 		for item in Page2Config:
 			component = self.parent.component(item['name'])
 			for itemApp in item.get('apps', []):
@@ -47,7 +61,8 @@ class LandingPage(Page2Component):
 						{
 						'name': itemApp['name'],
 						'displayName': itemApp['displayName'],
-						'url': self.server.appUrl(*itemApp['url'])
+						'url': self.server.appUrl(*itemApp['url']),
+						'type': item['type']
 						}
 					)
 
@@ -58,6 +73,7 @@ class LandingPage(Page2Component):
 			proxy.render('appButton.html',
 			             stream=result,
 			             appInfo=appInfo,
+						 appsChild=appsChild
 			)
 		#
 
