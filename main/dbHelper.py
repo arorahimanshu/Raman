@@ -161,9 +161,9 @@ class DbHelper(Component):
 		vehicleList = []
 		db = self.app.component('dbManager')
 		with db.session() as session:
-			query = session.query(db.Gps_Vehicle_Info).filter_by(User_Id=uid)
+			query = session.query(db.Gps_Vehicle_Info)#.filter_by(User_Id=uid)
 			for x in query.all():
-				vehicleList.append({'value': x.Vehicle_Id, 'display': x.Vehicle_Name})
+				vehicleList.append({'value': x.id, 'display': x.name})
 
 		return vehicleList
 	#
@@ -604,7 +604,10 @@ class DbHelper(Component):
 		db = self.app.component('dbManager')
 		orgList = []
 		with db.session() as session:
-			data = session.query(db.Organization).filter_by(parent_id=orgId).all()
+			data = session.query(db.Organization)
+			if orgId != None:
+				data=data.filter_by(parent_id=orgId)
+			data=data.all()
 			for item in data:
 				org = {}
 				org['display']  = item.name
@@ -614,15 +617,54 @@ class DbHelper(Component):
 		return orgList
 
 	def returnVehicleListForVehicleGroup(self,groupId):
-		return self.returnOrgList (groupId)
+		db = self.app.component('dbManager')
+		vehicleList = []
+		with db.session() as session:
+			data = session.query(db.Gps_Vehicle_Info)
+			if groupId != None:
+				data=data.filter_by(parent_id=groupId)
+			data=data.all()
+			for item in data:
+				vehicle = {}
+				vehicle['display']  = item.name
+				vehicle['value'] = item.id
+				vehicleList.append(vehicle)
+		#
+		return vehicleList
 	#
 
 	def returnVehicleGroupListForBranch(self,branchId):
-		return self.returnOrgList (branchId)
+		db = self.app.component('dbManager')
+		groupList = []
+		with db.session() as session:
+			data = session.query(db.VehicleGroup)
+			if branchId != None:
+				data=data.filter_by(parent_id=branchId)
+			data=data.all()
+			for item in data:
+				group = {}
+				group['display']  = item.name
+				group['value'] = item.id
+				groupList.append(group)
+		#
+		return groupList
 	#
 
 	def returnBranchListForOrg(self,orgId):
-		return self.returnOrgList (orgId)
+		db = self.app.component('dbManager')
+		branchList = []
+		with db.session() as session:
+			data = session.query(db.branch)
+			if orgId != None:
+				data=data.filter_by(parent_id=orgId)
+			data=data.all()
+			for item in data:
+				branch = {}
+				branch['display']  = item.name
+				branch['value'] = item.id
+				branchList.append(branch)
+		#
+		return branchList
 	#
 
 	def getCoordinatesForVehicle(self, deviceId, order=None):

@@ -22,7 +22,11 @@
 
     <div class="field">
          <label class="genericFormLabel">Branch name:</label>
-           <input type="text" id="vehicleGroupName1" class="genericInput "><span id="vehicleGroupName1ErrorImg"><img src=""></span>
+			<select>
+				%for branch in branchList:
+					<option value="${branch['value']}">${branch['display']}</option>
+				%endfor
+			</select>
         <div class="  error" id="vehicleGroupName1Error"></div>
     </div>
     <div class="field">
