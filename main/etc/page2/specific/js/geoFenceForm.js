@@ -1,573 +1,440 @@
 fitx.utils.require(['fitx', 'page2', 'newGeoFenceForm']);
 
+/***************************Global variable***************************************/
+var indLat=21.0000;
+var indLong=78.0000;
+var zoomLevel=5;
+var circleCenter;
+var infoWindows = [];
+var markers = [];
+var shapes = [];
+
 jQuery(window).load(function () {
-
-
-    initialize()
-    addToTable();
-
-    setupAJAXSubmit('newGeoFenceForm', 'newGeoFenceFormAction', setupData, setupConstraints, '.save',null,getData);
-
-
-    var data = {
-        path: [],
-        vechicleID: []
-    }
-
-
-    jQuery(".start").click(function () {
-        jQuery('.Fename').val('');
-
-        map = mapProp(0, 0, 3);
-        fence_data(map);
-    });
-
-
-    jQuery(".Cars").on("mouseenter", function () {
-        jQuery(".carlist").slideDown("fast");
-    });
-
-    jQuery(".carlist").on("click", function () {
-
-        var vech = jQuery(this).text();
-        vech = vech.split(' ');
-        vechicle(vech[0]);
-    });
-
-    jQuery(".Cars").on("mouseleave", function () {
-        jQuery(".carlist").slideUp("fast");
-    });
-
-    jQuery(".Poly").on("click", function () {
-        jQuery(".GeoFence").show();
-    });
-
-
+	setupAJAXSubmit('newGeoFenceForm', 'newGeoFenceFormAction', setupData, setupConstraints, '.submit', null, saveSuccess);
+	
+	setupFlexiGrid('#showGeoFenceReport', undefined, "GeoFence Report", undefined, undefined, undefined, undefined, classData);
+	
+	sendAjaxRequest('geoFenceData', {}, showReport);
+	
+	rp = parseInt(jQuery('.pGroup select option:selected').text())
+	
+	onLoad_GeoFence();
+	
+	jQuery('#tablediv').hide();
+	jQuery('#newGeoFence').show();
 });
 
-function getData(a)
-{
-    fdata= a.data
- jQuery('.Details').append("<tr><td>"+fdata['vehicleId']+"</td><td>"+fdata['fenceName']+"</td><td>"+fdata['latitude']+"</td><td>"+fdata['longitude']+"</td></tr>");
-    location.reload();
+function saveSuccess(result) {
+	alert('saved');
+	location.reload();
 }
 
-function setupData() {
-
-    var specificFormData = {}
-
-    specificFormData.vehicleId = jQuery(".vid option:selected").val()
-    specificFormData.fenceName = jQuery('.Fename').val()
-
-    var pa = path.getArray();
-    latit=""
-    longi=""
-    for (var i = 0; i < pa.length-1; i++) {
-        latit+=pa[i]['k']+",";
-        longi+=pa[i]['B'] + ",";
-    }
-    latit+=pa[i]['k']
-    longi+=pa[i]['B']
-    specificFormData.latitudeList = latit
-    specificFormData.longitudeList = longi
-    return specificFormData
+function setupData(res) {
+	var filter = jQuery('.filter').filter(':visible');
+	var name = filter.find('.name').val();
+	var vehicleId = filter.find('.vehicles :selected')[0].value;
+	var type = filter.find('.type').val();
+	
+	var geometry = []
+	var details = {'id':null}
+	
+	var addresses = filter.find('.address');
+	jQuery.each(addresses,function(index, address){
+		var add = address.value;
+		if(add != '') {
+			var parent = jQuery(address).parent ();
+			var lat = parseFloat(parent.find('.lat').text());
+			var lng = parseFloat(parent.find('.lng').text());
+			geometry.push([lat,lng]);
+		}
+	});
+	
+	details['geometry'] = geometry;
+	
+	var data = {
+		'fenceName' : name,
+		'vehicleId' : vehicleId
+	};
+	
+	if (type=='Circle') {
+		if(geometry.length != 1) {
+			alert ('one address required');
+		} else {
+			details['type'] = 'CIRCLE';
+			
+			var radius = filter.find('.radius').val();
+			
+			details['radius'] = parseFloat(radius);
+		}
+	} else if (type=='Polygon') {
+		if(geometry.length < 3) {
+			alert ('minimum three addresses required')
+		} else {
+			details['type'] = 'POLYGON';
+			
+			details['radius'] = 'N/A';
+		}
+	}
+	
+	data['Details'] = JSON.stringify(details);
+	
+	return data;
 }
 
 function setupConstraints() {
+	return {};
+}
 
-    var specificFormConstraints = {
+function initialize()
+{
+    var map=new google.maps.Map(document.getElementById('googleMap'));
+    map.setCenter(new google.maps.LatLng(indLat,indLong));
+    map.setZoom(zoomLevel);
+    return map;
+}
 
+function onLoad_GeoFence() {
+	
+	geocoder = new google.maps.Geocoder();
+	
+	map=initialize();
+	
+	jQuery('.BACK').click(function() {
+		jQuery('#tablediv').show();
+		jQuery('#newGeoFence').hide();
+	});
+	
+	jQuery('.CIRCLE, .RECTANGLE, .POLYGON').click(function (){
+		clearMap();
+		jQuery('.filter').hide();
+	});
+	
+	jQuery('.CIRCLE').click(function () {
+		jQuery('.circle').show();
+	});
+	
+	jQuery('.RECTANGLE').click(function () {
+		jQuery('.rectangle').show();
+	});
+	
+	jQuery('.POLYGON').click(function () {
+		
+		jQuery('.polygon').show();
+		
+		var fields = jQuery('.addresses').children();
+		
+		while(jQuery('.addresses').children().length > 3) {
+			jQuery(jQuery('.removeButton')[3]).trigger('click');
+		}
+		
+	});
+	
+	jQuery('.addButton').click(function (evt){
+		var addresses = jQuery('.addresses');
+		var addressField = addresses.children()[0];
+		var clone = jQuery(addressField).clone(true)
+		clone.find('input').val('');
+		addresses.append(clone);
+		addresses = jQuery('.addresses').children();
+		jQuery.each(addresses, function(index, address){
+			var label = jQuery(address).find('label');
+			label.text('Address ' + (index+1));
+		});
+	});
+	
+	jQuery('.removeButton').click(function (evt) {
+		var parentDiv = jQuery(evt.target).parent();
+		var addressesDiv = parentDiv.parent();
+		var addresses = addressesDiv.children();
+		if (addresses.length > 3) {
+			clearMap();
+			parentDiv.remove();
+			addresses = addressesDiv.children();
+			jQuery.each(addresses, function(index, address){
+				var label = jQuery(address).find('label');
+				label.text('Address ' + (index+1));
+				jQuery(address).find('.searchButton').trigger('click');
+			})
+		}
+	});
+	
+	jQuery('.radiusButton').click(function (evt){
+		clearOnMap(shapes);
+		var div = jQuery(evt.target).parent().parent();
+		var address = div.find('.address').val();
+		if(address != '') {
+			var func = function (latlng) {
+				var radius = div.find('.radius').val();
+				draw_circle(latlng, parseFloat(radius));
+				
+				div.find('.lat').text(latlng.lat());
+				div.find('.lng').text(latlng.lng());
+			}
+			manageLatLng(address, func);
+		}
+	});
+	
+	jQuery('.searchButton').click(function (evt){
+		var div = jQuery(evt.target).parent();
+		var address = div.find('.address').val();
+		if(address!='')
+			codeAddress(address);
+	});
+	
+	jQuery('.circle .searchButton').click(function(){
+		clearMap();
+	});
+	
+	jQuery('.rectangle .searchButton').click(function(){
+	});
+	
+	jQuery('.redraw').click(function(){
+		var fields = jQuery('.polygon .address');
+		var path = []
+		
+		jQuery.each(fields,function(index, field){
+			var address = field.value;
+			var func = function(latlng) {
+				path.push(latlng);
+			}
+			if(address != '') {
+				geocoder.geocode({ 'address': address}, function (results, status) {
+					if (status == google.maps.GeocoderStatus.OK) {
+						var latlng = results[0].geometry.location
+						path.push(latlng);
+						if(path.length >= 3)
+							draw_polygon(path);
+						var parent=jQuery(field).parent();
+						parent.find('.lat').text(latlng.lat());
+						parent.find('.lng').text(latlng.lng());
+					}
+				});
+			}
+		});
+	});
+	
+	jQuery('.cancel').click(function(){
+		clearMap();
+	});
+}
 
-        fenceName: {presence: true},
-        latitudeList: {presence:true},
-        longitudeList:{presence:true}
-
+function setupFlexiGrid(selector, datatype, title, noOfPages, width, height, singleSelect, classData, extraCols) {
+    if (datatype == undefined)
+        datatype = 'json'
+    if (title == undefined)
+        title = 'Table'
+    if (noOfPages == undefined)
+        noOfPages = 10
+    if (width == undefined)
+        width = 1000
+    if (height == undefined)
+        height = 200
+    if (singleSelect == undefined)
+        singleSelect = true
+    var colData = createColModel(classData)
+    for (var items in extraCols) {
+        colData.push(items)
     }
-    return specificFormConstraints
+    jQuery(selector).flexigrid({
+        dataType: datatype,
+        colModel: colData,
+        usepager: true,
+		buttons: [
+            {name: 'Add', bclass: 'add', onpress: onAdd},
+            {name: 'Delete', bclass: 'delete', onpress: onDelete},
+            {name: 'Edit', bclass: 'edit', onpress: onEdit},
+            {separator: true}
+        ],
+        title: title,
+        useRp: true,
+        rp: noOfPages,
+        showTableToggleBtn: true,
+        width: width,
+        height: height,
+        singleSelect: singleSelect
+    })
 }
 
-var deg_path = [];
-var path = new google.maps.MVCArray;
-var markers = [];
-var poly;
-var map;
-
-
-function initialize() {
-    map = new google.maps.Map(document.getElementById('googleMap'));
-    map.setCenter(new google.maps.LatLng(0, 0));
-    map.setZoom(2);
-    map.setMapTypeId(google.maps.MapTypeId.ROADMAP);
-    addVehicle();
-}
-
-function fence_data(map) {
-    poly = drawPoly()
-    path = new google.maps.MVCArray;
-    poly.setMap(map);
-    poly.setPaths(new google.maps.MVCArray([path]));
-    google.maps.event.addListener(map, 'click', function (event) {
-        path.insertAt(path.length, event.latLng);
-        var marker = new google.maps.Marker({
-            position: event.latLng,
-            map: map,
-            draggable: true
-        });
-        markers.push(marker);
-        marker.setTitle("#" + path.length);
-        google.maps.event.addListener(marker, "click", function (event) {
-            marker.setMap(null);
-            console.log("Iam inside marker click");
-            for (var i = 0, I = markers.length; i < I && markers[i] != marker; ++i);
-            markers.splice(i, 1);
-            path.removeAt(i);
-        });
-
-        google.maps.event.addListener(marker, "dragend", function (event) {
-            console.log("Iam inside marker dragend");
-            for (var i = 0, I = markers.length; i < I && markers[i] != marker; ++i);
-            path.setAt(i, marker.getPosition());
-        });
-        //drawPoly(deg_path,map);
-    });
-
-}
-
-function pathCoordinate(lat, lon) {
-    var coordinate = [];
-    for (var i = 0; i < lat.length && i < lon.length; i++) {
-        coordinate.push(
-            new google.maps.LatLng(lat[i], lon[i])
-        );
-    }
-    return coordinate;
-}
-
-function sendtocheck(lat, lon, testx, testy) {
-    var poly = [];
-    var carLatLon = new google.maps.LatLng(testx, testy);
-    for (var k = 0; k < lat.length; k++) {
-        var polypath = pathCoordinate(lat[k], lon[k]);
-        var polyLatLon = new google.maps.Polygon({
-            paths: polypath
-        });
-        if (google.maps.geometry.poly.containsLocation(carLatLon, polyLatLon)) {
-            poly.push("Polygon " + k + "=True");
+function createColModel(colList) {
+    colModel = []
+    jQuery.each(colList, function (k, v) {
+        var dict = {
+            display: v,
+            name: v,
+            width: v.length * 6,
+            align: 'center',
+            sortable: true
         }
-        else {
-            poly.push("Polygon " + k + "=False");
+        colModel.push(dict)
+    })
+    return colModel
+
+}
+
+function showReport(result) {
+	jQuery('#showGeoFenceReport').flexAddData(result.message.sendData)
+    total = result.message.sendData.total
+}
+
+var total = 0
+function onPrevPageRequest() {
+    var pageNo = parseInt(jQuery('.pcontrol input').val()) - 1
+    sendAjaxRequest('geoFenceData', auxi(pageNo), showReport)
+}
+function onNextPageRequest() {
+    var pageNo = parseInt(jQuery('.pcontrol input').val()) + 1
+    sendAjaxRequest('geoFenceData', {'pageNo': pageNo}, showReport)
+}
+function onFirstPageRequest() {
+    sendAjaxRequest('geoFenceData', {'pageNo': 1}, showReport)
+}
+function onLastPageRequest() {
+	if (!rp)
+		rp = 10
+    pageNo = parseInt(total / rp) + 1
+    sendAjaxRequest('geoFenceData', {'pageNo': pageNo}, showReport)
+}
+function onReload() {
+    var pageNo = parseInt(jQuery('.pcontrol input').val()) + 1
+    sendAjaxRequest('geoFenceData', {'pageNo': pageNo}, showReport)
+}
+
+function onAdd() {
+	jQuery('#tablediv').hide();
+	jQuery('#newGeoFence').show();
+}
+
+function onDelete() {
+}
+
+function onEdit() {
+}
+
+function codeAddress(address) {
+    
+    geocoder.geocode({ 'address': address}, function (results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+            codeLatLng(results[0].geometry.location)
+
+            map.setCenter(results[0].geometry.location);
+            map.setZoom(15)
+
+            
+
+
+        } else {
+            alert('Geocode was not successful for the following reason: ' + status);
         }
-    }
-    return poly;
-}
-function vechicle(id) {
-    var deg_path = [];
-    var lat = getlatitude(id);
-    var lon = getlongitude(id);
-    var splat = lat[0];
-    var splon = lon[0];
-    var eplat = lat[lat.length - 1];
-    var eplon = lon[lon.length - 1];
-    var coordinate = pathCoordinate(lat, lon);
-    var roadPath = createPath(coordinate);
-    var latlon = selatlon(eplat, eplon);
-    var map = mapProp(splat, splon, 13);
-
-    var data = getLocalstorage(id);
-    if (data['latitude'].length > 0 && data['longitude'].length > 0) {
-        fence(data, map);
-    }
-    setMarker(latlon, 'flag', map);
-    roadPath.setMap(map);
-    animateCar(map, coordinate, data);
-}
-function fence(data, map) {
-
-    path = new google.maps.MVCArray;
-    var lat = data['latitude'];
-    var lon = data['longitude'];
-    console.log(lat[0]);
-    var poly = drawPoly();
-    poly.setMap(map);
-    var latlon = [];
-    for (var j = 0; j < lat.length; j++) {
-        latlon.push(pathCoordinate(lat[j], lon[j]));
-    }
-    for (var i = 0; i < latlon.length; i++) {
-        var temp = latlon[i];
-        for (var j = 0; j < temp.length; j++) {
-            path.insertAt(path.length, temp[j]);
-            poly.setPaths(new google.maps.MVCArray([path]));
-            console.log(path);
-        }
-    }
-}
-function drawPoly() {
-    //console.log(path);
-    var flightPath = new google.maps.Polygon({
-        strokeColor: "#0000FF",
-        strokeOpacity: 0.8,
-        strokeWeight: 2,
-        fillColor: "#0000FF",
-        fillOpacity: 0.4
-    });
-    return flightPath;
-}
-function mapProp(lat, lon, level) {
-    var gMap = new google.maps.Map(document.getElementById('googleMap'));
-    gMap.setCenter(new google.maps.LatLng(lat, lon));
-    gMap.setZoom(level);
-    gMap.setMapTypeId(google.maps.MapTypeId.ROADMAP);
-    return gMap;
-}
-function setMarker(latlon, ico, gMap) {
-    var marker = new google.maps.Marker({
-        position: latlon,
-        map: gMap,
-        icon: ico + '.png'
     });
 }
-function selatlon(lat, lon) {
-    var latlon = new google.maps.LatLng(lat, lon);
-    return latlon;
-}
-function createPath(coordinate) {
-    var RoadPath = new google.maps.Polyline({
-        path: coordinate,
-        geodesic: true,
-        strokeColor: "red",
-        strokeOpacity: 1.0,
-        strokeWeight: 2,
-        icons: [
-            {
-                icon: 'car.png',
-                offset: '100%'
-            }
-        ]
-    });
-    return RoadPath;
-}
-function rotate() {
 
-}
-function animateCar(gMap, coordinate, data) {
-    var i = 0;
-    var mark = [];
-    var lat = [];
-    var lon = [];
-    var car = 'car.png';
-    mark.push(new google.maps.Marker({
-        position: coordinate[i],
-        map: gMap,
-        title: "Hello World!",
-        icon: 'car.png'
-    }));
-    var lat = data['latitude'];
-    var lon = data['longitude'];
+function codeLatLng(latlng) {
+    LatLng = latlng;
+    geocoder.geocode({ 'latLng': latlng }, function (results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+            if (results[1]) {
+                map.setZoom(15);
+                map.setCenter(latlng);
 
-    function anim(i) {
-        var a = sendtocheck(lat, lon, coordinate[i]['k'], coordinate[i]['B']);
-        var infowindow = new google.maps.InfoWindow({
-            content: "Inside Poly= " + JSON.stringify(a)
-        });
-        infowindow.open(gMap, mark[i]);
-        if (typeof(mark[i - 1]) !== 'undefined') {
-            mark[i - 1].setMap(null);
-        }
-        mark.push(new google.maps.Marker({
-            position: coordinate[i],
-            map: gMap,
-            icon: car,
-            zIndex: 100
-        }));
-        i++;
-        setTimeout(function () {
-            if (i < coordinate.length) {
-                anim(i);
-            }
-            else {
-                mark = [];
-                clearTimeout(anim);
-                mark.push(new google.maps.Marker({
-                    position: coordinate[i],
-                    map: gMap,
-                    icon: 'car.png'
-                }));
-                i = 0;
-            }
-        }, 20);
-    }
-
-    return anim(i);
-}
-
-function dmm_dd(deg) {
-    var temp = parseInt(deg);
-    temp = Math.floor(temp);
-    temp = temp.toString();
-    if (temp.length === 5) {
-        var degrees = parseInt(deg.substring(0, 3));
-        var minutes = parseFloat(deg.substring(3, 10));
-        return deg = degrees + (minutes / 60);
-    }
-    else {
-        var degrees = parseInt(deg.substring(0, 2));
-        var minutes = parseFloat(deg.substring(2, 10));
-        return deg = degrees + (minutes / 60);
-    }
-}
-function totalVehicle() {
-    var vehiclecount = JSLINQ(jsonObject).Distinct(function (item) {
-        return item.vehicleId
-    }).ToArray();
-    return vehiclecount;
-}
-function parseData(data) {
-    var arr = [];
-    var dt = jQuery.each(data, function (index, value) {
-        var dt_str = value.toString();
-        arr.push(dmm_dd(dt_str));
-    });
-    return arr;
-}
-function getvehicledata(id) {
-    var vehicledata = JSLINQ(jsonObject).Where(function (item) {
-        return item.vehicleId == id;
-    });
-    return vehicledata;
-}
-function getlatitude(id) {
-    var vehicledata = getvehicledata(id);
-    var poslat = vehicledata.Select(function (item) {
-        return item.position.latitude
-    }).ToArray();
-    var latitude = parseData(poslat);
-    return latitude;
-}
-
-function getlongitude(id) {
-    var vehicledata = getvehicledata(id);
-    var poslong = vehicledata.Select(function (item) {
-        return item.position.longitude
-    }).ToArray();
-    var longitude = parseData(poslong);
-    return longitude;
-}
-function getHour(id) {
-    var vehicledata = getvehicledata(id);
-    var hr = vehicledata.Select(function (item) {
-        return item.time.hour
-    }).ToArray();
-    return hr;
-}
-function getMin(id) {
-    var vehicledata = getvehicledata(id);
-    var min = vehicledata.Select(function (item) {
-        return item.time.minute
-    }).ToArray();
-    return min;
-}
-function sec(id) {
-    var vehicledata = getvehicledata(id);
-    var sec = vehicledata.Select(function (item) {
-        return item.time.second
-    }).ToArray();
-    return sec;
-}
-
-
-(function () {
-    JSLINQ = window.JSLINQ = function (dataItems) {
-        return new JSLINQ.fn.init(dataItems);
-    };
-    JSLINQ.fn = JSLINQ.prototype = {
-        init: function (dataItems) {
-            this.items = dataItems;
-        },
-
-        // The current version of JSLINQ being used
-        jslinq: "2.10",
-
-        ToArray: function () {
-            return this.items;
-        },
-        Where: function (clause) {
-            var item;
-            var newArray = new Array();
-
-            // The clause was passed in as a Method that return a Boolean
-            for (var index = 0; index < this.items.length; index++) {
-                if (clause(this.items[index], index)) {
-                    newArray[newArray.length] = this.items[index];
-                }
-            }
-            return new JSLINQ(newArray);
-        },
-        Select: function (clause) {
-            var item;
-            var newArray = new Array();
-
-            // The clause was passed in as a Method that returns a Value
-            for (var i = 0; i < this.items.length; i++) {
-                if (clause(this.items[i])) {
-                    newArray[newArray.length] = clause(this.items[i]);
-                }
-            }
-            return new JSLINQ(newArray);
-        },
-        OrderBy: function (clause) {
-            var tempArray = new Array();
-            for (var i = 0; i < this.items.length; i++) {
-                tempArray[tempArray.length] = this.items[i];
-            }
-            return new JSLINQ(
-                tempArray.sort(function (a, b) {
-                    var x = clause(a);
-                    var y = clause(b);
-                    return ((x < y) ? -1 : ((x > y) ? 1 : 0));
-                })
-            );
-        },
-        OrderByDescending: function (clause) {
-            var tempArray = new Array();
-            for (var i = 0; i < this.items.length; i++) {
-                tempArray[tempArray.length] = this.items[i];
-            }
-            return new JSLINQ(
-                tempArray.sort(function (a, b) {
-                    var x = clause(b);
-                    var y = clause(a);
-                    return ((x < y) ? -1 : ((x > y) ? 1 : 0));
-                })
-            );
-        },
-        SelectMany: function (clause) {
-            var r = new Array();
-            for (var i = 0; i < this.items.length; i++) {
-                r = r.concat(clause(this.items[i]));
-            }
-            return new JSLINQ(r);
-        },
-        Count: function (clause) {
-            if (clause == null)
-                return this.items.length;
-            else
-                return this.Where(clause).items.length;
-        },
-        Distinct: function (clause) {
-            var item;
-            var dict = new Object();
-            var retVal = new Array();
-            for (var i = 0; i < this.items.length; i++) {
-                item = clause(this.items[i]);
-                // TODO - This doens't correctly compare Objects. Need to fix this
-                if (dict[item] == null) {
-                    dict[item] = true;
-                    retVal[retVal.length] = item;
-                }
-            }
-            dict = null;
-            return new JSLINQ(retVal);
-        },
-        Any: function (clause) {
-            for (var index = 0; index < this.items.length; index++) {
-                if (clause(this.items[index], index)) {
-                    return true;
-                }
-            }
-            return false;
-        },
-        All: function (clause) {
-            for (var index = 0; index < this.items.length; index++) {
-                if (!clause(this.items[index], index)) {
-                    return false;
-                }
-            }
-            return true;
-        },
-        Reverse: function () {
-            var retVal = new Array();
-            for (var index = this.items.length - 1; index > -1; index--)
-                retVal[retVal.length] = this.items[index];
-            return new JSLINQ(retVal);
-        },
-        First: function (clause) {
-            if (clause != null) {
-                return this.Where(clause).First();
-            }
-            else {
-                // If no clause was specified, then return the First element in the Array
-                if (this.items.length > 0)
-                    return this.items[0];
-                else
-                    return null;
-            }
-        },
-        Last: function (clause) {
-            if (clause != null) {
-                return this.Where(clause).Last();
-            }
-            else {
-                // If no clause was specified, then return the First element in the Array
-                if (this.items.length > 0)
-                    return this.items[this.items.length - 1];
-                else
-                    return null;
-            }
-        },
-        ElementAt: function (index) {
-            return this.items[index];
-        },
-        Concat: function (array) {
-            var arr = array.items || array;
-            return new JSLINQ(this.items.concat(arr));
-        },
-        Intersect: function (secondArray, clause) {
-            var clauseMethod;
-            if (clause != undefined) {
-                clauseMethod = clause;
+                //placeMarker(latlng);
+				var marker = new google.maps.Marker({
+					map: map,
+					position: results[0].geometry.location
+				});
+				markers.push(marker);
+				var address = results[1].formatted_address
+                var str = '<div id="infoWindow"> Address: ' + address + '</div>';
+				var infowindow = new google.maps.InfoWindow();
+                infowindow.setContent(str);
+                infowindow.open(map, marker);
+				infoWindows.push(infowindow);
             } else {
-                clauseMethod = function (item, index, item2, index2) {
-                    return item == item2;
-                };
+                alert('No results found');
             }
-
-            var sa = secondArray.items || secondArray;
-
-            var result = new Array();
-            for (var a = 0; a < this.items.length; a++) {
-                for (var b = 0; b < sa.length; b++) {
-                    if (clauseMethod(this.items[a], a, sa[b], b)) {
-                        result[result.length] = this.items[a];
-                    }
-                }
-            }
-            return new JSLINQ(result);
-        },
-        DefaultIfEmpty: function (defaultValue) {
-            if (this.items.length == 0) {
-                return defaultValue;
-            }
-            return this;
-        },
-        ElementAtOrDefault: function (index, defaultValue) {
-            if (index >= 0 && index < this.items.length) {
-                return this.items[index];
-            }
-            return defaultValue;
-        },
-        FirstOrDefault: function (defaultValue) {
-            return this.First() || defaultValue;
-        },
-        LastOrDefault: function (defaultValue) {
-            return this.Last() || defaultValue;
+        } else {
+            alert('Error');
         }
-    };
-    JSLINQ.fn.init.prototype = JSLINQ.fn;
-})();
+    });
+}
 
-function clearOverlays() {
-    while (markers[0]) {
-        markers.pop().setMap(null)
-    }
+function kmToM(radius) {
+	return radius*1000;
+}
+
+function mToKm(radius) {
+	return radius/1000;
+}
+
+function draw_circle(center, radius) {
+	clearOnMap(shapes);
+	var circleOptions = {
+                fillColor: 'red',
+                fillOpacity: 0.3,
+                strokeWeight: 1,
+                clickable: false,
+                editable: true,
+                zIndex: 1,
+				map: map,
+				center: center,
+				radius: radius
+            };
+	
+    var circle = new google.maps.Circle(circleOptions);
+	shapes.push(circle);
+}
+
+function draw_rectangle() {
+	clearOnMap(shapes);
+}
+
+function draw_polygon(path) {
+	clearOnMap(shapes);
+	var polygonOptions = {
+                fillColor: 'red',
+                fillOpacity: 0.3,
+                strokeWeight: 1,
+                editable: true,
+                zIndex: 1,
+                geodesic:true,
+                paths: path
+            };
+	
+	var polygon = new google.maps.Polygon(polygonOptions);
+	
+	polygon.setMap(map);
+	shapes.push(polygon);
+}
+
+function manageAddress(latlng, func) {
+	var address;
+	geocoder.geocode({ 'latLng': latlng }, function (results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+            if (results[1]) {
+                address = results[1].formatted_address
+				func(address);
+            }
+		}
+    });
+	return undefined;
+}
+
+function manageLatLng(address, func) {
+	geocoder.geocode({ 'address': address}, function (results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+            var latlng = results[0].geometry.location
+			func(latlng);
+        }
+    });
+}
+
+function clearMap() {
+	clearOnMap(markers);
+	clearOnMap(shapes);
+	clearOnMap(infoWindows);
+}
+
+function clearOnMap(array) {
+	jQuery.each(array, function(index, a){
+		a.setMap(null);
+	});
 }
