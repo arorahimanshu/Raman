@@ -54,10 +54,6 @@ class GeoFence(Page2Component):
 			self.server.appUrl('etc', 'page2', 'generic', 'css', 'flexigrid.css')
 		)
 
-		params['externalJs'].append(
-			self.server.appUrl('etc','page2','specific','js','geoFenceForm_partial.js')
-		)
-
 		db = self.app.component('dbHelper')
 		with self.server.session() as session:
 			self.username = session['username']

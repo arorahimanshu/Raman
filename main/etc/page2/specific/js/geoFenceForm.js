@@ -19,9 +19,6 @@ jQuery(window).load(function () {
 	rp = parseInt(jQuery('.pGroup select option:selected').text())
 	
 	onLoad_GeoFence();
-	
-	jQuery('#tablediv').hide();
-	jQuery('#newGeoFence').show();
 });
 
 function saveSuccess(result) {
