@@ -74,7 +74,7 @@ input[type=number]::-webkit-inner-spin-button:after {
     width: 40%;
     margin: 2% 0 0 25%;
     font-weight: bold;
-	border: 2px solid #5133AB;
+	border: 0px solid #5133AB;
 	border-radius: 5px;
 /*	background-color: #EBF5FF; /* delete/comment the line if background color of form not needed */
 }
@@ -227,12 +227,11 @@ span>img {
     font-size: 14px;
     font-weight: bold;
     margin:2%;
-
     color: #ffffff;
     background-color: #5133AB;
     text-align: center;
     height: 45px !important;
-    width: 100px;
+    width: 150px ;
     cursor: pointer;
     border: 1px solid #0C57A3;
     transition: box-shadow 0.3s ease 0s, border 0.3s ease 0s;

@@ -1,4 +1,4 @@
-
+var flag = 0
 fitx.utils.require (['fitx', 'page2', 'UtilUrl'])
 
 fitx.page2.requestNewTab = function (url) {
@@ -68,14 +68,23 @@ jQuery (window).load (function () {
 		})
 	})
 
+
+
+    function childSlider(flag) {
+        alert(flag)
+        if (flag==0) {
+            jQuery('.childContainer').addClass('childContainerHover')
+            jQuery('.appButton').fadeTo(400,0.6)
+            jQuery('.childContainer').stop.fadeTo(800,1)
+            flag = 1
+        }
+
+    }
+
 	jQuery  ('.parentSlideButton').mouseover(function () {
-
+	            alert('parent')
                 jQuery('.childContainer').slideDown(650)
-
-                jQuery('.childContainer').addClass('childContainerHover')
-
-                jQuery('.appButton').fadeTo(800,0.6)
-                jQuery('.childContainer').stop.fadeTo(800,1)
+                childSlider(flag)
 
 
        })
@@ -83,18 +92,16 @@ jQuery (window).load (function () {
     jQuery  ('.parentSlideButton').mouseout(function () {
 
                     my_timer = setTimeout(function () {
-                   jQuery('.childContainer').hide();
-                     }, 4000);
-                       jQuery('.appButton').fadeTo(400,1)
-
-
+                        jQuery('.childContainer').hide();
+                    }, 100);
+                    jQuery('.appButton').fadeTo(200,1)
        })
 
-
     jQuery  ('.childContainer').mouseover(function () {
-
-
+               alert('child')
                jQuery('.childContainer').addClass('childContainerHover')
+               flag = 0
+               childSlider(flag)
 
        })
 
