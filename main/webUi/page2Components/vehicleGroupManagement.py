@@ -126,12 +126,14 @@ class vehicleGroup(Page2Component):
 		if errors:
 			return self.jsonFailure('validation failed', errors=errors)
 		#
-		with self.server.session() as serverSession :
-			parentOrganizationId = serverSession['primaryOrganizationId']
+
+		parentBranchId = formData['branchId']
+
+		del formData['branchId']
 
 		with dataUtils.worker() as worker:
 			details = formData
-			details['parentOrgId'] = parentOrganizationId
+			details['parentOrgId'] = parentBranchId
 			newVehicleGroup = worker.createVehicleGroup(details)
 
 
@@ -196,7 +198,7 @@ class vehicleGroup(Page2Component):
 				db.VehicleGroup.updateFromParams({
 				'id':formData['id']
 
-				},**{'name':formData['vehicleGroupName'],'category':formData['vehicleGroupCat']})
+				},**{'name':formData['vehicleGroupName'],'category':formData['vehicleGroupCat'],'parent_id':formData['branchId']})
 
 			#
 			#	address= formData['address1'] + ";" + formData['address2'] + ";" + formData['state'] + ";" + formData[

@@ -19,7 +19,16 @@
 			<div class="genericFormHeader">Branch Data</div>
 
 	 </div>
-
+	
+	<div class="field">
+		<label class="genericFormLabel">Organization</label>
+		<select id="organization">
+			%for org in orgList:
+				<option value="${org['value']}">${org['display']}</option>
+			%endfor
+		</select>
+	</div>
+	
     <div class="field">
          <label class="genericFormLabel">Branch name:</label>
            <input type="text" id="branchName" class="genericInput "><span id="branchNameErrorImg"><img src=""></span>

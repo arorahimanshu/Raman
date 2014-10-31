@@ -10,7 +10,16 @@
 			<div class="genericFormHeader">Vehicle Data</div>
 
 	 </div>
-
+	
+	<div class="field">
+		<label class="genericFormLabel">Vehicle Group</label>
+		<select id="vehicleGroup">
+			%for vehicleGroup in vehicleGroupList:
+				<option value="${vehicleGroup['value']}">${vehicleGroup['display']}</option>
+			%endfor
+		</select>
+	</div>
+	
     <div class="field">
          <label class="genericFormLabel">Vehicle Reg No.:</label>
            <input type="text" id="vehicleRegNo" class="genericInput "><span id="vehicleRegNoErrorImg"><img src=""></span>

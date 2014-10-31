@@ -369,8 +369,6 @@ class DbHelper(Component):
 		rows = []
 		i = (pageNo - 1) * numOfObj + 1
 
-
-
 		for data in sessionQueryObj.all():
 
 			cell = {}
@@ -460,6 +458,7 @@ class DbHelper(Component):
 			cell = {}
 			cell['cell'] = []
 			cell['cell'].append(i)
+			cell['cell'].append(data.parent_id)
 			cell['cell'].append(data.id)
 			cell['cell'].append(data.name)
 			# Clear off old values

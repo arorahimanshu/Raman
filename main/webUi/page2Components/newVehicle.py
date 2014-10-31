@@ -81,10 +81,14 @@ class Vehicle(Page2Component):
 
 		'fieldInfo': self._clientFieldInfo,
 		})
-		attrNames = ['S.No', 'Vehicle_Id', 'Vehicle_Name', 'Vehicle_Make', 'Vehicle_Reg_No', 'Vehicle_Type']
+		attrNames = ['S.No', 'Vehicle_Group_Id', 'Vehicle_Id', 'Vehicle_Name', 'Vehicle_Make', 'Vehicle_Reg_No', 'Vehicle_Type']
+
+		dbHelp = self.app.component('dbHelper')
+		vehicleGroupList = dbHelp.returnVehicleGroupListForBranch(None)
+
 		return self._renderWithTabs(
 			proxy, params,
-			bodyContent=proxy.render('newVehicleForm.html', classdata=attrNames),
+			bodyContent=proxy.render('newVehicleForm.html', classdata=attrNames, vehicleGroupList=vehicleGroupList),
 			newTabTitle='New Vehicle',
 			url=requestPath.allPrevious(),
 		)
@@ -127,8 +131,6 @@ class Vehicle(Page2Component):
 		#
 
 		db = self.app.component('dbManager')
-		with self.server.session() as serverSession :
-			parentOrganizationId = serverSession['primaryOrganizationId']
 
 		with db.session() as session:
 
@@ -138,7 +140,7 @@ class Vehicle(Page2Component):
 
 			vehicle_data = db.Gps_Vehicle_Info.addOrUpdateFromParams('add', {
 			'id': newVehicleID.id,
-			'parent_id': parentOrganizationId,
+			'parent_id': formData['vehicleGroupId'],
 			'name': formData['vehicleName']
 
 			})
