@@ -59,8 +59,8 @@ def defineTables(db):
 		Column('Vehicle_Id', DbTypes.Uuid, nullable=False),
 		Column('User_Id', DbTypes.Uuid, nullable=False),
 		Column('Coordinate_Id', DbTypes.Uuid, nullable=False),
-		Column('Latitude', String(1024), nullable=False),
-		Column('Longitude', String(1024), nullable=False),
+		Column('Details', String(1024), nullable=False),
+		#Column('Longitude', String(1024), nullable=False),
 
 		PrimaryKeyConstraint('Geofence_Id', 'User_Id', 'Vehicle_Id'),
 

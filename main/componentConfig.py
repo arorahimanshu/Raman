@@ -122,6 +122,7 @@ Page2Config = [
         'urls': [
             'newGeoFenceForm',
             'newGeoFenceFormAction',
+            'geoFenceData'
         ],
         'component': 'webUi.page2Components.geoFence.GeoFence',
         'apps': [
@@ -135,7 +136,6 @@ Page2Config = [
 
     },
 
- 
 	{
 	'name': 'organizationManagement',
 	'urls': [
