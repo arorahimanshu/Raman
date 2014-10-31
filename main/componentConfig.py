@@ -54,6 +54,7 @@ Page2Config = [
         ],
         'component': 'webUi.page2Components.landingPage.LandingPage',
         'defaultLanding': 'home',
+		'type':'child',
     },
 
     {
@@ -66,7 +67,9 @@ Page2Config = [
                 'displayName': 'Security Settings',
                 'url': ['securitySettings'],
             },
-        ]
+        ],
+		'type':'parent',
+
     },
 
     {
@@ -88,6 +91,7 @@ Page2Config = [
                 'url': ['newGpsDataForm'],
             }
         ],
+		'type':'child',
 
     },
 
@@ -108,6 +112,7 @@ Page2Config = [
                 'url': ['newPoiForm'],
             }
         ],
+		'type':'child',
 
     },
 
@@ -127,6 +132,7 @@ Page2Config = [
                 'url': ['newGeoFenceForm'],
             }
         ],
+		'type':'child',
 
     },
 
@@ -146,9 +152,10 @@ Page2Config = [
 		'displayName': 'Manage Organization',
 		'url': ['organizationManagementForm'],
 		}
-	]
+		],
+		'type':'child',
 	},
-    	{
+    {
 	'name': 'branchManagement',
 	'urls': [
 		'branchManagementForm',
@@ -164,7 +171,8 @@ Page2Config = [
 		'displayName': 'Manage Branch',
 		'url': ['branchManagementForm'],
 		}
-	]
+	],
+	'type':'child',
 	},
 		    	{
 	'name': 'vehicleGroupManagement',
@@ -182,7 +190,8 @@ Page2Config = [
 		'displayName': 'Manage Vehicle Group',
 		'url': ['vehicleGroupManagementForm'],
 		}
-	]
+	],
+	'type':'child',
 	},
 
 	{
@@ -201,7 +210,8 @@ Page2Config = [
 		'displayName': 'Manage Vehicle',
 		'url': ['newVehicleForm'],
 		}
-	]
+	],
+	'type':'child',
 	},
  
     {
@@ -220,28 +230,11 @@ Page2Config = [
                 'displayName': 'Manage Users',
                 'url': ['userManagementForm'],
             }
-        ]
+        ],
+		'type':'child',
     },
  
 
-    {
-        'name': 'organizationManagement',
-        'urls': [
-            'organizationManagementForm',
-            'organizationManagementFormAction',
-            'organizationData',
-            'editOrganization',
-            'delOrganization'
-        ],
-        'component': 'webUi.page2Components.organizationManagement.Organization',
-        'apps': [
-            {
-                'name': 'organizationManagement',
-                'displayName': 'Manage Organization',
-                'url': ['organizationManagementForm'],
-            }
-        ]
-    },
     {
         'name': 'newVehicle',
         'urls': [
@@ -258,7 +251,8 @@ Page2Config = [
                 'displayName': 'Manage Vehicle',
                 'url': ['newVehicleForm'],
             }
-        ]
+        ],
+		'type':'child',
     },
 
     {
@@ -278,6 +272,7 @@ Page2Config = [
                 'url': ['paymentReceiptForm'],
             }
         ],
+		'type':'child',
 
     },
 
@@ -296,6 +291,7 @@ Page2Config = [
                 'url': ['newReport1Form'],
             }
         ],
+		'type':'child',
 
     },
 
@@ -314,6 +310,7 @@ Page2Config = [
                 'url': ['newReport4Form'],
             }
         ],
+		'type':'child',
 
     },
 
@@ -332,6 +329,7 @@ Page2Config = [
                 'url': ['newPlaybackForm'],
             }
         ],
+		'type':'child',
 
     },
     {
@@ -341,6 +339,7 @@ Page2Config = [
             'logoutAction',
         ],
         'component': 'webUi.page2Components.utilUrl.UtilUrl',
+		'type':'child',
 
     },
 
@@ -360,6 +359,7 @@ Page2Config = [
                 'url': ['newTravelReportForm'],
             }
         ],
+		'type':'child',
 
     },
 
@@ -381,6 +381,7 @@ Page2Config = [
                 'url': ['newRoleManagementForm'],
             }
         ],
+		'type':'child',
 
     },
 	
@@ -400,9 +401,83 @@ Page2Config = [
                 'url': ['newDashboardForm'],
             }
         ],
+		'type':'child',
 
     },
 ]
+
+
+Page2ConfigChild = [
+
+	    {
+        'name': 'securitySettings',
+        'urls': ['securitySettings', 'securitySettingsAction', 'userSecuritySettings', 'roleSecuritySettings'],
+        'component': 'webUi.page2Components.securitySettings.SecuritySettings',
+        'apps': [
+            {
+                'name': 'securitySettings',
+                'displayName': 'First Tile',
+                'url': ['securitySettings'],
+            },
+        ],
+		'type':'child',
+		'parent':'securitySettings',
+
+    },
+	    {
+        'name': 'securitySettings',
+        'urls': ['securitySettings', 'securitySettingsAction', 'userSecuritySettings', 'roleSecuritySettings'],
+        'component': 'webUi.page2Components.securitySettings.SecuritySettings',
+        'apps': [
+            {
+                'name': 'securitySettings',
+                'displayName': 'Second Tile',
+                'url': ['securitySettings'],
+            },
+        ],
+		'type':'child',
+		'parent':'securitySettings',
+
+    },
+
+	    {
+        'name': 'securitySettings',
+        'urls': ['securitySettings', 'securitySettingsAction', 'userSecuritySettings', 'roleSecuritySettings'],
+        'component': 'webUi.page2Components.securitySettings.SecuritySettings',
+        'apps': [
+            {
+                'name': 'securitySettings',
+                'displayName': 'Third Tile',
+                'url': ['securitySettings'],
+            },
+        ],
+		'type':'child',
+		'parent':'securitySettings',
+
+    },
+
+	    {
+        'name': 'securitySettings',
+        'urls': ['securitySettings', 'securitySettingsAction', 'userSecuritySettings', 'roleSecuritySettings'],
+        'component': 'webUi.page2Components.securitySettings.SecuritySettings',
+        'apps': [
+            {
+                'name': 'securitySettings',
+                'displayName': 'Fourth Tile',
+                'url': ['securitySettings'],
+            },
+        ],
+		'type':'child',
+		'parent':'securitySettings',
+
+    },
+
+
+
+
+]
+
+
 
 PermissionConfig = [
     {

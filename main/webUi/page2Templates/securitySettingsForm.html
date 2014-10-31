@@ -13,12 +13,12 @@ class="authSettings ${containerClass or ''}"
 </div>-->
 
 	<div class="body">
-		<div class="formContainer" >
-			<div class="selectBoxContainer" style="margin-left: 0px; margin-bottom: 0px;" >
-				<div class="formRow" id="selectUser">
-					<div class="formCell"><label>Select User:</label></div>
+		<div class="genericFormHeader" >
+			<div class="selectBoxContainer  "   >
+				<div class=" formRow" id="selectUser">
+					<div class=" formCell  genericFormLabel"><label>Select User:</label></div>
 					<div class="formCell">
-						<select id="user">
+						<select id="user" class="genericSelect userSelect  ">
 							<option value="0" selected="selected">Select User</option>
 							%for user in tableData['users'] :
 								<option value="${user['username']}">${user['username']}</option>
@@ -34,28 +34,35 @@ class="authSettings ${containerClass or ''}"
 			<div class="formHead" style="width:20%">Permissions</div>
 		</div>-->
 		
-			<div class="permissionDataContainer" style="display:none;">
-				<div class="formHead" style="margin-bottom: 50px;">Roles Permissions</div>
+			<div class="permissionDataContainer" style="">
+				<div class="permissionBlock">
+                <div class="formHead1"  >Roles</div>
 				<div id="rolesList">
 					%for role in tableData['roles']:
 						<div>
-							<input type="checkbox" value="${role['name']}" class="role"><label>${role['name']}</label>.
+							<input type="checkbox" value="${role['name']}" class="role   "><label>${role['name']}</label>
 						</div>
 					%endfor
 				</div>
-				<div id="permissionsList">
+                </div>
+
+                <div class="permissionBlock">
+                <div class="formHead1"  >Roles Permissions</div>
+                <div id="permissionsList">
 					%for permission in tableData['permissions']:
 						<div>
-							<input type="checkbox" value="${permission['name']}" class="permission" disabled="disabled"><label>${permission['name']}</label>.
+							<input type="checkbox" value="${permission['name']}" class="permission" disabled="disabled"><label>${permission['name']}</label>
 						</div>
 					%endfor
 				</div>
-				<div class="formRow" id="actionButtons">
+				</div>
+
+                    <div class="formRow11" id="actionButtons">
 					<div class="formCell">
-						<div class="formButton" id="save">Save</div>
+						<div class="genericButton" id="save">Save</div>
 					</div>
 					<div class="formCell">
-						<div class="formButton" id="cancel">Cancel</div>
+						<div class="genericButton" id="cancel">Cancel</div>
 					</div>
 				</div>
 			</div>

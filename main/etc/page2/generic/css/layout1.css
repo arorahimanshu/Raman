@@ -43,6 +43,7 @@
   width: 100%;
   height: 80px
   display:inline;
+  	border: 1px solid blue;
 
 
 }
@@ -64,6 +65,39 @@
 	display:inline;
 
 }
+ .right_message {
+
+    display: flex;
+    margin: 10px 10px 0 0 ;
+	padding: 0 0 5px 0 ;
+	height:60%;
+    float:right;
+	border: 1px solid red;
+    text-decoration: underline;
+    width:21%;
+}
+
+.welcome_message
+{
+    float:left
+    display: inline;
+    width:80%;
+}
+.logout
+{
+    float:right
+    display: inline;
+    width:20%;
+    background-color: #5133AB;
+    color: #FFF;
+    height:25px;
+    width:70px;
+    padding: 5px 0 0 12px;
+    cursor: pointer;
+}
+
+
+
 .header_logo > .article1{
      display:inline;
      width:200px;

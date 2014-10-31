@@ -1,5 +1,5 @@
-
-fitx.utils.require (['fitx', 'page2'])
+var flag = 0
+fitx.utils.require (['fitx', 'page2', 'UtilUrl'])
 
 fitx.page2.requestNewTab = function (url) {
 	var result = {
@@ -67,6 +67,56 @@ jQuery (window).load (function () {
 			url:tabInfo['url'],
 		})
 	})
+
+
+
+    function childSlider(flag) {
+        alert(flag)
+        if (flag==0) {
+            jQuery('.childContainer').addClass('childContainerHover')
+            jQuery('.appButton').fadeTo(400,0.6)
+            jQuery('.childContainer').stop.fadeTo(800,1)
+            flag = 1
+        }
+
+    }
+
+	jQuery  ('.parentSlideButton').mouseover(function () {
+	            alert('parent')
+                jQuery('.childContainer').slideDown(650)
+                childSlider(flag)
+
+
+       })
+
+    jQuery  ('.parentSlideButton').mouseout(function () {
+
+                    my_timer = setTimeout(function () {
+                        jQuery('.childContainer').hide();
+                    }, 100);
+                    jQuery('.appButton').fadeTo(200,1)
+       })
+
+    jQuery  ('.childContainer').mouseover(function () {
+               alert('child')
+               jQuery('.childContainer').addClass('childContainerHover')
+               flag = 0
+               childSlider(flag)
+
+       })
+
+
+
+
+
+	 jQuery('.logout').click(function () {
+
+        console.log('cancel')
+     	b = sendAjaxRequest('logoutAction', 'user', 'abc')
+        alert("User will be logged out")
+        location.reload()
+    })
+
 
 	fitx.utils.infoCookie (function (cookie) {
 		if (! ('tabs' in cookie)) {
@@ -212,5 +262,4 @@ jQuery (window).load (function () {
 	jQuery (window).resize (align.debounce (150))
 
 })
-
 

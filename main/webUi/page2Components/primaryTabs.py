@@ -40,6 +40,8 @@ class PrimaryTabs(Page2Component):
 			)
 			tabIds.add(item['id'])
 		#
+		with self.server.session() as session:
+			userName=session['username']
 
 		requestParams = self.requestParams()
 		mode = requestParams.get('tabMode', '')
@@ -69,6 +71,7 @@ class PrimaryTabs(Page2Component):
 		                                             bodyContent=proxy.render('primaryTabs.html',
 		                                                                      activeTab=activeTab,
 		                                                                      tabs=tabs,
+																			  userName=userName,
 		                                                                      bodyContent=bodyContent,
 		                                             )
 		                    )
