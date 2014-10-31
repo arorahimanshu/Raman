@@ -91,9 +91,11 @@ class Branch(Page2Component):
 		classData = ['Sno','Organization_id','branch_name', 'Addrs_line1', 'Addrs_line2',
 					 'City', 'State', 'Pincode','BranchId']
 
+		dbHelp = self.app.component('dbHelper')
+		orgList = dbHelp.returnOrgList(None)
 		return self._renderWithTabs(
 			proxy, params,
-			bodyContent=proxy.render('branchManagement.html', classdata=classData, userId=self.userId,
+			bodyContent=proxy.render('branchManagement.html', classdata=classData, userId=self.userId, orgList=orgList
 								   ),
 			newTabTitle='New Branch',
 			url=requestPath.allPrevious(),
@@ -137,12 +139,12 @@ class Branch(Page2Component):
 		if errors:
 			return self.jsonFailure('validation failed', errors=errors)
 		#
-		with self.server.session() as serverSession :
-			parentOrganizationId = serverSession['primaryOrganizationId']
+
 
 		with dataUtils.worker() as worker:
 			details = formData
-			details['parentOrgId'] = parentOrganizationId
+			details['parentOrgId'] = formData['orgId']
+			del formData['orgId']
 			newBranch = worker.createBranch(details)
 
 
@@ -208,7 +210,7 @@ class Branch(Page2Component):
 				db.branch.updateFromParams({
 				'id':formData['id']
 
-				},**{'name':formData['branchName']})
+				},**{'name':formData['branchName'], 'parent_id':formData['orgId']})
 
 			#
 			#	address= formData['address1'] + ";" + formData['address2'] + ";" + formData['state'] + ";" + formData[

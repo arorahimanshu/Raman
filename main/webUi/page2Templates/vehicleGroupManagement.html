@@ -22,7 +22,7 @@
 
     <div class="field">
          <label class="genericFormLabel">Branch name:</label>
-			<select>
+			<select id="branch">
 				%for branch in branchList:
 					<option value="${branch['value']}">${branch['display']}</option>
 				%endfor
