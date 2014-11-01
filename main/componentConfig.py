@@ -122,7 +122,9 @@ Page2Config = [
         'urls': [
             'newGeoFenceForm',
             'newGeoFenceFormAction',
-            'geoFenceData'
+            'geoFenceData',
+            'editGeoFence',
+            'delGeoFence'
         ],
         'component': 'webUi.page2Components.geoFence.GeoFence',
         'apps': [

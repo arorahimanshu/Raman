@@ -21,8 +21,11 @@ class GeoFence(Page2Component):
 			return self._newGeoVehicle_delData(requestPath)
 		elif nextPart == 'geoFenceData':
 			return self._geoFenceData(requestPath)
+		elif nextPart == 'editGeoFence':
+			return self._editGeoFence(requestPath)
+		elif nextPart == 'delGeoFence':
+			return self._delGeoFence(requestPath)
 		#
-
 	#
 
 
@@ -60,7 +63,7 @@ class GeoFence(Page2Component):
 			self.userId = session['userId']
 		#
 		self.vehicleList = db.returnVehicleList(self.userId)
-		self.classData=['S.No.','GeoFence Id','GeoFence Name','Vehicle Id','Type','Radius']
+		self.classData=['S.No.','GeoFence Id','GeoFence Name','Vehicle Id','Type','Radius','Coordinates']
 		return self._renderWithTabs(
 			proxy, params,
 			bodyContent=proxy.render('GeoFenceForm.html',vehicleList=self.vehicleList,classdata=self.classData),
@@ -146,28 +149,6 @@ class GeoFence(Page2Component):
 
 
 		#
-		#
-	
-
-
-	def _newGeoVehicle_delData(self,requestPath):
-		formData = json.loads(cherrypy.request.params['formData'])
-		print("********************Inside Delete*******************")
-		print(formData)
-		Geofence_Id=formData['fenceId'];
-
-		db = self.app.component('dbManager')
-		taData=[]
-		with db.session() as session:
-			session.query(db.Gps_Geofence_Data).filter(db.Gps_Geofence_Data.Geofence_Id == formData['fenceId']).delete()
-
-		with db.session() as session:
-			query = session.query(db.Gps_Geofence_Data).filter_by(User_Id=self.userId)
-			for obj in query.all():
-				taData.append(
-					{'Geofence_Id': obj.Geofence_Id,'Geofence_Name': str(obj.Geofence_Name), 'Vehicle_Id': obj.Vehicle_Id, 'Details':obj.Details}
-					)
-		return self.jsonSuccess('Geo Fence Deleted !', tableData=taData)	
 	#
 
 	def _geoFenceData(self,requestPath):
@@ -192,11 +173,18 @@ class GeoFence(Page2Component):
 				row['cell'].append(details['radius'])
 			else:
 				row['cell'].append('N/A')
+			row['cell'].append(json.dumps(details['geometry']))
 			rows.append(row)
+
+		formData = json.loads(cherrypy.request.params['formData'])
+		rp=formData.get('rp',10)
+		pageNo=formData.get('pageNo',1)
+		dbHelp = self.app.component('dbHelper')
+		rows = dbHelp.getSlicedData(rows,pageNo,rp)
 
 		data = {
 			'classData': self.classData,
-			'sendData': rows,
+			'sendData': rows
 		}
 
 		if data != None:
@@ -206,38 +194,51 @@ class GeoFence(Page2Component):
 
 		#
 
-	#def _newGeoVehicle_updateData(self,requestPath):
-	#	formData= json.loads(cherrypy.request.params['formData'])
-	#	errors = self._newGeoFenceFormValidate(formData)
-	#	db = self.app.component('dbManager')
-	#	print(formData)
-	#	if errors:
-	#		return self.jsonFailure('validation failed', errors=errors)
+	def _editGeoFence(self,requestPath):
+		formData = json.loads(cherrypy.request.params['formData'])
 
-	#	with db.session() as session:
-	#		gps_data = db.Gps_Geofence_Data.newFromParams({
-	#		'Geofence_Name': formData['fenceName'],
-	#		'Vehicle_Id': formData['vehicleId'],
-	#		'Details': formData['Details'],
-	#		})
-	#		session.query(db.Gps_Geofence_Data).filter(db.Gps_Geofence_Data.Geofence_Id == formData['fenceID']).update({gps_data})
-	#		session.commit()
+		db = self.app.component('dbManager')
+
+		errors = self._newGeoFenceFormValidate(formData)
+		if errors:
+			return self.jsonFailure('validation failed', errors=errors)
+		#
 
 
+		db.Gps_Geofence_Data.updateFromParams({'Geofence_Id': formData['id']},
+                                                          **{'Geofence_Name': formData['fenceName'],
+                                                             'Vehicle_Id': formData['vehicleId'],
+                                                             'User_Id': self.userId,
+                                                             'Coordinate_Id': db.Entity.newUuid(),
+                                                             'Details': formData['Details'],
+            })
 
-	#def _newGeoVehicle_getData(self,requestPath):
-	#	formData = json.loads(cherrypy.request.params['formData'])
-	#	#print(v.errors)
-	#	num=[]
-	#	vehicleId=formData['vehicleId']
-	#	db = self.app.component('dbManager')
+		return self.jsonSuccess('Geo Fence Saved !')
 
-	#	with db.session() as session:
-	#		query = session.query(db.Gps_Coordinate_Data).filter_by(Vehicle_Id=vehicleId)
-			#print(query.count)
-	##		for obj in query.all():
-	#			num.append({"position": {"latitude": str(obj.Latitude), "longitude": str(obj.Longitude)},
-	#			            "time": {"hour": int(obj.Time[0:2]), "minute": int(obj.Time[2:4]),
-	#			                     "second": int(obj.Time[4:6])}, "vehicleId": int(obj.Vehicle_Id)})
+	def _delGeoFence(self,requestPath):
+		formData= json.loads(cherrypy.request.params['formData'])
+		db = self.app.component('dbManager')
+		try:
+			with db.session() as session:
+				query = session.query(db.Gps_Geofence_Data).filter(db.Gps_Geofence_Data.Geofence_Id == formData)
+				session.delete(query.one())
+		except:
+			return self.jsonFailure()
+		return self.jsonSuccess('GeoFence Deleted')
 
-	#	return self.jsonSuccess('Geo Fence Saved !', data=num)
+	def _newGeoVehicle_updateData(self,requestPath):
+		formData= json.loads(cherrypy.request.params['formData'])
+		errors = self._newGeoFenceFormValidate(formData)
+		db = self.app.component('dbManager')
+		print(formData)
+		if errors:
+			return self.jsonFailure('validation failed', errors=errors)
+
+		with db.session() as session:
+			gps_data = db.Gps_Geofence_Data.newFromParams({
+			'Geofence_Name': formData['fenceName'],
+			'Vehicle_Id': formData['vehicleId'],
+			'Details': formData['Details'],
+			})
+			session.query(db.Gps_Geofence_Data).filter(db.Gps_Geofence_Data.Geofence_Id == formData['fenceID']).update({gps_data})
+			session.commit()

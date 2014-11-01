@@ -11,6 +11,7 @@ var shapes = [];
 
 jQuery(window).load(function () {
 	setupAJAXSubmit('newGeoFenceForm', 'newGeoFenceFormAction', setupData, setupConstraints, '.submit', null, saveSuccess);
+	setupAJAXSubmit('newGeoFenceForm', 'editGeoFence', setupData2, setupConstraints, '.editButton', null, saveSuccess);
 	
 	setupFlexiGrid('#showGeoFenceReport', undefined, "GeoFence Report", undefined, undefined, undefined, undefined, classData);
 	
@@ -26,7 +27,7 @@ function saveSuccess(result) {
 	location.reload();
 }
 
-function setupData(res) {
+function setupData() {
 	var filter = jQuery('.filter').filter(':visible');
 	var name = filter.find('.name').val();
 	var vehicleId = filter.find('.vehicles :selected')[0].value;
@@ -53,7 +54,7 @@ function setupData(res) {
 		'vehicleId' : vehicleId
 	};
 	
-	if (type=='Circle') {
+	if (type=='CIRCLE') {
 		if(geometry.length != 1) {
 			alert ('one address required');
 		} else {
@@ -63,7 +64,7 @@ function setupData(res) {
 			
 			details['radius'] = parseFloat(radius);
 		}
-	} else if (type=='Polygon') {
+	} else if (type=='POLYGON') {
 		if(geometry.length < 3) {
 			alert ('minimum three addresses required')
 		} else {
@@ -75,6 +76,13 @@ function setupData(res) {
 	
 	data['Details'] = JSON.stringify(details);
 	
+	return data;
+}
+
+function setupData2() {
+	var data=setupData();
+	data.id=idToEdit;
+	console.log(data)
 	return data;
 }
 
@@ -97,7 +105,7 @@ function onLoad_GeoFence() {
 	map=initialize();
 	
 	jQuery('.BACK').click(function() {
-		jQuery('#tablediv').show();
+		jQuery('#tableDiv').show();
 		jQuery('#newGeoFence').hide();
 	});
 	
@@ -162,7 +170,7 @@ function onLoad_GeoFence() {
 		if(address != '') {
 			var func = function (latlng) {
 				var radius = div.find('.radius').val();
-				draw_circle(latlng, parseFloat(radius));
+				draw_circle(latlng, radius);
 				
 				div.find('.lat').text(latlng.lat());
 				div.find('.lng').text(latlng.lng());
@@ -212,6 +220,7 @@ function onLoad_GeoFence() {
 	
 	jQuery('.cancel').click(function(){
 		clearMap();
+		clearFilter();
 	});
 }
 
@@ -296,15 +305,112 @@ function onReload() {
     sendAjaxRequest('geoFenceData', {'pageNo': pageNo}, showReport)
 }
 
+function successFunc(result) {
+	alert(result.message);
+	if(result.success == true) {
+		location.reload();
+	} else {
+	}
+}
+
 function onAdd() {
-	jQuery('#tablediv').hide();
+	jQuery('.buttons button').removeAttr('disabled');
+	
+	jQuery('.editButton').removeClass('editButton').addClass('submit')
+	
+	jQuery('#tableDiv').hide();
 	jQuery('#newGeoFence').show();
 }
 
-function onDelete() {
+function onDelete(com, grid) {
+	var c = 0
+	jQuery('.trSelected', grid).each(function () {
+		c += 1
+	})
+	if (c == 1) {
+		//code for geting row data and sending to form
+		jQuery('.trSelected', grid).each(function () {
+			var id = jQuery('td[abbr="GeoFence Id"] >div', this).html();
+			sendAjaxRequest('delGeoFence',id,successFunc);
+		})
+	} else {
+		alert('Select one row');
+	}
 }
 
-function onEdit() {
+function onEdit(com, grid) {
+	var c = 0
+	jQuery('.trSelected', grid).each(function () {
+		c += 1
+	})
+	if (c == 1) {
+		//code for geting row data and sending to form
+		jQuery('.trSelected', grid).each(function () {
+			
+			jQuery('.buttons button').attr("disabled","disabled");
+			var name = jQuery('td[abbr="GeoFence Name"] >div', this).html();
+			idToEdit = jQuery('td[abbr="GeoFence Id"] >div', this).html();
+			var type = jQuery('td[abbr="Type"] >div', this).html();
+			var vehicleId = jQuery('td[abbr="Vehicle Id"] >div', this).html();
+			
+			jQuery('.'+type).trigger('click');
+			
+			var div = jQuery('.'+type.toLowerCase());
+			div.find('.name').val(name);
+			div.find('.type').val(type);
+			div.find('.vehicles').val(vehicleId);
+			
+			var coordinates = JSON.parse(jQuery('td[abbr="Coordinates"] >div', this).html());
+			
+			while(div.find('.address').length < coordinates.length) {
+				jQuery('.addButton').trigger('click');
+			}
+			
+			var addresses = div.find('.address');
+			
+			var path = [];
+			
+			jQuery.each(coordinates, function(index, latlng1){
+				var parent = jQuery(addresses[index]).parent();
+				parent.find('.lat').text(latlng1[0]);
+				parent.find('.lng').text(latlng1[1]);
+				
+				var latlng = new google.maps.LatLng(latlng1[0],latlng1[1]);
+				path.push(latlng);
+				
+				var func = function(address) {
+					jQuery(addresses[index]).val(address);
+				}
+				
+				manageAddress(latlng,func);
+				
+			})
+			
+			setTimeout(function(){
+				jQuery.each(path,function(index,p){
+					codeLatLng(p);
+				}
+			)},1000);
+			if(type=='CIRCLE') {
+				var radius = jQuery('td[abbr="Radius"] >div', this).html();
+				jQuery('.radius').val(radius);
+				draw_circle(path[0],radius);
+			} else {
+				draw_polygon(path);
+			}
+			
+			map.setZoom(15);
+            map.setCenter(path[0]);
+			
+			jQuery("#tableDiv").hide();
+			jQuery('#newGeoFence').show();
+			div.find('.submit').text('Update')
+			div.find('.submit').removeClass('submit')
+				.addClass('editButton')
+		})
+	} else {
+		alert('Select one row');
+	}	
 }
 
 function codeAddress(address) {
@@ -315,10 +421,6 @@ function codeAddress(address) {
 
             map.setCenter(results[0].geometry.location);
             map.setZoom(15)
-
-            
-
-
         } else {
             alert('Geocode was not successful for the following reason: ' + status);
         }
@@ -364,6 +466,7 @@ function mToKm(radius) {
 
 function draw_circle(center, radius) {
 	clearOnMap(shapes);
+	radius = parseFloat(radius);
 	var circleOptions = {
                 fillColor: 'red',
                 fillOpacity: 0.3,
@@ -412,7 +515,6 @@ function manageAddress(latlng, func) {
             }
 		}
     });
-	return undefined;
 }
 
 function manageLatLng(address, func) {
@@ -434,4 +536,13 @@ function clearOnMap(array) {
 	jQuery.each(array, function(index, a){
 		a.setMap(null);
 	});
+}
+
+function clearFilter() {
+	jQuery('.name').val('');
+	jQuery('.address').val('');
+	jQuery('.lat').text('');
+	jQuery('.lng').text('');
+	jQuery('.radius').val('');
+	
 }

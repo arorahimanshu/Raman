@@ -15,8 +15,10 @@
 	<div class="message"></div>
 	
 	<div id="newGeoFence" hidden="true">
+		
+		<button class="BACK">BACK</button>
+		
 		<div class="buttons">
-			<button class="BACK">BACK</button>
 			<button class="CIRCLE">CIRCLE</button>
 			<!--<button class="RECTANGLE">RECTANGLE</button>-->
 			<button class="POLYGON">POLYGON</button>
@@ -30,7 +32,7 @@
 			
 			<div class="field">
 				<label>GeoFence Type</label>
-				<input class="type" value="Circle" disabled="disabled">
+				<input class="type" value="CIRCLE" disabled="disabled">
 			</div>
 			
 			<div class="field">
@@ -68,15 +70,15 @@
 			
 			<div class="field">
 				<label>GeoFence Type</label>
-				<input class="type" value="Rectangle" disabled="disabled">
+				<input class="type" value="RECTANGLE" disabled="disabled">
 			</div>
 			
 			<div class="field">
 				<label>Address 1</label>
 				<input class="address">
 				<button class="searchButton">Search</button>
-				<div class="lat" hidden="true"></div>
-				<div class="lng" hidden="true"></div>
+				<div class="lat"></div>
+				<div class="lng"></div>
 			</div>
 			
 			<div class="field">
@@ -124,7 +126,7 @@
 			
 			<div class="field">
 				<label>GeoFence Type</label>
-				<input class="type" value="Polygon" disabled="disabled">
+				<input class="type" value="POLYGON" disabled="disabled">
 			</div>
 			
 			<div class="addresses">
@@ -168,14 +170,14 @@
 				</select>
 			</div>
 			
-			<button type="submit" class="submit">Save</button>
+			<button class="submit">Save</button>
 			<button class="cancel">Cancel</button>
 		</div>
 		
 		<div id="googleMap"></div>
 	</div>
 	
-	<div id="tablediv">
+	<div id="tableDiv">
 		<table id="showGeoFenceReport"></table>
 	</div>
 
