@@ -16,10 +16,10 @@
 >
 
 	<div class="message" id="genericError"></div>
-	<div id="addRole" hidden="true">
+	<div id="addRole" class="addRole" hidden="true">
 
         <div class="field">
-			<div class="genericFormHeader">Add New Role</div>
+			<div class="formHead1">Add New Role</div>
 		</div>
 		
 		<div class="field" hidden="true">
@@ -36,9 +36,13 @@
 
 		<div class="field permissions">
 			<label class="genericFormLabel">Permissions</label>
-				%for item in permissions:
-					<input type="checkbox" id="${item['name']}"><label class="css-label">${item['name']}</label></input>
-				%endfor
+				<div class="checkAA">
+                %for item in permissions:
+					<div class="checkBoxCont">
+                    <input  type="checkbox" id="${item['name']}"><label class="css-label  ">${item['name']}</label></input>
+				    </div>
+                %endfor
+                </div>
 			<div class="errorBox" id="permissionError"></div>
 		</div>
 		

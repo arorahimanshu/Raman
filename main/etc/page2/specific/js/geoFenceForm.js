@@ -269,6 +269,8 @@ function createColModel(colList) {
 }
 
 function showReport(result) {
+
+
 	jQuery('#showGeoFenceReport').flexAddData(result.message.sendData)
     total = result.message.sendData.total
 }

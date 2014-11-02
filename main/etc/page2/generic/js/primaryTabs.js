@@ -71,7 +71,7 @@ jQuery (window).load (function () {
 
 
     function childSlider(flag) {
-        alert(flag)
+
         if (flag==0) {
             jQuery('.childContainer').addClass('childContainerHover')
             jQuery('.appButton').fadeTo(400,0.6)
@@ -82,7 +82,7 @@ jQuery (window).load (function () {
     }
 
 	jQuery  ('.parentSlideButton').mouseover(function () {
-	            alert('parent')
+
                 jQuery('.childContainer').slideDown(650)
                 childSlider(flag)
 
@@ -98,7 +98,7 @@ jQuery (window).load (function () {
        })
 
     jQuery  ('.childContainer').mouseover(function () {
-               alert('child')
+
                jQuery('.childContainer').addClass('childContainerHover')
                flag = 0
                childSlider(flag)

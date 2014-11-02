@@ -171,6 +171,14 @@ class GeoFence(Page2Component):
 	#
 
 	def _geoFenceData(self,requestPath):
+
+		pageNo = int((cherrypy.request.params).get('pageNo', '1'))
+		if 'pageNo' not in cherrypy.request.params:
+			self.numOfObj = 10
+
+		if 'rp' in cherrypy.request.params and 'pageNo' in cherrypy.request.params:
+			self.numOfObj = int(cherrypy.request.params['rp'])
+
 		tableData = []
 		db = self.app.component('dbManager')
 		with db.session() as session:
@@ -194,13 +202,14 @@ class GeoFence(Page2Component):
 				row['cell'].append('N/A')
 			rows.append(row)
 
-		data = {
+		finalData = {
 			'classData': self.classData,
 			'sendData': rows,
 		}
+		if finalData != None:
+			return self.jsonSuccess(
 
-		if data != None:
-			return self.jsonSuccess(data)
+			)
 		else:
 			return self.jsonFailure('No Data Found')
 

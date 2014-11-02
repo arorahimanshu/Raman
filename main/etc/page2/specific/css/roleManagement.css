@@ -1,0 +1,111 @@
+.roleManagement{
+    width: 90%;
+    height: 100%;
+
+    border: 0px solid #5133AB;
+    margin: 3% 0 0 5% ;
+    }
+
+
+
+
+.addRole{
+    width:  60%;
+    height: 400px;
+    margin-left:auto;
+    margin-right:auto;
+    border:  1px solid #5133AB;
+
+    }
+
+.formHead1{
+    background-color: #5133AB;
+    color:#FFF;
+    width:100% !important;
+    height:30px;
+    font-family: "RobotoRegular","Helvetica Neue",Helvetica,sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    border: 0px solid red;
+    text-align: center;
+}
+
+
+.addRole  >  .field{
+    border: 0px solid red;
+    min-height:60px;
+
+
+    }
+.addRole  > .genericCheckbox{
+   float:right;
+
+   }
+
+.addRole >  .genericCheckBoxContainer{
+    display: inline-block;
+    border: 0px solid blue;
+    }
+
+.checkAA{
+
+    display: block;
+    min-height:200px;
+    width:40%;
+    float:right;
+    overflow-y:scroll;
+
+    }
+
+.addRole > .permissions {
+
+  min-height:200px;
+
+}
+.addRole > .unselectable {
+
+  min-height:100px;
+
+}
+
+
+
+
+.checkAA > input{
+    width:70%;
+
+    }
+
+.checkAA > label{
+    width:30%;
+
+    }
+
+
+.addRole > .css-label{
+    width:100px;
+    display:block;
+    }
+
+.unselectable > .ok {
+    margin:1% 0 0 30%;
+
+
+    }
+
+.unselectable > .editbutton {
+    margin:1% 0 0 30%;
+
+
+    }
+.unselectable > .cancel {
+    margin:1% 0 0 2%;
+
+
+    }
+
+
+.checkBoxCont{
+    display:block;
+    width:100%;
+    }
