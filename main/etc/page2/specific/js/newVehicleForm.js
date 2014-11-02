@@ -30,7 +30,9 @@ var setupData = function () {
 	data.vehicleName = jQuery ('#vehicleName').val ();
 	data.vehicleMake = jQuery ('#vehicleMake').val ();
 	data.vehicleType = jQuery ('#vehicleType').val ();
-
+	
+	data.vehicleGroupId = jQuery('#vehicleGroup :selected').val();
+	
 	return data
 };
 function setupData2(){
@@ -92,7 +94,9 @@ function editButtonClick(com, grid, c, selectedData) {
 				}
 			});
 
-
+			var vehicleGroupId = jQuery('td[abbr="Vehicle_Group_Id"] >div', this).html ();
+			div.find('#vehicleGroup').val(vehicleGroupId);
+				
 			jQuery(".newVehicleForm").show();
 			jQuery('.vehicleTable').hide();
 			div.find('#submit').text('Edit');

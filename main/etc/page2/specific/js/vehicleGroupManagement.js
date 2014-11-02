@@ -57,8 +57,8 @@ var setupData = function () {
 
     data.vehicleGroupName = jQuery('#vehicleGroupName').val()
     data.vehicleGroupCat = jQuery('#vehicleGroupCat').val()
-
-
+	data.branchId = jQuery('#branch :selected').val();
+	
     return data
 }
 var setupData2 = function () {
@@ -224,6 +224,10 @@ function onAddOrDelete(com, grid) {
 
                     }
                 })
+				
+				var branchId = jQuery('td[abbr="Branch_id"] >div', this).html ();
+				div.find('#branch').val(branchId);
+				
                 idToEdit=jQuery('td[abbr="Id"] >div', this).html()
 
                 jQuery("#tableDiv").toggle('showOrHide')

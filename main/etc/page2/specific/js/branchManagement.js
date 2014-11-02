@@ -61,7 +61,9 @@ var setupData = function () {
     data.branchCity= jQuery('#branchCity').val()
     data.branchState= jQuery('#branchState').val()
     data.branchPin = jQuery('#branchPin').val()
-
+	
+	data.orgId = jQuery('#organization :selected').val();
+	
     return data
 }
 var setupData2 = function () {
@@ -232,6 +234,10 @@ function onAddOrDelete(com, grid) {
 
                     }
                 })
+				
+				var orgId = jQuery('td[abbr="Organization_id"] >div', this).html ();
+				div.find('#organization').val(orgId);
+				
                 idToEdit=jQuery('td[abbr="BranchId"] >div', this).html()
 
                 jQuery("#tableDiv").toggle('showOrHide')
