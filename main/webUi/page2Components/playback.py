@@ -31,6 +31,10 @@ class Playback(Page2Component):
 			self.server.appUrl('etc', 'page2', 'specific', 'js', 'playbackForm.js')
 		)
 
+		params['externalCss'].append(
+			self.server.appUrl('etc', 'page2', 'specific', 'css', 'playback.css')
+		)
+
 		return self._renderWithTabs(
 			proxy, params,
 			bodyContent=proxy.render('playbackForm.html'),

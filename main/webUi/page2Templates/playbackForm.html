@@ -1,111 +1,134 @@
 <div class="errorBox"></div>
 
 <div class='playback'>
-	Playback
+
 	<div class='date'></div>
 </div>
 
 <div class="options">
+    <div class="geoHeader"> PlayBack Vehicles
+    </div>
 	<div class="subOptions">
-		<button class="toggleFilter">Show/Hide Filter</button>
-		<button class="toggleGeofence">No Geofence Define</button>
-		<button class="toggleDatetime">Hide Datetime</button>
-		<button class="resetMap">Reset Map</button>
-		<button class="start">start</button>
-		<button class="pause">pause</button>
-		<button class="increaseAnimationSpeed">Increase Animation Speed</button>
-		<button class="decreaseAnimationSpeed">Decrease Animation Speed</button>
+        <div class="buttonBlock">
+		<button class="toggleGeofence genericButtonGeo">No Geofence Define</button>
+		<!------ <button class="toggleDatetime genericButtonGeo">Hide Datetime</button>  --->
+		<button class="resetMap genericButtonGeo">Reset Map</button>
+        </div>
+        <div class="buttonBlock">
+		<button class="start genericButtonGeo">start</button>
+		<button class="pause genericButtonGeo">pause</button>
+        <div class="label genericButtonGeo "> Speed</div>
+		<button class="increaseAnimationSpeed genericButtonGeo">+</button>
+		<button class="decreaseAnimationSpeed genericButtonGeo">-</button>
+        </div>
+        <div class="buttonBlock">
+        <button class="toggleFilter genericButtonGeo">Show/Hide Filter</button>
+        </div>
 	</div>
 	<div class="filterSettings">
-		Filter Settings
-		<div class="dateType">
-			Date Type<br/>
+        <div class="geoHeader">
+        Filter Settings
+        </div>
+		<div class="dateType buttonBlock">
+			<div class="label  ">Date Type </div>
 			<input type="radio" name="type" value="Relative">Relative
 			<input type="radio" name="type" value="Fix">Fix
 		</div>
 
-		<div class="typeRelative">
-			Relative Day<br/>
+		<div class="typeRelative buttonBlock">
+			<div class="label  ">Relative Day</div>
 			<input type="radio" name="relative" value="today">Today
 			<input type="radio" name="relative" value="yesterday">Yesterday
 			<input type="radio" name="relative" value="yesterday1">Yesterday-1
 		</div>
 
-		<div class="typeFix">
-			From<br/>
-			<input class="from"><br/>
-			To<br/>
-			<input class="to"><br/>
+		<div class="typeFix buttonBlock">
+			<div class="label  ">From </div>
+
+			<input class="from genericInput">
+			<div class="label  ">To</div>
+			<input class="to genericInput">
 		</div>
 
-		<div class="search">
-			Search Vehicle:<br/>
-			<input class="searchField">
-			<button class="SearchButton">Search</button>
+		<div class="search buttonBlock">
+			<div class="label  ">Search Vehicle:</div>
+			<input class="searchField genericInput">
+            <div class="searchButton   ">
+                    <img class="searchImg" src="/etc/page2/specific/images/search.png"></img>
+            </div>
+
+
+
+
+
 		</div>
 		
-		<div class="filterType">
-				<button class="all">All</button>
-				<button class="filter">Filter</button>
+		<div class="filterType buttonBlock">
+				<button class="all genericButtonGeo">All Vehicle</button>
+				<button class="filter genericButtonGeo">Filter</button>
 			
-			<div class="typeAll">
-				<div class="demo">
-					<button class="show">Show</button>
-					<button class="hide">Hide</button>
+			<div class="typeAll ">
+				<div class="demo buttonBlock">
+					<button class="show genericButtonGeo">Show</button>
+					<button class="hide genericButtonGeo">Hide</button>
 					Demo
-					<div class="delhi">
-						<button class="show">Show</button>
-						<button class="hide">Hide</button>
+					<div class="delhi buttonBlock">
+						<button class="show genericButtonGeo">Show</button>
+						<button class="hide genericButtonGeo">Hide</button>
 						Delhi<br/>
 					</div>
 				</div>
 			</div>
 
-			<div class="typeFilter">
+			<div class="typeFilter  ">
 				<div class="company">
-					<select multiselect>
+					<select multiselect class="genericSelectGeo">
 						<option>All</option>
 						<option>Demo</option>
 					</select>
 				</div>
 
-				<div class="branch">
-					<select multiselect>
+				<div class="branch  ">
+					<select multiselect class="genericSelectGeo">
 						<option>All</option>
 						<option>Delhi</option>
 					</select>
 				</div>
 
-				<div class="vehicleFilter">
-					Vehicle:<br/>
+				<div class="vehicleFilter buttonBlock">
+					Vehicle:
 					<input type="radio" name="vehicle" value="Type">Vehicle Type
 					<input type="radio" name="vehicle" value="Group">Vehicle Group
 		
-					<div class="typeVehicle">
-						Vehicle Type:<br/>
+					<div class="typeVehicle buttonBlock">
+
+                        <div class="buttonBlock">
+                        Vehicle Type:
 						<select multiple>
 							<option>All</option>
 							<option>Truck</option>
 						</select>
-						
-						<br/>
-						
-						Vehicle Number:<br/>
+						</div>
+
+						<div class="buttonBlock">
+						Vehicle Number:
 						<select multiple>
 							<option>All</option>
 							<option>empty</option>
 						</select>
+                        </div>
+
 					</div>
 					
-					<div class="groupVehicle">
-						Vehicle Group:<br/>
+					<div class="groupVehicle buttonBlock">
+						Vehicle Group:
 						<select multiple>
 							<option>no groups</option>
 						</select>
 
 						<br/>
 
-						Vehicle Number:<br/>
+						Vehicle Number:
 						<select multiple>
 						</select>
 					</div>
@@ -121,7 +144,7 @@
 	</div>
 </div>
 <div id="map" style="height:750px">
-	<Button id="loadMap">Load Map</button>
+	<Button id="loadMap"  class="genericButtonGeo">Load Map</button>
 </div>
 <!--<div class="speedDetails" style="position:absolute; top: 500px; left:200px;"></div>-->
 

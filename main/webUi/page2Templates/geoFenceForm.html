@@ -16,124 +16,154 @@
 	
 	<div id="newGeoFence" hidden="true">
 		
-		<button class="BACK">BACK</button>
-		
+		<div class="fenceSelector">
+
+		<div class="geoHeader"> Select Geofence Type
+        </div>
 		<div class="buttons">
-			<button class="CIRCLE">CIRCLE</button>
+			<button class="CIRCLE genericButtonGeo">CIRCLE</button>
 			<!--<button class="RECTANGLE">RECTANGLE</button>-->
-			<button class="POLYGON">POLYGON</button>
+			<button class="POLYGON genericButtonGeo">POLYGON</button>
+            <button class="RECTANGLE genericButtonGeo">RECTANGLE</button>
+
+            <div class="BACK  ">
+                    <img class="cancelImg" src="/etc/page2/specific/images/cancel.png"></img>
+            </div>
+
 		</div>
+
+        </div>
 		
 		<div class="circle filter" hidden="true">
 			<div class="field">
 				<label>GeoFence Name</label>
-				<input class="name">
+				<input class="name genericInput">
 			</div>
 			
 			<div class="field">
 				<label>GeoFence Type</label>
-				<input class="type" value="CIRCLE" disabled="disabled">
+				<input class="type genericInput" value="CIRCLE" disabled="disabled">
 			</div>
 			
 			<div class="field">
 				<label>Address</label>
-				<input class="address">
-				<button class="searchButton">Search</button>
-				<div class="lat" hidden="true"></div>
+				<input class="address genericInput">
+
+                <div class="searchButton   ">
+                    <img class="searchImg" src="/etc/page2/specific/images/search.png"></img>
+                </div>
+                <div class="lat" hidden="true"></div>
 				<div class="lng" hidden="true"></div>
 			</div>
 			
 			<div class="field">
 				<label>Radius</label>
-				<input class="radius"> in metres
-				<button class="radiusButton">Go</button>
+				<input class="radius genericInput "> (in metres)
+
+                <div class="radiusButton ">
+                    <img class="searchImg"  src="/etc/page2/specific/images/search.png"></img>
+                </div>
 			</div>
 			
 			<div class="field">
 				<label>Vehicles</label>
-				<select class="vehicles" multiple>
+				<select class="vehicles genericSelect" multiple>
 					%for vehicle in vehicleList:
 						<option value="${vehicle['value']}">${vehicle['display']}</option>
 					%endfor
 				</select>
 			</div>
-			
-			<button type="submit" class="submit">Save</button>
-			<button class="cancel">Cancel</button>
-		</div>
+			<div class="controlButton">
+			<button type="submit" class="submit genericButtonGeo ">Save</button>
+			<button class="cancel genericButtonGeo ">Cancel</button>
+	        </div>
+			</div>
 		
 		<div class="rectangle filter" hidden="true">
 			<div class="field">
 				<label>GeoFence Name</label>
-				<input class="name">
+				<input class="name genericInput">
 			</div>
 			
 			<div class="field">
 				<label>GeoFence Type</label>
-				<input class="type" value="RECTANGLE" disabled="disabled">
+				<input class="type genericInput" value="RECTANGLE" disabled="disabled">
 			</div>
 			
 			<div class="field">
 				<label>Address 1</label>
-				<input class="address">
-				<button class="searchButton">Search</button>
+				<input class="address genericInput">
+
+                <div class="searchButton   ">
+                    <img class="searchImg" src="/etc/page2/specific/images/search.png"></img>
+                </div>
+
 				<div class="lat"></div>
 				<div class="lng"></div>
 			</div>
 			
 			<div class="field">
 				<label>Address 2</label>
-				<input class="address">
-				<button class="searchButton">Search</button>
+				<input class="address genericInput">
+                <div class="searchButton   ">
+                    <img class="searchImg" src="/etc/page2/specific/images/search.png"></img>
+                </div>
 				<div class="lat" hidden="true"></div>
 				<div class="lng" hidden="true"></div>
 			</div>
 			
 			<div class="field">
 				<label>Address 3</label>
-				<input class="address">
-				<button class="searchButton">Search</button>
+				<input class="address genericInput">
+                <div class="searchButton   ">
+                    <img class="searchImg" src="/etc/page2/specific/images/search.png"></img>
+                </div>
 				<div class="lat" hidden="true"></div>
 				<div class="lng" hidden="true"></div>
 			</div>
 			
 			<div class="field">
 				<label>Address 4</label>
-				<input class="address">
-				<button class="searchButton">Search</button>
+				<input class="address genericInput">
+                <div class="searchButton   ">
+                    <img class="searchImg" src="/etc/page2/specific/images/search.png"></img>
+                </div>
 				<div class="lat" hidden="true"></div>
 				<div class="lng" hidden="true"></div>
 			</div>
 			
 			<div class="field">
 				<label>Vehicles</label>
-				<select class="vehicles" multiple>
+				<select class="vehicles genericSelect" multiple>
 					%for vehicle in vehicleList:
 						<option value="${vehicle['value']}">${vehicle['display']}</option>
 					%endfor
 				</select>
 			</div>
-			
-			<button type="submit" class="submit">Save</button>
-			<button class="cancel">Cancel</button>
+			<div class="controlButton">
+			<button type="submit" class="submit genericButtonGeo">Save</button>
+			<button class="cancel genericButtonGeo">Cancel</button>
+            </div>
 		</div>
 		
 		<div class="polygon filter" hidden="true">
 			<div class="field">
 				<label>GeoFence Name</label>
-				<input class="name">
+				<input class="name genericInput">
 			</div>
 			
 			<div class="field">
 				<label>GeoFence Type</label>
-				<input class="type" value="POLYGON" disabled="disabled">
+				<input class="type genericInput" value="POLYGON" disabled="disabled">
 			</div>
 			
 			<div class="addresses">
 				<div class="field">
 					<label>Address 1</label>
-					<input class="address">
-					<button class="searchButton">Search</button>
+					<input class="address genericInput">
+                    <div class="searchButton   ">
+                    <img class="searchImg" src="/etc/page2/specific/images/search.png"></img>
+                    </div>
 					<button class="removeButton">Remove</button>
 					<div class="lat" hidden="true"></div>
 					<div class="lng" hidden="true"></div>
@@ -141,8 +171,10 @@
 				
 				<div class="field">
 					<label>Address 2</label>
-					<input class="address">
-					<button class="searchButton">Search</button>
+					<input class="address genericInput">
+                    <div class="searchButton   ">
+                    <img class="searchImg" src="/etc/page2/specific/images/search.png"></img>
+                    </div>
 					<button class="removeButton">Remove</button>
 					<div class="lat" hidden="true"></div>
 					<div class="lng" hidden="true"></div>
@@ -150,17 +182,19 @@
 				
 				<div class="field">
 					<label>Address 3</label>
-					<input class="address">
-					<button class="searchButton">Search</button>
+					<input class="address genericInput">
+                    <div class="searchButton   ">
+                    <img class="searchImg" src="/etc/page2/specific/images/search.png"></img>
+                    </div>
 					<button class="removeButton">Remove</button>
 					<div class="lat" hidden="true"></div>
 					<div class="lng" hidden="true"></div>
 				</div>
 			</div>
-			
-			<button class="addButton">Add</button>
-			<button class="redraw">Redraw</button>
-
+			<div class="field">
+			<button class="addButton genericButtonGeo">Add Point</button>
+			<button class="redraw genericButtonGeo">Redraw</button>
+            </div>
 			<div class="field">
 				<label>Vehicles</label>
 				<select class="vehicles" multiple>
@@ -169,15 +203,16 @@
 					%endfor
 				</select>
 			</div>
-			
-			<button class="submit">Save</button>
-			<button class="cancel">Cancel</button>
+			<div class="controlButton">
+			<button class="submit genericButtonGeo">Save</button>
+			<button class="cancel genericButtonGeo">Cancel</button>
+            </div>
 		</div>
 		
-		<div id="googleMap"></div>
+		<div id="googleMap" class="googleMapArea"></div>
 	</div>
 	
-	<div id="tableDiv">
+	<div id="tableDiv" class="flexiCont">
 		<table id="showGeoFenceReport"></table>
 	</div>
 

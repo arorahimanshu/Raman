@@ -92,9 +92,35 @@ function setupConstraints() {
 
 function initialize()
 {
-    var map=new google.maps.Map(document.getElementById('googleMap'));
-    map.setCenter(new google.maps.LatLng(indLat,indLong));
-    map.setZoom(zoomLevel);
+  var mapOptions = {
+    zoom: 12,
+    center: new google.maps.LatLng(28.643387, 77.612224),
+    mapTypeControl: true,
+    mapTypeControlOptions: {
+        style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+        position: google.maps.ControlPosition.BOTTOM_CENTER
+    },
+    panControl: true,
+    panControlOptions: {
+        position: google.maps.ControlPosition.TOP_RIGHT
+    },
+    zoomControl: true,
+    zoomControlOptions: {
+        style: google.maps.ZoomControlStyle.LARGE,
+        position: google.maps.ControlPosition.RIGHT_BOTTOM
+    },
+    scaleControl: true,
+    streetViewControl: false,
+    streetViewControlOptions: {
+        position: google.maps.ControlPosition.RIGHT_CENTER
+    },
+    mapTypeId:google.maps.MapTypeId.ROADMAP
+  }
+
+  var map = new google.maps.Map(document.getElementById('googleMap'),
+                                mapOptions);
+
+
     return map;
 }
 
@@ -103,9 +129,12 @@ function onLoad_GeoFence() {
 	geocoder = new google.maps.Geocoder();
 	
 	map=initialize();
+
 	
 	jQuery('.BACK').click(function() {
+
 		jQuery('#tableDiv').show();
+
 		jQuery('#newGeoFence').hide();
 	});
 	
@@ -308,7 +337,7 @@ function onReload() {
 }
 
 function successFunc(result) {
-	alert(result.message);
+
 	if(result.success == true) {
 		location.reload();
 	} else {
@@ -321,6 +350,7 @@ function onAdd() {
 	jQuery('.editButton').removeClass('editButton').addClass('submit')
 	
 	jQuery('#tableDiv').hide();
+
 	jQuery('#newGeoFence').show();
 }
 
