@@ -45,7 +45,7 @@ def defineTables(db):
 		PrimaryKeyConstraint('id'),
 		ForeignKeyConstraint (['id'], ['entity.id']),
 		ForeignKeyConstraint (['parent_id'], ['entity.id']),
- 		UniqueConstraint('id', 'parent_id')
+ 		#UniqueConstraint('id', 'parent_id')
 
 	)
 	class Gps_Vehicle_Info(DbEntity): pass

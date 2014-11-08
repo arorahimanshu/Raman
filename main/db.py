@@ -260,9 +260,11 @@ class Db(Component):
 			yield _session
 		except:
 			_session.rollback()
+			_session.close()
 			raise
 		else:
 			_session.commit()
+			_session.close()
 		#
 
 	#
