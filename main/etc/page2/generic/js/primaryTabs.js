@@ -75,6 +75,8 @@ jQuery (window).load (function () {
         if (flag==0) {
             jQuery('.childContainer').addClass('childContainerHover')
             jQuery('.appButton').fadeTo(400,0.6)
+            jQuery('.parentAppButton').fadeTo(400,0.6)
+
             jQuery('.childContainer').stop.fadeTo(800,1)
             flag = 1
         }
@@ -83,7 +85,7 @@ jQuery (window).load (function () {
 
 	jQuery  ('.parentSlideButton').mouseover(function () {
 
-                jQuery('.childContainer').slideDown(650)
+                jQuery(this).slideDown(650)
                 childSlider(flag)
 
 
@@ -93,8 +95,9 @@ jQuery (window).load (function () {
 
                     my_timer = setTimeout(function () {
                         jQuery('.childContainer').hide();
-                    }, 100);
+                    }, 4000);
                     jQuery('.appButton').fadeTo(200,1)
+                    jQuery('.parentAppButton').fadeTo(200,1)
        })
 
     jQuery  ('.childContainer').mouseover(function () {

@@ -17,36 +17,39 @@ import html, json
 	    </div>
     </div>
 %elif    appInfo['type'] == 'parent' :
-            <div class="slideWindow">
+        <div class="slideWindow">
             <div class=" menuTabButton " id="${appInfo['name']}"  >
-    	    <div
-    	    %if containerId :
-    	        id="${containerId}"
-    	    %endif
-        	class=" parentSlideButton appButton  unselectable  ${containerClass or ''}"
+    	        <div
+    	        %if containerId :
+        	        id="${containerId}"
+        	    %endif
+            	class=" parentSlideButton parentAppButton unselectable  ${containerClass or ''}"
 
-	        >
-	    	${appInfo['displayName']}
-	        </div>
+    	        >
+    	    	${appInfo['displayName']}
+	            </div>
             </div>
        <!----- # Print all the child here  ---->
             <div class="childContainer">
+
             % for childData in appsChild :
 
-                <div class="childMenuTabButton" id="${childData['name']}"  >
+                %if appInfo['name'] == childData['parent'] :
+                   <div class="childMenuTabButton" id="${childData['name']}"  >
     	            <div
     	                %if containerId :
     	                 id="${containerId}"
     	                %endif
         	            class="childAppButton    unselectable ${containerClass or ''}"
-        	            data-info="${html.escape (json.dumps (appInfo))}"
+        	            data-info="${html.escape (json.dumps (childData))}"
         	        >
 	        	    ${childData['displayName']}
 	                </div>
-                </div>
+                   </div>
+                %endif
             % endfor
             </div>
-            </div>
+        </div>
 
 % else :
     <div>  Error in Menu Tab Type</div>

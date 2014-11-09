@@ -57,22 +57,7 @@ Page2Config = [
 		'type':'child',
     },
 
-    {
-        'name': 'securitySettings',
-        'urls': ['securitySettings', 'securitySettingsAction', 'userSecuritySettings', 'roleSecuritySettings'],
-        'component': 'webUi.page2Components.securitySettings.SecuritySettings',
-        'apps': [
-            {
-                'name': 'securitySettings',
-                'displayName': 'Security Settings',
-                'url': ['securitySettings'],
-            },
-        ],
-		'type':'parent',
-
-    },
-
-    {
+	    {
 
         'name': 'addGps',
         'urls': [
@@ -87,7 +72,7 @@ Page2Config = [
         'apps': [
             {
                 'name': 'addGpsDataForm',
-                'displayName': 'Track My Vehicle',
+                'displayName': 'Live Tracking',
                 'url': ['newGpsDataForm'],
             }
         ],
@@ -95,28 +80,46 @@ Page2Config = [
 
     },
 
-    {
+	    {
 
-        'name': 'addPoi',
+        'name': 'playback',
         'urls': [
-            'newPoiForm',
-            'newPoiFormAction',
-            'getPoiData',
-            'generateReport'
+            'newPlaybackForm',
+            'newPlaybackFormAction',
         ],
-        'component': 'webUi.page2Components.poi.Poi',
+        'component': 'webUi.page2Components.playback.Playback',
         'apps': [
             {
-                'name': 'addPoiForm',
-                'displayName': 'Add POI',
-                'url': ['newPoiForm'],
+                'name': 'addPlaybackForm',
+                'displayName': 'Playback',
+                'url': ['newPlaybackForm'],
             }
         ],
 		'type':'child',
 
     },
 
-    {
+		{
+
+        'name': 'dashboard',
+        'urls': [
+            'newDashboardForm',
+            'newDashboardFormAction',
+            'dashboardVehicleListNested',
+        ],
+        'component': 'webUi.page2Components.dashboard.Dashboard',
+        'apps': [
+            {
+                'name': 'addDashboardForm',
+                'displayName': 'Dashboard',
+                'url': ['newDashboardForm'],
+            }
+        ],
+		'type':'child',
+
+    },
+
+	    {
 
         'name': 'addGeofence',
         'urls': [
@@ -138,126 +141,94 @@ Page2Config = [
 
     },
 
-	{
-	'name': 'organizationManagement',
-	'urls': [
-		'organizationManagementForm',
-		'organizationManagementFormAction',
-		'organizationData',
-	    'editOrganization',
-		'delOrganization'
-	],
-	'component': 'webUi.page2Components.organizationManagement.Organization',
-	'apps': [
-		{
-		'name': 'organizationManagement',
-		'displayName': 'Manage Organization',
-		'url': ['organizationManagementForm'],
-		}
-		],
-		'type':'child',
-	},
-    {
-	'name': 'branchManagement',
-	'urls': [
-		'branchManagementForm',
-		'branchManagementFormAction',
-		'branchData',
-	    'editBranch',
-		'delBranch'
-	],
-	'component': 'webUi.page2Components.branchManagement.Branch',
-	'apps': [
-		{
-		'name': 'branchManagement',
-		'displayName': 'Manage Branch',
-		'url': ['branchManagementForm'],
-		}
-	],
-	'type':'child',
-	},
-		    	{
-	'name': 'vehicleGroupManagement',
-	'urls': [
-		'vehicleGroupManagementForm',
-		'vehicleGroupManagementFormAction',
-		'vehicleGroupData',
-	    'editVehicleGroup',
-		'delVehicleGroup'
-	],
-	'component': 'webUi.page2Components.vehicleGroupManagement.vehicleGroup',
-	'apps': [
-		{
-		'name': 'vehicleGroupManagement',
-		'displayName': 'Manage Vehicle Group',
-		'url': ['vehicleGroupManagementForm'],
-		}
-	],
-	'type':'child',
-	},
+ 	{
+        'name': 'reportParent',
+        'urls': [],
+         'component': 'webUi.page2Components.report1.Report1',
+        'apps': [
+            {
+                'name': 'reportParent',
+                'displayName': 'Report',
+                'url': ['reportParent'],
+            },
+        ],
+		'type':'parent',
+
+    },
 
 	{
-	'name': 'newVehicle',
-	'urls': [
-		'newVehicleForm',
-		'newVehicleFormAction',
-		'vehicleData',
-		'delVehicleDataAction',
-		'editVehicleAction',
-	],
-	'component': 'webUi.page2Components.newVehicle.Vehicle',
-	'apps': [
-		{
-		'name': 'newVehicle',
-		'displayName': 'Manage Vehicle',
-		'url': ['newVehicleForm'],
-		}
-	],
-	'type':'child',
-	},
- 
-    {
-        'name': 'userManagement',
-        'urls': [
-            'userManagementForm',
-            'userManagementFormAction',
-            'generateEmployeeData',
-            'editEmployeeFormAction',
-            'delEmployeeFormAction',
-        ],
+        'name': 'userManagementParent',
+        'urls': [],
         'component': 'webUi.page2Components.userManagement.UserManagement',
         'apps': [
             {
-                'name': 'userManagementForm',
-                'displayName': 'Manage Users',
-                'url': ['userManagementForm'],
-            }
+                'name': 'userManagementParent',
+                'displayName': 'User Management',
+                'url': ['userManagement'],
+            },
         ],
-		'type':'child',
-    },
- 
+		'type':'parent',
 
-    {
-        'name': 'newVehicle',
-        'urls': [
-            'newVehicleForm',
-            'newVehicleFormAction',
-            'vehicleData',
-            'delVehicleDataAction',
-            'editVehicleAction',
-        ],
-        'component': 'webUi.page2Components.newVehicle.Vehicle',
+    },
+
+
+
+	{
+        'name': 'organizationManagementParent',
+        'urls': [],
+		'component': 'webUi.page2Components.organizationManagement.Organization',
         'apps': [
             {
-                'name': 'newVehicle',
+                'name': 'organizationManagementParent',
+                'displayName': 'Organization Hierarchy',
+                'url': ['organizationManagement'],
+            },
+        ],
+		'type':'parent',
+
+    },
+
+
+		{
+        'name': 'vehicleGroupManagementParent',
+        'urls': [],
+        'component': 'webUi.page2Components.vehicleGroupManagement.vehicleGroup',
+        'apps': [
+            {
+                'name': 'vehicleGroupManagementParent',
                 'displayName': 'Manage Vehicle',
-                'url': ['newVehicleForm'],
+                'url': ['vehicleGroupManagement'],
+            },
+        ],
+		'type':'parent',
+
+    },
+
+	    {
+
+        'name': 'addPoi',
+        'urls': [
+            'newPoiForm',
+            'newPoiFormAction',
+            'getPoiData',
+            'generateReport'
+        ],
+        'component': 'webUi.page2Components.poi.Poi',
+        'apps': [
+            {
+                'name': 'addPoiForm',
+                'displayName': 'Add POI',
+                'url': ['newPoiForm'],
             }
         ],
 		'type':'child',
+
     },
 
-    {
+
+
+
+	    {
 
         'name': 'paymentReceipt',
         'urls': [
@@ -280,62 +251,6 @@ Page2Config = [
 
     {
 
-        'name': 'report1',
-        'urls': [
-            'newReport1Form',
-            'newReport1FormAction',
-        ],
-        'component': 'webUi.page2Components.report1.Report1',
-        'apps': [
-            {
-                'name': 'addReport1Form',
-                'displayName': 'Report 1',
-                'url': ['newReport1Form'],
-            }
-        ],
-		'type':'child',
-
-    },
-
-    {
-
-        'name': 'report4',
-        'urls': [
-            'newReport4Form',
-            'newReport4FormAction',
-        ],
-        'component': 'webUi.page2Components.report4.Report4',
-        'apps': [
-            {
-                'name': 'addReport4Form',
-                'displayName': 'Report 4',
-                'url': ['newReport4Form'],
-            }
-        ],
-		'type':'child',
-
-    },
-
-    {
-
-        'name': 'playback',
-        'urls': [
-            'newPlaybackForm',
-            'newPlaybackFormAction',
-        ],
-        'component': 'webUi.page2Components.playback.Playback',
-        'apps': [
-            {
-                'name': 'addPlaybackForm',
-                'displayName': 'Playback',
-                'url': ['newPlaybackForm'],
-            }
-        ],
-		'type':'child',
-
-    },
-    {
-
         'name': 'utilUrl',
         'urls': [
             'logoutAction',
@@ -345,27 +260,51 @@ Page2Config = [
 
     },
 
-    {
+]
 
-        'name': 'travelReport',
+
+Page2ConfigChild = [
+
+
+		    {
+        'name': 'userManagement',
         'urls': [
-            'newTravelReportForm',
-            'newTravelReportFormAction',
-            'travelReportVehicleListNested',
+            'userManagementForm',
+            'userManagementFormAction',
+            'generateEmployeeData',
+            'editEmployeeFormAction',
+            'delEmployeeFormAction',
         ],
-        'component': 'webUi.page2Components.travelReport.TravelReport',
+        'component': 'webUi.page2Components.userManagement.UserManagement',
         'apps': [
             {
-                'name': 'addTravelReportForm',
-                'displayName': 'Travel Report',
-                'url': ['newTravelReportForm'],
+                'name': 'userManagementForm',
+                'displayName': 'Manage Users',
+                'url': ['userManagementForm'],
             }
         ],
 		'type':'child',
+		'parent':'userManagementParent',
+ 	   },
 
-    },
+		{
+        'name': 'securitySettings',
+        'urls': ['securitySettings', 'securitySettingsAction', 'userSecuritySettings', 'roleSecuritySettings'],
+        'component': 'webUi.page2Components.securitySettings.SecuritySettings',
+        'apps': [
+            {
+                'name': 'securitySettings',
+                'displayName': 'Security Settings',
+                'url': ['securitySettings'],
+            },
+        ],
+		'type':'child',
+		'parent':'userManagementParent',
 
-    {
+   		 },
+
+
+		{
 
         'name': 'roleManagement',
         'urls': [
@@ -384,98 +323,152 @@ Page2Config = [
             }
         ],
 		'type':'child',
+		'parent':'userManagementParent',
 
-    },
-	
+  	  },
+
+		{
+	'name': 'organizationManagement',
+	'urls': [
+		'organizationManagementForm',
+		'organizationManagementFormAction',
+		'organizationData',
+	    'editOrganization',
+		'delOrganization'
+	],
+	'component': 'webUi.page2Components.organizationManagement.Organization',
+	'apps': [
+		{
+		'name': 'organizationManagement',
+		'displayName': 'Manage Organization',
+		'url': ['organizationManagementForm'],
+		}
+		],
+		'type':'child',
+		'parent':'organizationManagementParent',
+	},
+
+    {
+	'name': 'branchManagement',
+	'urls': [
+		'branchManagementForm',
+		'branchManagementFormAction',
+		'branchData',
+	    'editBranch',
+		'delBranch'
+	],
+	'component': 'webUi.page2Components.branchManagement.Branch',
+	'apps': [
+		{
+		'name': 'branchManagement',
+		'displayName': 'Manage Branch',
+		'url': ['branchManagementForm'],
+		}
+	],
+	'type':'child',
+	'parent':'organizationManagementParent',
+	},
+
+		{
+	'name': 'vehicleGroupManagement',
+	'urls': [
+		'vehicleGroupManagementForm',
+		'vehicleGroupManagementFormAction',
+		'vehicleGroupData',
+	    'editVehicleGroup',
+		'delVehicleGroup'
+	],
+	'component': 'webUi.page2Components.vehicleGroupManagement.vehicleGroup',
+	'apps': [
+		{
+		'name': 'vehicleGroupManagement',
+		'displayName': 'Manage Vehicle Group',
+		'url': ['vehicleGroupManagementForm'],
+		}
+	],
+	'type':'child',
+	'parent':'vehicleGroupManagementParent',
+	},
+
+	{
+	'name': 'newVehicle',
+	'urls': [
+		'newVehicleForm',
+		'newVehicleFormAction',
+		'vehicleData',
+		'delVehicleDataAction',
+		'editVehicleAction',
+	],
+	'component': 'webUi.page2Components.newVehicle.Vehicle',
+	'apps': [
+		{
+		'name': 'newVehicle',
+		'displayName': 'Manage Vehicle',
+		'url': ['newVehicleForm'],
+		}
+	],
+	'type':'child',
+	'parent':'vehicleGroupManagementParent',
+	},
 	{
 
-        'name': 'dashboard',
+        'name': 'report1',
         'urls': [
-            'newDashboardForm',
-            'newDashboardFormAction',
-            'dashboardVehicleListNested',
+            'newReport1Form',
+            'newReport1FormAction',
         ],
-        'component': 'webUi.page2Components.dashboard.Dashboard',
+        'component': 'webUi.page2Components.report1.Report1',
         'apps': [
             {
-                'name': 'addDashboardForm',
-                'displayName': 'Dashboard',
-                'url': ['newDashboardForm'],
+                'name': 'addReport1Form',
+                'displayName': 'Report 1',
+                'url': ['newReport1Form'],
             }
         ],
 		'type':'child',
+		'parent':'reportParent',
 
     },
-]
 
-
-Page2ConfigChild = [
-
-	    {
-        'name': 'securitySettings',
-        'urls': ['securitySettings', 'securitySettingsAction', 'userSecuritySettings', 'roleSecuritySettings'],
-        'component': 'webUi.page2Components.securitySettings.SecuritySettings',
+    {
+        'name': 'report4',
+        'urls': [
+            'newReport4Form',
+            'newReport4FormAction',
+        ],
+        'component': 'webUi.page2Components.report4.Report4',
         'apps': [
             {
-                'name': 'securitySettings',
-                'displayName': 'First Tile',
-                'url': ['securitySettings'],
-            },
+                'name': 'addReport4Form',
+                'displayName': 'Report 4',
+                'url': ['newReport4Form'],
+            }
         ],
 		'type':'child',
-		'parent':'securitySettings',
-
-    },
-	    {
-        'name': 'securitySettings',
-        'urls': ['securitySettings', 'securitySettingsAction', 'userSecuritySettings', 'roleSecuritySettings'],
-        'component': 'webUi.page2Components.securitySettings.SecuritySettings',
-        'apps': [
-            {
-                'name': 'securitySettings',
-                'displayName': 'Second Tile',
-                'url': ['securitySettings'],
-            },
-        ],
-		'type':'child',
-		'parent':'securitySettings',
+		'parent':'reportParent',
 
     },
 
 	    {
-        'name': 'securitySettings',
-        'urls': ['securitySettings', 'securitySettingsAction', 'userSecuritySettings', 'roleSecuritySettings'],
-        'component': 'webUi.page2Components.securitySettings.SecuritySettings',
+
+        'name': 'travelReport',
+        'urls': [
+            'newTravelReportForm',
+            'newTravelReportFormAction',
+            'travelReportVehicleListNested',
+        ],
+        'component': 'webUi.page2Components.travelReport.TravelReport',
         'apps': [
             {
-                'name': 'securitySettings',
-                'displayName': 'Third Tile',
-                'url': ['securitySettings'],
-            },
+                'name': 'addTravelReportForm',
+                'displayName': 'Travel Report',
+                'url': ['newTravelReportForm'],
+            }
         ],
 		'type':'child',
-		'parent':'securitySettings',
+		'parent':'reportParent',
 
     },
-
-	    {
-        'name': 'securitySettings',
-        'urls': ['securitySettings', 'securitySettingsAction', 'userSecuritySettings', 'roleSecuritySettings'],
-        'component': 'webUi.page2Components.securitySettings.SecuritySettings',
-        'apps': [
-            {
-                'name': 'securitySettings',
-                'displayName': 'Fourth Tile',
-                'url': ['securitySettings'],
-            },
-        ],
-		'type':'child',
-		'parent':'securitySettings',
-
-    },
-
-
-
 
 ]
 

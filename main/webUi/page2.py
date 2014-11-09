@@ -1,5 +1,5 @@
 from appConfig import AppConfig
-from componentConfig import Page2Config
+from componentConfig import Page2Config , Page2ConfigChild
 from component import Component
 from utils import TemplateManager, relativePath, importItem
 
@@ -75,6 +75,15 @@ class Page2(Component):
 
 		self._components = OrderedDict()
 		# for name, parts, qName in Page2Config :
+		#TODO for ravi check whether the child logic nitin added is correct or not
+		for item in Page2ConfigChild:
+			name = item['name']
+			parts = item['urls']
+			qName = item['component']
+			Cls = importItem(qName)
+			self._components[name] = (frozenset(parts), Cls(self))
+
+
 		for item in Page2Config:
 			name = item['name']
 			parts = item['urls']
