@@ -1,5 +1,11 @@
-var flag = 0
 fitx.utils.require (['fitx', 'page2', 'UtilUrl'])
+
+/* By Ravi :
+ *
+ * Please no global variables !!!
+ */
+fitx.FLAG_SHOW_CHILDREN = 0
+fitx.FLAG_HIDE_CHILDREN = 1
 
 fitx.page2.requestNewTab = function (url) {
 	var result = {
@@ -68,49 +74,94 @@ jQuery (window).load (function () {
 		})
 	})
 
+	/* By Ravi
+	 *
+	 * The idea of using global variables 'flag'
+	 * is both bad programming style and incorrect.
+	 *
+	 * Bad style because global variables should be avoided.
+	 *
+	 * Incorrect, because flag will be different for each
+	 * 'menu'. Global variable makes no sense here. You need to
+	 * be able to associate it to the element.
+	 *
+	 * I have used the simple way of passing it as argument.
+	 */
+	function childSlider (rawElement, flag) {
 
+		var element = jQuery (rawElement)
+		if (element.hasClass ('slideWindow')) {
+			var slideWindow = element
+		} else {
+			var slideWindow = element.parents ('.slideWindow')
+		}
+		var parentSlideButton = slideWindow.find ('.parentSlideButton')
+		var children = slideWindow.find ('.childContainer')
 
-    function childSlider(flag) {
+		if (flag == fitx.FLAG_SHOW_CHILDREN) {
+			children.removeClass ('childContainerNoHover')
+			children.addClass ('childContainerHover')
 
-        if (flag==0) {
-            jQuery('.childContainer').addClass('childContainerHover')
-            jQuery('.appButton').fadeTo(400,0.6)
-            jQuery('.parentAppButton').fadeTo(400,0.6)
+			parentSlideButton.stop ().fadeTo (400, 0.6)
+			children.stop ().fadeTo (800, 1)
 
-            jQuery('.childContainer').stop.fadeTo(800,1)
-            flag = 1
-        }
+		} else if (flag == fitx.FLAG_HIDE_CHILDREN) {
+			children.removeClass ('childContainerHover')
 
-    }
+			parentSlideButton.stop ().fadeTo (400, 1)
+			children.stop ().fadeTo (400, 0, function () {
+				children.addClass ('childContainerNoHover')
+			})
+		}
+	}
 
-	jQuery  ('.parentSlideButton').mouseover(function () {
+	/* By Ravi :
+	 *
+	 * Initialising 'childHandler' data as function
+	 * to show/hide children.
+	 *
+	 * Notice the use of .debounce()
+	 */
+	jQuery.each (jQuery ('.slideWindow'), function (index, rawElement) {
+		var element = jQuery (rawElement)
+		element.data ('childHandler', (function (flag) {
+			childSlider (element, flag)
+		}).debounce (250))
+	})
 
-                jQuery(this).slideDown(650)
-                childSlider(flag)
+	/* By Ravi :
+	 *
+	 * Initialising 'opacity' of children, so the
+	 * animations play properly when activated
+	 * first time. Cannot be done via CSS sheet
+	 * because we dont want it to reset.
+	 */
+	jQuery.each (jQuery ('.childContainer'), function (index, rawElement) {
+		var element = jQuery (rawElement)
+		element.css ('opacity', '0')
+	})
 
+	jQuery  ('.parentSlideButton').mouseenter (function (evt) {
+		var element = jQuery (evt.target)
+		var slideWindow = element.parents ('.slideWindow')
+		slideWindow.data ('childHandler') (fitx.FLAG_SHOW_CHILDREN)
+	})
 
-       })
+	jQuery  ('.parentSlideButton').mouseout(function (evt) {
+		var element = jQuery (evt.target)
+		var slideWindow = element.parents ('.slideWindow')
+		slideWindow.data ('childHandler') (fitx.FLAG_HIDE_CHILDREN)
+	})
 
-    jQuery  ('.parentSlideButton').mouseout(function () {
+	jQuery  ('.childMenuTabButton').mouseenter(function (evt) {
+		var slideWindow = jQuery (evt.target).parents ('.slideWindow')
+		slideWindow.data ('childHandler') (fitx.FLAG_SHOW_CHILDREN)
+	})
 
-                    my_timer = setTimeout(function () {
-                        jQuery('.childContainer').hide();
-                    }, 4000);
-                    jQuery('.appButton').fadeTo(200,1)
-                    jQuery('.parentAppButton').fadeTo(200,1)
-       })
-
-    jQuery  ('.childContainer').mouseover(function () {
-
-               jQuery('.childContainer').addClass('childContainerHover')
-               flag = 0
-               childSlider(flag)
-
-       })
-
-
-
-
+	jQuery ('.childMenuTabButton').mouseout (function (evt) {
+		var slideWindow = jQuery (evt.target).parents ('.slideWindow')
+		slideWindow.data ('childHandler') (fitx.FLAG_HIDE_CHILDREN)
+	})
 
 	 jQuery('.logout').click(function () {
 
