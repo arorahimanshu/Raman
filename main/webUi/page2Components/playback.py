@@ -35,9 +35,13 @@ class Playback(Page2Component):
 			self.server.appUrl('etc', 'page2', 'specific', 'css', 'playback.css')
 		)
 
+		vehicleSelector = self.parent.component ('vehicleSelector')
+
 		return self._renderWithTabs(
 			proxy, params,
-			bodyContent=proxy.render('playbackForm.html'),
+			bodyContent=proxy.render('playbackForm.html',
+				additionalOptions = [vehicleSelector.render (proxy, params)]
+			),
 			newTabTitle='Playback',
 			url=requestPath.allPrevious(),
 		)
