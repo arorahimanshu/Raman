@@ -150,11 +150,11 @@ class Organization(Page2Component):
 			}
 
 			newOrganization = worker.createOrganization(details)
-		#
-		address = formData['address1'] + ";" + formData['address2'] + ";" + formData['state'] + ";" + formData[
+
+			address = formData['address1'] + ";" + formData['address2'] + ";" + formData['state'] + ";" + formData[
 			'city'] + ";" + formData['pincode']
-		with db.session() as session:
-			session.add(db.Info.newFromParams({
+
+			worker.session.add(db.Info.newFromParams({
 			'id': db.Entity.newUuid(),
 			'entity_id': newOrganization.id,
 			'enumType': db.Info.Type.Address,
