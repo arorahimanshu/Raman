@@ -139,11 +139,12 @@ class Branch(Page2Component):
 		if errors:
 			return self.jsonFailure('validation failed', errors=errors)
 		#
-
+		with self.server.session() as serverSession:
+			primaryOrganizationId = serverSession['primaryOrganizationId']
 
 		with dataUtils.worker() as worker:
 			details = formData
-			details['parentOrgId'] = formData['orgId']
+			details['parentOrgId'] = primaryOrganizationId 
 			del formData['orgId']
 			newBranch = worker.createBranch(details)
 

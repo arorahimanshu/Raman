@@ -1,0 +1,39 @@
+.genInlineBlockA{
+    width:70%;
+    margin:2% 0 0 20%;
+    display:flex;
+    position:relative;
+    border: 0px solid #5133AB;
+    text-align:center;
+    }
+
+.report1 > .genericInput{
+    margin: 0 2% ;
+    }
+
+.fieldDate > .submit{
+    margin: 12% 0 0 10% ;
+    }
+
+
+.fieldDateLabel   {
+    border: 0px solid #5133AB;
+    margin:25% 2% 2% 2%;
+    height:30px !important;
+    padding-top:2%;
+    width:25%;
+    font-weight: bold;
+    }
+
+.fieldDate{
+    border: 0px solid red;
+    width:33%;
+    padding-top:0px;
+    display:flex;
+    }
+
+#tablediv {
+    width:90%;
+    margin-left:auto;
+    margin-right:auto;
+    }

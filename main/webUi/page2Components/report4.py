@@ -48,7 +48,7 @@ class Report4(Page2Component):
         return self._renderWithTabs(
             proxy, params,
             bodyContent=proxy.render('report4Form.html', classdata=self.classData),
-            newTabTitle='Report 4',
+            newTabTitle='Stoppage Summary',
             url=requestPath.allPrevious(),
         )
     #

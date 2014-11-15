@@ -1,7 +1,7 @@
 fitx.utils.require(['fitx', 'page2', 'newReport4Form']);
 
 jQuery (window).load (function (){
-	setupFlexiGrid('#showReport4', undefined, "Report 4", undefined, undefined, undefined, undefined, classData);
+	setupFlexiGrid('#showReport4', undefined, "Stoppage Summary", undefined, undefined, undefined, undefined, classData);
 
 	setupAJAXSubmit('report4', 'newReport4FormAction', setupData, setupConstraints, '.submit', null, showReport);
 	

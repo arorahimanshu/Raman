@@ -421,7 +421,7 @@ Page2ConfigChild = [
         'apps': [
             {
                 'name': 'addReport1Form',
-                'displayName': 'Report 1',
+                'displayName': 'Speed Report',
                 'url': ['newReport1Form'],
             }
         ],
@@ -440,7 +440,7 @@ Page2ConfigChild = [
         'apps': [
             {
                 'name': 'addReport4Form',
-                'displayName': 'Report 4',
+                'displayName': 'Stoppage Summary',
                 'url': ['newReport4Form'],
             }
         ],
