@@ -108,6 +108,7 @@ class Page2(Component):
 		'externalCss': list(self._cssSheets),
 		'internalJs': str(self._internalJs),
 		'internalCss': str(self._internalCss),
+		'appUrl' : self.server.appUrl,
 		'config': {
 		'BaseUri': list(AppConfig.WebserverConfig.BaseUri),
 		'organizationId': cherrypy.request.fitxData['organizationId'],

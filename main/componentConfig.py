@@ -260,6 +260,13 @@ Page2Config = [
 
     },
 
+	{
+		'name' : 'vehicleSelector',
+		'urls' : [
+			'vehicleSelector',
+		],
+		'component' : 'webUi.page2Components.vehicleSelector.VehicleSelector',
+	}
 ]
 
 

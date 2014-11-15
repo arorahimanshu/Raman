@@ -160,20 +160,21 @@
 
 .childContainer
 {
-  display:none;
   border: 0px solid red;
   width: 200px !important;
   margin :  0% 2% 0 5%;
   position:absolute;
 }
 
+.childContainerNoHover {
+  display:none;
+	left:-5000px;
+}
+
 .childContainerHover
 {
    display:block;
-   position:absolute;
    z-index:30;
-
-
 }
 
 

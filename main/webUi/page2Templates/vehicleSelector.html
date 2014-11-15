@@ -1,0 +1,27 @@
+<%!
+import html, json
+%>
+
+<%
+
+vehicleSelectorJsUrl = params['appUrl']('etc', 'page2', 'specific', 'js', 'vehicleSelector.js')
+externalJs = params['externalJs']
+if vehicleSelectorJs not in externalJs :
+	externalJs.append (vehicleSelectorJsUrl)
+#
+
+%>
+
+<div
+
+	%if vehicleSelectorId :
+	id="${vehicleSelectorId}"
+	%endif
+
+	class="vehicleSelector ${vehicleSelectorClass or ''}"
+>
+	<div class="branches" style="border:1px solid black">Loading...</div>
+	<div class="vehicleGroups" style="border:1px solid black"></div>
+	<div class="vehicles" style="border:1px solid black"></div>
+</div>
+
