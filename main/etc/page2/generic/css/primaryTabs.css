@@ -148,7 +148,7 @@
 
 .slideWindow{
     display:inline-block;
-    border: 1px solid red;
+    border: 0px solid red;
     margin :  5% 2% 0 5%;
     padding:0 px !important;
     position:relative;
@@ -193,7 +193,8 @@
     border-radius:         8px;
     -moz-border-radius:    8px;
     -webkit-border-radius: 8px;
-    border: 2px solid #281A56;
+    border: 1px solid #FFF;
+    border-style: solid solid none solid;
 
 }
 
@@ -212,7 +213,7 @@
     border-radius:         8px;
     -moz-border-radius:    8px;
     -webkit-border-radius: 8px;
-    border: 2px solid #281A56;
+    border: 0px solid #281A56;
 
 }
 
