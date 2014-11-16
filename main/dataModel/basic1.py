@@ -34,14 +34,12 @@ def defineTables (db) :
 	@db.table (
 		'displayable',
 		Column ('id', Entity.columnType ('id'), nullable = False),
-
 		Column ('initials', DbTypes.VeryShortString),
 		Column ('shortName', DbTypes.ShortString),
 		Column ('longName', DbTypes.MediumString),
 		Column ('description', DbTypes.LongString),
 
 		PrimaryKeyConstraint ('id'),
-
 		ForeignKeyConstraint (['id'], ['entity.id']),
 	)
 	@db.mapper (
@@ -58,11 +56,8 @@ def defineTables (db) :
 		Column ('type', Integer, nullable = False),
 		Column ('preference', Float, nullable = False),
 		Column ('data', DbTypes.MediumString),
-
 		PrimaryKeyConstraint ('id'),
-
 		ForeignKeyConstraint (['entity_id'], ['entity.id']),
-
 		UniqueConstraint ('entity_id', 'data', 'type'),
 		UniqueConstraint ('entity_id', 'type', 'preference'),
 	)
@@ -106,7 +101,6 @@ def defineTables (db) :
 		Column ('sex', Integer),
 
 		PrimaryKeyConstraint ('id'),
-
 		ForeignKeyConstraint (['id'], ['entity.id']),
 	)
 	@db.mapper (
@@ -140,9 +134,7 @@ def defineTables (db) :
 		Column ('preference', Float, nullable = False),
 
 		PrimaryKeyConstraint ('entity_id', 'preference'),
-
 		UniqueConstraint ('entity_id', 'contactEntity_id'),
-
 		ForeignKeyConstraint (['entity_id'], ['entity.id']),
 		ForeignKeyConstraint (['contactEntity_id'], ['entity.id']),
 	)
@@ -159,14 +151,11 @@ def defineTables (db) :
 		Column ('id', Entity.columnType ('id'), nullable = False),
 		Column ('parent_id', Entity.columnType ('id'), nullable = False),
 		Column ('name', DbTypes.ShortString, nullable = False),
-
 		Column ('countryCode', DbTypes.VeryShortString),
 		Column ('languageCode', DbTypes.VeryShortString),
 
 		PrimaryKeyConstraint ('id'),
-
 		UniqueConstraint ('name'),
-
 		ForeignKeyConstraint (['id'], ['entity.id']),
 		ForeignKeyConstraint (['parent_id'], ['organization.id']),
 	)
@@ -184,12 +173,10 @@ def defineTables (db) :
 		Column ('username', DbTypes.ShortString, nullable = False),
 		Column ('password', DbTypes.Password, nullable = False),
 		Column ('entity_id', Entity.columnType ('id'), nullable = False),
-
 		Column ('countryCode', DbTypes.VeryShortString),
 		Column ('languageCode', DbTypes.VeryShortString),
 
 		PrimaryKeyConstraint ('username'),
-
 		ForeignKeyConstraint (['entity_id'], ['entity.id']),
 	)
 	@db.mapper (
@@ -245,9 +232,7 @@ def defineTables (db) :
 		Column ('preference', Float, nullable = False),
 
 		PrimaryKeyConstraint ('username', 'organization_id'),
-
 		UniqueConstraint ('username', 'preference'),
-
 		ForeignKeyConstraint (['username'], ['user.username']),
 		ForeignKeyConstraint (['organization_id'], ['organization.id']),
 	)
@@ -263,11 +248,9 @@ def defineTables (db) :
 		'role',
 		Column ('name', DbTypes.ShortString, nullable = False),
 		Column ('organization_id', Organization.columnType ('id'), nullable = False),
-
 		Column ('description', DbTypes.LongString),
 
 		PrimaryKeyConstraint ('name', 'organization_id'),
-
 		ForeignKeyConstraint (['organization_id'], ['organization.id']),
 	)
 	@db.mapper (
@@ -287,11 +270,9 @@ def defineTables (db) :
 		'permission',
 		Column ('name', DbTypes.ShortString, nullable = False),
 		Column ('organization_id', Organization.columnType ('id'), nullable = False),
-
 		Column ('description', DbTypes.LongString),
 
 		PrimaryKeyConstraint ('name', 'organization_id'),
-
 		ForeignKeyConstraint (['organization_id'], ['organization.id']),
 	)
 	@db.mapper (
@@ -314,7 +295,6 @@ def defineTables (db) :
 		Column ('organization_id', Organization.columnType ('id'), nullable = False),
 
 		PrimaryKeyConstraint ('permission_name', 'role_name', 'organization_id'),
-
 		ForeignKeyConstraint (['permission_name', 'organization_id'], ['permission.name', 'permission.organization_id']),
 		ForeignKeyConstraint (['role_name', 'organization_id'], ['role.name', 'role.organization_id']),
 	)
@@ -333,7 +313,6 @@ def defineTables (db) :
 		Column ('organization_id', Facet.columnType ('organization_id'), nullable = False),
 
 		PrimaryKeyConstraint ('role_name', 'username', 'organization_id'),
-
 		ForeignKeyConstraint (['role_name', 'organization_id'], ['role.name', 'role.organization_id']),
 		ForeignKeyConstraint (['username', 'organization_id'], ['facet.username', 'facet.organization_id']),
 	)

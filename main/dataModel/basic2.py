@@ -15,16 +15,13 @@ def defineTables (db) :
 	payment = db.rawTable (
 		'payment',
 		Column ('id', DbTypes.Uuid, nullable = False),
-
 		Column ('payer_id', db.Entity.columnType ('id'), nullable = False),
 		Column ('payee_id', db.Entity.columnType ('id'), nullable = False),
-
 		Column ('when', DateTime, nullable = False),
 		Column ('amount', Numeric (7,2), nullable = False),
 		Column ('currency', DbTypes.VeryShortString, nullable = False),
 
 		PrimaryKeyConstraint ('id'),
-
 		ForeignKeyConstraint (['payer_id'], ['entity.id']),
 		ForeignKeyConstraint (['payee_id'], ['entity.id']),
 	)
@@ -42,11 +39,9 @@ def defineTables (db) :
 
 		Column ('payment_id', Payment.columnType ('id'), nullable = False),
 		Column ('when', DateTime, nullable = False),
-
 		Column ('amount', Numeric (7,2), nullable = False),
 
 		PrimaryKeyConstraint ('payment_id', 'when'),
-
 		ForeignKeyConstraint (['payment_id'], ['payment.id']),
 	)
 	@db.mapper (
@@ -59,16 +54,13 @@ def defineTables (db) :
 	@db.table (
 		'paymentDetail',
 		Column ('id', db.Info.columnType ('id'), nullable = False),
-
 		Column ('payment_id', Payment.columnType ('id'), nullable = False),
 		Column ('type', db.Info.columnType ('type'), nullable = False),
 		Column ('preference', db.Info.columnType ('preference'), nullable = False),
 		Column ('data', db.Info.columnType ('data')),
 
 		PrimaryKeyConstraint ('id'),
-
 		ForeignKeyConstraint (['payment_id'], ['payment.id']),
-
 		UniqueConstraint ('payment_id', 'type', 'data','preference'),
 	)
 	@db.mapper (

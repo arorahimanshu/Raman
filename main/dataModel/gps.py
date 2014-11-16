@@ -39,8 +39,8 @@ def defineTables(db):
 	@db.table(
 	'branch',
 		Column('id', DbTypes.Uuid, nullable=False),
-    Column('parent_id', db.Organization.columnType ('id'), nullable=False),
-    Column('name',  DbTypes.VeryLongString, nullable=False),
+   		Column('parent_id', db.Organization.columnType ('id'), nullable=False),
+ 	   	Column('name',  DbTypes.VeryLongString, nullable=False),
 
 		ForeignKeyConstraint (['id'], ['entity.id']),
 		ForeignKeyConstraint (['parent_id'], ['organization.id']),
@@ -67,7 +67,7 @@ def defineTables(db):
 		'Gps_Vehicle_Info',
 		Column('id', DbTypes.Uuid, nullable=False),
 		Column('parent_id', DbTypes.Uuid, nullable=False),
-    Column('name',  DbTypes.VeryLongString, nullable=False),
+   		Column('name',  DbTypes.VeryLongString, nullable=False),
 
 		PrimaryKeyConstraint('id'),
 		ForeignKeyConstraint (['id'], ['entity.id']),
