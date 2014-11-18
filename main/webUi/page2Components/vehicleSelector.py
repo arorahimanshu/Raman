@@ -1,5 +1,6 @@
 from .page2Component import Page2Component
-from utils import newUuid
+
+from utils import Validator
 
 import cherrypy
 
@@ -24,11 +25,21 @@ class VehicleSelector (Page2Component) :
 	#
 
 	def _listBranches (self, requestPath) :
-		branches = [
-			{'display' : 'branch.1', 'id' : '1'},
-			{'display' : 'branch.2', 'id' : '2'},
-		]
-
+		branches = []
+		db = self.app.component('dbManager')
+		with self.server.session() as serverSession:
+			with db.session() as session:
+				data = session.query(db.branch)
+				data=data.filter_by(parent_id=serverSession['primaryOrganizationId'])
+				data=data.all()
+				for item in data:
+					branchData = {}
+					branchData['display']  = item.name
+					branchData['id']    = item.id
+					branches.append(branchData)
+				#
+			#
+		#
 		return self.jsonSuccess (branches = branches)
 	#
 
@@ -38,14 +49,19 @@ class VehicleSelector (Page2Component) :
 
 		# VALIDATE HERE
 		# ....
-
+		db = self.app.component('dbManager')
 		vehicleGroups = []
 		for branch in branches :
-			for i in range (1, 3) :
-				vehicleGroups.append ({
-					'display' : 'br.{}/vg.{}'.format (branch['id'], i),
-					'id' : '{}.{}'.format (branch['id'], i)
-				})
+			with db.session() as session:
+				data = session.query(db.VehicleGroup)
+				data=data.filter_by(parent_id=branch['id'])
+				data=data.all()
+				for item in data:
+					vehicleGroupData = {}
+					vehicleGroupData['display']  = item.name
+					vehicleGroupData['id']    = item.id
+					vehicleGroups.append(vehicleGroupData)
+				#
 			#
 		#
 
@@ -58,16 +74,22 @@ class VehicleSelector (Page2Component) :
 
 		# VALIDATE HERE
 		# ....
-
+		db = self.app.component('dbManager')
 		vehicles = []
-		for vehicleGroup in vehicleGroups :
-			for i in range (1, 3) :
-				vehicles.append ({
-					'display': '{}/v.{}'.format (vehicleGroup['display'], i),
-					'id': '{}.{}'.format (vehicleGroup['id'], i)
-				})
+		for vG in vehicleGroups:
+			with db.session() as session:
+				data = session.query(db.Gps_Vehicle_Info)
+				data=data.filter_by(parent_id=vG['id'])
+				data=data.all()
+				for item in data:
+					vehicleData = {}
+					vehicleData['display']  = item.name
+					vehicleData['id']    = item.id
+					vehicles.append(vehicleData)
+				#
 			#
 		#
+
 
 		return self.jsonSuccess (vehicles = vehicles)
 	#
