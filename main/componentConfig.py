@@ -263,7 +263,7 @@ Page2Config = [
 	{
 		'name' : 'vehicleSelector',
 		'urls' : [
-			'vehicleSelector',
+			#'vehicleSelector', # <- Not needed anymore since vehicle selector is preloading from template
 		],
 		'component' : 'webUi.page2Components.vehicleSelector.VehicleSelector',
 	}
