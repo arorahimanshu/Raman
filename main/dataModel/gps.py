@@ -78,18 +78,7 @@ def defineTables(db):
 	)
 	class Gps_Vehicle_Info(DbEntity): pass
 
-	@db.table(
-		'GeoFence_vehicle',
-		Column('GeoFence_id', DbTypes.Uuid, nullable=False),
-		Column('Vehicle_id', DbTypes.Uuid, nullable=False),
 
-		PrimaryKeyConstraint('GeoFence_id','Vehicle_id'),
-		ForeignKeyConstraint (['GeoFence_id'], ['Gps_Geofence_Data.Geofence_Id']),
-		ForeignKeyConstraint (['Vehicle_id'], ['Gps_Vehicle_Info.id']),
- 		#UniqueConstraint('GeoFence_id','Vehicle_id')
-
-	)
-	class GeoFence_vehicle(DbEntity): pass
 
 	@db.table(
 		'Gps_Geofence_Data',
@@ -108,7 +97,18 @@ def defineTables(db):
 	)
 	class Gps_Geofence_Data(DbEntity): pass
 
+	@db.table(
+		'GeoFence_vehicle',
+		Column('GeoFence_id', DbTypes.Uuid, nullable=False),
+		Column('Vehicle_id', DbTypes.Uuid, nullable=False),
 
+		PrimaryKeyConstraint('GeoFence_id','Vehicle_id'),
+		ForeignKeyConstraint (['GeoFence_id'], ['Gps_Geofence_Data.Geofence_Id']),
+		ForeignKeyConstraint (['Vehicle_id'], ['Gps_Vehicle_Info.id']),
+ 		#UniqueConstraint('GeoFence_id','Vehicle_id')
+
+	)
+	class GeoFence_vehicle(DbEntity): pass
 	@db.table(
 		'Gps_Poi_Info',
 		Column('Poi_Id', DbTypes.Uuid, nullable=False),

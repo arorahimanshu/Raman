@@ -133,17 +133,25 @@ class GeoFence(Page2Component):
 			return self.jsonFailure('validation failed', errors=errors)
 		#
 
+		with self.server.session() as session:
+			userName=session['username']
 
+		newGeoFenceId = db.Entity.newUuid()
 		with db.session() as session:
 			gps_data = db.Gps_Geofence_Data.newFromParams({
-			'Geofence_Id': db.Entity.newUuid(),
+			'Geofence_Id': newGeoFenceId,
 			'Geofence_Name': formData['fenceName'],
-			'Vehicle_Id': formData['vehicleId'],
-			'User_Id': self.userId,
+ 			'User_name': userName,
 			'Coordinate_Id': db.Entity.newUuid(),
 			'Details': formData['Details'],
 			})
 			session.add(gps_data)
+
+			geoFenceVehicle = db.GeoFence_vehicle.newFromParams({
+			'GeoFence_id': newGeoFenceId,
+			'Vehicle_id':formData['vehicleId'],
+			})
+			session.add(geoFenceVehicle)
 
 		return self.jsonSuccess('Geo Fence Saved !')
 
@@ -166,15 +174,16 @@ class GeoFence(Page2Component):
 			query = session.query(db.Gps_Geofence_Data).filter_by(User_Id=self.userId)
 			for obj in query.all():
 				tableData.append(
-					{'Geofence_Id': obj.Geofence_Id,'Geofence_Name': str(obj.Geofence_Name), 'Vehicle_Id': obj.Vehicle_Id, 'Details':obj.Details}
+					{'Geofence_Id': obj.Geofence_Id,'Geofence_Name': str(obj.Geofence_Name),   'Details':obj.Details}
 					)
 		rows=[]
 		for data in tableData:
 			row={}
+			queryVehicleId = session.query(db.GeoFence_vehicle).filter_by(GeoFence_id=data['Geofence_Id'])
 			row['cell']=[len(rows)+1]
 			row['cell'].append(data['Geofence_Id'])
 			row['cell'].append(data['Geofence_Name'])
-			row['cell'].append(data['Vehicle_Id'])
+			row['cell'].append(queryVehicleId.Vehicle_id)
 			details = json.loads(data['Details'])
 			row['cell'].append(details['type'])
 			if details['type']=='CIRCLE':
@@ -212,11 +221,12 @@ class GeoFence(Page2Component):
 			return self.jsonFailure('validation failed', errors=errors)
 		#
 
-
+		with self.server.session() as session:
+			userName=session['username']
 		db.Gps_Geofence_Data.updateFromParams({'Geofence_Id': formData['id']},
                                                           **{'Geofence_Name': formData['fenceName'],
-                                                             'Vehicle_Id': formData['vehicleId'],
-                                                             'User_Id': self.userId,
+                                             				 'User_name': userName,
+
                                                              'Coordinate_Id': db.Entity.newUuid(),
                                                              'Details': formData['Details'],
             })
