@@ -25,14 +25,14 @@ var onLoadFunc_newVehicle = function () {
 
 var setupData = function () {
 	var data = {};
-	
+
 	data.vehicleRegNo = jQuery ('#vehicleRegNo').val ();
 	data.vehicleName = jQuery ('#vehicleName').val ();
 	data.vehicleMake = jQuery ('#vehicleMake').val ();
+	data.vehicleDevId = jQuery ('#vehicleDevId').val ();
 	data.vehicleType = jQuery ('#vehicleType').val ();
-	
 	data.vehicleGroupId = jQuery('#vehicleGroup :selected').val();
-	
+
 	return data
 };
 function setupData2(){
@@ -53,6 +53,9 @@ var setupConstraints = function () {
 		},
 		vehicleMake: {
 			presence: true
+		},
+		vehicleDevId: {
+			presence: true, numericality: true
 		},
 		vehicleType: {
 			presence: true
@@ -84,6 +87,7 @@ function editButtonClick(com, grid, c, selectedData) {
 			editFields.push({'vehicleName': jQuery('td[abbr="Vehicle_Name"] >div', this).html()});
 			editFields.push({'vehicleMake': jQuery('td[abbr="Vehicle_Make"] >div', this).html()});
 			editFields.push({'vehicleRegNo': jQuery('td[abbr="Vehicle_Reg_No"] >div', this).html()});
+			editFields.push({'vehicleDevId': jQuery('td[abbr="VehicleDevId"] >div', this).html()});
 			editFields.push({'vehicleType': jQuery('td[abbr="Vehicle_Type"] >div', this).html()});
 			var div = jQuery('.newVehicleForm');
 			jQuery.each(editFields, function (k, v) {

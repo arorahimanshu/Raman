@@ -461,6 +461,8 @@ class DbHelper(Component):
 			cell['cell'].append(data.parent_id)
 			cell['cell'].append(data.id)
 			cell['cell'].append(data.name)
+			cell['cell'].append(data.device_id)
+
 			# Clear off old values
 			vehicleFields1 = {'first': 'NA'}
 			vehicleFields1['regNo'] = 'NA'

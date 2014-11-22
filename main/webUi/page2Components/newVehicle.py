@@ -34,11 +34,13 @@ class Vehicle(Page2Component):
 		db = self.app.component('dbManager')
 		infoLength = 19
 		infoLength2 = 15
+		infoLength3 = 10
 
 		self._clientFieldInfo = {
 		'vehicleRegNo': {'maxLength': infoLength2},
 		'vehicleName': {'maxLength': infoLength},
 		'vehicleMake': {'maxLength': infoLength},
+		'vehicleDevId': {'maxLength': infoLength3},
 		'vehicleType': {'maxLength': infoLength2},
 		}
 
@@ -81,7 +83,7 @@ class Vehicle(Page2Component):
 
 		'fieldInfo': self._clientFieldInfo,
 		})
-		attrNames = ['S.No', 'Vehicle_Group_Id', 'Vehicle_Id', 'Vehicle_Name', 'Vehicle_Make', 'Vehicle_Reg_No', 'Vehicle_Type']
+		attrNames = ['S.No', 'Vehicle_Group_Id', 'Vehicle_Id', 'Device_Id','Vehicle_Name',  'Vehicle_Make', 'Vehicle_Reg_No', 'Vehicle_Type']
 
 		dbHelp = self.app.component('dbHelper')
 		vehicleGroupList = dbHelp.returnVehicleGroupListForBranch(None)
@@ -113,7 +115,10 @@ class Vehicle(Page2Component):
 		vehicleMake.validate('and',
 							 ('type', str),
 							 ('maxLength', self._clientFieldInfo['vehicleMake']['maxLength']))
-
+		vehicleDevId = a.required('vehicleDevId')
+		vehicleDevId.validate('and',
+							 ('type', str),
+							 ('maxLength', self._clientFieldInfo['vehicleDevId']['maxLength']))
 		vehicleType = a.required('vehicleType')
 		vehicleType.validate('and',
 							 ('type', str),
@@ -133,16 +138,15 @@ class Vehicle(Page2Component):
 		db = self.app.component('dbManager')
 
 		with db.session() as session:
-
 			newVehicleID = db.Entity.newUnique()
-
 			session.add(newVehicleID)
+			session.commit()
 
 			vehicle_data = db.Gps_Vehicle_Info.addOrUpdateFromParams('add', {
 			'id': newVehicleID.id,
 			'parent_id': formData['vehicleGroupId'],
-			'name': formData['vehicleName']
-
+			'name': formData['vehicleName'],
+			'device_id':formData['vehicleDevId']
 			})
 			session.add(vehicle_data)
 
@@ -180,7 +184,7 @@ class Vehicle(Page2Component):
 
 		numOfObj = int(formData.get('rp', '10'))
 		pageNo = int((cherrypy.request.params).get('pageNo', '1'))
-		classData = ['User_Id', 'Vehicle_Id', 'Vehicle_Name', 'Vehicle_Make', 'Vehicle_Reg_No', 'Vehicle_Type']
+		classData = ['User_Id', 'Vehicle_Id', 'Vehicle_Name','Device_Id', 'Vehicle_Make', 'Vehicle_Reg_No', 'Vehicle_Type']
 
 
 		if 'pageNo' not in cherrypy.request.params:
@@ -229,6 +233,7 @@ class Vehicle(Page2Component):
 			db.Gps_Vehicle_Info.updateFromParams({'Vehicle_Id': formData['id']}, **{
 			'Vehicle_Name': formData.get('vehicleName', None),
 			'Vehicle_Make': formData.get('vehicleMake', None),
+			'device_id': formData.get('vehicleDevId', None),
 			'Vehicle_Reg_No': formData.get('vehicleRegNo', None),
 			'Vehicle_Type': formData.get('vehicleType', None)
 			})

@@ -52,8 +52,8 @@ def defineTables(db):
 	@db.table(
 	'VehicleGroup',
 		Column('id', DbTypes.Uuid, nullable=False),
-    Column('parent_id', branch.columnType ('id'), nullable=False),
-    Column('name',  DbTypes.VeryLongString, nullable=False),
+  		Column('parent_id', branch.columnType ('id'), nullable=False),
+    	Column('name',  DbTypes.VeryLongString, nullable=False),
 		Column('category', Integer, nullable=False),
 
 		ForeignKeyConstraint (['id'], ['entity.id']),
@@ -68,26 +68,42 @@ def defineTables(db):
 		Column('id', DbTypes.Uuid, nullable=False),
 		Column('parent_id', DbTypes.Uuid, nullable=False),
    		Column('name',  DbTypes.VeryLongString, nullable=False),
+		Column('device_id', String(10), nullable=False),
 
 		PrimaryKeyConstraint('id'),
 		ForeignKeyConstraint (['id'], ['entity.id']),
 		ForeignKeyConstraint (['parent_id'], ['entity.id']),
- 		#UniqueConstraint('id', 'parent_id')
+ 		#UniqueConstraint('id')
 
 	)
 	class Gps_Vehicle_Info(DbEntity): pass
 
 	@db.table(
+		'GeoFence_vehicle',
+		Column('GeoFence_id', DbTypes.Uuid, nullable=False),
+		Column('Vehicle_id', DbTypes.Uuid, nullable=False),
+
+		PrimaryKeyConstraint('GeoFence_id','Vehicle_id'),
+		ForeignKeyConstraint (['GeoFence_id'], ['Gps_Geofence_Data.Geofence_Id']),
+		ForeignKeyConstraint (['Vehicle_id'], ['Gps_Vehicle_Info.id']),
+ 		#UniqueConstraint('GeoFence_id','Vehicle_id')
+
+	)
+	class GeoFence_vehicle(DbEntity): pass
+
+	@db.table(
 		'Gps_Geofence_Data',
 		Column('Geofence_Id', DbTypes.Uuid, nullable=False),
 		Column('Geofence_Name', String(20), nullable=False),
-		Column('Vehicle_Id', DbTypes.Uuid, nullable=False),
-		Column('User_Id', DbTypes.Uuid, nullable=False),
+		#Column('Vehicle_Id', DbTypes.Uuid, nullable=False),
+		Column ('User_name', DbTypes.ShortString, nullable = False),
 		Column('Coordinate_Id', DbTypes.Uuid, nullable=False),
 		Column('Details', String(1024), nullable=False),
 		#Column('Longitude', String(1024), nullable=False),
 
-		PrimaryKeyConstraint('Geofence_Id', 'User_Id', 'Vehicle_Id'),
+		PrimaryKeyConstraint('Geofence_Id'),
+		ForeignKeyConstraint (['User_name'], ['user.username']),
+
 
 	)
 	class Gps_Geofence_Data(DbEntity): pass
@@ -96,14 +112,15 @@ def defineTables(db):
 	@db.table(
 		'Gps_Poi_Info',
 		Column('Poi_Id', DbTypes.Uuid, nullable=False),
-		Column('User_Id', DbTypes.Uuid, nullable=False),
-		Column('Vehicle_Id', DbTypes.Uuid, nullable=False),
+		Column ('User_name', DbTypes.ShortString, nullable = False),
+		#Column('Vehicle_Id', DbTypes.Uuid, nullable=False),
 		Column('Poi_Name', DbTypes.VeryLongString, nullable=False),
 		Column('Poi_Latitude', Numeric(20, 15), nullable=False),
 		Column('Poi_Longitude', Numeric(20, 15), nullable=False),
 		Column('Category', String(20)),
 
-		PrimaryKeyConstraint('Poi_Id')
+		PrimaryKeyConstraint('Poi_Id'),
+		ForeignKeyConstraint (['User_name'], ['user.username']),
 
 	)
 	class Gps_Poi_Info(DbEntity): pass
@@ -116,10 +133,26 @@ def defineTables(db):
 		Column('Time', DbTypes.VeryShortString, nullable=False),
 		Column('Date', Date, nullable=False),
 
-		PrimaryKeyConstraint('Id')
+		PrimaryKeyConstraint('Id'),
+		ForeignKeyConstraint (['Poi_Id'], ['Gps_Poi_Info.Poi_Id']),
 
 	)
 	class Gps_Poi_Data(DbEntity): pass
+
+	@db.table(
+		'Poi_vehicle',
+
+		Column('Poi_Id', DbTypes.Uuid, nullable=False),
+		Column('Vehicle_Id', DbTypes.Uuid, nullable=False),
+
+		PrimaryKeyConstraint('Poi_Id','Vehicle_Id'),
+		ForeignKeyConstraint (['Poi_Id'], ['Gps_Poi_Info.Poi_Id']),
+		ForeignKeyConstraint (['Vehicle_Id'], ['Gps_Vehicle_Info.id']),
+
+	)
+	class Poi_vehicle(DbEntity): pass
+
+
 
 	@db.table(
 		'gpsDeviceMessage1',

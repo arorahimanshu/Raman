@@ -228,6 +228,7 @@ class _Worker:
 		if entityId == None:
 			entity = db.Entity.newUnique()
 			self.session.add(entity)
+
 		else:
 			entity = self.session.query(
 				db.Entity
@@ -235,7 +236,7 @@ class _Worker:
 				id=entityId
 			).one()
 		#
-
+		self.session.commit()
 		newOrganization = db.Organization.newFromParams({
 		'id': entity.id,
 		'parent': parent,
@@ -286,7 +287,7 @@ class _Worker:
 			).one()
 		#
 
-
+		self.session.commit()
 		newBranch = db.branch.newFromParams({
 		'id': entity.id,
 		'parent_id': details['parentOrgId'],
@@ -362,7 +363,7 @@ class _Worker:
 			).one()
 		#
 
-
+		self.session.commit()
 		newVehicleGroup = db.VehicleGroup.newFromParams({
 		'id': entity.id,
 		'parent_id': details['parentOrgId'],
