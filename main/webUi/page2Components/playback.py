@@ -37,10 +37,45 @@ class Playback(Page2Component):
 
 		vehicleSelector = self.parent.component ('vehicleSelector')
 
+		branches = [
+			{'display':'branch.1', 'id':'1'},
+			{'display':'branch.2', 'id':'2'},
+		]
+
+		vehicleGroups = []
+		for branch in branches :
+			for i in range (1, 3) :
+				vehicleGroups.append ({
+					'display' : 'br.{}/vg.{}'.format (branch['id'], i),
+					'id' : '{}.{}'.format (branch['id'], i),
+					'parentId' : branch['id']
+				})
+			#
+		#
+
+		vehicles = []
+		for vehicleGroup in vehicleGroups :
+			for i in range (1, 3) :
+				vehicles.append ({
+					'display': '{}/v.{}'.format (vehicleGroup['display'], i),
+					'id': '{}.{}'.format (vehicleGroup['id'], i),
+					'parentId': vehicleGroup['id']
+				})
+			#
+		#
+
 		return self._renderWithTabs(
 			proxy, params,
 			bodyContent=proxy.render('playbackForm.html',
-				additionalOptions = [vehicleSelector.render (proxy, params)]
+				additionalOptions = [
+					"<br><br><br><br><br>",
+
+					proxy.render ('vehicleSelector.html',
+						branches = branches,
+						vehicleGroups = vehicleGroups,
+						vehicles = vehicles,
+					)
+				]
 			),
 			newTabTitle='Playback',
 			url=requestPath.allPrevious(),

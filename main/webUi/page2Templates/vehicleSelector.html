@@ -20,9 +20,28 @@ if vehicleSelectorJs not in externalJs :
 
 	class="vehicleSelector ${vehicleSelectorClass or ''}"
 >
-	<div class="branches"  >Branches</div>
-	<div class="vehicleGroups" > Vehicle Group</div>
-  
-	<div class="vehicles" ></div>
+
+	<div class="branches" style="border:1px solid black">
+		%for branch in branches :
+		<div class="vehicleSelectorEntry" data-details="${html.escape (json.dumps (branch))}">
+			<input type="checkbox" checked="checked">${html.escape (branch['display'])}
+		</div>
+		%endfor
+	</div>
+	<div class="vehicleGroups" style="border:1px solid black">
+		%for vehicleGroup in vehicleGroups :
+		<div class="vehicleSelectorEntry" data-details="${html.escape (json.dumps (vehicleGroup))}">
+			<input type="checkbox" checked="checked">${html.escape (vehicleGroup['display'])}
+		</div>
+		%endfor
+	</div>
+	<div class="vehicles" style="border:1px solid black">
+		%for vehicle in vehicles :
+		<div class="vehicleSelectorEntry" data-details="${html.escape (json.dumps (vehicle))}">
+			<input type="checkbox" checked="checked">${html.escape (vehicle['display'])}
+		</div>
+		%endfor
+	</div>
+
 </div>
 
