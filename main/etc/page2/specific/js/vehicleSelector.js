@@ -9,7 +9,7 @@ jQuery (window).load (function () {
 			'<div class="vehicleSelectorEntry" data-details="'
 			+ escape (JSON.stringify (data))
 			+ '">'
-			+ '<input type="checkbox">'
+			+ '<input type="checkbox" checked="checked">'
 			+ escape (display)
 			+ '</div>'
 		)
@@ -46,6 +46,8 @@ jQuery (window).load (function () {
 		jQuery ('.vehicleSelector .branches input').change (
 			onBranchSelectionUpdate.debounce (2000) // 2 seconds
 		)
+
+		onBranchSelectionUpdate ()
 	}
 
 	var listVehicleGroups = function (vehicleGroups) {
@@ -58,6 +60,8 @@ jQuery (window).load (function () {
 		jQuery ('.vehicleSelector .vehicleGroups input').change (
 			onVehicleGroupSelectionUpdate.debounce (2000)
 		)
+
+		onVehicleGroupSelectionUpdate ()
 	}
 
 	var listVehicles = function (vehicles) {
