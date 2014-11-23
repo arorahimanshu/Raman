@@ -84,7 +84,7 @@ jQuery(window).load(function() {
                 jQuery('.typeAll').show();
                 jQuery('.typeFilter').hide();
 
-                jQuery('Input[name=vehicle]')[0].checked = true;
+
 
                 allFilterSettings();
 

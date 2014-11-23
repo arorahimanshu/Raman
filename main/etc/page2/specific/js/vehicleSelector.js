@@ -1,13 +1,13 @@
 fitx.utils.require (['fitx', 'page2', 'vehicleSelector'])
 
-fitx.page2.vehicleSelector.UpdateDelay = 1500 // in milliseconds
+fitx.page2.vehicleSelector.UpdateDelay = 100 // in milliseconds
 
 jQuery (window).load (function () {
 
 	//console.log ('vehicle selector loaded')
 
 	var onBranchSelectionUpdate = function () {
-		var elements = jQuery ('.vehicleSelector .branches input:checked')
+		var elements = jQuery ('.vehicleSelector .branchesContainer .branches input:checked')
 		var selectedBranches = []
 		jQuery.each (elements, function (index, rawElement) {
 			var element = jQuery (rawElement).parents ('.vehicleSelectorEntry')
@@ -16,7 +16,7 @@ jQuery (window).load (function () {
 			selectedBranches.push (branchData['id'])
 		})
 
-		var vehicleGroupElements = jQuery ('.vehicleSelector .vehicleGroups input')
+		var vehicleGroupElements = jQuery ('.vehicleSelector .vehicleGroupsContainer .vehicleGroups input')
 		jQuery.each (vehicleGroupElements, function (index, rawElement) {
 			var vehicleGroupElement = jQuery (rawElement)
 			var parentDiv = jQuery (vehicleGroupElement.parents ('.vehicleSelectorEntry'))
@@ -33,7 +33,7 @@ jQuery (window).load (function () {
 	}
 
 	var onVehicleGroupSelectionUpdate = function () {
-		var elements = jQuery ('.vehicleSelector .vehicleGroups input:checked')
+		var elements = jQuery ('.vehicleSelector .vehicleGroupsContainer .vehicleGroups input:checked')
 		var selectedVehicleGroups = []
 		jQuery.each (elements, function (index, rawElement) {
 			var element = jQuery (rawElement).parents ('.vehicleSelectorEntry')
@@ -42,7 +42,7 @@ jQuery (window).load (function () {
 			selectedVehicleGroups.push (vehicleGroupData['id'])
 		})
 
-		var vehicleElements = jQuery ('.vehicleSelector .vehicles input')
+		var vehicleElements = jQuery ('.vehicleSelector .vehicleContainer .vehicles input')
 		jQuery.each (vehicleElements, function (index, rawElement) {
 			var vehicleElement = jQuery (rawElement)
 			var parentDiv = jQuery (vehicleElement.parents ('.vehicleSelectorEntry'))
@@ -56,11 +56,11 @@ jQuery (window).load (function () {
 		})
 	}
 
-	jQuery ('.vehicleSelector .branches input').change (
+	jQuery ('.vehicleSelector .branchesContainer .branches input').change (
 		onBranchSelectionUpdate.debounce (fitx.page2.vehicleSelector.UpdateDelay)
 	)
 
-	jQuery ('.vehicleSelector .vehicleGroups input').change (
+	jQuery ('.vehicleSelector .vehicleGroupsContainer .vehicleGroups input').change (
 		onVehicleGroupSelectionUpdate.debounce (fitx.page2.vehicleSelector.UpdateDelay)
 	)
 

@@ -1,11 +1,12 @@
 .options{
-    width:35%;
-    height:62%;
+    width:30%;
+    height:70%;
     border: 1px solid #5133AB;
     position:absolute;
     z-index:10;
     background-color: #FFF;
     margin:1% 0 0 1% ;
+    font-size: 14px;
 
 }
 
@@ -48,7 +49,7 @@
 .subOptions{
     display:inline-block;
     width:100%;
-    border: 1px solid red;
+    border: 0px solid red;
 }
 
 .buttonBlock > .label {
@@ -85,35 +86,13 @@
     }
 
 .typeFilter {
-     border: 1px solid red;
+     border: 0px solid red;
      display:block;
      position:absolute;
      margin:10% 0 0 0;
      height:300px;
     }
 
-.branches{
-    width:45%;
-    height:50px;
-    display:block;
-    float:left;
-    margin: 2% 0 ;
-    border: 2px solid yellow !important;
-    }
-
-.vehicleGroups{
-    width:45%;
-    margin: 2% 0 ;
-    display:block;
-    float:right;
-    border: 2px solid yellow !important;
-    }
-
-.vehicles{
-    width:100%;
-    margin: 2% 0;
-    display:block;
-    border: 2px solid yellow !important;
-    position:absolute;
-    margin:20% 0 0 0;
+.fieldDate > .genericButton{
+    margin:10% 0 0 28% ;
     }

@@ -25,6 +25,7 @@ class Playback(Page2Component):
 
 	def _newPlaybackForm(self, requestPath):
 		proxy, params = self.newProxy()
+		dbHelp = self.app.component('dbHelper')
 
 		params['externalJs'].append('http://maps.googleapis.com/maps/api/js?libraries=geometry&sensor=false')
 		params['externalJs'].append(
@@ -34,46 +35,28 @@ class Playback(Page2Component):
 		params['externalCss'].append(
 			self.server.appUrl('etc', 'page2', 'specific', 'css', 'playback.css')
 		)
+		#-------------- Code block to implement Vehicle Selector
+		vehicleStructure = []
+		dataUtils = self.app.component('dataUtils')
+		with self.server.session() as serverSession:
+			primaryOrganizationId = serverSession['primaryOrganizationId']
 
-		vehicleSelector = self.parent.component ('vehicleSelector')
 
-		branches = [
-			{'display':'branch.1', 'id':'1'},
-			{'display':'branch.2', 'id':'2'},
-		]
+		with dataUtils.worker() as worker:
+ 			vehicleStructure= worker.getVehicleTree(primaryOrganizationId)
+		#-------------- Code block to implement Vehicle Selector
 
-		vehicleGroups = []
-		for branch in branches :
-			for i in range (1, 3) :
-				vehicleGroups.append ({
-					'display' : 'br.{}/vg.{}'.format (branch['id'], i),
-					'id' : '{}.{}'.format (branch['id'], i),
-					'parentId' : branch['id']
-				})
-			#
-		#
-
-		vehicles = []
-		for vehicleGroup in vehicleGroups :
-			for i in range (1, 3) :
-				vehicles.append ({
-					'display': '{}/v.{}'.format (vehicleGroup['display'], i),
-					'id': '{}.{}'.format (vehicleGroup['id'], i),
-					'parentId': vehicleGroup['id']
-				})
-			#
-		#
 
 		return self._renderWithTabs(
 			proxy, params,
 			bodyContent=proxy.render('playbackForm.html',
 				additionalOptions = [
-					"<br><br><br><br><br>",
+					"<br><br><br><br>",
 
 					proxy.render ('vehicleSelector.html',
-						branches = branches,
-						vehicleGroups = vehicleGroups,
-						vehicles = vehicles,
+						branches = vehicleStructure[0],
+						vehicleGroups = vehicleStructure[1],
+						vehicles = vehicleStructure[2],
 					)
 				]
 			),

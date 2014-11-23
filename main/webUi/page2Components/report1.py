@@ -6,125 +6,143 @@ import json
 
 
 class Report1(Page2Component):
-    def __init__(self, parent, **kwargs):
-        Page2Component.__init__(self, parent, **kwargs)
-    #
+	def __init__(self, parent, **kwargs):
+		Page2Component.__init__(self, parent, **kwargs)
+	#
 
-    def handler(self, nextPart, requestPath):
-        if nextPart == 'newReport1Form':
-            return self._newReport1Form(requestPath)
-        elif nextPart == 'newReport1FormAction':
-            return self._newReport1FormAction(requestPath)
-        #
-    #
+	def handler(self, nextPart, requestPath):
+		if nextPart == 'newReport1Form':
+			return self._newReport1Form(requestPath)
+		elif nextPart == 'newReport1FormAction':
+			return self._newReport1FormAction(requestPath)
+		#
+	#
 
-    def _newReport1Form(self, requestPath):
-        proxy, params = self.newProxy()
+	def _newReport1Form(self, requestPath):
+		proxy, params = self.newProxy()
 
-        params['externalCss'].append(
-            self.server.appUrl('etc', 'page2', 'specific', 'css', 'report1Form.css')
-        )
+		params['externalCss'].append(
+			self.server.appUrl('etc', 'page2', 'specific', 'css', 'report1Form.css')
+		)
 
-        params['externalJs'].append(
-            self.server.appUrl('etc', 'page2', 'specific', 'js', 'report1Form.js')
-        )
+		params['externalJs'].append(
+			self.server.appUrl('etc', 'page2', 'specific', 'js', 'report1Form.js')
+		)
 
-        params['externalJs'].append(
-            self.server.appUrl('etc', 'page2', 'generic', 'js', 'flexigrid.js')
-        )
-        params['externalJs'].append(
-            self.server.appUrl('etc', 'page2', 'generic', 'js', 'flexigrid.pack.js')
-        )
-        params['externalCss'].append(
-            self.server.appUrl('etc', 'page2', 'generic', 'css', 'flexigrid.pack.css')
-        )
-        params['externalCss'].append(
-            self.server.appUrl('etc', 'page2', 'generic', 'css', 'flexigrid.css')
-        )
+		params['externalJs'].append(
+			self.server.appUrl('etc', 'page2', 'generic', 'js', 'flexigrid.js')
+		)
+		params['externalJs'].append(
+			self.server.appUrl('etc', 'page2', 'generic', 'js', 'flexigrid.pack.js')
+		)
+		params['externalCss'].append(
+			self.server.appUrl('etc', 'page2', 'generic', 'css', 'flexigrid.pack.css')
+		)
+		params['externalCss'].append(
+			self.server.appUrl('etc', 'page2', 'generic', 'css', 'flexigrid.css')
+		)
 
-        self.classData = ['S.No.', 'Vehicle ID', 'Vehicle Name', 'Vehicle Model', 'Running Duration In A Day', 'Distance Travelled', 'Total Idle Duration',
-                          'Max Speed', 'Avg Speed']
-
-        return self._renderWithTabs(
-            proxy, params,
-            bodyContent=proxy.render('report1Form.html', classdata=self.classData),
-            newTabTitle='Speed Report',
-            url=requestPath.allPrevious(),
-        )
-    #
+		self.classData = ['S.No.', 'Vehicle ID', 'Vehicle Name', 'Vehicle Model', 'Running Duration In A Day', 'Distance Travelled', 'Total Idle Duration',
+						  'Max Speed', 'Avg Speed']
 
 
-    def _newReport1FormValidate(self, formData):
-        pass
+		vehicleStructure = []
+		dataUtils = self.app.component('dataUtils')
+		with self.server.session() as serverSession:
+			primaryOrganizationId = serverSession['primaryOrganizationId']
 
-    #
+		with dataUtils.worker() as worker:
+			vehicleStructure= worker.getVehicleTree(primaryOrganizationId)
 
-    def _newReport1FormAction(self, requestPath):
 
-        formData = json.loads(cherrypy.request.params['formData'])
+		return self._renderWithTabs(
+			proxy, params,
+			bodyContent=proxy.render('report1Form.html', classdata=self.classData,
+				additionalOptions = [
+					proxy.render ('vehicleSelector.html',
+						branches = vehicleStructure[0],
+						vehicleGroups = vehicleStructure[1],
+						vehicles = vehicleStructure[2],
+					)
+				]
+			),
+			newTabTitle='Speed Report',
+			url=requestPath.allPrevious(),
+		)
+	#
 
-        gmtAdjust = formData['gmtAdjust']
-        fromDate = formData['fromDate']
-        toDate = formData['toDate']
 
-        gpsHelp = self.app.component('gpsHelper')
-        db = self.app.component('dbManager')
-        dbHelp = self.app.component('dbHelper')
-        vehiclesListNested = json.loads(self._report1VehicleListNested(requestPath))
-        vehicleIds = dbHelp.filterVehicles(vehiclesListNested, 'All', 'All', 'All')
+	def _newReport1FormValidate(self, formData):
+		pass
 
-        timeHelp = self.app.component('timeHelper')
-        time = timeHelp.getDateAndTime(fromDate[0], fromDate[1], fromDate[2], 0, 0, 0)
-        fromTime = timeHelp.getDateAndTime_subtract(gmtAdjust, time)
+	#
 
-        time = timeHelp.getDateAndTime(toDate[0], toDate[1], toDate[2], 23, 59, 59)
-        toTime = timeHelp.getDateAndTime_subtract(gmtAdjust, time)
+	def _newReport1FormAction(self, requestPath):
 
-        rows = []
-        for id in vehicleIds:
-            rawCoordinates = dbHelp.getRawCoordinatesForDeviceBetween(id, fromTime, toTime)
-            rawCoordinates = rawCoordinates.order_by(db.gpsDeviceMessage1.timestamp)
-            report = gpsHelp.makeReport(rawCoordinates.all())
-            vehicleData = dbHelp.getVehicleDetails(vehiclesListNested, id)
-            row = {}
-            row['cell'] = [len(rows) + 1]
-            row['cell'].append(id)
-            row['cell'].append(vehicleData['vehicleName'])
-            row['cell'].append(vehicleData['vehicleModel'])
-            row['cell'].append(str(report['avgDuration']))
-            row['cell'].append('{0:.2f}'.format(report['totalRunningDistance']))
-            row['cell'].append(str(report['totalIdleDuration']))
-            row['cell'].append('{0:.2f}'.format(report['maxSpeed']))
-            row['cell'].append('{0:.2f}'.format(report['avgSpeed']))
-            rows.append(row)
+		formData = json.loads(cherrypy.request.params['formData'])
 
-        pageNo = int((cherrypy.request.params).get('pageNo', '1'))
-        if 'pageNo' not in cherrypy.request.params:
-            self.numOfObj = 10
-        if 'rp' in cherrypy.request.params and 'pageNo' in cherrypy.request.params:
-            self.numOfObj = int(cherrypy.request.params['rp'])
+		gmtAdjust = formData['gmtAdjust']
+		fromDate = formData['fromDate']
+		toDate = formData['toDate']
 
-        rows = dbHelp.getSlicedData(rows, pageNo, self.numOfObj)
+		gpsHelp = self.app.component('gpsHelper')
+		db = self.app.component('dbManager')
+		dbHelp = self.app.component('dbHelper')
+		vehiclesListNested = json.loads(self._report1VehicleListNested(requestPath))
+		vehicleIds = dbHelp.filterVehicles(vehiclesListNested, 'All', 'All', 'All')
 
-        data = {
-            'classData': self.classData,
-            'sendData': rows,
-        }
+		timeHelp = self.app.component('timeHelper')
+		time = timeHelp.getDateAndTime(fromDate[0], fromDate[1], fromDate[2], 0, 0, 0)
+		fromTime = timeHelp.getDateAndTime_subtract(gmtAdjust, time)
 
-        if data != None:
-            return self.jsonSuccess(data)
-        else:
-            return self.jsonFailure('No Data Found')
+		time = timeHelp.getDateAndTime(toDate[0], toDate[1], toDate[2], 23, 59, 59)
+		toTime = timeHelp.getDateAndTime_subtract(gmtAdjust, time)
 
-        #
+		rows = []
+		for id in vehicleIds:
+			rawCoordinates = dbHelp.getRawCoordinatesForDeviceBetween(id, fromTime, toTime)
+			rawCoordinates = rawCoordinates.order_by(db.gpsDeviceMessage1.timestamp)
+			report = gpsHelp.makeReport(rawCoordinates.all())
+			vehicleData = dbHelp.getVehicleDetails(vehiclesListNested, id)
+			row = {}
+			row['cell'] = [len(rows) + 1]
+			row['cell'].append(id)
+			row['cell'].append(vehicleData['vehicleName'])
+			row['cell'].append(vehicleData['vehicleModel'])
+			row['cell'].append(str(report['avgDuration']))
+			row['cell'].append('{0:.2f}'.format(report['totalRunningDistance']))
+			row['cell'].append(str(report['totalIdleDuration']))
+			row['cell'].append('{0:.2f}'.format(report['maxSpeed']))
+			row['cell'].append('{0:.2f}'.format(report['avgSpeed']))
+			rows.append(row)
 
-    #
+		pageNo = int((cherrypy.request.params).get('pageNo', '1'))
+		if 'pageNo' not in cherrypy.request.params:
+			self.numOfObj = 10
+		if 'rp' in cherrypy.request.params and 'pageNo' in cherrypy.request.params:
+			self.numOfObj = int(cherrypy.request.params['rp'])
 
-    def _report1VehicleListNested(self, requestPath):
-        primaryOrganizationId = None
-        with self.server.session() as serverSession:
-            primaryOrganizationId = serverSession['primaryOrganizationId']
-        dbHelp = self.app.component('dbHelper')
-        vehiclesListNested = json.dumps(dbHelp.getVehiclesListNested(primaryOrganizationId))
-        return vehiclesListNested
-    #
+		rows = dbHelp.getSlicedData(rows, pageNo, self.numOfObj)
+
+		data = {
+			'classData': self.classData,
+			'sendData': rows,
+		}
+
+		if data != None:
+			return self.jsonSuccess(data)
+		else:
+			return self.jsonFailure('No Data Found')
+
+		#
+
+	#
+
+	def _report1VehicleListNested(self, requestPath):
+		primaryOrganizationId = None
+		with self.server.session() as serverSession:
+			primaryOrganizationId = serverSession['primaryOrganizationId']
+		dbHelp = self.app.component('dbHelper')
+		vehiclesListNested = json.dumps(dbHelp.getVehiclesListNested(primaryOrganizationId))
+		return vehiclesListNested
+	#

@@ -16,7 +16,15 @@
 
 	<div class="filter report1">
       <div class="genInlineBlockA">
-            Any instructions to user
+
+
+	%if additionalOptions :
+		%for opt in additionalOptions :
+			${opt}
+		%endfor
+	%endif
+
+
       </div>
       <div class="genInlineBlockA">
 			<div class="fieldDate">

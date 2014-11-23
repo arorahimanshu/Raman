@@ -419,5 +419,79 @@ class _Worker:
 
 	#
 
+	def getVehicleTree(self,orgId):
+
+
+		branches = []
+		db = self.app.component('dbManager')
+
+
+		with db.session() as session:
+				data = session.query(db.branch)
+				data=data.filter_by(parent_id=orgId)
+				data=data.all()
+				for item in data:
+					branchData = {}
+					branchData['display']  = item.name
+					branchData['id']    = item.id
+					branches.append(branchData)
+				#
+			#
+		#
+		branchList= []
+
+		for item in branches :
+			branchList.append(item['id'])
+
+		db = self.app.component('dbManager')
+		vehicleGroups = []
+
+		with db.session() as session:
+				data = session.query(db.VehicleGroup).order_by(db.VehicleGroup.name)
+				data=data.filter(db.VehicleGroup.parent_id.in_(branchList))
+				data=data.all()
+				for item in data:
+					vehicleGroupData = {}
+					vehicleGroupData['display']  = item.name
+					vehicleGroupData['id']    = item.id
+					vehicleGroupData['parentId'] = item.parent_id
+					vehicleGroups.append(vehicleGroupData)
+				#
+			#
+
+
+		vGroupList = []
+		for item in vehicleGroups:
+			vGroupList.append(item['id'])
+
+		db = self.app.component('dbManager')
+		vehicles = []
+
+		with db.session() as session:
+				data = session.query(db.Gps_Vehicle_Info).order_by(db.Gps_Vehicle_Info.name)
+				data=data.filter(db.Gps_Vehicle_Info.parent_id.in_(vGroupList))
+				data=data.all()
+				for item in data:
+					vehicleData = {}
+					vehicleData['display']  = item.name
+					vehicleData['id']    = item.id
+					vehicleData['parentId']    = item.parent_id
+					vehicles.append(vehicleData)
+				#
+			#
+		#
+
+		treeDict = []
+		treeDict.append(branches)
+		treeDict.append(vehicleGroups)
+		treeDict.append(vehicles)
+
+		return treeDict
+
+
+
+
+
+
 #
 

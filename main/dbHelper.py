@@ -2,6 +2,7 @@ from appConfig import AppConfig
 from component import Component
 from sqlalchemy import func
 from sqlalchemy import and_
+from utils import Validator
 import datetime
 import time
 from sqlalchemy.sql.sqltypes import DateTime
@@ -818,3 +819,4 @@ class DbHelper(Component):
 					organization_id=orgId
 				))
 	#
+

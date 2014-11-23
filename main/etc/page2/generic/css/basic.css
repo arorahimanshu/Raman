@@ -413,3 +413,83 @@ span>img {
     transition: box-shadow 0.3s ease 0s, border 0.3s ease 0s;
 
 }
+
+
+
+
+.branchesContainer{
+
+    height:90px;
+    display:block;
+    float:left;
+    margin: 2% 0 ;
+    border: 1px solid #5133AB !important;
+    text-align: left;
+    }
+
+.branches{
+    height:70px;
+    width:200px;
+    overflow-y: scroll;
+    }
+.vehicleGroupsContainer{
+
+    margin: 2% 0 ;
+    height:90px;
+
+    display:block;
+    float:right;
+    border: 1px solid #5133AB !important;
+    text-align: left;
+    }
+.vehicleGroups{
+    height:70px;
+    width:200px;
+    overflow-y: scroll;
+
+    }
+.vehicleContainer{
+
+    display:block;
+    width:99.5%;
+    margin: 35% 0 2% 0;
+    display:block;
+    width:460px;
+
+    border: 1px solid #5133AB!important;
+    position:absolute;
+
+    text-align: left;
+    }
+.vehicles{
+    display:initial;
+
+    overflow-y: scroll;
+    min-height:100px;
+
+    }
+.vsHeading{
+    width:100%;
+    height: 20%;
+    background-color: #5133AB;
+    color:#FFF;
+    font-size: 16px;
+    font-weight:bold;
+    text-align: center;
+    }
+.vehicleSelector{
+
+    font-size: 14px;
+    border: 0px solid red !important;
+    min-height:200px;
+    min-width:50%;
+    }
+
+
+.vehicleCheckbox1{
+    display:inline-block;
+    width:45%;
+    min-height:25px;
+    border: 0px solid #5133AB! important;
+
+    }

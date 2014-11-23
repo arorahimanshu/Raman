@@ -21,9 +21,7 @@
 		<button class="increaseAnimationSpeed genericButtonGeo">+</button>
 		<button class="decreaseAnimationSpeed genericButtonGeo">-</button>
         </div>
-        <div class="buttonBlock">
-        <button class="toggleFilter genericButtonGeo">Show/Hide Filter</button>
-        </div>
+
 	</div>
 	<div class="filterSettings">
         <div class="geoHeader">
@@ -63,78 +61,7 @@
 
 		</div>
 		
-		<div class="filterType buttonBlock">
-				<button class="all genericButtonGeo">All Vehicle</button>
-				<button class="filter genericButtonGeo">Filter</button>
-			
-			<div class="typeAll ">
-				<div class="demo buttonBlock">
-					<button class="show genericButtonGeo">Show</button>
-					<button class="hide genericButtonGeo">Hide</button>
-					Demo
-					<div class="delhi buttonBlock">
-						<button class="show genericButtonGeo">Show</button>
-						<button class="hide genericButtonGeo">Hide</button>
-						Delhi<br/>
-					</div>
-				</div>
-			</div>
 
-			<div class="typeFilter  ">
-				<div class="company">
-					<select multiselect class="genericSelectGeo">
-						<option>All</option>
-						<option>Demo</option>
-					</select>
-				</div>
-
-				<div class="branch  ">
-					<select multiselect class="genericSelectGeo">
-						<option>All</option>
-						<option>Delhi</option>
-					</select>
-				</div>
-
-				<div class="vehicleFilter buttonBlock">
-					Vehicle:
-					<input type="radio" name="vehicle" value="Type">Vehicle Type
-					<input type="radio" name="vehicle" value="Group">Vehicle Group
-		
-					<div class="typeVehicle buttonBlock">
-
-                        <div class="buttonBlock">
-                        Vehicle Type:
-						<select multiple>
-							<option>All</option>
-							<option>Truck</option>
-						</select>
-						</div>
-
-						<div class="buttonBlock">
-						Vehicle Number:
-						<select multiple>
-							<option>All</option>
-							<option>empty</option>
-						</select>
-                        </div>
-
-					</div>
-					
-					<div class="groupVehicle buttonBlock">
-						Vehicle Group:
-						<select multiple>
-							<option>no groups</option>
-						</select>
-
-						<br/>
-
-						Vehicle Number:
-						<select multiple>
-						</select>
-					</div>
-				</div>
-			</div>
-		</div>
 		<!--
 		<div class="hiddenTemplate">
 			<button class="show">Show</button>
@@ -148,6 +75,11 @@
 			${opt}
 		%endfor
 	%endif
+
+    <div class="fieldDate">
+	        <button class="submit genericButton" >Go</button>
+    </div>
+
 </div>
 <div id="map" style="height:750px">
 	<Button id="loadMap"  class="genericButtonGeo">Load Map</button>
