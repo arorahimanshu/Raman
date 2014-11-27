@@ -34,30 +34,26 @@ function setupData() {
     var offset =-1* curdate.getTimezoneOffset();
     var gmtAdjust=offset*60;
 		
-	var company = jQuery ('.filter .company select option:selected')[0].id;
-	if (company == '')
-		company = 'All';
-
-	var branch = jQuery ('.filter .branch select option:selected')[0].id;
-	if (branch == '')
-		branch = 'All'
-		
-	var vehicleGroup = jQuery ('.filter .vehicleGroup select option:selected')[0].id;
-	if (vehicleGroup == '')
-		vehicleGroup = 'All'
+    alert('a');
 	
 	var fromDate = returnDate ('fromDate');
 	var toDate = returnDate ('toDate');
 	
 	var specificData = {
-		'company' : company,
-		'branch' : branch,
-		'vehicleGroup' : vehicleGroup,
+
 		'fromDate' : fromDate,
 		'toDate' : toDate,
 		'gmtAdjust' : gmtAdjust
 	};
-	
+	// Vehicle Selector > vehicle id Picker
+    var idList = []
+	jQuery('.vsVehicleId:checked').each (function(){
+		var vehicleId = jQuery (this).data( "details" ).id
+
+		idList.push (vehicleId)
+	})
+    specificData['vehicleList']=idList
+    //-------------------------------------
 	rp = parseInt(jQuery('.pGroup select option:selected').text())
 	specificData['rp'] = rp
 	

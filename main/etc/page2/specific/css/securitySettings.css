@@ -10,11 +10,25 @@
 
 .selectBoxContainer{
 
-align:center;
-width:40%;
-border: 0px solid #5133AB;
-margin: 0 0 0 38%;
+    width:50%;
+	display: table;
+  	margin-left: auto;
+    margin-right: auto;
+    margin-top:5%;;
 }
+
+
+.formCell11{
+
+    height:30px;
+    display: table;
+    margin-top: auto;
+    margin-bottom: auto;
+    display:flex;
+
+
+    }
+
 
 .userSelect{
 margin:0 25% 0 15% !important;
@@ -24,7 +38,11 @@ margin:0 25% 0 15% !important;
 display:none;
 width:80%;
 border: 0px solid yellow;
-margin: 2% 0 0 10%;
+margin: 2% 0 0 15%;
+
+  	margin-left: auto;
+    margin-right: auto;
+
 }
 
 .formHead1{
@@ -46,7 +64,7 @@ margin: 4% 0 0 40%;
 #save,#cancel {
 
   vertical-align:middle !important;
-  margin:0 15% 0 15%;
+  margin:0 15% 0 1%;
 }
 
 .permissionBlock{

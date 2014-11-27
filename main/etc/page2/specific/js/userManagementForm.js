@@ -25,6 +25,7 @@ jQuery(window).load(function () {
 	setupFlexiGrid('#showUser', undefined, "Employee Details", undefined, undefined, undefined, undefined, classData, undefined, setupButtonDict(), {'bindUrl': 'generateEmployeeData'})
 
 	setupAJAXSubmit('newEmployeeFormOk', 'editEmployeeFormAction', setupData2, setupConstraints, '.editbutton', errorFunc, successFunc)
+    jQuery('#addUser').hide()
 
 	jQuery('.cancel').click(function(){
 		jQuery('.flexigrid').show()

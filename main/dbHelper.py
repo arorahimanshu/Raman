@@ -220,12 +220,11 @@ class DbHelper(Component):
 		i=1
 		db=self.app.component('dbManager');
 		with db.session() as session:
-			query=session.query(db.Gps_Poi_Info).filter(and_(db.Gps_Poi_Info.User_Id==uid,db.Gps_Poi_Info.Category==category))
+			query=session.query(db.Gps_Poi_Info).filter(and_(db.Gps_Poi_Info.User_name==uid,db.Gps_Poi_Info.Category==category))
 			for data in query.all():
 				cell = {}
 				cell['cell'] = []
-				cell['cell'].append('')
-				cell['cell'].append('')
+
 				cell['cell'].append(data.Poi_Name)
 				cell['cell'].append(data.Category)
 				query2=session.query(db.Info).filter(db.Info.entity_id==data.Poi_Id)
@@ -391,15 +390,15 @@ class DbHelper(Component):
 
 			for  data2 in 	queryObj2.all():
 
-					if data2.type == 11:
+					if data2.type == db.Info.Type.branchAddLine1.value:
 						branchFields1['add1'] = data2.data
-					elif data2.type == 12:
+					elif data2.type == db.Info.Type.branchAddLine2.value:
 						branchFields1['add2'] = data2.data
-					elif data2.type == 13:
+					elif data2.type == db.Info.Type.branchCity.value  :
 						branchFields1['city'] = data2.data
-					elif data2.type == 14:
+					elif data2.type == db.Info.Type.branchState.value:
 						branchFields1['state'] = data2.data
-					elif data2.type == 15:
+					elif data2.type == db.Info.Type.branchPin.value:
 						branchFields1['pinCode'] = data2.data
 
 				 
@@ -477,11 +476,11 @@ class DbHelper(Component):
 
 			for  data2 in 	queryObj2.all():
 
-					if data2.type == 16:
+					if data2.type == db.Info.Type.vehicleRegNo.value:
 						vehicleFields1['regNo'] = data2.data
-					elif data2.type == 17:
+					elif data2.type == db.Info.Type.vehicleMake.value:
 						vehicleFields1['make'] = data2.data
-					elif data2.type == 18:
+					elif data2.type == db.Info.Type.vehicleType.value:
 						vehicleFields1['type'] = data2.data
 
 
@@ -740,9 +739,14 @@ class DbHelper(Component):
 		#
 		return vehicleIds
 
-	def getRawCoordinatesForDeviceBetween(self, deviceId, fromTime=None, toTime=None):
+	def getRawCoordinatesForDeviceBetween(self, vehicleId, fromTime=None, toTime=None):
+
 		db = self.app.component('dbManager')
-		deviceId = self.correctDeviceId(deviceId)
+
+		with db.session() as session:
+			deviceId=session.query(db.Gps_Vehicle_Info).filter(db.Gps_Vehicle_Info.id==vehicleId).one().device_id
+
+
 		query = None
 		with db.session() as session:
 			query = session.query(db.gpsDeviceMessage1).filter(db.gpsDeviceMessage1.deviceId == deviceId)

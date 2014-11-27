@@ -6,11 +6,9 @@
 }
 
 .field{
-	margin-top:10px;
-	margin-bottom:5px;
-    height:75px;
 
-    
+
+    height:50px;
 
 }
 
@@ -285,25 +283,55 @@ button:active {
 .label1 {
  width:18% !important;
  padding:10px 0 0 0;
-
+ margin-left:10%;
 }
 
 .submit1  {
-   margin:10px 0 0 20px !important;
-
+   margin:0px 0 0 20px !important;
+   height:40px !important;
 }
 
 
 #paymentReceipt{
-
-
-}
+    border: 0px solid #5133AB;
+    width:100%;
+    }
 
 .payMode{
  height:300px !important;
 
 
 }
+.paymentReceipt > .field{
+    border: 0px solid #5133AB;
 
+    }
 
+.paymentButton{
+    height:40px !important;
+    margin: 3% 0 0 22%;
+    }
 
+.paymentForm{
+    width:90% !important;
+    display:table;
+    margin-top:5%;
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 15px;
+    font-weight: bold;
+    	color:#392478;
+
+    }
+
+.paymentInput {
+    margin-right:10px;
+    margin-left:5px;
+    }
+.paymentInput1{
+    margin-right:25px;
+    }
+.paymentID{
+    float:right;
+    margin-right:25px;
+    }

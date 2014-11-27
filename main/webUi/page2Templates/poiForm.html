@@ -7,60 +7,16 @@
 
 <div class="errorBox" id="generic"></div>
 
+
+
+
 <div id="primary">
+
+
 	<div id="addPoi">
-		<div class="field addPoiDivs" >
-			<div class="iHandler"   > <p class="iHandlerTxt" > Add New POI </p> </div>
 
-		</div>
-		<div class="field addPoiDivs">
-			<div class="label">Select Organization</div>
-			<div class="value  genericSelect">
-				<select id="poiCompany" >
-					%for item in companyList :
-					<option value='${item['value']}'>${item['display']}</option>
-					% endfor
-				</select>
-			</div>
-		</div>
-		<div class="field addPoiDivs">
-			<div class="label">Select Branch</div>
-			<div class="value genericSelect">
-				<select id="poiBranch" class="genericSelect">
-					%for item in branchList :
-					<option value='${item['value']}'>${item['display']}</option>
-					% endfor
-				</select>
-			</div>
-		</div>
-
-        <div class="field addPoiDivs">
-			<div class="label">Select Vehicle Group</div>
-			<div class="value genericSelect">
-				<select id='PoiVehicleList'  >
-					<option value='0'>All</option>
-					%for item in vehicleGroupList :
-					<option value='${item['value']}'>${item['display']}</option>
-					% endfor
-				</select>
-			</div>
-		</div>
-
-		<div class="field addPoiDivs">
-			<div class="label" class="genericSelect">Select Vehicle</div>
-			<div class="value">
-				<select id='PoiVehicleList'>
-					<option value='0'>All</option>
-					%for item in vehicleList :
-					<option value='${item['value']}'>${item['display']}</option>
-					% endfor
-				</select>
-			</div>
-		</div>
-
-		<div class="field addPoiDivs">
 			<button id="addPoiButton" class="genericButton" style="width:100%;">Add POI</button>
-		</div>
+
 	</div>
 
 	<div id="report">
@@ -119,7 +75,7 @@
 </div>
 
 <div id="secondary" hidden="true">
-	<div id="map-canvas" style="width: 65%; height: 500px; float:right"></div>
+	<div id="map-canvas" style="width: 55%; height: 600px; float:right"></div>
 	<div id="detailsBox">
 
 
@@ -176,6 +132,19 @@
 				<input class="genericInput "  type="text" id="state"/>
 			</div>
 		</div>
+
+
+        <div class="field1">
+	        %if additionalOptions :
+		        <div class="vSContainer">
+                    %for opt in additionalOptions :
+			        ${opt}
+		            %endfor
+
+                </div>
+	        %endif
+
+        </div>
 		<button id="save" class="submit genericButton poiButton">Save</button>
 		<button id="cancel" class="submit genericButton poiButton">Cancel</button>
 	</div>

@@ -15,9 +15,9 @@
 	<div class="message" id="genericError"></div>
 
     <div id="addUser" hidden="true">
-	<div class="personDataType unselectable">
-		<div class="byDetails active">By Details</div>
-		<div class="byId inactive">By ID</div>
+	<div class="personDataType unselectable ">
+		<div class="byDetails active genericFormHeader">By Details</div>
+		<div class="byId inactive genericFormHeader">By ID</div>
 	</div>
 
 	<div class="byDetailsContainer">
@@ -88,11 +88,14 @@
 		<div class="errorBox" id="passwordConfirmError"></div>
 	</div>
 
-    <div class="field genInlineBlock">
+    <div class="field  ">
 		<label class="genericFormLabel">Role : </label>
-        <div class="genericCheckBoxContainer list">
+        <div class="genericCheckBoxContainer1 list">
 		%for role in roleList:
-        <input type="checkbox" id="${role}" class="check"><label for="${role}" class="genericCheckbox css-label" >${role}</label>
+        <div class="userCheckbox">
+        <input type="checkbox" id="${role}" class="check">
+        <label for="${role}" class=" checkLabel css-label" >${role}</label>
+        </div>
         %endfor
 		</div>
         <div class="errorBox" id="RoleError"></div>

@@ -12,66 +12,25 @@
 
 	class="dashboardForm ${formClass or ''}"
 >
-	<div class="message">Loading</div>
+
 
 	<div class="filter dashboard">
-      <div class="genInlineBlock">
-		<div class="company">
-			<label>Company:</label>
-			<select class="genericSelect">
-				<option class="All">All</option>
-				%for org in vehicleListNested:
-                    <option id="${org['orgDetails']['orgId']}">${org['orgDetails']['orgName']}</option>
-                %endfor
-			</select>
-		</div>
-
-		<div class="branch">
-			<label>Branch:</label>
-			<select class="genericSelect">
-				<option class="All">All</option>
-				%for org in vehicleListNested:
-					%for branch in org['branches']:
-						<option id="${branch['branchDetails']['branchId']}" class="${org['orgDetails']['orgName']}">${branch['branchDetails']['branchName']}</option>
-					%endfor
-                %endfor
-			</select>
-		</div>
-
-		<div class="vehicleGroup">
-			<label>Vehicle Group:</label>
-			<select class="genericSelect">
-				<option class="All">All</option>
-				%for org in vehicleListNested:
-					%for branch in org['branches']:
-						%for vehicleGroup in branch['vehicleGroups']:
-							<option id="${vehicleGroup['vehicleGroupDetails']['vehicleGroupId']}" class="${branch['branchDetails']['branchName']}">${vehicleGroup['vehicleGroupDetails']['vehicleGroupName']}</option>
-						%endfor
-					%endfor
-                %endfor
-			</select>
-		</div>
-
-		<div class="vehicleType">
-			<label>Vehicle Type:</label>
-			<select class="genericSelect">
-				<option class="All">All</option>
-				<option value="ambulance">Ambulance</option>
-				<option value="bicycle">Bicycle</option>
-			</select>
-		</div>
+      <div class="genInlineBlockA1">
+        	%if additionalOptions :
+		    <div class="vSContainer">
+                %for opt in additionalOptions :
+		        	${opt}
+		        %endfor
+            </div>
+	        %endif
       </div>
-       <div class="genInlineBlock">
-			<div class="vehicleStatus">
-				<label>Status:</label>
-				<select class="genericSelect">
-					<option class="All">All</option>
-				</select>
-			</div>
-			
-		<button class="submit" class="genericButton">Go</button>
+
 	</div>
+
+    <div class="genInlineBlockA1">
+     	<button class="submit genericButton">Go</button>
     </div>
+
 	<div id="tablediv">
 		<table id="showDashboard"></table>
 	</div>

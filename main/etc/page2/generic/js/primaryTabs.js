@@ -165,10 +165,16 @@ jQuery (window).load (function () {
 
 	 jQuery('.logout').click(function () {
 
+        var r = confirm("User will be logged out");
+        if (r == false) {
+                return
+                }
+
+        var b = sendAjaxRequest('logoutAction', 'user', 'abc')
         console.log('cancel')
-     	b = sendAjaxRequest('logoutAction', 'user', 'abc')
-        alert("User will be logged out")
-        location.reload()
+
+        myVar = setTimeout(function(){location.reload()},2000)
+
     })
 
 

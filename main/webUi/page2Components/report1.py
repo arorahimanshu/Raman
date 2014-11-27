@@ -45,7 +45,7 @@ class Report1(Page2Component):
 		self.classData = ['S.No.', 'Vehicle ID', 'Vehicle Name', 'Vehicle Model', 'Running Duration In A Day', 'Distance Travelled', 'Total Idle Duration',
 						  'Max Speed', 'Avg Speed']
 
-
+		# Vehicle selector Block Starts
 		vehicleStructure = []
 		dataUtils = self.app.component('dataUtils')
 		with self.server.session() as serverSession:
@@ -54,7 +54,7 @@ class Report1(Page2Component):
 		with dataUtils.worker() as worker:
 			vehicleStructure= worker.getVehicleTree(primaryOrganizationId)
 
-
+		# Vehicle selector Block Ends
 		return self._renderWithTabs(
 			proxy, params,
 			bodyContent=proxy.render('report1Form.html', classdata=self.classData,
@@ -89,7 +89,8 @@ class Report1(Page2Component):
 		db = self.app.component('dbManager')
 		dbHelp = self.app.component('dbHelper')
 		vehiclesListNested = json.loads(self._report1VehicleListNested(requestPath))
-		vehicleIds = dbHelp.filterVehicles(vehiclesListNested, 'All', 'All', 'All')
+		#vehicleIds = dbHelp.filterVehicles(vehiclesListNested, 'All', 'All', 'All')
+		vehicleIds = formData['vehicleList']
 
 		timeHelp = self.app.component('timeHelper')
 		time = timeHelp.getDateAndTime(fromDate[0], fromDate[1], fromDate[2], 0, 0, 0)
@@ -99,6 +100,7 @@ class Report1(Page2Component):
 		toTime = timeHelp.getDateAndTime_subtract(gmtAdjust, time)
 
 		rows = []
+
 		for id in vehicleIds:
 			rawCoordinates = dbHelp.getRawCoordinatesForDeviceBetween(id, fromTime, toTime)
 			rawCoordinates = rawCoordinates.order_by(db.gpsDeviceMessage1.timestamp)

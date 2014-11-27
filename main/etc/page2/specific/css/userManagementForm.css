@@ -1,3 +1,13 @@
+#addUser{
+    display: table;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top:0%;
+    width:40%;
+    height:100%;
+    }
+
+
 .userManagement
 {
 	padding-top: 0.5em;
@@ -6,12 +16,11 @@
     display: table;
     margin-left: auto;
     margin-right: auto;
+    margin-top:5%;
     width:90%;
 
-
-
-
 }
+
 
 .userManagement .field
 {
@@ -27,7 +36,7 @@
 
 .userManagement .personDataType {
 	display:inline-block;
-	background-color: #0866c6;
+
     width:100%;
 	display:flex;
 }
@@ -38,7 +47,7 @@
 	flex:2;
 	padding:0.1em;
 	cursor:pointer;
-	border: 0.2em solid #0866c6;
+	border: 0px solid #0866c6;
 	font-weight:bold;
 
 }
@@ -106,30 +115,7 @@
 	padding-right:2em;
 }
 */
-input[type=checkbox].check {
-	display:none;
-}
 
- .css-label {
-	padding-left:20px;
-	height:19px;
-	display:inline-block;
-	line-height:19px;
-	background-repeat:no-repeat;
-	background-position: 0 0;
-	cursor:pointer;
-	background-image:url(csscheckbox.png);
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
-	user-select: none;
-}
-
-input[type=checkbox].check:checked + label.css-label {
-	background-position: 0 -19px;
-}
 
 
 
@@ -152,11 +138,37 @@ input[type=checkbox].check:checked + label.css-label {
 .uButton {
   padding:10px 0 0 0;
   height:30px !important;
-  margin: 0 0 0 10%;
+  margin: 20% 0 0 10%;
 }
 
 .list {
-	width:200px;
-	height:100px;
-	overflow:scroll;
+	width:250px;
+	min-height:100px;
+    float:right;
+    overflow-y:scroll;
+    display:block;
+    border: 0px solid #0C57A3;
+
 }
+
+
+.userManagement > .genericCheckBoxContainer{
+    display:block;
+    width:250px;
+    height:100px;
+    }
+.userCheckbox{
+    border: 0px solid #0C57A3;
+    display:flex;
+    text-align:right;
+
+    }
+.check{
+    float:left;
+}
+
+.checkLabel{
+    float:right;
+    }
+
+

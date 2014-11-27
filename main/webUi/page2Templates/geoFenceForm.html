@@ -66,12 +66,14 @@
 			</div>
 			
 			<div class="field">
-				<label>Vehicles</label>
-				<select class="vehicles genericSelect" multiple>
-					%for vehicle in vehicleList:
-						<option value="${vehicle['value']}">${vehicle['display']}</option>
-					%endfor
-				</select>
+	        %if additionalOptions :
+		        <div class="vSContainer">
+                    %for opt in additionalOptions :
+			        ${opt}
+		            %endfor
+
+                </div>
+	        %endif
 			</div>
 			<div class="controlButton">
 			<button type="submit" class="submit genericButtonGeo ">Save</button>
@@ -133,12 +135,14 @@
 			</div>
 			
 			<div class="field">
-				<label>Vehicles</label>
-				<select class="vehicles genericSelect" multiple>
-					%for vehicle in vehicleList:
-						<option value="${vehicle['value']}">${vehicle['display']}</option>
-					%endfor
-				</select>
+	        %if additionalOptions :
+		        <div class="vSContainer">
+                    %for opt in additionalOptions :
+			        ${opt}
+		            %endfor
+
+                </div>
+	        %endif
 			</div>
 			<div class="controlButton">
 			<button type="submit" class="submit genericButtonGeo">Save</button>
@@ -196,12 +200,14 @@
 			<button class="redraw genericButtonGeo">Redraw</button>
             </div>
 			<div class="field">
-				<label>Vehicles</label>
-				<select class="vehicles" multiple>
-					%for vehicle in vehicleList:
-						<option value="${vehicle['value']}">${vehicle['display']}</option>
-					%endfor
-				</select>
+	        %if additionalOptions :
+		        <div class="vSContainer">
+                    %for opt in additionalOptions :
+			        ${opt}
+		            %endfor
+
+                </div>
+	        %endif
 			</div>
 			<div class="controlButton">
 			<button class="submit genericButtonGeo">Save</button>

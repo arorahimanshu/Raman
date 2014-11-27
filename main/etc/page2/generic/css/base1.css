@@ -37,9 +37,10 @@ body {
 	font-family: 'RobotoRegular','Helvetica Neue',Helvetica,sans-serif;
 	height: 100%; /*  NV   SEP14  */
 	background-color: #5133AB;
-	width:100%;
-	margin: 10px 30px 0 70px;;
-	align:center;
+	width:90%;
+	margin-top: 10px ;
+    margin-left:9%;
+    margin-right:auto;
 	 box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	-ms-box-sizing: border-box;

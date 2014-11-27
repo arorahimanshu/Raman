@@ -13,7 +13,7 @@
 	
 	<div class="field">
 		<label class="genericFormLabel">Vehicle Group</label>
-		<select id="vehicleGroup">
+		<select id="vehicleGroup" class="genericSelect">
 			%for vehicleGroup in vehicleGroupList:
 				<option value="${vehicleGroup['value']}">${vehicleGroup['display']}</option>
 			%endfor

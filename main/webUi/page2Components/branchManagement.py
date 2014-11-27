@@ -145,7 +145,7 @@ class Branch(Page2Component):
 		with dataUtils.worker() as worker:
 			details = formData
 			details['parentOrgId'] = primaryOrganizationId 
-			del formData['orgId']
+
 			newBranch = worker.createBranch(details)
 
 
@@ -153,12 +153,6 @@ class Branch(Page2Component):
 
 		# this part add data to Info Table
 		# TODO Nitin will create a function for adding data to info table
-
-
-
-
-
-		#
 
 		return self.jsonSuccess('Branch created')
 

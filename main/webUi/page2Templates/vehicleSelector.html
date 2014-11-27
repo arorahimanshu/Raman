@@ -46,13 +46,13 @@ if vehicleSelectorJs not in externalJs :
 	</div>
 	</div>
 
-    <div class="vehicleContainer">
+    <div class="vehicleContainer vehicleCont1">
         <div class="vsHeading" > Vehicles </div>
     <div class="vehicles" style="border:0px solid black">
 
 		%for vehicle in vehicles :
 		<div class="vehicleSelectorEntry vehicleCheckbox1" data-details="${html.escape (json.dumps (vehicle))}">
-			<input type="checkbox" checked="checked">${html.escape (vehicle['display'])}
+			<input type="checkbox" checked="checked" class="vsVehicleId"  data-details="${html.escape (json.dumps (vehicle))}">${html.escape (vehicle['display'])}
 		</div>
 		%endfor
 	</div>

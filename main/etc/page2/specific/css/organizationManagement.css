@@ -55,24 +55,8 @@
 }
 
 
-.organizationManagement  select{
-
-	margin-top: 5px;
-	margin-bottom: 5px;
-	padding-left : 10px;
-	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-	font-size: 13px;
-
-}
-.organizationManagement  input{
 
 
-	margin-bottom: 5px;
-	padding-left : 10px;
-	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-	font-size: 13px;
-
-}
 
 .organizationManagement .byDetailsContainer.inactive {
 	visibility:hidden;
@@ -99,6 +83,9 @@
 }
 
 .ok , .cancel , .editbutton {
+    margin-top:10%;
+	display: table;
+    margin-left:11%;
 
 }
 
@@ -139,3 +126,12 @@ label.css-label {
 .oSelect{
   float:right;
 }
+
+
+#addOrganization{
+	display: table;
+    width:40%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top:5%;
+    }

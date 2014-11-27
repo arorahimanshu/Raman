@@ -230,12 +230,13 @@ span>img {
     color: #ffffff;
     background-color: #5133AB;
     text-align: center;
-    height: 45px !important;
+    height: 30px !important;
     width: 150px ;
     cursor: pointer;
     border: 1px solid #0C57A3;
     transition: box-shadow 0.3s ease 0s, border 0.3s ease 0s;
     vertical-align: middle !important;
+    padding-top:10px;
     text-align: center;
     float:left;
 }
@@ -255,32 +256,40 @@ span>img {
     font-family: "RobotoRegular","Helvetica Neue",Helvetica,sans-serif;
     font-size: 14px;
     font-weight: normal;
-    color: #00000;
+    color:#392478;
     text-align: left;
-    height: 52px;
-    width: 213px;
-    padding-left: 10px;
+    height: 38px;
+    width: 258px;
+    float:right;
     cursor: pointer;
     transition: box-shadow 0.3s ease 0s, border 0.3s ease 0s;
 
 }
 
+.genericSelect:focus{
+     box-shadow: 0 0 9px #5133AB;
+    }
 
 
 /* ----------------Generic Select---------------- */
 
 /* ----------------Generic INPUT---------------- */
 .genericInput {
-    width: 200px;
-    height: 45px;
+    width: 250px;
+    height: 30px;
     margin-top: 5px;
     margin-bottom: 0px;
-    padding-left: 10px;
+    color:#392478;
     font-family:  "RobotoRegular","Helvetica Neue",Helvetica,sans-serif";
     font-size: 13px;
     float:right;
 
 }
+
+.genericInput:focus{
+     box-shadow: 0 0 9px #5133AB;
+    }
+
 
 /* ----------------Generic INPUT---------------- */
 
@@ -291,6 +300,9 @@ span>img {
 	width:100%;
     font-weight: bold;
 	vertical-align: middle;
+	color:#392478;
+	font-size: 14px;
+
 
 }
 
@@ -330,14 +342,16 @@ span>img {
 /* ----------------Generic FORM Header---------------- */
 .genericFormHeader
 {
-	display:inline;
-	width:100%;
-	font-size:15px;
+	display:table;
+    color:#392478;
+	font-size:20px;
     font-weight: bold;
 	vertical-align: middle;
     text-align:center;
     padding: 0 0 0 40%;
-    border: 1px solid #5133AB;
+
+    height:50px !important;
+    margin-bottom:10px;
 }
 
 /* ----------------Generic FORM Header---------------- */
@@ -416,6 +430,10 @@ span>img {
 
 
 
+.vehicleSelector{
+    display:inline;
+    }
+
 
 .branchesContainer{
 
@@ -434,10 +452,9 @@ span>img {
     }
 .vehicleGroupsContainer{
 
-    margin: 2% 0 ;
+    margin: 2% 0  ;
     height:90px;
-
-    display:block;
+    display:inline;
     float:right;
     border: 1px solid #5133AB !important;
     text-align: left;
@@ -451,21 +468,15 @@ span>img {
 .vehicleContainer{
 
     display:block;
-    width:99.5%;
-    margin: 35% 0 2% 0;
-    display:block;
-    width:460px;
-
     border: 1px solid #5133AB!important;
-    position:absolute;
 
+    height:150px;
     text-align: left;
     }
 .vehicles{
     display:initial;
-
     overflow-y: scroll;
-    min-height:100px;
+
 
     }
 .vsHeading{
@@ -477,6 +488,7 @@ span>img {
     font-weight:bold;
     text-align: center;
     }
+
 .vehicleSelector{
 
     font-size: 14px;
@@ -493,3 +505,37 @@ span>img {
     border: 0px solid #5133AB! important;
 
     }
+.vSContainer{
+    border: 1px solid #5133AB;
+    width:500px;
+    height:200px;
+    display:inline;
+    border-style: solid solid solid solid !important;
+    margin: 0 auto;
+    }
+
+
+.vSContainer >  .vehicleSelector >  .vehicleCont1   {
+     margin: 100px 0 0 0 !important;
+     width:500px !important;
+     height:100px;
+     border-style: solid none none none !important;
+
+
+    }
+
+.vSContainer >  .vehicleSelector > .branchesContainer  {
+    margin: 0 97px 0 0 ;
+    border-style: solid solid solid none !important;
+
+    }
+
+.vSContainer >  .vehicleSelector > .vehicleGroupsContainer  {
+    margin: 0 0 0 0 !important;
+    float:left;
+    display:inline;
+    border-style: solid none solid solid !important;
+    }
+
+
+.genFormContainer >

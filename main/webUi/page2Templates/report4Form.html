@@ -16,9 +16,15 @@
 
 	<div class="filter report1">
       <div class="genInlineBlockA">
-            Any instructions to user
+        %if additionalOptions :
+		    <div class="vSContainer">
+            %for opt in additionalOptions :
+			    ${opt}
+		    %endfor
+            </div>
+	    %endif
       </div>
-      <div class="genInlineBlockA">
+      <div class="genInlineBlockA1">
 			<div class="fieldDate">
 				<div class="fieldDateLabel">From Date:</div>
 				<input id="fromDate" class="genericInput">

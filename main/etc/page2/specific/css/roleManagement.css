@@ -3,18 +3,24 @@
     height: 100%;
 
     border: 0px solid #5133AB;
-    margin: 3% 0 0 5% ;
+
+	display: table;
+  	margin-left: auto;
+    margin-right: auto;
+    margin-top:5%;;
     }
 
 
 
 
 .addRole{
-    width:  60%;
+
     height: 400px;
+    width:40%;
+    display: table;
     margin-left:auto;
     margin-right:auto;
-    border:  1px solid #5133AB;
+    border:  0px solid #5133AB;
 
     }
 
@@ -51,7 +57,7 @@
 
     display: block;
     min-height:200px;
-    width:40%;
+    width:260px;
     float:right;
     overflow-y:scroll;
 
@@ -88,13 +94,13 @@
     }
 
 .unselectable > .ok {
-    margin:1% 0 0 30%;
+    margin:1% 5% 0 18%;
 
 
     }
 
 .unselectable > .editbutton {
-    margin:1% 0 0 30%;
+    margin:1% 5% 0 18%;
 
 
     }

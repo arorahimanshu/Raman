@@ -11,7 +11,7 @@ jQuery(window).load(function () {
         console.log('cancel')
         fitx.page2.closeActiveTab()
     })
-
+    jQuery('#addOrganization').hide();
     jQuery('.pPrev.pButton').click(function () {
 
         onPrevPageRequest()

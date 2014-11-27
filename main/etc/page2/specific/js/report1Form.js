@@ -28,22 +28,31 @@ jQuery (window).load (function (){
 });
 
 function setupData() {
+
 	var curdate = new Date();
     var offset =-1* curdate.getTimezoneOffset();
     var gmtAdjust=offset*60;
 		
 	var fromDate = returnDate ('fromDate');
 	var toDate = returnDate ('toDate');
-	
+	alert(fromDate)
 	var specificData = {
 		'fromDate' : fromDate,
 		'toDate' : toDate,
 		'gmtAdjust' : gmtAdjust
 	};
-	
+    // Vehicle Selector > vehicle id Picker
+    var idList = []
+	jQuery('.vsVehicleId:checked').each (function(){
+		var vehicleId = jQuery (this).data( "details" ).id
+
+		idList.push (vehicleId)
+	})
+    specificData['vehicleList']=idList
+    //-------------------------------------
 	rp = parseInt(jQuery('.pGroup select option:selected').text())
 	specificData['rp'] = rp
-	
+
 	return specificData;
 }
 

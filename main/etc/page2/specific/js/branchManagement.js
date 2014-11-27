@@ -62,7 +62,7 @@ var setupData = function () {
     data.branchState= jQuery('#branchState').val()
     data.branchPin = jQuery('#branchPin').val()
 	
-	data.orgId = jQuery('#organization :selected').val();
+
 	
     return data
 }

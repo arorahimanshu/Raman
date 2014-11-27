@@ -94,5 +94,17 @@
     }
 
 .fieldDate > .genericButton{
-    margin:10% 0 0 28% ;
+    margin:18% 0 0 28% ;
+    }
+
+.vehicleContainer{
+        margin: 35% 0 2% 0;
+        width:100%;
+    }
+
+.vehicleCont1   {
+     margin: 35% 0 0 0 !important;
+     width:100% important;
+     border: 0px solid red ! important;
+
     }

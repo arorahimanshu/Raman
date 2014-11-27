@@ -62,16 +62,36 @@ class GeoFence(Page2Component):
 			self.username = session['username']
 			self.userId = session['userId']
 		#
+
 		self.vehicleList = db.returnVehicleList(self.userId)
 		self.classData=['S.No.','GeoFence Id','GeoFence Name','Vehicle Id','Type','Radius','Coordinates']
+
+				# Vehicle selector Block Starts
+		vehicleStructure = []
+		dataUtils = self.app.component('dataUtils')
+		with self.server.session() as serverSession:
+			primaryOrganizationId = serverSession['primaryOrganizationId']
+
+		with dataUtils.worker() as worker:
+			vehicleStructure= worker.getVehicleTree(primaryOrganizationId)
+
+		# Vehicle selector Block Ends
 		return self._renderWithTabs(
 			proxy, params,
-			bodyContent=proxy.render('GeoFenceForm.html',vehicleList=self.vehicleList,classdata=self.classData),
-			newTabTitle='Create Geo Fence',
+			bodyContent=proxy.render('GeoFenceForm.html', classdata=self.classData,
+				additionalOptions = [
+					proxy.render ('vehicleSelector.html',
+						branches = vehicleStructure[0],
+						vehicleGroups = vehicleStructure[1],
+						vehicles = vehicleStructure[2],
+					)
+				]
+			),
+			newTabTitle='Geo Fence',
 			url=requestPath.allPrevious(),
 		)
-
 	#
+
 
 
 	def _newGeoFenceFormValidate(self, formData):

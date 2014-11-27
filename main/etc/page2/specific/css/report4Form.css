@@ -7,21 +7,35 @@
     text-align:center;
     }
 
+.genInlineBlockA1{
+    width:80%;
+    padding-left:15%;
+    display:flex;
+    margin-top:2%;
+    border: 0px solid #5133AB;
+
+    }
+
 .report1 > .genericInput{
     margin: 0 2% ;
     }
 
 .fieldDate > .submit{
-    margin: 12% 0 0 10% ;
+    margin: 10% 0 0 10% ;
+    height:40px !important;
+    padding-top:5px !important;
     }
 
 
 .fieldDateLabel   {
     border: 0px solid #5133AB;
-    margin:25% 2% 2% 2%;
+
     height:30px !important;
-    padding-top:2%;
-    width:25%;
+    margin-top:10px;
+    margin-right:20px;
+    margin-left:20px;
+
+    width:200px;
     font-weight: bold;
     }
 

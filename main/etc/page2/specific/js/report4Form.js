@@ -40,7 +40,15 @@ function setupData() {
 		'toDate' : toDate,
 		'gmtAdjust' : gmtAdjust
 	};
-	
+	// Vehicle Selector > vehicle id Picker
+    var idList = []
+	jQuery('.vsVehicleId:checked').each (function(){
+		var vehicleId = jQuery (this).data( "details" ).id
+
+		idList.push (vehicleId)
+	})
+    specificData['vehicleList']=idList
+    //-------------------------------------
 	rp = parseInt(jQuery('.pGroup select option:selected').text())
 	specificData['rp'] = rp
 	

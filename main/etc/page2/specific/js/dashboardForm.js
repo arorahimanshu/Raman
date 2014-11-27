@@ -25,28 +25,28 @@ function setupData() {
     var offset =-1* curdate.getTimezoneOffset();
     gmtAdjust=offset*60;
 		
-	company = jQuery ('.filter .company select option:selected')[0].id;
-	if (company == '')
-		company = 'All';
 
-	branch = jQuery ('.filter .branch select option:selected')[0].id;
-	if (branch == '')
-		branch = 'All'
-		
-	vehicleGroup = jQuery ('.filter .vehicleGroup select option:selected')[0].id;
-	if (vehicleGroup == '')
-		vehicleGroup = 'All'
 	
 }
 
 function setupData2() {
+    var curdate = new Date();
+    var offset =-1* curdate.getTimezoneOffset();
+    var gmtAdjust=offset*60;
+
 	var specificData = {
-		'company' : company,
-		'branch' : branch,
-		'vehicleGroup' : vehicleGroup,
-		'gmtAdjust' : gmtAdjust
+	'gmtAdjust' : gmtAdjust
+
 	};
-	
+	// Vehicle Selector > vehicle id Picker
+    var idList = []
+	jQuery('.vsVehicleId:checked').each (function(){
+		var vehicleId = jQuery (this).data( "details" ).id
+
+		idList.push (vehicleId)
+	})
+    specificData['vehicleList']=idList
+    //-------------------------------------
 	rp = parseInt(jQuery('.pGroup select option:selected').text())
 	specificData['rp'] = rp
 	
@@ -173,13 +173,13 @@ function filterOptions (currentSelector, parentSelector) {
 }
 
 function showReport(result) {
-	if (result.success == false)
-		jQuery ('.message').text(result.message)
-	else {
-		jQuery('#showDashboard').flexAddData(result.message.sendData)
-		total = result.message.sendData.total
-		jQuery ('.message').text('Loaded')
-	}
+	//if (result.success == false)
+    //		jQuery ('.message').text(result.message)
+	//else {
+	//	jQuery('#showDashboard').flexAddData(result.message.sendData)
+	//	total = result.message.sendData.total
+	//	jQuery ('.message').text('Loaded')
+	//}
 }
 
 var total = 0

@@ -121,6 +121,17 @@ function setupData() {
     specificFormData.latitude = jQuery('#lat').val()
     specificFormData.longitude = jQuery('#lng').val()
 
+    // Vehicle Selector > vehicle id Picker
+    var idList = []
+	jQuery('.vsVehicleId:checked').each (function(){
+		var vehicleId = jQuery (this).data( "details" ).id
+
+		idList.push (vehicleId)
+	})
+    specificFormData['vehicleList']=idList
+    //-------------------------------------
+
+
 
     return specificFormData
 }
@@ -186,9 +197,8 @@ function createColModel(colList) {
         var dict = {
             display: v,
             name: v,
-            width: v.length * 15,
+            width: v.length * 32,
             align: 'center'
-
         }
         colModel.push(dict)
     })

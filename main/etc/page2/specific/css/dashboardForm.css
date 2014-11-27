@@ -1,4 +1,23 @@
 .dashboard {
 	width:90%;
-	margin:2%;
-}
+	margin:2% 0 0 0 ;
+
+	height:250px;
+    }
+
+.dashboard > .genInlineBlockA {
+    display:block;
+    }
+.genInlineBlockA1{
+    width:80%;
+    padding-left:15%;
+    display:flex;
+    border: 0px solid #5133AB;
+
+    }
+.submit{
+    height:40px !important;
+    margin-left:35%;
+
+    }
+

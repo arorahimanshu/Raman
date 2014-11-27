@@ -22,6 +22,7 @@ function setupButtonDict() {
 }
 
 function onLoad_RoleManagement() {
+	jQuery('#addRole').hide()
 	jQuery('.cancel').click(function(){
 		jQuery('.flexigrid').show()
 		jQuery('#addRole').hide()

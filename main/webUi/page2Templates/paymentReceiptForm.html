@@ -4,9 +4,9 @@
                 classData.push('${item}')
                 % endfor
             </script>
-<div class="genFormContainer">
+<div class="genFormContainer3 paymentForm">
 
-    <div id="paymentReport" >
+    <div id="paymentReport" class="paymentReport"  >
             <div class="errorBox" id="genericError"></div>
 
             <div class="genInlineBlock">
@@ -17,7 +17,7 @@
                 <div class="field">
                     <div class="errorBox" id="fromDateError"></div>
                     <div class="value">
-                        <input type="text" class="date1 genericInput " id="fromDate" placeholder="from"/>
+                        <input type="text" class="date1 genericInput  " id="fromDate" placeholder="from"/>
                     </div>
                 </div>
 
@@ -41,7 +41,7 @@
         </div>
 
 
-    <div id="paymentReceipt" hidden="true">
+    <div id="paymentReceipt"  class="paymentReceipt" hidden="true">
 
 
 
@@ -55,14 +55,14 @@
                 <div class="label">&squf; Payee Name</div>
                 <div class="errorBox" id="payeeNameError"></div>
                 <div class="value">
-                    <input type="text" id="payeeName" class="genericInput "/>
+                    <input type="text" id="payeeName" class="genericInput paymentInput1 "/>
                 </div>
             </div>
             <div class="field">
                 <div class="label">&squf; Date</div>
                 <div class="errorBox" id="dateError"></div>
                 <div class="value">
-                    <input type="text" readonly id="date" class="genericInput "/>
+                    <input type="text" readonly id="date" class="genericInput paymentInput1 "/>
                 </div>
             </div>
             <div class="field payMode">
@@ -70,12 +70,12 @@
                 <div class="errorBox" id="paymentModeError"></div>
                 <div class="value mode">
                     <div class="choose">
-                        <input type="checkbox" id="cashMode" class="check "/>
+                        <input type="checkbox" id="cashMode" class="check  "/>
                         <label for="cashMode" class="css-label">Cash</label>
 
                         <div class="errorBox" id="cashModeError"></div>
                         <div class="cashFields">
-                            <input type="text" id="cashAmount" placeholder="Amount" class="genericInput "/>
+                            <input type="text" id="cashAmount" placeholder="Amount" class="genericInput paymentInput "/>
                         </div>
                     </div>
                     <div class="choose">
@@ -84,9 +84,9 @@
 
                         <div class="errorBox" id="chequeModeError"></div>
                         <div class="chequeFields">
-                            <input type="text" id="chequeAmount" placeholder="Amount" class="genericInput "/>
-                            <input type="text" id="chequeBName" placeholder="Bank Name" class="genericInput "/>
-                            <input type="text" id="chequeBLocation" placeholder="Bank Location" class="genericInput "/>
+                            <input type="text" id="chequeAmount" placeholder="Amount" class="genericInput paymentInput"/>
+                            <input type="text" id="chequeBName" placeholder="Bank Name" class="genericInput paymentInput "/>
+                            <input type="text" id="chequeBLocation" placeholder="Bank Location" class="genericInput paymentInput "/>
                         </div>
                     </div>
                     <div class="choose">
@@ -95,9 +95,9 @@
 
                         <div class="errorBox" id="onlineModeError"></div>
                         <div class="onlineFields">
-                            <input type="text" id="onlineAmount" placeholder="Amount" class="genericInput "/>
-                            <input type="text" id="onlineBName" placeholder="Bank Name" class="genericInput "/>
-                            <input type="text" id="onlineBLocation" placeholder="Bank Location" class="genericInput "/>
+                            <input type="text" id="onlineAmount" placeholder="Amount" class="genericInput paymentInput "/>
+                            <input type="text" id="onlineBName" placeholder="Bank Name" class="genericInput  paymentInput"/>
+                            <input type="text" id="onlineBLocation" placeholder="Bank Location" class="genericInput paymentInput "/>
                         </div>
                         <div class="same">
                             <input type="checkbox" class="check" id="sameValues"/>
@@ -108,8 +108,8 @@
             </div>
             <div class="buttons" align="center">
 
-                <button id="submit_paymentReceipt" class="submit genericButton">Submit</button>
-                <button id="cancel" class="cancel genericButton ">Cancel</button>
+                <button id="submit_paymentReceipt" class="submit genericButton paymentButton">Submit</button>
+                <button id="cancel" class="cancel genericButton paymentButton ">Cancel</button>
 
             </div>
 
