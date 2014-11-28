@@ -37,37 +37,50 @@
 		<div class="circle filter" hidden="true">
 			<div class="field">
 				<label>GeoFence Name</label>
-				<input class="name genericInput">
-			</div>
+				<div class="geoRight">
+                    <input class="name genericInputSmall">
+                    <div class="geoBox"></div>
+                </div>
+            </div>
 			
 			<div class="field">
 				<label>GeoFence Type</label>
-				<input class="type genericInput" value="CIRCLE" disabled="disabled">
-			</div>
+				<div class="geoRight">
+                    <input class="type genericInputSmall" value="CIRCLE" disabled="disabled">
+                    <div class="geoBox"></div>
+
+			    </div>
+            </div>
 			
 			<div class="field">
 				<label>Address</label>
-				<input class="address genericInput">
+				<div class="geoRight">
+                <input class="address genericInputSmall">
 
                 <div class="searchButton   ">
                     <img class="searchImg" src="/etc/page2/specific/images/search.png"></img>
                 </div>
                 <div class="lat" hidden="true"></div>
 				<div class="lng" hidden="true"></div>
+                </div>
+
 			</div>
 			
 			<div class="field">
-				<label>Radius</label>
-				<input class="radius genericInput "> (in metres)
+				<label>Radius(in metres)</label>
+				<div class="geoRight">
+                <input class="radius genericInputSmall ">
 
                 <div class="radiusButton ">
                     <img class="searchImg"  src="/etc/page2/specific/images/search.png"></img>
                 </div>
+                </div>
+
 			</div>
 			
 			<div class="field">
 	        %if additionalOptions :
-		        <div class="vSContainer">
+		        <div class="vSContainerGeo">
                     %for opt in additionalOptions :
 			        ${opt}
 		            %endfor
@@ -84,59 +97,70 @@
 		<div class="rectangle filter" hidden="true">
 			<div class="field">
 				<label>GeoFence Name</label>
-				<input class="name genericInput">
-			</div>
+				<div class="geoRight">
+                    <input class="name genericInputSmall">    <div class="geoBox"></div>
+			    </div>
+            </div>
 			
 			<div class="field">
 				<label>GeoFence Type</label>
-				<input class="type genericInput" value="RECTANGLE" disabled="disabled">
-			</div>
+				<div class="geoRight">
+                    <input class="type genericInputSmall" value="RECTANGLE" disabled="disabled">    <div class="geoBox"></div>
+			    </div>
+            </div>
 			
 			<div class="field">
 				<label>Address 1</label>
-				<input class="address genericInput">
+				<div class="geoRight">
+                    <input class="address genericInputSmall">
+                    <div class="searchButton   ">
+                        <img class="searchImg" src="/etc/page2/specific/images/search.png"></img>
+                    </div>
 
-                <div class="searchButton   ">
-                    <img class="searchImg" src="/etc/page2/specific/images/search.png"></img>
-                </div>
-
-				<div class="lat"></div>
-				<div class="lng"></div>
+			    	<div class="lat"></div>
+				    <div class="lng"></div>
+                 </div>
 			</div>
 			
 			<div class="field">
 				<label>Address 2</label>
-				<input class="address genericInput">
-                <div class="searchButton   ">
-                    <img class="searchImg" src="/etc/page2/specific/images/search.png"></img>
-                </div>
-				<div class="lat" hidden="true"></div>
-				<div class="lng" hidden="true"></div>
-			</div>
+				<div class="geoRight">
+                    <input class="address genericInputSmall">
+                    <div class="searchButton   ">
+                         <img class="searchImg" src="/etc/page2/specific/images/search.png"></img>
+                    </div>
+				    <div class="lat" hidden="true"></div>
+				    <div class="lng" hidden="true"></div>
+			    </div>
+            </div>
 			
 			<div class="field">
 				<label>Address 3</label>
-				<input class="address genericInput">
-                <div class="searchButton   ">
-                    <img class="searchImg" src="/etc/page2/specific/images/search.png"></img>
-                </div>
-				<div class="lat" hidden="true"></div>
-				<div class="lng" hidden="true"></div>
-			</div>
+				<div class="geoRight">
+                    <input class="address genericInputSmall">
+                    <div class="searchButton   ">
+                        <img class="searchImg" src="/etc/page2/specific/images/search.png"></img>
+                    </div>
+				    <div class="lat" hidden="true"></div>
+				    <div class="lng" hidden="true"></div>
+			    </div>
+            </div>
 			
 			<div class="field">
 				<label>Address 4</label>
-				<input class="address genericInput">
-                <div class="searchButton   ">
-                    <img class="searchImg" src="/etc/page2/specific/images/search.png"></img>
-                </div>
-				<div class="lat" hidden="true"></div>
-				<div class="lng" hidden="true"></div>
-			</div>
+				<div class="geoRight">
+                    <input class="address genericInputSmall">
+                    <div class="searchButton   ">
+                        <img class="searchImg" src="/etc/page2/specific/images/search.png"></img>
+                    </div>
+				    <div class="lat" hidden="true"></div>
+				    <div class="lng" hidden="true"></div>
+	            </div>
+            </div>
 			
 			<div class="field">
 	        %if additionalOptions :
-		        <div class="vSContainer">
+		        <div class="vSContainerGeo">
                     %for opt in additionalOptions :
 			        ${opt}
 		            %endfor
@@ -153,47 +177,60 @@
 		<div class="polygon filter" hidden="true">
 			<div class="field">
 				<label>GeoFence Name</label>
-				<input class="name genericInput">
-			</div>
+                <div class="geoRight">
+				    <input class="name genericInputSmall">
+                    <div class="geoBox"></div>
+			    </div>
+            </div>
 			
 			<div class="field">
 				<label>GeoFence Type</label>
-				<input class="type genericInput" value="POLYGON" disabled="disabled">
-			</div>
+				<div class="geoRight">
+                    <input class="type genericInputSmall" value="POLYGON" disabled="disabled">
+                    <div class="geoBox"></div>
+			    </div>
+            </div>
 			
 			<div class="addresses">
 				<div class="field">
 					<label>Address 1</label>
-					<input class="address genericInput">
-                    <div class="searchButton   ">
-                    <img class="searchImg" src="/etc/page2/specific/images/search.png"></img>
-                    </div>
-					<button class="removeButton">Remove</button>
-					<div class="lat" hidden="true"></div>
-					<div class="lng" hidden="true"></div>
-				</div>
+				    <div class="geoRight">
+                        <button class="removeButton">Del</button>
+                        <input class="address genericInputSmall">
+                        <div class="searchButton   ">
+                          <img class="searchImg" src="/etc/page2/specific/images/search.png"></img>
+                        </div>
+					    <div class="lat" hidden="true"></div>
+					    <div class="lng" hidden="true"></div>
+				    </div>
+                </div>
 				
 				<div class="field">
 					<label>Address 2</label>
-					<input class="address genericInput">
-                    <div class="searchButton   ">
-                    <img class="searchImg" src="/etc/page2/specific/images/search.png"></img>
-                    </div>
-					<button class="removeButton">Remove</button>
-					<div class="lat" hidden="true"></div>
-					<div class="lng" hidden="true"></div>
-				</div>
+					<div class="geoRight">
+                        <button class="removeButton">Del</button>
+                        <input class="address genericInputSmall">
+                        <div class="searchButton   ">
+                        <img class="searchImg" src="/etc/page2/specific/images/search.png"></img>
+                        </div>
+
+					    <div class="lat" hidden="true"></div>
+					    <div class="lng" hidden="true"></div>
+				    </div>
+                </div>
 				
 				<div class="field">
 					<label>Address 3</label>
-					<input class="address genericInput">
-                    <div class="searchButton   ">
-                    <img class="searchImg" src="/etc/page2/specific/images/search.png"></img>
-                    </div>
-					<button class="removeButton">Remove</button>
-					<div class="lat" hidden="true"></div>
-					<div class="lng" hidden="true"></div>
-				</div>
+					<div class="geoRight">
+                        <button class="removeButton">Del</button>
+                        <input class="address genericInputSmall">
+                        <div class="searchButton   ">
+                        <img class="searchImg" src="/etc/page2/specific/images/search.png"></img>
+                        </div>
+					    <div class="lat" hidden="true"></div>
+					    <div class="lng" hidden="true"></div>
+				    </div>
+                </div>
 			</div>
 			<div class="field">
 			<button class="addButton genericButtonGeo">Add Point</button>
@@ -201,7 +238,7 @@
             </div>
 			<div class="field">
 	        %if additionalOptions :
-		        <div class="vSContainer">
+		        <div class="vSContainerGeo">
                     %for opt in additionalOptions :
 			        ${opt}
 		            %endfor

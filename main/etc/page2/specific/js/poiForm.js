@@ -13,6 +13,12 @@ jQuery(window).load(function () {
 
     })
 
+    jQuery('.add').click(function () {
+
+        jQuery('#primary').hide();
+        jQuery('#secondary').show();
+        initialize()
+    })
     jQuery('#searchButtonImg').click(function () {
         codeAddress()
     })
@@ -171,6 +177,7 @@ function setupFlexiGrid(selector, datatype, title, noOfPages, width, height, sin
         colModel: colData,
         usepager: true,
         buttons: [
+            {name: 'Add', bclass: 'add', onpress: onAddOrDelete},
             {name: 'Delete', bclass: 'delete', onpress: onAddOrDelete},
             {name: 'Edit', bclass: 'edit', onpress: onAddOrDelete},
             {separator: true}
@@ -197,7 +204,7 @@ function createColModel(colList) {
         var dict = {
             display: v,
             name: v,
-            width: v.length * 32,
+            width: v.length * 22,
             align: 'center'
         }
         colModel.push(dict)
@@ -208,6 +215,10 @@ function createColModel(colList) {
 
 function onAddOrDelete(com, grid) {
     if (com == "Add") {
+
+            jQuery('#primary').hide();
+        jQuery('#secondary').show();
+        initialize()
     }
     else if (com == "Delete") {
 

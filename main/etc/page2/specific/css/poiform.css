@@ -2,10 +2,12 @@
     float: left;
     padding-top: 10px;
     padding-left: 10px;
-    padding-right: 20px;
+    padding-right: 10px;
     border: 3px solid #FFF;
-    width: 38%;
-    border: 1px solid black;
+    width: 33%;
+    height:90%;
+    margin: 1% 0 0 1%;
+    border: 1px solid   #5133AB;
 
 }
 
@@ -35,7 +37,7 @@
  font-size: 16px;
   font-weight: bold;
 
- color: #5133AB;;
+ color: #5133AB;
 
 }
 
@@ -62,8 +64,9 @@
 
 
 #primary {
-    margin: 2%;
-   <!--- border: 2px solid #ccc; --->
+
+    margin:2%;
+    width:100%;
 }
 
 
@@ -121,9 +124,9 @@ button {
 }
 
 #report {
-  <!---  border: 2px solid #A52A2A; -->
-     width: 95%;
-     margin: 8% 0 0 2%;
+     border: 0px solid red;
+     width:90%;
+     margin-left:4%;
 
 
 }
@@ -147,19 +150,19 @@ button {
 
 #controls {
 
-  <!---  border: 1px solid #A52AAA;  -->
+
     height: 100px !important;
-    width: 100%;
+    width: 90%;
     display: flex;
-    margin: 2% 0 0 0 !important;
+    padding-left:10%;
+
 }
 
 #reportData {
 
-    margin: 5% 0 0 6% !important;
-    border: 1px solid #000;
+    border: 0px solid #000;
     display: inline-block;
-    width:90%;
+    width:100%;
 
 }
 
@@ -191,8 +194,11 @@ table {
 }
 
 .errorBox {
-    color: #f00;
-    float: right;
+    color: Red;
+    float:left;
+    margin-left:20px;
+    text-align:right;
+    border: 0px solid blue;
 }
 
 #searchButtonImg {
@@ -206,9 +212,9 @@ table {
 #searchButtonImg > img{
 
      display:inline;
-     width:48px;
-     margin:3px 0 0 5px;
-     height:48px;
+     width:28px;
+     margin:0px 0 0 5px;
+     height:28px;
      float:right;
 
 }
@@ -231,8 +237,8 @@ table {
 .label1{
    float:left !important;
    display:flex;
-   font-weight: bold;
-   padding: 5% 0 0 0;
+
+
 }
 
 .value1{
@@ -254,18 +260,29 @@ table {
 
   display:inline-block;
   width:100% !important;
-  <!---- border: 1px solid #A52AAA; -->
+  border: 0px solid #A52AAA;
+  height:32px !important;
 
 }
 
-#placeName{
 
- width:152px !important;
- height:40px !important;
-}
 
 .poiButton{
   width:40% !important;
-  margin: 5% 0 0 5%;
+  height:40px !important;
+  margin: 12% 0% 2% 5%;
 }
 
+#addressCategory{
+    width:208px;
+    height:28px;
+    }
+.vSContainerPoi{
+    width:100% !important;
+    }
+
+.vSContainerPoi > .vehicleSelector  > .vehicleCont1    {
+    border: 1px solid red;
+    height:120px !important;
+    padding-top:25%;
+    }

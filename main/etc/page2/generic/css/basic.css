@@ -273,15 +273,38 @@ span>img {
 
 /* ----------------Generic Select---------------- */
 
+/* ----------------Generic Select---------------- */
+
+.genericSelectSmall {
+    font-family: "RobotoRegular","Helvetica Neue",Helvetica,sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+    color:#392478;
+    text-align: left;
+    height: 20px;
+    width: 200px;
+    float:right;
+    cursor: pointer;
+
+
+}
+
+.genericSelectSmall:focus{
+     box-shadow: 0 0 9px #5133AB;
+    }
+
+
+/* ----------------Generic Select---------------- */
+
 /* ----------------Generic INPUT---------------- */
 .genericInput {
     width: 250px;
     height: 30px;
-    margin-top: 5px;
+
     margin-bottom: 0px;
     color:#392478;
     font-family:  "RobotoRegular","Helvetica Neue",Helvetica,sans-serif";
-    font-size: 13px;
+    font-size: 12px;
     float:right;
 
 }
@@ -292,6 +315,24 @@ span>img {
 
 
 /* ----------------Generic INPUT---------------- */
+
+/* ----------------Generic INPUT Small---------------- */
+.genericInputSmall {
+    width: 200px;
+    height: 20px;
+    color:#392478;
+    font-family:  "RobotoRegular","Helvetica Neue",Helvetica,sans-serif";
+    font-size: 12px;
+    float:right;
+
+}
+
+.genericInputSmall:focus{
+     box-shadow: 0 0 9px #5133AB;
+    }
+
+
+/* ----------------Generic INPUT Small---------------- */
 
 /* ----------------Generic FORM FIELD LABEL---------------- */
 .genericFormLabel
@@ -481,10 +522,10 @@ span>img {
     }
 .vsHeading{
     width:100%;
-    height: 20%;
+    height: 20px;
     background-color: #5133AB;
     color:#FFF;
-    font-size: 16px;
+    font-size: 14px;
     font-weight:bold;
     text-align: center;
     }
@@ -517,7 +558,7 @@ span>img {
 
 .vSContainer >  .vehicleSelector >  .vehicleCont1   {
      margin: 100px 0 0 0 !important;
-     width:500px !important;
+     width:100% !important;
      height:100px;
      border-style: solid none none none !important;
 

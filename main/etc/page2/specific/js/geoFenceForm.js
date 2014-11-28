@@ -130,8 +130,11 @@ function onLoad_GeoFence() {
 	
 	map=initialize();
 
-	
+	google.maps.event.trigger(map, 'resize');
+
 	jQuery('.BACK').click(function() {
+
+
 
 		jQuery('#tableDiv').show();
 
@@ -352,6 +355,7 @@ function onAdd() {
 	jQuery('#tableDiv').hide();
 
 	jQuery('#newGeoFence').show();
+    google.maps.event.trigger(map, 'resize');
 }
 
 function onDelete(com, grid) {
