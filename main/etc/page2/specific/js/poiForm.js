@@ -89,7 +89,12 @@ function addToPoiTable(list) {
 
 }
 function saveSuccess(result) {
-    alert('POI Saved')
+
+
+    alert(result.message);
+    console.log(result);
+    console.log("The json startdate is " + response.startdate); //prints undefined
+    alert('POI Saved');
     location.reload();
 }
 

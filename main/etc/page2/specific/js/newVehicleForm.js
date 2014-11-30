@@ -10,9 +10,17 @@ var onLoadFunc_newVehicle = function () {
 	jQuery('.vehicleTable').show();
 	jQuery('.newVehicleForm').hide();
 	
-	setupAJAXSubmit('newVehicleForm','newVehicleFormAction',setupData,setupConstraints,'#submit');
+	setupAJAXSubmit('newVehicleForm','newVehicleFormAction',setupData,setupConstraints,'#submit',errorFunc, successFunc);
 	setupFlexiGrid('#vehicleTable', undefined, "Vehicle Details", undefined, undefined, undefined, undefined, classData, undefined, setupButtonDict(), {'bindUrl': 'vehicleData'});
-	setupAJAXSubmit('newVehicleForm', 'editVehicleAction', setupData2, setupConstraints, '#edit');
+	setupAJAXSubmit('newVehicleForm', 'editVehicleAction', setupData2, setupConstraints, '#edit',errorFunc, successFunc);
+
+
+
+    if (typeof jQuery.cookie('userMessageCok') !== 'undefined'){
+
+            jQuery('.userMessage').text(jQuery.cookie("userMessageCok"));
+            jQuery.removeCookie("userMessageCok");
+    }
 
 	jQuery('#cancel').click(function(){
 		jQuery('.vehicleTable').show();
@@ -40,6 +48,23 @@ function setupData2(){
 	data.id=VId;
 	return data;
 }
+
+function errorFunc(result) {
+  return
+}
+
+function successFunc(result) {
+     alert(result.message) ;
+     jQuery.cookie("userMessageCok", result.message);
+
+     if(result.data.errors=='Yes'){
+
+         return;
+     }
+    location.reload();
+
+}
+
 
 var setupConstraints = function () {
 

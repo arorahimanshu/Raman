@@ -112,12 +112,18 @@ class Dashboard(Page2Component):
 		vehiclesListNested = json.loads(self._dashboardVehicleListNested(requestPath))
 		vehicleIds = formData['vehicleList']
 
+		if len(vehicleIds) == 0:
+			return self.jsonSuccess('No Vehicle Selected',errors='Yes')
+
 		data = None
 		try:
 			rows = []
 			for id in vehicleIds:
 				rawCoordinates = dbHelp.getRawCoordinatesForDeviceBetween(id, fromTime, toTime)
 				rawCoordinates = rawCoordinates.order_by(db.gpsDeviceMessage1.timestamp)
+
+				if rawCoordinates.count() == 0:
+					continue
 				report = gpsHelp.makeReport(rawCoordinates.all())
 				vehicleData = dbHelp.getVehicleDetails(vehiclesListNested, id)
 				row = {}
@@ -155,10 +161,14 @@ class Dashboard(Page2Component):
 		except:
 			pass
 
+
+
 		if data != None:
 			return self.jsonSuccess(data)
 		else:
 			return self.jsonFailure('No Data Found')
+
+		return
 
 		#
 

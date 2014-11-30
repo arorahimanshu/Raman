@@ -458,7 +458,7 @@ class DbHelper(Component):
 			cell = {}
 			cell['cell'] = []
 			cell['cell'].append(i)
-			cell['cell'].append(data.parent_id)
+
 			cell['cell'].append(data.id)
 			cell['cell'].append(data.name)
 			cell['cell'].append(data.device_id)

@@ -83,7 +83,7 @@ class Vehicle(Page2Component):
 
 		'fieldInfo': self._clientFieldInfo,
 		})
-		attrNames = ['S.No', 'Vehicle_Group_Id', 'Vehicle_Id', 'Device_Id','Vehicle_Name',  'Vehicle_Make', 'Vehicle_Reg_No', 'Vehicle_Type']
+		attrNames = ['S.No',  'Vehicle_Id', 'Device_Id','Vehicle_Name',  'Vehicle_Make', 'Vehicle_Reg_No', 'Vehicle_Type']
 
 		dbHelp = self.app.component('dbHelper')
 		vehicleGroupList = dbHelp.returnVehicleGroupListForBranch(None)
@@ -173,7 +173,8 @@ class Vehicle(Page2Component):
 				'data': formData['vehicleType'],
 			}))
 
-		return self.jsonSuccess('Vehicle Added')
+			return self.jsonSuccess('Vehicle Added',errors='No')
+
 
 	#
 
@@ -230,13 +231,16 @@ class Vehicle(Page2Component):
 		formData = json.loads(cherrypy.request.params['formData'])
 		db = self.app.component('dbManager')
 		with db.session() as session:
-			db.Gps_Vehicle_Info.updateFromParams({'Vehicle_Id': formData['id']}, **{
-			'Vehicle_Name': formData.get('vehicleName', None),
-			'Vehicle_Make': formData.get('vehicleMake', None),
+			db.Gps_Vehicle_Info.updateFromParams({'id': formData['id']}, **{
+			'name': formData.get('vehicleName', None),
+ 			'parent_id': formData.get('vehicleName', None),
 			'device_id': formData.get('vehicleDevId', None),
-			'Vehicle_Reg_No': formData.get('vehicleRegNo', None),
-			'Vehicle_Type': formData.get('vehicleType', None)
+
 			})
 
-		return self.jsonSuccess('Vehicle Edited')
+		return self.jsonSuccess('Vehicle Edited',errors='No')
+
 		#
+
+
+

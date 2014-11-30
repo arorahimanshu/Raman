@@ -5,7 +5,9 @@ jQuery (window).load (function (){
 
 	sendAjaxRequest('travelReportVehicleListNested', {}, setupVehicles);
 	
-	setupAJAXSubmit('travelReport', 'newTravelReportFormAction', setupData, setupConstraints, '.submit', null, showReport);
+	setupAJAXSubmit('travelReport', 'newTravelReportFormAction', setupData, setupConstraints, '.submit', errorFunc,successFunc,showReport);
+
+
 	
 	jQuery("#fromDate").datepicker({
 									   changeMonth: true,
@@ -60,9 +62,33 @@ function setupData() {
 	return specificData;
 }
 
-function setupConstraints() {
-	return null;
+var setupConstraints = function () {
+    alert('success');
+    var constraints = {
+
+        fromDate : {presence: true},
+        toDate: {presence: true},
+    }
+
+    var flag =1;
+	jQuery('.vsVehicleId:checked').each(function () {
+		flag = 0;
+	})
+
+	if (flag == 1) {
+	   var message={}
+	   message = { "message":"Vehicle Not Selected",
+	               "data":{"errors":"Yes"}
+	             }
+
+
+       successFunc(message)
+       return;
+	}
+
+    return constraints
 }
+
 
 function setupFlexiGrid(selector, datatype, title, noOfPages, width, height, singleSelect, classData, extraCols) {
     if (datatype == undefined)
@@ -204,3 +230,23 @@ function onReload() {
     var pageNo = parseInt(jQuery('.pcontrol input').val()) + 1
     sendAjaxRequest('newTravelReportFormAction', {'pageNo': pageNo}, showReport)
 }
+
+
+
+
+var errorFunc = function (data, error) {
+
+
+	return error;
+
+}
+
+function successFunc(result) {
+
+     if(result.data.errors=='Yes'){
+        jQuery('.userMessage').text(result.message);
+         return;
+     }
+
+    location.reload()
+    }

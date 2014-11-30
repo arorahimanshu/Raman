@@ -3,8 +3,10 @@ fitx.utils.require(['fitx', 'page2', 'newReport1Form']);
 jQuery (window).load (function (){
 	setupFlexiGrid('#showReport1', undefined, "Speed Report", undefined, undefined, undefined, undefined, classData);
 
-	setupAJAXSubmit('report1', 'newReport1FormAction', setupData, setupConstraints, '.submit', null, showReport);
-	
+	setupAJAXSubmit('report1', 'newReport1FormAction', setupData, setupConstraints, '.submit', errorFunc,successFunc,showReport);
+
+
+
 	jQuery("#fromDate").datepicker({
 									   changeMonth: true,
 									   changeYear: true,
@@ -35,7 +37,7 @@ function setupData() {
 		
 	var fromDate = returnDate ('fromDate');
 	var toDate = returnDate ('toDate');
-	alert(fromDate)
+
 	var specificData = {
 		'fromDate' : fromDate,
 		'toDate' : toDate,
@@ -49,6 +51,7 @@ function setupData() {
 		idList.push (vehicleId)
 	})
     specificData['vehicleList']=idList
+
     //-------------------------------------
 	rp = parseInt(jQuery('.pGroup select option:selected').text())
 	specificData['rp'] = rp
@@ -56,9 +59,33 @@ function setupData() {
 	return specificData;
 }
 
-function setupConstraints() {
-	return null;
+var setupConstraints = function () {
+
+    var constraints = {
+
+        fromDate : {presence: true},
+        toDate: {presence: true},
+    }
+
+    var flag =1;
+	jQuery('.vsVehicleId:checked').each(function () {
+		flag = 0;
+	})
+
+	if (flag == 1) {
+	   var message={}
+	   message = { "message":"Vehicle Not Selected",
+	               "data":{"errors":"Yes"}
+	             }
+
+
+       successFunc(message)
+       return;
+	}
+
+    return constraints
 }
+
 
 function setupFlexiGrid(selector, datatype, title, noOfPages, width, height, singleSelect, classData, extraCols) {
     if (datatype == undefined)
@@ -166,3 +193,21 @@ function onReload() {
     var pageNo = parseInt(jQuery('.pcontrol input').val()) + 1
     sendAjaxRequest('newReport1FormAction', {'pageNo': pageNo}, showReport)
 }
+
+
+var errorFunc = function (data, error) {
+
+
+	return error;
+
+}
+
+function successFunc(result) {
+
+     if(result.data.errors=='Yes'){
+        jQuery('.userMessage').text(result.message);
+         return;
+     }
+
+    location.reload()
+    }

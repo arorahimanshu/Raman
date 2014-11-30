@@ -154,7 +154,7 @@ class Branch(Page2Component):
 		# this part add data to Info Table
 		# TODO Nitin will create a function for adding data to info table
 
-		return self.jsonSuccess('Branch created')
+		return self.jsonSuccess('Branch created',errors='No')
 
 	#
 
@@ -198,14 +198,14 @@ class Branch(Page2Component):
 		dataUtils = self.app.component('dataUtils')
 		db = self.app.component('dbManager')
 		details = dict()
-		print(formData)
-
+		with self.server.session() as serverSession:
+			orgId = serverSession['primaryOrganizationId']
 		with dataUtils.worker() as worker:
 			if(query=='edit'):
 				db.branch.updateFromParams({
 				'id':formData['id']
 
-				},**{'name':formData['branchName'], 'parent_id':formData['orgId']})
+				},**{'name':formData['branchName'], 'parent_id':orgId})
 
 			#
 			#	address= formData['address1'] + ";" + formData['address2'] + ";" + formData['state'] + ";" + formData[
@@ -218,7 +218,7 @@ class Branch(Page2Component):
 			#	})
 			#
 
-				return self.jsonSuccess('user information edited')
+				return self.jsonSuccess('Branch Edited',errors='No')
 
 		return self.jsonFailure('Error')
 	#

@@ -109,7 +109,7 @@ class Organization(Page2Component):
 		v = Validator(formData)
 
 		name = v.required('name')
-		name.validate('type', str)
+		name.validate('type',str )
 
 		category=v.required('category')
 		category.validate('type',str)
@@ -162,7 +162,9 @@ class Organization(Page2Component):
 			'data': address,
 			}))
 		#
-		return self.jsonSuccess('Organization created')
+		# iF ERROR is Yes then page will not reload ... and if No the page will reload
+		return self.jsonSuccess('Organization created',errors='No')
+
 
 	#
 
@@ -190,6 +192,7 @@ class Organization(Page2Component):
 		'sendData': sendData,
 
 		}
+
 
 		return self.jsonSuccess(actuallySendData)
 
@@ -225,7 +228,7 @@ class Organization(Page2Component):
 				},**{'data':address
 				})
 
-				return self.jsonSuccess('user information edited')
+				return self.jsonSuccess('Organization Edited',errors='No')
 
 		return self.jsonFailure('Error')
 	#

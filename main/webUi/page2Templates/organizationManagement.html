@@ -13,7 +13,7 @@
 	class="organizationManagement ${formClass or ''}"
 >
 
-	<div class="message"></div>
+	<div class="userMessage"> </div>
 	<div id="addOrganization" hidden="true">
 
         <div class="field">
@@ -23,7 +23,7 @@
 
 		<div class="field">
 			<label class="genericFormLabel">Name:</label>
-			<input type="text" id="name" class="genericInput ">
+			<input type="text" id="name" class="genericInput " required>
 			<div class="errorBox" id="nameError"></div>
 		</div>
 

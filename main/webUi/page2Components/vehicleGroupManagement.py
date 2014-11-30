@@ -148,7 +148,8 @@ class vehicleGroup(Page2Component):
 
 		#
 
-		return self.jsonSuccess('VehicleGroup created')
+		# iF ERROR is Yes then page will not reload ... and if No the page will reload
+		return self.jsonSuccess('Vehicle Group created',errors='No')
 
 	#
 
@@ -211,7 +212,8 @@ class vehicleGroup(Page2Component):
 			#	})
 			#
 
-				return self.jsonSuccess('user information edited')
+			# iF ERROR is Yes then page will not reload ... and if No the page will reload
+			return self.jsonSuccess('Vehicle Group Edited',errors='No')
 
 		return self.jsonFailure('Error')
 	#

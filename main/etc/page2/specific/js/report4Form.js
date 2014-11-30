@@ -3,7 +3,9 @@ fitx.utils.require(['fitx', 'page2', 'newReport4Form']);
 jQuery (window).load (function (){
 	setupFlexiGrid('#showReport4', undefined, "Stoppage Summary", undefined, undefined, undefined, undefined, classData);
 
-	setupAJAXSubmit('report4', 'newReport4FormAction', setupData, setupConstraints, '.submit', null, showReport);
+	setupAJAXSubmit('report4', 'newReport4FormAction', setupData, setupConstraints, '.submit',errorFunc,successFunc,showReport);
+
+
 	
 	jQuery("#fromDate").datepicker({
 									   changeMonth: true,
@@ -55,8 +57,31 @@ function setupData() {
 	return specificData;
 }
 
-function setupConstraints() {
-	return null;
+
+var setupConstraints = function () {
+
+    var constraints = {
+
+        fromDate : {presence: true},
+        toDate: {presence: true},
+    }
+
+    var flag =1;
+	jQuery('.vsVehicleId:checked').each(function () {
+		flag = 0;
+	})
+
+	if (flag == 1) {
+	   var message={}
+	   message = { "message":"Vehicle Not Selected",
+	               "data":{"errors":"Yes"}
+	             }
+
+       alert('succes');
+       successFunc(message);
+       return;
+	}
+    return constraints
 }
 
 function setupFlexiGrid(selector, datatype, title, noOfPages, width, height, singleSelect, classData, extraCols) {
@@ -165,3 +190,22 @@ function onReload() {
     var pageNo = parseInt(jQuery('.pcontrol input').val()) + 1
     sendAjaxRequest('newReport4FormAction', {'pageNo': pageNo}, showReport)
 }
+
+
+var errorFunc = function (data, error) {
+
+
+	return error;
+
+}
+
+function successFunc(result) {
+     console.log(result);
+     if(result.data.errors=='Yes'){
+        jQuery('.userMessage').text(result.message);
+         return;
+     }
+
+    location.reload();
+    }
+

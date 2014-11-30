@@ -75,6 +75,7 @@ class Report1(Page2Component):
 	def _newReport1FormValidate(self, formData):
 		pass
 
+
 	#
 
 	def _newReport1FormAction(self, requestPath):
@@ -85,12 +86,20 @@ class Report1(Page2Component):
 		fromDate = formData['fromDate']
 		toDate = formData['toDate']
 
+
+		#
+
+
 		gpsHelp = self.app.component('gpsHelper')
 		db = self.app.component('dbManager')
 		dbHelp = self.app.component('dbHelper')
 		vehiclesListNested = json.loads(self._report1VehicleListNested(requestPath))
 		#vehicleIds = dbHelp.filterVehicles(vehiclesListNested, 'All', 'All', 'All')
 		vehicleIds = formData['vehicleList']
+
+		if len(vehicleIds) == 0:
+			return self.jsonSuccess('No Vehicle Selected',errors='Yes')
+
 
 		timeHelp = self.app.component('timeHelper')
 		time = timeHelp.getDateAndTime(fromDate[0], fromDate[1], fromDate[2], 0, 0, 0)
@@ -104,6 +113,9 @@ class Report1(Page2Component):
 		for id in vehicleIds:
 			rawCoordinates = dbHelp.getRawCoordinatesForDeviceBetween(id, fromTime, toTime)
 			rawCoordinates = rawCoordinates.order_by(db.gpsDeviceMessage1.timestamp)
+
+			if rawCoordinates.count() == 0:
+				continue
 			report = gpsHelp.makeReport(rawCoordinates.all())
 			vehicleData = dbHelp.getVehicleDetails(vehiclesListNested, id)
 			row = {}
@@ -130,6 +142,9 @@ class Report1(Page2Component):
 			'classData': self.classData,
 			'sendData': rows,
 		}
+
+		if len(rows['rows']) == 0:
+			return self.jsonSuccess('No Data Present',errors='Yes')
 
 		if data != None:
 			return self.jsonSuccess(data)

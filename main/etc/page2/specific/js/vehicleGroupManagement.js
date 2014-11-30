@@ -6,6 +6,11 @@ jQuery(window).load(function () {
     setupFlexiGrid('#showVehicleGroup', undefined, "VehicleGroup Details", undefined, undefined, undefined, undefined, classData)
     sendAjaxRequest('vehicleGroupData', setupDataFlexi(), showReport)
 
+    if (typeof jQuery.cookie('userMessageCok') !== 'undefined'){
+
+            jQuery('.userMessage').text(jQuery.cookie("userMessageCok"));
+            jQuery.removeCookie("userMessageCok");
+    }
 
     jQuery('.cancel').click(function () {
         console.log('cancel')
@@ -41,18 +46,27 @@ jQuery(window).load(function () {
     })
 
     jQuery('.add').click(function () {
+        jQuery('.userMessage').text(" ");
         jQuery('#addVehicleGroup').show();
         jQuery('.flexigrid').hide();
     })
 
 })
-function successFunc() {
-    location.reload()
+function successFunc(result) {
+
+     jQuery.cookie("userMessageCok", result.message);
+
+     if(result.data.errors=='Yes'){
+
+         return;
+     }
+    location.reload();
+
 }
 
 var idToEdit;
 var setupData = function () {
-    alert('ADD')
+
     var data = {}
 
     data.vehicleGroupName = jQuery('#vehicleGroupName').val()
@@ -162,6 +176,12 @@ function setupDataFlexi() {
 }
 
 function showReport(result) {
+
+    if (result.message.sendData.rows.length == 0){
+              jQuery('.userMessage').text('No Data Present');
+              return
+        }
+
     console.log(result.message.sendData)
     jQuery('#showVehicleGroup').flexAddData(result.message.sendData)
     total = result.message.sendData.total
@@ -229,7 +249,7 @@ function onAddOrDelete(com, grid) {
 				div.find('#branch').val(branchId);
 				
                 idToEdit=jQuery('td[abbr="Id"] >div', this).html()
-
+                jQuery('.userMessage').text(" ");
                 jQuery("#tableDiv").toggle('showOrHide')
                 jQuery('#addVehicleGroup').toggle('showOrHide')
                 div.find('.ok').text('Edit')

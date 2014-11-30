@@ -104,6 +104,8 @@ class TravelReport(Page2Component):
 		dbHelp = self.app.component('dbHelper')
 		vehiclesListNested = json.loads(self._travelReportVehicleListNested(requestPath))
 		vehicleIds =  formData['vehicleList']
+		if len(vehicleIds) == 0:
+			return self.jsonSuccess('No Vehicle Selected',errors='Yes')
 
 		timeHelp = self.app.component('timeHelper')
 		time = timeHelp.getDateAndTime(fromDate[0], fromDate[1], fromDate[2], 0, 0, 0)
@@ -116,6 +118,8 @@ class TravelReport(Page2Component):
 		for id in vehicleIds:
 			rawCoordinates = dbHelp.getRawCoordinatesForDeviceBetween(id, fromTime, toTime)
 			rawCoordinates = rawCoordinates.order_by(db.gpsDeviceMessage1.timestamp)
+			if rawCoordinates.count() == 0:
+				continue
 			report = gpsHelp.makeReport(rawCoordinates.all())
 			vehicleData = dbHelp.getVehicleDetails(vehiclesListNested, id)
 			row = {}
@@ -147,6 +151,8 @@ class TravelReport(Page2Component):
 			self.numOfObj = int(cherrypy.request.params['rp'])
 
 		rows = dbHelp.getSlicedData(rows, pageNo, self.numOfObj)
+		if len(rows['rows']) == 0:
+			return self.jsonSuccess('No Data Present',errors='Yes')
 
 		data = {
 			'classData': self.classData,

@@ -6,6 +6,11 @@ jQuery(window).load(function () {
     setupFlexiGrid('#showBranch', undefined, "Branch Details", undefined, undefined, undefined, undefined, classData)
     sendAjaxRequest('branchData', setupDataFlexi(), showReport)
 
+    if (typeof jQuery.cookie('userMessageCok') !== 'undefined'){
+
+            jQuery('.userMessage').text(jQuery.cookie("userMessageCok"));
+            jQuery.removeCookie("userMessageCok");
+    }
 
     jQuery('.cancel').click(function () {
         console.log('cancel')
@@ -46,13 +51,20 @@ jQuery(window).load(function () {
     })
 
 })
-function successFunc() {
-    location.reload()
-}
+function successFunc(result) {
 
+     jQuery.cookie("userMessageCok", result.message);
+
+     if(result.data.errors=='Yes'){
+
+         return;
+     }
+    location.reload();
+
+}
 var idToEdit;
 var setupData = function () {
-    alert('ADD')
+
     var data = {}
 
     data.branchName = jQuery('#branchName').val()
@@ -67,7 +79,7 @@ var setupData = function () {
     return data
 }
 var setupData2 = function () {
-    alert("edit");
+
     data2 = setupData()
   	data2.id =idToEdit
     console.log(data2)
@@ -170,6 +182,12 @@ function setupDataFlexi() {
 }
 
 function showReport(result) {
+
+
+    if (result.message.sendData.rows.length == 0){
+              jQuery('.userMessage').text('No Data Present');
+              return
+        }
     console.log(result.message.sendData)
     jQuery('#showBranch').flexAddData(result.message.sendData)
     total = result.message.sendData.total
@@ -209,7 +227,7 @@ function auxiPaymentData(pageNo) {
 
 function onAddOrDelete(com, grid) {
     if (com == "Edit") {
-        alert("first")
+
         var c = 0
         jQuery('.trSelected', grid).each(function () {
             c += 1
@@ -239,7 +257,7 @@ function onAddOrDelete(com, grid) {
 				div.find('#organization').val(orgId);
 				
                 idToEdit=jQuery('td[abbr="BranchId"] >div', this).html()
-
+                jQuery('.userMessage').text(" ");
                 jQuery("#tableDiv").toggle('showOrHide')
                 jQuery('#addBranch').toggle('showOrHide')
                 div.find('.ok').text('Edit')

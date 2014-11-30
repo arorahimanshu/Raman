@@ -5,7 +5,8 @@ jQuery (window).load (function (){
 
 	sendAjaxRequest('dashboardVehicleListNested', {}, setupVehicles);
 	
-	setupAJAXSubmit('dashboard', 'newDashboardFormAction', setupData2, setupConstraints, '.submit', null, showReport);
+	setupAJAXSubmit('dashboard', 'newDashboardFormAction', setupData2, setupConstraints, '.submit', errorFunc,successFunc,showReport);
+
 	
 	setupData();
 	sendAjaxRequest('newDashboardFormAction', setupData2(), showReport);
@@ -53,9 +54,26 @@ function setupData2() {
 	return specificData;
 }
 
-function setupConstraints() {
-	return null;
+var setupConstraints = function () {
+
+
+    var flag =1;
+	jQuery('.vsVehicleId:checked').each(function () {
+		flag = 0;
+	})
+
+	if (flag == 1) {
+	   var message={}
+	   message = { "message":"Vehicle Not Selected",
+	               "data":{"errors":"Yes"}
+	             }
+       successFunc(message)
+       return;
+	}
+
+    return
 }
+
 
 function setupFlexiGrid(selector, datatype, title, noOfPages, width, height, singleSelect, classData, extraCols) {
     if (datatype == undefined)
@@ -173,13 +191,15 @@ function filterOptions (currentSelector, parentSelector) {
 }
 
 function showReport(result) {
-	//if (result.success == false)
-    //		jQuery ('.message').text(result.message)
-	//else {
-	//	jQuery('#showDashboard').flexAddData(result.message.sendData)
-	//	total = result.message.sendData.total
-	//	jQuery ('.message').text('Loaded')
-	//}
+
+
+    console.log(result.data);
+    if (result.message.sendData.rows.length == 0){
+              jQuery('.userMessage').text('No Data Present');
+              return
+        }
+
+
 }
 
 var total = 0
@@ -204,3 +224,20 @@ function onReload() {
     var pageNo = parseInt(jQuery('.pcontrol input').val()) + 1
     sendAjaxRequest('newDashboardFormAction', {'pageNo': pageNo}, showReport)
 }
+
+
+
+var errorFunc = function (data, error) {
+
+	return error;
+}
+
+function successFunc(result) {
+     alert('b');
+     if(result.data.errors=='Yes'){
+        jQuery('.userMessage').text(result.message);
+         return;
+     }
+
+    location.reload()
+    }
