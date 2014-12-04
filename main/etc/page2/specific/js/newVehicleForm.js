@@ -112,12 +112,16 @@ function editButtonClick(com, grid, c, selectedData) {
 			editFields.push({'vehicleName': jQuery('td[abbr="Vehicle_Name"] >div', this).html()});
 			editFields.push({'vehicleMake': jQuery('td[abbr="Vehicle_Make"] >div', this).html()});
 			editFields.push({'vehicleRegNo': jQuery('td[abbr="Vehicle_Reg_No"] >div', this).html()});
-			editFields.push({'vehicleDevId': jQuery('td[abbr="VehicleDevId"] >div', this).html()});
+			editFields.push({'vehicleDevId': jQuery('td[abbr="Device_Id"] >div', this).html()});
 			editFields.push({'vehicleType': jQuery('td[abbr="Vehicle_Type"] >div', this).html()});
 			var div = jQuery('.newVehicleForm');
+
+
 			jQuery.each(editFields, function (k, v) {
+
 				for (var key in v) {
 					var value = v[key];
+
 					div.find('#' + key).val(value)
 
 				}

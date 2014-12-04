@@ -83,7 +83,7 @@ class Vehicle(Page2Component):
 
 		'fieldInfo': self._clientFieldInfo,
 		})
-		attrNames = ['S.No',  'Vehicle_Id', 'Device_Id','Vehicle_Name',  'Vehicle_Make', 'Vehicle_Reg_No', 'Vehicle_Type']
+		attrNames = ['S.No',  'Vehicle_Id', 'Vehicle_Name','Device_Id',  'Vehicle_Make', 'Vehicle_Reg_No', 'Vehicle_Type']
 
 		dbHelp = self.app.component('dbHelper')
 		vehicleGroupList = dbHelp.returnVehicleGroupListForBranch(None)
@@ -185,7 +185,7 @@ class Vehicle(Page2Component):
 
 		numOfObj = int(formData.get('rp', '10'))
 		pageNo = int((cherrypy.request.params).get('pageNo', '1'))
-		classData = ['User_Id', 'Vehicle_Id', 'Vehicle_Name','Device_Id', 'Vehicle_Make', 'Vehicle_Reg_No', 'Vehicle_Type']
+		classData = [  'Vehicle_Id', 'Vehicle_Name','Device_Id', 'Vehicle_Make', 'Vehicle_Reg_No', 'Vehicle_Type']
 
 
 		if 'pageNo' not in cherrypy.request.params:
@@ -233,10 +233,22 @@ class Vehicle(Page2Component):
 		with db.session() as session:
 			db.Gps_Vehicle_Info.updateFromParams({'id': formData['id']}, **{
 			'name': formData.get('vehicleName', None),
- 			'parent_id': formData.get('vehicleName', None),
+ 			'parent_id': formData.get('vehicleGroupId', None),
 			'device_id': formData.get('vehicleDevId', None),
 
 			})
+			db.Info.updateFromParams({
+			'entity_id':formData['id'],'preference':0,'type':db.Info.Type.vehicleRegNo.value
+			},**{'data':formData['vehicleRegNo']})
+
+			db.Info.updateFromParams({
+			'entity_id':formData['id'],'preference':0,'type':db.Info.Type.vehicleMake.value
+			},**{'data':formData['vehicleMake']})
+
+			db.Info.updateFromParams({
+			'entity_id':formData['id'],'preference':0,'type':db.Info.Type.vehicleType.value
+			},**{'data':formData['vehicleType']})
+
 
 		return self.jsonSuccess('Vehicle Edited',errors='No')
 

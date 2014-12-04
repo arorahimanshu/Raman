@@ -201,16 +201,7 @@ class vehicleGroup(Page2Component):
 
 				},**{'name':formData['vehicleGroupName'],'category':formData['vehicleGroupCat'],'parent_id':formData['branchId']})
 
-			#
-			#	address= formData['address1'] + ";" + formData['address2'] + ";" + formData['state'] + ";" + formData[
-			#		'city'] + ";" + formData['pincode']
-			#
-			#	db.Info.updateFromParams({
-			#		'entity_id':formData['id']
-			#
-			#	},**{'data':address
-			#	})
-			#
+
 
 			# iF ERROR is Yes then page will not reload ... and if No the page will reload
 			return self.jsonSuccess('Vehicle Group Edited',errors='No')

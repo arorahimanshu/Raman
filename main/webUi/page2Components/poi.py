@@ -31,7 +31,6 @@ class Poi(Page2Component):
 		with self.server.session() as session:
 			poidata = db.returnPoiReport(session['username'], formData['reportAddressCategory'])
 
-		print(poidata)
 
 		return self.jsonSuccess(poidata)
 

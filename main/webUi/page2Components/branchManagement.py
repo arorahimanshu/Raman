@@ -207,6 +207,26 @@ class Branch(Page2Component):
 
 				},**{'name':formData['branchName'], 'parent_id':orgId})
 
+				db.Info.updateFromParams({
+				'entity_id':formData['id'],'preference':0,'type':db.Info.Type.branchAddLine1.value
+				},**{'data':formData['branchAdd1']})
+
+				db.Info.updateFromParams({
+				'entity_id':formData['id'],'preference':0,'type':db.Info.Type.branchAddLine2.value
+				},**{'data':formData['branchAdd2']})
+
+				db.Info.updateFromParams({
+				'entity_id':formData['id'],'preference':0,'type':db.Info.Type.branchCity.value
+				},**{'data':formData['branchCity']})
+
+				db.Info.updateFromParams({
+				'entity_id':formData['id'],'preference':0,'type':db.Info.Type.branchPin.value
+				},**{'data':formData['branchPin']})
+
+				db.Info.updateFromParams({
+				'entity_id':formData['id'],'preference':0,'type': db.Info.Type.branchState.value
+				},**{'data':formData['branchState']})
+
 			#
 			#	address= formData['address1'] + ";" + formData['address2'] + ";" + formData['state'] + ";" + formData[
 			#		'city'] + ";" + formData['pincode']

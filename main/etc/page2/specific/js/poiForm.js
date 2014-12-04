@@ -5,6 +5,15 @@ jQuery(window).load(function () {
     setupAJAXSubmit('newPoiForm', 'generateReport', PoiData, null, '#show', null, showReport);
     setupFlexiGrid('#showTable', undefined, "POI Details", undefined, undefined, undefined, undefined, classData)
 
+
+    if (typeof jQuery.cookie('userMessageCok') !== 'undefined'){
+
+            jQuery('.userMessage').text(jQuery.cookie("userMessageCok"));
+            jQuery.removeCookie("userMessageCok");
+    }
+
+
+
     jQuery('#addPoiButton').click(function () {
 
         jQuery('#primary').hide();
@@ -62,7 +71,9 @@ jQuery(window).load(function () {
 
 
 function showReport(result) {
+    alert('asd');
     list = result.message;
+    console.log(result.message)
 
     jQuery('#showTable').flexAddData(result.message)
 
@@ -92,15 +103,16 @@ function saveSuccess(result) {
 
 
     alert(result.message);
-    console.log(result);
-    console.log("The json startdate is " + response.startdate); //prints undefined
+    jQuery.cookie("userMessageCok", result.message);
+    //console.log(result);
+   // console.log("The json startdate is " + response.startdate); //prints undefined
     alert('POI Saved');
     location.reload();
 }
 
 
 function setData(result) {
-
+    alert('a');
     addToPoiTable(result.message)
 
 }
@@ -220,8 +232,8 @@ function createColModel(colList) {
 
 function onAddOrDelete(com, grid) {
     if (com == "Add") {
-
-            jQuery('#primary').hide();
+            jQuery('.userMessage').text(' ');
+        jQuery('#primary').hide();
         jQuery('#secondary').show();
         initialize()
     }
@@ -240,6 +252,11 @@ function setupDataFlexi() {
 function showReport(result) {
 
     jQuery('#showTable').flexAddData(result.message)
+    jQuery('.userMessage').text(' ');
+    if (result.message.rows.length == 0){
+              jQuery('.userMessage').text('No Data Present');
+              return
+        }
     total = result.message.total
 }
 

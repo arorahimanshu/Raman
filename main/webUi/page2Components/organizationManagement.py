@@ -209,7 +209,7 @@ class Organization(Page2Component):
 		dataUtils = self.app.component('dataUtils')
 		db = self.app.component('dbManager')
 		details = dict()
-		print(formData)
+
 
 		with dataUtils.worker() as worker:
 			if(query=='edit'):
