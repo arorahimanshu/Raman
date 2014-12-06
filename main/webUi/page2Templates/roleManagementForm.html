@@ -19,6 +19,7 @@
 	<div id="addRole" class="addRole" hidden="true">
 
         <div class="field">
+
 			<div class="genericFormHeader">Add New Role</div>
 		</div>
 		
@@ -30,20 +31,23 @@
 		
 		<div class="field">
 			<label class="genericFormLabel">Name:</label>
-			<input type="text" id="name" class="genericInput ">
 			<div class="errorBox" id="nameError"></div>
+			<input type="text" id="name" class="genericInput ">
+
 		</div>
 
 		<div class="field permissions">
 			<label class="genericFormLabel">Permissions</label>
-				<div class="checkAA">
+
+			 <div class="errorBox" id="permissionError"></div>
+			 <div class="checkAA">
                 %for item in permissions:
 					<div class="checkBoxCont">
                     <input  type="checkbox" id="${item['name']}"><label class="css-label  ">${item['name']}</label></input>
 				    </div>
                 %endfor
                 </div>
-			<div class="errorBox" id="permissionError"></div>
+
 		</div>
 		
 		<div class="field unselectable">
@@ -51,7 +55,7 @@
 			<div class="cancel genericButton">Cancel</div>
 		</div>
 	</div>
-	
+	<div class="userMessage">  </div>
 	<div id="tableDiv">
 		<table id="showRole"></table>
 	</div>

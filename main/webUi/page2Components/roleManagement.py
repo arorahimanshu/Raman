@@ -115,7 +115,7 @@ class RoleManagement(Page2Component):
         db = self.app.component('dbHelper')
         db.createNewRole(roleName, orgId)
         db.updateRolePermissions(roleName, permissions, orgId)
-        return self.jsonSuccess()
+        return self.jsonSuccess('Role Added')
     #
 
     def _editRole(self, requestPath):
@@ -130,7 +130,7 @@ class RoleManagement(Page2Component):
             db.createNewRole(roleName, orgId)
         #
         db.updateRolePermissions(roleName, permissions, orgId)
-        return self.jsonSuccess()
+        return self.jsonSuccess('Role Edited')
     #
 
     def _delRole(self, requestPath):

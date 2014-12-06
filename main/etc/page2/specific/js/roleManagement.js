@@ -8,6 +8,13 @@ jQuery(window).load(function () {
 	setupFlexiGrid('#showRole', undefined, "Role Details", undefined, undefined, undefined, undefined, classData, undefined, setupButtonDict(), {'bindUrl': 'newRoleManagementFormAction'});
 	
 	onLoad_RoleManagement();
+
+	if (typeof jQuery.cookie('userMessageCok') !== 'undefined'){
+
+            jQuery('.userMessage').text(jQuery.cookie("userMessageCok"));
+            jQuery.removeCookie("userMessageCok");
+    }
+
 })
 
 function setupButtonDict() {
@@ -94,7 +101,9 @@ function deleteButtonClick(com, grid, c, selectedData) {
 }
 
 var successFunc = function (result) {
-	jQuery('#genericError').text(result.message + '..Page will be reloaded.')
+
+
+ 	jQuery.cookie("userMessageCok", result.message);
 	jQuery('#genericError').removeClass('errorBox')
 	jQuery('#genericError').addClass('success');
 	setTimeout(function () {
@@ -125,15 +134,31 @@ var setupData = function () {
 }
 
 var errorFunc = function () {
-	return undefined
+	var flag = 1;
+	jQuery('.permission:checked').each(function () {
+		flag = 0;
+	})
+
+	if (flag == 1) {
+
+		error = jQuery.extend({}, error, {'Role': 'Please Select a role'})
+
+	}
+	return error
+
+
+
 }
 
 var setupConstraints = function () {
+	alert('a')
 	var constraints = {
 		name: {
 			presence: true
 		}
 	}
+
+
 	
 	return constraints
 }

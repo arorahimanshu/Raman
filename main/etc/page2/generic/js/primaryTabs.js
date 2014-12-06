@@ -170,10 +170,10 @@ jQuery (window).load (function () {
                 return
                 }
 
-        var b = sendAjaxRequest('logoutAction', 'user', 'abc')
-        console.log('cancel')
+        var b = sendAjaxRequest('logoutAction', null, null)
 
-        myVar = setTimeout(function(){location.reload()},2000)
+		//window.location.assign("http://127.0.0.1:8080");
+        //myVar = setTimeout(function(){location.reload()},2000)
 
     })
 

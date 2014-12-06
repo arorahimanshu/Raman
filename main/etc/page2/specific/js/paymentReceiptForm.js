@@ -216,6 +216,11 @@ function setupFlexiGrid(selector, datatype, title, noOfPages, width, height, sin
 }
 
 function showReport(result) {
+
+	if (result.message.sendData.rows.length == 0){
+              jQuery('.userMessage').text('No Data Found');
+              return
+        }
 	jQuery('#viewPayment').flexAddData(result.message.sendData)
 	total = result.message.sendData.total
 }

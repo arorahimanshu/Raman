@@ -593,4 +593,12 @@ span>img {
     width:150px;
     padding-top:8px;
     border: 0px solid #5133AB;
+
+}
+
+.flexCont{
+    display:table;
+
+
     }
+

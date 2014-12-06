@@ -22,10 +22,19 @@ jQuery(window).load(function () {
 	setupAJAXSubmit('userManagementOk', 'userManagementFormAction', setupData, setupConstraints, '.ok', errorFunc, successFunc)
 	onLoadFunc_newEmployee()
 
-	setupFlexiGrid('#showUser', undefined, "Employee Details", undefined, undefined, undefined, undefined, classData, undefined, setupButtonDict(), {'bindUrl': 'generateEmployeeData'})
+	setupFlexiGrid('#showUser', undefined, "Employee Details", undefined, undefined, undefined, undefined, classData, saveSuccess, setupButtonDict(), {'bindUrl': 'generateEmployeeData'})
 
 	setupAJAXSubmit('newEmployeeFormOk', 'editEmployeeFormAction', setupData2, setupConstraints, '.editbutton', errorFunc, successFunc)
-    jQuery('#addUser').hide()
+
+	if (typeof jQuery.cookie('userMessageCok') !== 'undefined'){
+
+            jQuery('.userMessage').text(jQuery.cookie("userMessageCok"));
+            jQuery.removeCookie("userMessageCok");
+     }
+
+
+
+	jQuery('#addUser').hide()
 
 	jQuery('.cancel').click(function(){
 		jQuery('.flexigrid').show()
@@ -57,7 +66,12 @@ function setupButtonDict() {
 
 }
 
+function saveSuccess(result){
+
+	}
+
 function addButtonClick(com, grid, c, selectedData) {
+	jQuery.cookie("userMessageCok", " ");
 	jQuery('#addUser').show();
 	jQuery('.flexigrid').hide();
 }
@@ -82,7 +96,7 @@ function editButtonClick(com, grid, c, selectedData) {
 
 				}
 			})
-
+			jQuery.cookie("userMessageCok", " ");
 			jQuery("#tableDiv").toggle('showOrHide')
 			jQuery('#addUser').toggle('showOrHide')
 			div.find('.ok').text('Edit')
@@ -116,7 +130,9 @@ function deleteButtonClick(com, grid, c, selectedData) {
 
 function successFunc(result) {
 
-	jQuery('#genericError').text(result.message + '..Page will be reloaded.')
+	jQuery.cookie("userMessageCok", result.message);
+
+	//jQuery('#genericError').text(result.message + '..Page will be reloaded.')
 	jQuery('#genericError').removeClass('errorBox')
 	jQuery('#genericError').addClass('success');
 	setTimeout(function () {

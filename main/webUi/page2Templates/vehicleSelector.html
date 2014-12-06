@@ -25,12 +25,14 @@ if vehicleSelectorJs not in externalJs :
 	<div class="branches"  >
 
 
-
 		%for branch in branches :
+
 		<div class="vehicleSelectorEntry" data-details="${html.escape (json.dumps (branch))}">
 			<input type="checkbox" checked="checked">${html.escape (branch['display'])}
 		</div>
 		%endfor
+
+
 	</div>
     </div>
 

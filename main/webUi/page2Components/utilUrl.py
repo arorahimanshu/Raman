@@ -23,5 +23,6 @@ class UtilUrl(Page2Component):
 			id = serverSession['uid']
 			userName = serverSession['username']
 			userManag.logout(userName,id)
+
 			return self.jsonSuccess("Successfully Logged Out")
 	#

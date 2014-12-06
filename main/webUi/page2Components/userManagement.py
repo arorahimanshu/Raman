@@ -273,7 +273,7 @@ class UserManagement (Page2Component) :
 
 
 		#
-		return self.jsonSuccess ('user created')
+		return self.jsonSuccess ('User Created')
 	#
 
 
@@ -383,7 +383,7 @@ class UserManagement (Page2Component) :
 						'preference' : 0,
 						'data' : mobile,
 					})
-				return self.jsonSuccess('user information edited')
+				return self.jsonSuccess('User Information Edited')
 
 
 
