@@ -263,6 +263,82 @@ class _Worker:
 
 	#
 
+	def delBranchCascade(self,branchId):
+		db = self.app.component('dbManager')
+		with db.session () as session:
+			for data in session.query(db.VehicleGroup).filter_by(parent_id = branchId).all():
+				self.delVehicleGroupCascade(data.id)
+			db.branch.delete({
+				'id':branchId
+			})
+			db.Entity.delete({
+				'id':branchId
+			})
+
+	def delVehicleGroupCascade(self,vehicleGroupId):
+		db = self.app.component('dbManager')
+		with db.session () as session:
+			for data in session.query(db.Gps_Vehicle_Info).filter_by(parent_id = vehicleGroupId).all():
+				self.delVehicleCascade(data.id)
+
+			db.VehicleGroup.delete({
+				'id':vehicleGroupId
+				})
+			db.Entity.delete({
+				'id':vehicleGroupId
+				})
+
+
+	def delVehiclecCascade(self,vehicleId):
+		db = self.app.component('dbManager')
+		with db.session () as session:
+
+			db.gpsDeviceMessage1.delete({
+				'deviceId':vehicleId
+				})
+			# delete geofence data
+			# if only one row is present then delete both geofence & geofence vehicle mapping
+			# other wise delete only mapping
+			geoFenceData = session.query(db.GeoFence_vehicle).filter_by( Vehicle_id = vehicleId )
+
+			if geoFenceData.count() == 1:
+				db.GeoFence_vehicle.delete({
+					'Vehicle_id':vehicleId
+					})
+				db.Gps_Geofence_Data.delete({
+					'Geofence_Id':geoFenceData['GeoFence_id']
+					})
+			if geoFenceData.count() > 1:
+					db.GeoFence_vehicle.delete({
+					'Vehicle_id':vehicleId
+					})
+			# delete geoPoi data
+			# if only one row is present then delete both POI & POI vehicle mapping data
+			# other wise delete only mapping
+
+			poiData = session.query(db.Poi_vehicle).filter_by(Vehicle_Id = vehicleId)
+			if poiData.count() == 1:
+				db.Poi_vehicle.delete({
+					'Vehicle_id':vehicleId
+					})
+				db.Gps_Poi_Info.delete({
+					'Poi_Id':poiData['Poi_Id']
+					})
+			if poiData.count() > 1:
+				db.Poi_vehicle.delete({
+					'Vehicle_id':vehicleId
+					})
+
+			db.Gps_Vehicle_Info.delete({
+				'id':vehicleId
+				})
+			db.Entity.delete({
+				'id':vehicleId
+				})
+
+
+
+
 
 	def createBranch(self, details=None):
 		details = dict() if details == None else details

@@ -31,31 +31,41 @@ class Organization(Page2Component):
 	def delOrganization(self):
 		formData = json.loads(cherrypy.request.params['formData'])
 		db = self.app.component('dbManager')
+		dataUtils = self.app.component('dataUtils')
 
-		db.Info.delete({
-			'entity_id':formData['id'],
-		})
-		db.Facet_Role.delete({
-			'organization_id':formData['id']
-		})
-		db.Facet.delete({
-			'organization_id':formData['id']
-		})
-		db.Permission.delete({
-			'organization_id':formData['id']
-		})
-		db.Permission_Role.delete({
-			'organization_id':formData['id']
-		})
-		db.Role.delete({
-			'organization_id':formData['id']
-		})
-		db.Organization.delete({
-			'id':formData['id']
-		})
-		db.Entity.delete({
-			'id':formData['id']
-		})
+		with db.session () as session:
+			db.Info.delete({
+				'entity_id':formData['id'],
+			})
+			db.Facet_Role.delete({
+				'organization_id':formData['id']
+			})
+			db.Facet.delete({
+				'organization_id':formData['id']
+			})
+			db.Permission.delete({
+				'organization_id':formData['id']
+			})
+			db.Permission_Role.delete({
+				'organization_id':formData['id']
+			})
+			db.Role.delete({
+				'organization_id':formData['id']
+			})
+
+
+			for data in session.query(db.branch).filter_by(parent_id = formData['id']).all():
+
+				dataUtils.delBranchCascade(data['id'])
+
+			db.Organization.delete({
+				'id':formData['id']
+			})
+			db.Entity.delete({
+				'id':formData['id']
+			})
+
+		return self.jsonSuccess('Organization deleted',errors='No')
 
 
 	def _organizationManagementForm(self, requestPath):

@@ -53,7 +53,7 @@ jQuery(window).load(function () {
 
 })
 function successFunc(result) {
-
+     alert(result.message)
      jQuery.cookie("userMessageCok", result.message);
 
      if(result.data.errors=='Yes'){
