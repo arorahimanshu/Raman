@@ -31,6 +31,9 @@ class Playback(Page2Component):
 		params['externalJs'].append(
 			self.server.appUrl('etc', 'page2', 'specific', 'js', 'playbackForm.js')
 		)
+		params['externalJs'].append (
+			self.server.appUrl ('etc', 'lib1', 'mapAnimator.js')
+		)
 
 		params['externalCss'].append(
 			self.server.appUrl('etc', 'page2', 'specific', 'css', 'playback.css')

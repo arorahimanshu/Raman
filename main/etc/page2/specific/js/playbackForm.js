@@ -1,119 +1,13 @@
+/*
+ * Whats with all the global functions at the end ??
+ *
+ * FIXME: REMOVE ALL GLOBAL FUNCTIONS: MANDATORY
+ */
+
 fitx.utils.require(['fitx', 'page2', 'newPlaybackForm']);
 
 jQuery(window).load(function() {
-        //setupAJAXSubmit('newPlaybackFrom', 'newPlaybackFormAction', setupData, setupConstraints, '.start', null, successFunc);
-
-        jQuery('.from').datepicker({
-                changeMonth: true,
-                changeYear: true,
-                yearRange: '-150:+0',
-                dateFormat: 'DD, dd/MM/yy'
-        });
-
-        jQuery('.to').datepicker({
-                changeMonth: true,
-                changeYear: true,
-                yearRange: '-150:+0',
-                dateFormat: 'DD, dd/MM/yy'
-        });
-
-        jQuery('.increaseAnimationSpeed').click(function(evt) {
-                unitAnimationSpeed /= 2;
-        });
-
-        jQuery('.decreaseAnimationSpeed').click(function(evt) {
-                unitAnimationSpeed *= 2;
-        });
-
-        jQuery('.toggleFilter').click(function() {
-                jQuery('.filterSettings').toggle();
-        });
-
-
-        jQuery('Input[name=type]').change(function(evt) {
-                var value = jQuery(evt.target).val();
-                if (value == 'Relative') {
-                        jQuery('.typeRelative').show();
-                        jQuery('.typeFix').hide();
-                } else if (value == 'Fix') {
-                        jQuery('.typeRelative').hide();
-                        jQuery('.typeFix').show();
-                }
-                sendAjaxRequest('newPlaybackFormAction', setupData(), successFunc);
-        });
-
-        jQuery('Input[name=vehicle]').change(function(evt) {
-                var value = jQuery(evt.target).val();
-                if (value == 'Type') {
-                        jQuery('.typeVehicle').show();
-                        jQuery('.groupvehicle').hide();
-                } else if (value == 'Group') {
-                        jQuery('.typeVehicle').hide();
-                        jQuery('.groupVehicle').show();
-                }
-                sendAjaxRequest('newPlaybackFormAction', setupData(), successFunc);
-        });
-
-        jQuery('.groupVehicle').hide();
-
-        jQuery('Input[name=relative]').change(function(evt) {
-                sendAjaxRequest('newPlaybackFormAction', setupData(), successFunc);
-        });
-
-        jQuery('.all').click(function() {
-                jQuery('.typeAll').show();
-                jQuery('.typeFilter').hide();
-        });
-
-        jQuery('.filter').click(function() {
-                jQuery('.typeAll').hide();
-                jQuery('.typeFilter').show();
-        });
-
-        function initialSetup() {
-                jQuery('.toggleGeofence').attr('disabled', 'disabled');
-
-                jQuery('.pause').hide();
-
-                jQuery('Input[name=type]')[0].checked = true;
-                jQuery('Input[name=relative]')[0].checked = true;
-
-                jQuery('.typeRelative').show();
-                jQuery('.typeFix').hide();
-
-                jQuery('.typeAll').show();
-                jQuery('.typeFilter').hide();
-
-
-
-                allFilterSettings();
-
-                //sendAjaxRequest ('newPlaybackFormAction', setupData (), successFunc);
-        }
-
-        initialSetup();
-
-        //to be changed after database changes like branch etc
-        function allFilterSettings() {
-                jQuery('.hide').hide();
-                jQuery('.delhi').hide();
-                jQuery('.show').click(function(evt) {
-                        var target = evt.target;
-                        var parent = jQuery(target).parent();
-                        parent.children().toggle();
-                });
-
-                jQuery('.hide').click(function(evt) {
-                        var target = evt.target;
-                        var parent = jQuery(target).parent();
-                        parent.children().toggle();
-                });
-
-        }
-
-        var loadMap = document.getElementById('loadMap');
-        google.maps.event.addDomListener(loadMap, 'click', initializeMap);
-})
+	//setupAJAXSubmit('newPlaybackFrom', 'newPlaybackFormAction', setupData, setupConstraints, '.start', null, successFunc);
 
 function setupData() {
 
@@ -160,16 +54,23 @@ var speedLimit = false;
 var maxSpeed = 0;
 var unitAnimationSpeed = 10000;
 var vehiclesData = {};
-var map;
+var map = null;
 var rawData;
 var marker;
 var controlAnimation = 0;
 var dateToday;
 
+	var mapAnimator = null
+
 function initializeMap() {
+		return
+
+	// map is created via mapAnimator
+	/*
         var centre = new google.maps.LatLng(23.25, 77.417);
         var mapOptions = setMapProperties(6, centre, google.maps.MapTypeId.ROADMAP);
         map = new google.maps.Map(document.getElementById('map'), mapOptions)
+				*/
         //sendAjaxRequest('newPlaybackFormAction', {}, successFunc);
 }
 
@@ -327,5 +228,183 @@ function successFunc(rawData) {
 
         animatePath(0);
 }
+
+	jQuery('.from').datepicker({
+					changeMonth: true,
+					changeYear: true,
+					yearRange: '-150:+0',
+					dateFormat: 'DD, dd/MM/yy'
+	});
+
+	jQuery('.to').datepicker({
+					changeMonth: true,
+					changeYear: true,
+					yearRange: '-150:+0',
+					dateFormat: 'DD, dd/MM/yy'
+	});
+
+	jQuery('.increaseAnimationSpeed').click(function(evt) {
+					unitAnimationSpeed /= 2;
+	});
+
+	jQuery('.decreaseAnimationSpeed').click(function(evt) {
+					unitAnimationSpeed *= 2;
+	});
+
+	jQuery('.toggleFilter').click(function() {
+					jQuery('.filterSettings').toggle();
+	});
+
+
+	jQuery('Input[name=type]').change(function(evt) {
+					var value = jQuery(evt.target).val();
+					if (value == 'Relative') {
+									jQuery('.typeRelative').show();
+									jQuery('.typeFix').hide();
+					} else if (value == 'Fix') {
+									jQuery('.typeRelative').hide();
+									jQuery('.typeFix').show();
+					}
+					sendAjaxRequest('newPlaybackFormAction', setupData(), successFunc);
+	});
+
+	jQuery('Input[name=vehicle]').change(function(evt) {
+					var value = jQuery(evt.target).val();
+					if (value == 'Type') {
+									jQuery('.typeVehicle').show();
+									jQuery('.groupvehicle').hide();
+					} else if (value == 'Group') {
+									jQuery('.typeVehicle').hide();
+									jQuery('.groupVehicle').show();
+					}
+					sendAjaxRequest('newPlaybackFormAction', setupData(), successFunc);
+	});
+
+	jQuery('.groupVehicle').hide();
+
+	jQuery('Input[name=relative]').change(function(evt) {
+					sendAjaxRequest('newPlaybackFormAction', setupData(), successFunc);
+	});
+
+	jQuery('.all').click(function() {
+					jQuery('.typeAll').show();
+					jQuery('.typeFilter').hide();
+	});
+
+	jQuery('.filter').click(function() {
+					jQuery('.typeAll').hide();
+					jQuery('.typeFilter').show();
+	});
+
+	function initialSetup() {
+					jQuery('.toggleGeofence').attr('disabled', 'disabled');
+
+					jQuery('.pause').hide();
+
+					jQuery('Input[name=type]')[0].checked = true;
+					jQuery('Input[name=relative]')[0].checked = true;
+
+					jQuery('.typeRelative').show();
+					jQuery('.typeFix').hide();
+
+					jQuery('.typeAll').show();
+					jQuery('.typeFilter').hide();
+
+
+
+					allFilterSettings();
+
+					//sendAjaxRequest ('newPlaybackFormAction', setupData (), successFunc);
+	}
+
+	initialSetup();
+
+	//to be changed after database changes like branch etc
+	function allFilterSettings() {
+					jQuery('.hide').hide();
+					jQuery('.delhi').hide();
+					jQuery('.show').click(function(evt) {
+									var target = evt.target;
+									var parent = jQuery(target).parent();
+									parent.children().toggle();
+					});
+
+					jQuery('.hide').click(function(evt) {
+									var target = evt.target;
+									var parent = jQuery(target).parent();
+									parent.children().toggle();
+					});
+
+	}
+
+	var loadMap = document.getElementById('loadMap');
+	google.maps.event.addDomListener(loadMap, 'click', initializeMap);
+
+	/*
+	 * FIXME: Due to the absurd amount of global variables
+	 * used by this function, I am wrapping my code inside
+	 * a function to isolate them, so they dont break anything
+	 * else.
+	 */
+	(function () {
+		var mapAnimator = new fitx.lib1.MapAnimator ({
+			canvas:jQuery ('#map')[0],
+			center: new google.maps.LatLng (23.25, 77.417)
+		})
+
+		map = mapAnimator.map ()
+
+		var animation = null
+		var currentSpeedLevel = 3
+
+		var ajaxReq = new fitx.lib1.CustomAjax ({
+			actionUrl:fitx.utils.appUrl ('assets', 'data2.js'), //FIXME: dummy data
+			actionMethod: 'GET',
+			successFunction:function (result) {
+				var path = []
+				jQuery.each (result, function (index, item) {
+					path.push (new google.maps.LatLng (item[0], item[1]))
+				})
+
+				map.setZoom (13)
+				map.setCenter (path[0])
+
+				animation = mapAnimator.newAnimation ('dummy', {
+					steps: 2,
+					stepDelay: currentSpeedLevel * 50,
+					path: path
+				})
+
+				animation.play ()
+			},
+			failureFunction:function (result) {
+				console.log ('failure')
+			},
+		})
+
+		jQuery ('.subOptions .start').click (function () {
+			ajaxReq.fire ()
+			ajaxReq = null // DISABLING
+		})
+
+		jQuery ('.subOptions .increaseAnimationSpeed').click (function () {
+			currentSpeedLevel -= 1
+			if (currentSpeedLevel > 5) {
+				currentSpeedLevel = 5
+			}
+
+			animation.stepDelay (currentSpeedLevel * 50)
+		})
+
+		jQuery ('.subOptions .decreaseAnimationSpeed').click (function () {
+			currentSpeedLevel += 1
+			if (currentSpeedLevel < 1) {
+				currentSpeedLevel = 1
+			}
+
+			animation.stepDelay (currentSpeedLevel * 50)
+		})
+	}) ()
+})
 
 //google.maps.event.addDomListener(window, 'load', initializeMap);
