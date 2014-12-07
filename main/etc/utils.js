@@ -11,12 +11,13 @@ if (!'console' in window) {
 }
 
 fitx.utils.defaultGet = function (container, key, value) {
-    if (key in container) {
-        return container[key]
-    } else {
-        return value
-    }
+	if (Object.has (container, key)) {
+		return container[key]
+	} else {
+		return value
+	}
 }
+fitx.utils.getattr = fitx.utils.defaultGet
 
 fitx.utils.join = function (joinLiteral, args) {
 

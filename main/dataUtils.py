@@ -419,8 +419,22 @@ class _Worker:
 
 	#
 
-	def getVehicleTree(self,orgId):
+	def _old_getVehicleTree(self,orgId):
 
+		# This function is EXTREMELY inefficient :
+		# 1. multiple sessions are not needed, prefer to work
+		#    with a single outer session whenever possible.
+		#    The whole point of using sessions is to accomplish
+		#    lots of task as a single ACID transaction. Using
+		#    multiple sessions within one request/one function
+		#    defeats the purpose.
+		#
+		# 2. IN operator of SQL is SUPER INEFFICIENT :
+		#    It is created as quick and dirty way to implement
+		#    search queries on ad-hoc created tables. Tables
+		#    which are properly designed can avoid its usage.
+		#
+		# I rewrote this function, refer to that and compare.
 
 		branches = []
 		db = self.app.component('dbManager')
@@ -487,11 +501,54 @@ class _Worker:
 		treeDict.append(vehicles)
 
 		return treeDict
+	#
 
+	def getVehicleTree (self, orgId) :
+		db = self.app.component ('dbManager')
+		with db.session () as session :
+			branches = []
+			for item in session.query (db.branch).filter_by (parent_id = orgId).all () :
+				branches.append ({
+					"display" : item.name,
+					"id" : item.id,
+				})
+			#
 
+			vehicleGroups = []
+			query = session.query (db.VehicleGroup).filter (
+				and_ (
+					db.VehicleGroup.parent_id == db.branch.id,
+					db.branch.parent_id == orgId
+				)
+			).order_by (db.VehicleGroup.name)
 
+			for item in query.all () :
+				vehicleGroups.append ({
+					'display' : item.name,
+					'id' : item.id,
+					'parentId' : item.parent_id
+				})
+			#
 
+			vehicles = []
+			query = session.query (db.Gps_Vehicle_Info).filter (
+				and_ (
+					db.Gps_Vehicle_Info.parent_id == db.VehicleGroup.id,
+					db.VehicleGroup.parent_id == db.branch.id,
+					db.branch.parent_id == orgId
+				)
+			).order_by (db.Gps_Vehicle_Info.name)
 
+			for item in query.all () :
+				vehicles.append ({
+					'display' : item.name,
+					'id' : item.id,
+					'parent_id' : item.parent_id,
+				})
+			#
 
+			return [branches, vehicleGroups, vehicles]
+		#
+	#
 #
 
