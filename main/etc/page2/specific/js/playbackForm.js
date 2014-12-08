@@ -362,7 +362,10 @@ function successFunc(rawData) {
 			//actionMethod: 'GET',
             //TODO >  Himanshu  > I need to send this request to playback.py  function name newPlaybackFormAction
             //TODO >  please change the below line accordingly and also check that device id is going to python code.
-			actionUrl: fitx.config.newPlaybackFormAction,
+			
+			//fitx.config.newPlaybackFormAction is undefined at this stage. i have put the url directly.
+			//actionUrl: fitx.config.newPlaybackFormAction,
+			actionUrl: 'newPlaybackFormAction',
             dataFunction: function () {
                     var idList = []
                     jQuery('.vsVehicleId:checked').each (function(){

@@ -77,8 +77,10 @@ class Playback(Page2Component):
 	#
 
 	def _newPlaybackFormAction(self, requestPath):
-		
-		formData = json.loads(cherrypy.request.params['formData'])
+
+		#data was coming directly in cherrypy.request.params not as JSON but dictionary itself
+		#formData = json.loads(cherrypy.request.params['formData'])
+		formData = cherrypy.request.params
 		print(formData)
 		db = self.app.component('dbHelper')
 		deviceID =0
