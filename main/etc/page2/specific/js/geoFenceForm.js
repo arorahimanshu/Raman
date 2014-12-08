@@ -30,7 +30,17 @@ function saveSuccess(result) {
 function setupData() {
 	var filter = jQuery('.filter').filter(':visible');
 	var name = filter.find('.name').val();
-	var vehicleId = filter.find('.vehicles :selected')[0].value;
+	
+	var selectedVehicles = filter.find('.vsVehicleId:checked')
+	var idList = []
+	jQuery(selectedVehicles).each (function(){
+		var vehicleId = jQuery (this).data( "details" ).id
+
+		idList.push (vehicleId)
+	})
+	
+	//var vehicleIds = idList;
+	
 	var type = filter.find('.type').val();
 	
 	var geometry = []
@@ -40,7 +50,7 @@ function setupData() {
 	jQuery.each(addresses,function(index, address){
 		var add = address.value;
 		if(add != '') {
-			var parent = jQuery(address).parent ();
+			var parent = jQuery(address).parent ().parent ();
 			var lat = parseFloat(parent.find('.lat').text());
 			var lng = parseFloat(parent.find('.lng').text());
 			geometry.push([lat,lng]);
@@ -51,8 +61,9 @@ function setupData() {
 	
 	var data = {
 		'fenceName' : name,
-		'vehicleId' : vehicleId
+		'vehicleIds' : idList
 	};
+	
 	
 	if (type=='CIRCLE') {
 		if(geometry.length != 1) {
@@ -69,6 +80,14 @@ function setupData() {
 			alert ('minimum three addresses required')
 		} else {
 			details['type'] = 'POLYGON';
+			
+			details['radius'] = 'N/A';
+		}
+	} else if (type=='RECTANGLE') {
+		if(geometry.length < 3) {
+			alert ('please draw rectangle')
+		} else {
+			details['type'] = 'RECTANGLE';
 			
 			details['radius'] = 'N/A';
 		}
@@ -197,7 +216,7 @@ function onLoad_GeoFence() {
 	
 	jQuery('.radiusButton').click(function (evt){
 		clearOnMap(shapes);
-		var div = jQuery(evt.target).parent().parent();
+		var div = jQuery(evt.target).parent().parent().parent().parent();
 		var address = div.find('.address').val();
 		if(address != '') {
 			var func = function (latlng) {
@@ -212,7 +231,7 @@ function onLoad_GeoFence() {
 	});
 	
 	jQuery('.searchButton').click(function (evt){
-		var div = jQuery(evt.target).parent();
+		var div = jQuery(evt.target).parent().parent();
 		var address = div.find('.address').val();
 		if(address!='')
 			codeAddress(address);
@@ -225,8 +244,8 @@ function onLoad_GeoFence() {
 	jQuery('.rectangle .searchButton').click(function(){
 	});
 	
-	jQuery('.redraw').click(function(){
-		var fields = jQuery('.polygon .address');
+	jQuery('.redraw').click(function(evt){
+		var fields = jQuery(evt.target).parent().parent().find('.address');
 		var path = []
 		
 		jQuery.each(fields,function(index, field){
@@ -580,5 +599,4 @@ function clearFilter() {
 	jQuery('.lat').text('');
 	jQuery('.lng').text('');
 	jQuery('.radius').val('');
-	
 }
