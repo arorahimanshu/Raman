@@ -146,11 +146,11 @@ class GeoFence(Page2Component):
 		formData = json.loads(cherrypy.request.params['formData'])
 		print("*************************Submitted**********************************")
 		print(formData)
-		errors = self._newGeoFenceFormValidate(formData)
+		#errors = self._newGeoFenceFormValidate(formData)
 		db = self.app.component('dbManager')
 
-		if errors:
-			return self.jsonFailure('validation failed', errors=errors)
+		#if errors:
+		#	return self.jsonFailure('validation failed', errors=errors)
 		#
 
 		with self.server.session() as session:
@@ -161,17 +161,20 @@ class GeoFence(Page2Component):
 			gps_data = db.Gps_Geofence_Data.newFromParams({
 			'Geofence_Id': newGeoFenceId,
 			'Geofence_Name': formData['fenceName'],
- 			'User_name': userName,
+			'User_name': userName,
 			'Coordinate_Id': db.Entity.newUuid(),
 			'Details': formData['Details'],
 			})
 			session.add(gps_data)
 
-			geoFenceVehicle = db.GeoFence_vehicle.newFromParams({
-			'GeoFence_id': newGeoFenceId,
-			'Vehicle_id':formData['vehicleId'],
-			})
-			session.add(geoFenceVehicle)
+			session.commit()
+
+			for id in formData['vehicleIds']:
+				geoFenceVehicle = db.GeoFence_vehicle.newFromParams({
+					'GeoFence_id': newGeoFenceId,
+					'Vehicle_id':id,
+				})
+				session.add(geoFenceVehicle)
 
 		return self.jsonSuccess('Geo Fence Saved !')
 

@@ -138,8 +138,6 @@ function initialize()
 
   var map = new google.maps.Map(document.getElementById('googleMap'),
                                 mapOptions);
-
-
     return map;
 }
 
@@ -148,7 +146,30 @@ function onLoad_GeoFence() {
 	geocoder = new google.maps.Geocoder();
 	
 	map=initialize();
-
+	
+	var drawingManager = new google.maps.drawing.DrawingManager({
+		drawingMode: google.maps.drawing.OverlayType.MARKER,
+		drawingControl: true,
+		drawingControlOptions: {
+		  position: google.maps.ControlPosition.RIGHT_TOP,
+		  drawingModes: [null]
+		},
+		/*
+		circleOptions: {
+		  fillColor: 'red',
+		  fillOpacity: 0.3,
+		  strokeWeight: 1,
+		  clickable: false,
+		  editable: true,
+		  zIndex: 1
+		}
+		*/
+	  });
+	  drawingManager.setMap(map);
+	  
+	google.maps.event.addListener(drawingManager,'rectanglecomplete',rectanglecomplete);
+	google.maps.event.addListener(drawingManager,'circlecomplete',circlecomplete);
+	
 	google.maps.event.trigger(map, 'resize');
 
 	jQuery('.BACK').click(function() {
@@ -170,7 +191,9 @@ function onLoad_GeoFence() {
 	});
 	
 	jQuery('.RECTANGLE').click(function () {
+		drawingManager.setDrawingMode(google.maps.drawing.OverlayType.RECTANGLE);
 		jQuery('.rectangle').show();
+		alert('Please search for address and draw the rectangle with mouse');
 	});
 	
 	jQuery('.POLYGON').click(function () {
@@ -233,8 +256,14 @@ function onLoad_GeoFence() {
 	jQuery('.searchButton').click(function (evt){
 		var div = jQuery(evt.target).parent().parent();
 		var address = div.find('.address').val();
-		if(address!='')
+		if(address!='') {
 			codeAddress(address);
+			var func = function (latlng) {
+				div.find('.lat').text(latlng.lat());
+				div.find('.lng').text(latlng.lng());
+			}
+			manageLatLng(address, func);
+		}
 	});
 	
 	jQuery('.circle .searchButton').click(function(){
@@ -527,7 +556,7 @@ function draw_circle(center, radius) {
                 fillOpacity: 0.3,
                 strokeWeight: 1,
                 clickable: false,
-                editable: true,
+                editable: false,
                 zIndex: 1,
 				map: map,
 				center: center,
@@ -599,4 +628,33 @@ function clearFilter() {
 	jQuery('.lat').text('');
 	jQuery('.lng').text('');
 	jQuery('.radius').val('');
+}
+
+function circlecomplete(Circle) {
+	alert('circle');
+}
+
+var rectangle=undefined;
+var rectanglecomplete = function (Rectangle){
+	
+	if(rectangle!=undefined) {
+		rectangle.setVisible(false);
+	}
+	
+	rectangle=Rectangle;
+	
+	var lats = jQuery('.rectangle .lat');
+	var lngs = jQuery('.rectangle .lng');
+	
+	var ne = Rectangle.bounds.getNorthEast();
+	var sw = Rectangle.bounds.getSouthWest();
+	
+	jQuery(lats[0]).text(ne.lat());
+	jQuery(lngs[0]).text(ne.lng());
+	
+	jQuery(lats[1]).text(sw.lat());
+	jQuery(lngs[1]).text(sw.lng());
+	
+	jQuery(lats[0]).parent().find('.address').val('Address 1');
+	jQuery(lats[1]).parent().find('.address').val('Address 2');
 }
