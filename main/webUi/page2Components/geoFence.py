@@ -64,7 +64,7 @@ class GeoFence(Page2Component):
 		#
 
 		self.vehicleList = db.returnVehicleList(self.userId)
-		self.classData=['S.No.','GeoFence Id','GeoFence Name','Vehicle Id','Type','Radius','Coordinates']
+		self.classData=['S.No.','GeoFence Id','GeoFence Name','Type','Radius','Coordinates']
 
 				# Vehicle selector Block Starts
 		vehicleStructure = []
@@ -191,10 +191,13 @@ class GeoFence(Page2Component):
 		if 'rp' in cherrypy.request.params and 'pageNo' in cherrypy.request.params:
 			self.numOfObj = int(cherrypy.request.params['rp'])
 
+		with self.server.session() as session:
+			userName=session['username']
+
 		tableData = []
 		db = self.app.component('dbManager')
 		with db.session() as session:
-			query = session.query(db.Gps_Geofence_Data).filter_by(User_Id=self.userId)
+			query = session.query(db.Gps_Geofence_Data).filter_by(User_name=userName)
 			for obj in query.all():
 				tableData.append(
 					{'Geofence_Id': obj.Geofence_Id,'Geofence_Name': str(obj.Geofence_Name),   'Details':obj.Details}
@@ -202,11 +205,11 @@ class GeoFence(Page2Component):
 		rows=[]
 		for data in tableData:
 			row={}
-			queryVehicleId = session.query(db.GeoFence_vehicle).filter_by(GeoFence_id=data['Geofence_Id'])
+			#queryVehicleId = session.query(db.GeoFence_vehicle).filter_by(GeoFence_id=data['Geofence_Id'])
 			row['cell']=[len(rows)+1]
 			row['cell'].append(data['Geofence_Id'])
 			row['cell'].append(data['Geofence_Name'])
-			row['cell'].append(queryVehicleId.Vehicle_id)
+			#row['cell'].append(queryVehicleId.Vehicle_id)
 			details = json.loads(data['Details'])
 			row['cell'].append(details['type'])
 			if details['type']=='CIRCLE':
