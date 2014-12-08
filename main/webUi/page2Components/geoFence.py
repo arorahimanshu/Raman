@@ -264,10 +264,14 @@ class GeoFence(Page2Component):
 		db = self.app.component('dbManager')
 		try:
 			with db.session() as session:
+				query = session.query(db.GeoFence_vehicle).filter(db.GeoFence_vehicle.GeoFence_id == formData)
+				for data in query.all():
+					session.delete(data)
 				query = session.query(db.Gps_Geofence_Data).filter(db.Gps_Geofence_Data.Geofence_Id == formData)
 				session.delete(query.one())
 		except:
 			return self.jsonFailure()
+
 		return self.jsonSuccess('GeoFence Deleted')
 
 	def _newGeoVehicle_updateData(self,requestPath):
