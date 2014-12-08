@@ -11,7 +11,7 @@ var shapes = [];
 
 jQuery(window).load(function () {
 	setupAJAXSubmit('newGeoFenceForm', 'newGeoFenceFormAction', setupData, setupConstraints, '.submit', null, saveSuccess);
-	setupAJAXSubmit('newGeoFenceForm', 'editGeoFence', setupData2, setupConstraints, '.editButton', null, saveSuccess);
+	//setupAJAXSubmit('newGeoFenceForm', 'editGeoFence', setupData2, setupConstraints, '.editButton', null, saveSuccess);
 	
 	setupFlexiGrid('#showGeoFenceReport', undefined, "GeoFence Report", undefined, undefined, undefined, undefined, classData);
 	
@@ -38,8 +38,6 @@ function setupData() {
 
 		idList.push (vehicleId)
 	})
-	
-	//var vehicleIds = idList;
 	
 	var type = filter.find('.type').val();
 	
@@ -328,7 +326,7 @@ function setupFlexiGrid(selector, datatype, title, noOfPages, width, height, sin
 		buttons: [
             {name: 'Add', bclass: 'add', onpress: onAdd},
             {name: 'Delete', bclass: 'delete', onpress: onDelete},
-            {name: 'Edit', bclass: 'edit', onpress: onEdit},
+            //{name: 'Edit', bclass: 'edit', onpress: onEdit},
             {separator: true}
         ],
         title: title,
