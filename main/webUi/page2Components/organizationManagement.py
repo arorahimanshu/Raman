@@ -32,11 +32,10 @@ class Organization(Page2Component):
 		formData = json.loads(cherrypy.request.params['formData'])
 		db = self.app.component('dbManager')
 		dataUtils = self.app.component('dataUtils')
+		worker = dataUtils.worker()
 
 		with db.session () as session:
-			db.Info.delete({
-				'entity_id':formData['id'],
-			})
+
 			db.Facet_Role.delete({
 				'organization_id':formData['id']
 			})
@@ -56,8 +55,11 @@ class Organization(Page2Component):
 
 			for data in session.query(db.branch).filter_by(parent_id = formData['id']).all():
 
-				dataUtils.delBranchCascade(data['id'])
+				worker.delBranchCascade(data['id'])
 
+			db.Info.delete({
+				'entity_id':formData['id'],
+			})
 			db.Organization.delete({
 				'id':formData['id']
 			})

@@ -5,7 +5,7 @@
  */
 
 fitx.utils.require(['fitx', 'page2', 'newPlaybackForm']);
-
+fitx.utils.require(['fitx', 'page2', 'newPlaybackFormAction']);
 jQuery(window).load(function() {
 	//setupAJAXSubmit('newPlaybackFrom', 'newPlaybackFormAction', setupData, setupConstraints, '.start', null, successFunc);
 
@@ -358,8 +358,23 @@ function successFunc(rawData) {
 		var currentSpeedLevel = 3
 
 		var ajaxReq = new fitx.lib1.CustomAjax ({
-			actionUrl:fitx.utils.appUrl ('assets', 'data2.js'), //FIXME: dummy data
-			actionMethod: 'GET',
+			//actionUrl:fitx.utils.appUrl ('assets', 'data2.js'), //FIXME: dummy data
+			//actionMethod: 'GET',
+            //TODO >  Himanshu  > I need to send this request to playback.py  function name newPlaybackFormAction
+            //TODO >  please change the below line accordingly and also check that device id is going to python code.
+			actionUrl: fitx.config.newPlaybackFormAction,
+            dataFunction: function () {
+                    var idList = []
+                    jQuery('.vsVehicleId:checked').each (function(){
+		                var vehicleId = jQuery (this).data( "details" ).deviceId
+                        idList.push (vehicleId)
+	                    })
+                    alert('a')
+                    return {
+                        deviceId: idList
+
+                    }
+                },
 			successFunction:function (result) {
 				var path = []
 				jQuery.each (result, function (index, item) {

@@ -214,16 +214,8 @@ class Vehicle(Page2Component):
 		db = self.app.component('dbManager')
 		dataUtils = self.app.component('dataUtils')
 		with dataUtils.worker() as worker:
-			db.Info.delete({
-				'entity_id':formData['id']
-			})
+			worker.delVehicleCascade(formData['id'])
 
-			db.Gps_Vehicle_Info.delete({
-				'id':formData['id']
-			})
-			db.Entity.delete({
-				'id':formData['id']
-			})
 
 	#
 

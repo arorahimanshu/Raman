@@ -34,7 +34,7 @@ class vehicleGroup(Page2Component):
 		db = self.app.component('dbManager')
 		dataUtils = self.app.component('dataUtils')
 		with dataUtils.worker() as worker:
-
+			worker.delVehicleGroupCascade(formData['id'])
 			db.VehicleGroup.delete({
 				'id':formData['id']
 			})

@@ -6,6 +6,8 @@ import cherrypy
 
 import json
 
+
+# this code is not being used to show vehciles instead of this we are using getVehicleTree function in dataUtils.py file
 class VehicleSelector (Page2Component) :
 	def __init__ (self, parent, **kwargs) :
 		Page2Component.__init__ (self, parent, **kwargs)

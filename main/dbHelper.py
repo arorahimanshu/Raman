@@ -499,15 +499,21 @@ class DbHelper(Component):
 		return self.getSlicedData(rows,pageNo,numOfObj)
 	#
 
-	def returnLiveCarsData(self):
+	def returnLiveCarsData(self,deviceId):
 		num = []
 		db = self.app.component('dbManager')
 		with db.session() as session:
-			query = session.query(db.Gps_Coordinate_Data)
+			# add time filter here
+			# TODO  Discuss the number of  variable returned from here
+			query = session.query(db.gpsDeviceMessage1).filter_by(deviceId = deviceId , messageType = "BR00")
 			for obj in query.all():
 				num.append({"position": {"latitude": str(obj.Latitude), "longitude": str(obj.Longitude)},
-				            "time": {"hour": int(obj.Time[0:2]), "minute": int(obj.Time[2:4]),
-				                     "second": int(obj.Time[4:6])}, "vehicleId": int(obj.Vehicle_Id)})
+				            "time": {"hour": int(obj.timestamp[0:2]), "minute": int(obj.timestamp[2:4]),
+				                     "second": int(obj.timestamp[4:6])}, "vehicleId": int(obj.Vehicle_Id),
+							"speed":obj.speed,
+							"deviceId":obj.deviceId,
+
+							})
 		return num
 	#
 	def returnCarsDataByDates(self, fromDate, toDate):

@@ -17,6 +17,7 @@ class Playback(Page2Component):
 			return self._newPlaybackForm(requestPath)
 		elif nextPart == 'newPlaybackFormAction':
 			return self._newPlaybackFormAction(requestPath)
+
 		#
 
 	#
@@ -77,11 +78,12 @@ class Playback(Page2Component):
 
 	def _newPlaybackFormAction(self, requestPath):
 		
-		#formData = json.loads(cherrypy.request.params['formData'])
-		#print(formData)
+		formData = json.loads(cherrypy.request.params['formData'])
+		print(formData)
 		db = self.app.component('dbHelper')
+		deviceID =0
 		#data = db.returnCarsDataByDates(formData['fromDate'],formData['toDate'])
-		data = db.returnLiveCarsData()
+		data = db.returnLiveCarsData(deviceID)
 		#errors = self._newPlaybackFormValidate(formData)
 		#if errors:
 		#	return self.jsonFailure('validation failed', errors=errors)

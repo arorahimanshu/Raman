@@ -268,6 +268,10 @@ class _Worker:
 		with db.session () as session:
 			for data in session.query(db.VehicleGroup).filter_by(parent_id = branchId).all():
 				self.delVehicleGroupCascade(data.id)
+
+			db.Info.delete({
+				'entity_id':branchId
+			})
 			db.branch.delete({
 				'id':branchId
 			})
@@ -289,7 +293,7 @@ class _Worker:
 				})
 
 
-	def delVehiclecCascade(self,vehicleId):
+	def delVehicleCascade(self,vehicleId):
 		db = self.app.component('dbManager')
 		with db.session () as session:
 
@@ -329,13 +333,16 @@ class _Worker:
 					'Vehicle_id':vehicleId
 					})
 
+			db.Info.delete({
+				'entity_id':vehicleId
+			})
+
 			db.Gps_Vehicle_Info.delete({
 				'id':vehicleId
-				})
+			})
 			db.Entity.delete({
 				'id':vehicleId
-				})
-
+			})
 
 
 
@@ -620,6 +627,7 @@ class _Worker:
 					'display' : item.name,
 					'id' : item.id,
 					'parent_id' : item.parent_id,
+					'deviceId': item.device_id
 				})
 			#
 

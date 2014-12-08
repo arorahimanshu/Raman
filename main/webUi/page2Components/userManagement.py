@@ -32,22 +32,24 @@ class UserManagement (Page2Component) :
 	def delEmployeeFormAction(self):
 		formData = json.loads(cherrypy.request.params['formData'])
 		db = self.app.component('dbManager')
+		dataUtils = self.app.component('dataUtils')
 
-		db.Facet_Role.delete({
-			'username':formData['name'],
-		})
-		db.Facet.delete({
-			'username':formData['name'],
-		})
-		db.Info.delete({
-			'entity_id':formData['id'],
-		})
-		db.Person.delete({
-			'id':formData['id'],
-		})
-		db.User.delete({
-			'entity_id':formData['id'],
-		})
+		with dataUtils.worker() as worker:
+			db.Facet_Role.delete({
+				'username':formData['name'],
+			})
+			db.Facet.delete({
+				'username':formData['name'],
+			})
+			db.Info.delete({
+				'entity_id':formData['id'],
+			})
+			db.Person.delete({
+				'id':formData['id'],
+			})
+			db.User.delete({
+				'entity_id':formData['id'],
+			})
 
 
 	def _setupFieldInfo (self) :

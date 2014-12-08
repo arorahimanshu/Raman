@@ -138,8 +138,9 @@ class RoleManagement(Page2Component):
         db = self.app.component('dbHelper')
 
         roleName = formData['name']
-
-        db.deleteRole(roleName)
+        dataUtils = self.app.component('dataUtils')
+        with dataUtils.worker() as worker:
+           db.deleteRole(roleName)
 
         return self.jsonSuccess()
     #

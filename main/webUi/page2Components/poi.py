@@ -20,6 +20,8 @@ class Poi(Page2Component):
 			return self.getPoiData(requestPath)
 		elif nextPart == 'generateReport':
 			return self.generateReport(requestPath)
+		elif nextPart == 'delPoi':
+			return self.delPoi()
 		#
 
 	#
@@ -34,6 +36,19 @@ class Poi(Page2Component):
 
 		return self.jsonSuccess(poidata)
 
+	def delPoi(self):
+		formData = json.loads(cherrypy.request.params['formData'])
+		db = self.app.component('dbManager')
+		dataUtils = self.app.component('dataUtils')
+		with dataUtils.worker() as worker:
+			db.Poi_vehicle.delete({
+				'poi_id':formData['id']
+				})
+			db.Gps_Poi_Info.delete({
+				'Poi_Id':formData['id']
+				})
+
+		#
 
 	def getPoiData(self, requestPath):
 		formData = json.loads(cherrypy.request.params['formData'])

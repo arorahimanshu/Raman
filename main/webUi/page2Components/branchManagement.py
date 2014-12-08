@@ -33,8 +33,8 @@ class Branch(Page2Component):
 		formData = json.loads(cherrypy.request.params['formData'])
 		db = self.app.component('dbManager')
 		dataUtils = self.app.component('dataUtils')
-
-		dataUtils.delBranchCascade(formData['id'])
+		with dataUtils.worker() as worker:
+			worker.delBranchCascade(formData['id'])
 		return self.jsonSuccess('Branch deleted',errors='No')
 
 		#
