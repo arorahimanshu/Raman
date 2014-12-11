@@ -148,6 +148,7 @@ function deleteButtonClick(com, grid, c, selectedData) {
 			var delFields = {};
 			delFields.id = jQuery('td[abbr="Vehicle_Id"] >div', this).html();
 			sendAjaxRequest('delVehicleDataAction', delFields, function () {
+				jQuery('.userMessage').text('Vehicle Deleted');
 				onReload('vehicleData')
 			})
 

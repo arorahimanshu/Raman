@@ -282,6 +282,7 @@ function onAddOrDelete(com, grid) {
 				delFields.id=jQuery('td[abbr="BranchId"] >div', this).html()
 				alert(delFields.id)
 				sendAjaxRequest('delBranch',delFields,function(){
+					jQuery('.userMessage').text('Branch Deleted');
 					sendAjaxRequest('branchData', setupDataFlexi(), showReport)
 				})
 

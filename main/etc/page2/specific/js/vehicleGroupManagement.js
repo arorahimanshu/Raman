@@ -274,6 +274,7 @@ function onAddOrDelete(com, grid) {
 				delFields.id=jQuery('td[abbr="Id"] >div', this).html()
 				alert(delFields.id)
 				sendAjaxRequest('delVehicleGroup',delFields,function(){
+					jQuery('.userMessage').text('Vehicle Group Deleted');
 					sendAjaxRequest('vehicleGroupData', setupDataFlexi(), showReport)
 				})
 

@@ -117,6 +117,8 @@ function deleteButtonClick(com, grid, c, selectedData) {
 			delFields.id = jQuery('td[abbr="Uid"] >div', this).html()
 			delFields.name = jQuery('td[abbr="UserName"] >div', this).html()
 			sendAjaxRequest('delEmployeeFormAction', delFields, function () {
+				//alert(result);
+				jQuery('.userMessage').text('User Deleted');
 				onReload('generateEmployeeData')
 			})
 

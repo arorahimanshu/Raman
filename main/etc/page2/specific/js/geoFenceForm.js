@@ -386,9 +386,9 @@ function onReload() {
 }
 
 function successFunc(result) {
-
+	jQuery('.message').text(result.message);
 	if(result.success == true) {
-		location.reload();
+		setTimeout(function(){location.reload();},3000);
 	} else {
 	}
 }

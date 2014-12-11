@@ -91,6 +91,7 @@ function deleteButtonClick(com, grid, c, selectedData) {
 			//delFields.id = jQuery('td[abbr="Uid"] >div', this).html()
 			delFields.name = jQuery('td[abbr="Role Name"] >div', this).html()
 			sendAjaxRequest('delRole', delFields, function () {
+				jQuery('.userMessage').text('Role Deleted');
 				onReload('newRoleManagementFormAction')
 			})
 		})

@@ -274,6 +274,7 @@ function onAddOrDelete(com, grid) {
 				var delFields = {}
 				delFields.id=jQuery('td[abbr="OrgID"] >div', this).html()
 				sendAjaxRequest('delOrganization',delFields,function(){
+					jQuery('.userMessage').text('Organization Deleted');
 					sendAjaxRequest('organizationData', setupDataFlexi(), showReport)
 				})
 
