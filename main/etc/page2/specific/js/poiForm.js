@@ -196,7 +196,7 @@ function setupFlexiGrid(selector, datatype, title, noOfPages, width, height, sin
         buttons: [
             {name: 'Add', bclass: 'add', onpress: onAddOrDelete},
             {name: 'Delete', bclass: 'delete', onpress: onAddOrDelete},
-            {name: 'Edit', bclass: 'edit', onpress: onAddOrDelete},
+            //{name: 'Edit', bclass: 'edit', onpress: onAddOrDelete},
             {separator: true}
         ],
         title: title,
@@ -238,7 +238,24 @@ function onAddOrDelete(com, grid) {
         initialize()
     }
     else if (com == "Delete") {
-
+		var c = 0
+		jQuery('.trSelected', grid).each(function () {
+			c += 1
+		})
+		if (c == 1) {
+			jQuery('.trSelected', grid).each(function (index, data) {
+				var delFields = {}
+				//delFields.id=jQuery('td[abbr="Id"] >div', this).html()
+				delFields.id=data.cells[0].textContent
+				sendAjaxRequest('delPoi',delFields,function(){
+					jQuery('.userMessage').text('POI Deleted');
+					sendAjaxRequest('generateReport', setupDataFlexi(), showReport)
+				})
+			})
+		}
+		else {
+			alert('select single row to delete')
+		}
     }
     else {
 

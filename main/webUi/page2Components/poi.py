@@ -30,6 +30,8 @@ class Poi(Page2Component):
 		formData = json.loads(cherrypy.request.params['formData'])
 		db = self.app.component('dbHelper')
 		# TODO: Himanshu When done with branch of organization just pass the company name and branch too here
+		if formData == {}:
+			formData['reportAddressCategory']='0'
 		with self.server.session() as session:
 			poidata = db.returnPoiReport(session['username'], formData['reportAddressCategory'])
 
@@ -40,7 +42,7 @@ class Poi(Page2Component):
 		formData = json.loads(cherrypy.request.params['formData'])
 		db = self.app.component('dbManager')
 		dataUtils = self.app.component('dataUtils')
-		with dataUtils.worker() as worker:
+		with db.session() as session:
 			db.Poi_vehicle.delete({
 				'poi_id':formData['id']
 				})
@@ -98,16 +100,16 @@ class Poi(Page2Component):
 		vehicleGroupList2 = []
 		vehicleList2 = []
 		for org in orgList:
-			if org['value'] != primaryOrganizationId:
-				branchList = db.returnBranchListForOrg(org['value'])
-				branchList2.extend(branchList)
-				for branch in branchList:
-					vehicleGroupList = db.returnVehicleGroupListForBranch(branch['value'])
-					vehicleGroupList2.extend(vehicleGroupList)
-					for vehicleGroup in vehicleGroupList:
-						vehicleList = db.returnVehicleListForVehicleGroup(vehicleGroup['value'])
-			vehicleList2.extend(vehicleList)
-		self.classData = [  'Poi Name', 'Address Category', 'Street', 'City', 'State']
+			#if org['value'] != primaryOrganizationId:
+			branchList = db.returnBranchListForOrg(org['value'])
+			branchList2.extend(branchList)
+			for branch in branchList:
+				vehicleGroupList = db.returnVehicleGroupListForBranch(branch['value'])
+				vehicleGroupList2.extend(vehicleGroupList)
+				for vehicleGroup in vehicleGroupList:
+					vehicleList = db.returnVehicleListForVehicleGroup(vehicleGroup['value'])
+					vehicleList2.extend(vehicleList)
+		self.classData = [ 'Id', 'Poi Name', 'Address Category', 'Street', 'City', 'State']
 
 		# Vehicle selector Block Starts
 		vehicleStructure = []

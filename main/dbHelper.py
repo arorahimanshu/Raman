@@ -224,7 +224,7 @@ class DbHelper(Component):
 			for data in query.all():
 				cell = {}
 				cell['cell'] = []
-
+				cell['cell'].append(data.Poi_Id)
 				cell['cell'].append(data.Poi_Name)
 				cell['cell'].append(data.Category)
 				query2=session.query(db.Info).filter(db.Info.entity_id==data.Poi_Id)
