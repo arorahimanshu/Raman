@@ -88,7 +88,7 @@ def defineTables (db) :
 			vehicleRegNo=16
 			vehicleMake=17
 			vehicleType=18
-
+			speed = 19
 
 		#
 	#

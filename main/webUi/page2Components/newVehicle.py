@@ -83,7 +83,7 @@ class Vehicle(Page2Component):
 
 		'fieldInfo': self._clientFieldInfo,
 		})
-		attrNames = ['S.No',  'Vehicle_Id', 'Vehicle_Name','Device_Id',  'Vehicle_Make', 'Vehicle_Reg_No', 'Vehicle_Type']
+		attrNames = ['S.No',  'Vehicle_Id', 'Vehicle_Name','Device_Id',  'Vehicle_Make', 'Vehicle_Reg_No', 'Vehicle_Type', 'Speed Limit', 'Vehicle Group Id']
 
 		dbHelp = self.app.component('dbHelper')
 		vehicleGroupList = dbHelp.returnVehicleGroupListForBranch(None)
@@ -172,6 +172,13 @@ class Vehicle(Page2Component):
 				'preference': 0,
 				'data': formData['vehicleType'],
 			}))
+			session.add(db.Info.newFromParams({
+				'id': db.Entity.newUuid(),
+				'entity_id': newVehicleID.id,
+				'enumType': db.Info.Type.speed,
+				'preference': 0,
+				'data': formData['vehicleRegNo'],
+			}))
 
 			return self.jsonSuccess('Vehicle Added',errors='No')
 
@@ -185,7 +192,7 @@ class Vehicle(Page2Component):
 
 		numOfObj = int(formData.get('rp', '10'))
 		pageNo = int((cherrypy.request.params).get('pageNo', '1'))
-		classData = [  'Vehicle_Id', 'Vehicle_Name','Device_Id', 'Vehicle_Make', 'Vehicle_Reg_No', 'Vehicle_Type']
+		classData = [  'Vehicle_Id', 'Vehicle_Name','Device_Id', 'Vehicle_Make', 'Vehicle_Reg_No', 'Vehicle_Type', 'Speed Limit', 'Vehicle Group Id']
 
 
 		if 'pageNo' not in cherrypy.request.params:
@@ -240,6 +247,10 @@ class Vehicle(Page2Component):
 			db.Info.updateFromParams({
 			'entity_id':formData['id'],'preference':0,'type':db.Info.Type.vehicleType.value
 			},**{'data':formData['vehicleType']})
+
+			db.Info.updateFromParams({
+			'entity_id':formData['id'],'preference':0,'type':db.Info.Type.speed.value
+			},**{'data':formData['speedLimit']})
 
 
 		return self.jsonSuccess('Vehicle Edited',errors='No')
