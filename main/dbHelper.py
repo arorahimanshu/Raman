@@ -501,20 +501,30 @@ class DbHelper(Component):
 
 	def returnLiveCarsData(self,deviceId):
 		num = []
+		status = []
 		db = self.app.component('dbManager')
 		with db.session() as session:
 			# add time filter here
 			# TODO  Discuss the number of  variable returned from here
-			query = session.query(db.gpsDeviceMessage1).filter_by(deviceId = deviceId , messageType = "BR00")
-			for obj in query.all():
-				num.append({"position": {"latitude": str(obj.Latitude), "longitude": str(obj.Longitude)},
-				            "time": {"hour": int(obj.timestamp[0:2]), "minute": int(obj.timestamp[2:4]),
-				                     "second": int(obj.timestamp[4:6])}, "vehicleId": int(obj.Vehicle_Id),
-							"speed":obj.speed,
-							"deviceId":obj.deviceId,
+			for deviceNum in deviceId:
+				query = session.query(db.gpsDeviceMessage1).filter( and_ (db.gpsDeviceMessage1.deviceId ==  deviceNum ,
+																		  db.gpsDeviceMessage1.messageType == "BR00"))
+				if query.count() == 0:
+					status.append({"deviceId":deviceNum,"dataPresent":0})
+				elif query.count() > 0:
+					status.append({"deviceId":deviceNum,"dataPresent":1})
 
-							})
-		return num
+
+				for obj in query.all():
+					timeDetail = obj.timestamp
+					num.append({"position": {"latitude": str(obj.latitude), "longitude": str(obj.longitude)},
+					            "time": {"hour": timeDetail.hour, "minute": timeDetail.minute,
+					            "second":  timeDetail.second} ,
+								"speed":obj.speed,
+								"deviceId":obj.deviceId,
+
+								})
+		return num,status
 	#
 	def returnCarsDataByDates(self, fromDate, toDate):
 		num = []

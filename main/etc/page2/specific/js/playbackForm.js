@@ -368,21 +368,26 @@ function successFunc(rawData) {
 			actionUrl: 'newPlaybackFormAction',
             dataFunction: function () {
                     var idList = []
+                    var vehicleId
                     jQuery('.vsVehicleId:checked').each (function(){
-		                var vehicleId = jQuery (this).data( "details" ).deviceId
+		                 vehicleId = jQuery (this).data( "details" ).deviceId
                         idList.push (vehicleId)
 	                    })
-                    alert('a')
+
+                    // FIXME: we are handling only single vehcile for now
                     return {
                         deviceId: idList
+                        //  deviceId: vehicleId
 
                     }
                 },
 			successFunction:function (result) {
-				var path = []
+                console.log(result.message[0]);
+                var path = []
 				jQuery.each (result, function (index, item) {
-					path.push (new google.maps.LatLng (item[0], item[1]))
-				})
+
+				path.push (new google.maps.LatLng (item[0], item[1]))
+        		})
 
 				map.setZoom (13)
 				map.setCenter (path[0])

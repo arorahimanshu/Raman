@@ -286,6 +286,7 @@ function onAddOrDelete(com, grid) {
 				})
 
 			})
+
 		}
 		else {
 			alert('select single row to delete')

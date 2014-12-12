@@ -83,9 +83,9 @@ class Playback(Page2Component):
 		formData = cherrypy.request.params
 		print(formData)
 		db = self.app.component('dbHelper')
-		deviceID =0
+		deviceId =formData['deviceId[]']
 		#data = db.returnCarsDataByDates(formData['fromDate'],formData['toDate'])
-		data = db.returnLiveCarsData(deviceID)
+		data = db.returnLiveCarsData(deviceId)
 		#errors = self._newPlaybackFormValidate(formData)
 		#if errors:
 		#	return self.jsonFailure('validation failed', errors=errors)
