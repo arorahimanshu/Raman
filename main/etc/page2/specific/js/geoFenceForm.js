@@ -145,8 +145,9 @@ function onLoad_GeoFence() {
 	
 	map=initialize();
 	
+	/*
 	var drawingManager = new google.maps.drawing.DrawingManager({
-		drawingMode: google.maps.drawing.OverlayType.MARKER,
+		drawingMode: null,
 		drawingControl: true,
 		drawingControlOptions: {
 		  position: google.maps.ControlPosition.RIGHT_TOP,
@@ -161,19 +162,17 @@ function onLoad_GeoFence() {
 		  editable: true,
 		  zIndex: 1
 		}
-		*/
+		
 	  });
 	  drawingManager.setMap(map);
-	  
-	google.maps.event.addListener(drawingManager,'rectanglecomplete',rectanglecomplete);
-	google.maps.event.addListener(drawingManager,'circlecomplete',circlecomplete);
+	  */
+	//google.maps.event.addListener(drawingManager,'rectanglecomplete',rectanglecomplete);
+	//google.maps.event.addListener(drawingManager,'circlecomplete',circlecomplete);
+	var drawingManager = undefined;
 	
 	google.maps.event.trigger(map, 'resize');
 
 	jQuery('.BACK').click(function() {
-
-
-
 		jQuery('#tableDiv').show();
 
 		jQuery('#newGeoFence').hide();
@@ -185,13 +184,46 @@ function onLoad_GeoFence() {
 	});
 	
 	jQuery('.CIRCLE').click(function () {
+		if(drawingManager!=undefined) {
+			drawingManager.setMap(null);
+		}
+		
+		drawingManager = new google.maps.drawing.DrawingManager({
+			drawingMode: google.maps.drawing.OverlayType.MARKER,
+			drawingControl: true,
+			drawingControlOptions: {
+				position: google.maps.ControlPosition.RIGHT_TOP,
+				drawingModes: [google.maps.drawing.OverlayType.MARKER]
+			},
+		});
+		drawingManager.setMap(map);
+		google.maps.event.addListener(drawingManager,'circlecomplete',circlecomplete);
+		google.maps.event.addListener(drawingManager,'markercomplete',function(marker){
+			markercomplete(marker, '.circle');
+		});
 		jQuery('.circle').show();
 	});
 	
 	jQuery('.RECTANGLE').click(function () {
-		drawingManager.setDrawingMode(google.maps.drawing.OverlayType.RECTANGLE);
+		if(drawingManager!=undefined) {
+			drawingManager.setMap(null);
+		}
+		
+		drawingManager = new google.maps.drawing.DrawingManager({
+			drawingMode: google.maps.drawing.OverlayType.MARKER,
+			drawingControl: true,
+			drawingControlOptions: {
+				position: google.maps.ControlPosition.RIGHT_TOP,
+				drawingModes: [google.maps.drawing.OverlayType.MARKER, google.maps.drawing.OverlayType.RECTANGLE]
+			},
+		});
+		drawingManager.setMap(map);
+		google.maps.event.addListener(drawingManager,'rectanglecomplete',rectanglecomplete);
+		google.maps.event.addListener(drawingManager,'markercomplete',function(marker){
+			markercomplete(marker, '.rectangle');
+		});
+		
 		jQuery('.rectangle').show();
-		alert('Please search for address and draw the rectangle with mouse');
 	});
 	
 	jQuery('.POLYGON').click(function () {
@@ -299,6 +331,14 @@ function onLoad_GeoFence() {
 	jQuery('.cancel').click(function(){
 		clearMap();
 		clearFilter();
+	});
+	
+	jQuery('.circle .reset').click(function(){
+		resetCircle();
+	});
+	
+	jQuery('.rectangle .reset').click(function(){
+		resetRectangle();
 	});
 }
 
@@ -640,19 +680,51 @@ var rectanglecomplete = function (Rectangle){
 	}
 	
 	rectangle=Rectangle;
+	if(Rectangle!=undefined) {
+		
+		var lats = jQuery('.rectangle .lat');
+		var lngs = jQuery('.rectangle .lng');
+		
+		var ne = Rectangle.bounds.getNorthEast();
+		var sw = Rectangle.bounds.getSouthWest();
+		
+		jQuery(lats[0]).text(ne.lat());
+		jQuery(lngs[0]).text(ne.lng());
+		
+		jQuery(lats[1]).text(sw.lat());
+		jQuery(lngs[1]).text(sw.lng());
+		
+		jQuery(lats[0]).parent().find('.address').val('Address 1');
+		jQuery(lats[1]).parent().find('.address').val('Address 2');
+	}
+}
+
+var locationMarker = undefined;
+var markercomplete = function(Marker, selector) {
+	resetRectangle();
+	var func = function(address) {
+		jQuery(selector).find('.markable .address').val(address);
+		var str = '<div id="infoWindow"> Address: ' + address + '</div>';
+		var infowindow = new google.maps.InfoWindow();
+		infowindow.setContent(str);
+		infowindow.open(Marker.map, Marker);
+	}
+	markers.push(Marker);
+	if(locationMarker!=undefined)
+		locationMarker.setVisible(false);
 	
-	var lats = jQuery('.rectangle .lat');
-	var lngs = jQuery('.rectangle .lng');
+	var latlng = Marker.position;
+	jQuery(selector).find('.lat').text(latlng.lat());
+	jQuery(selector).find('.lng').text(latlng.lng());
+	manageAddress(latlng, func);
 	
-	var ne = Rectangle.bounds.getNorthEast();
-	var sw = Rectangle.bounds.getSouthWest();
-	
-	jQuery(lats[0]).text(ne.lat());
-	jQuery(lngs[0]).text(ne.lng());
-	
-	jQuery(lats[1]).text(sw.lat());
-	jQuery(lngs[1]).text(sw.lng());
-	
-	jQuery(lats[0]).parent().find('.address').val('Address 1');
-	jQuery(lats[1]).parent().find('.address').val('Address 2');
+}
+
+var resetCircle = function() {
+	clearMap();
+}
+
+var resetRectangle = function() {
+	rectanglecomplete(undefined);
+	clearMap();
 }
