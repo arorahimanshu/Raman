@@ -169,6 +169,16 @@ def defineTables(db):
 	)
 	class gpsDeviceMessage1(DbEntity): pass
 
+	@db.table(
+		'logo',
+		Column('id', DbTypes.Uuid, nullable=False),
+		Column('fileName', DbTypes.VeryLongString, nullable=False),
+
+		PrimaryKeyConstraint('id'),
+
+	)
+	class logo(DbEntity): pass
+
 
 def loadInitialData(db, params=None):
 	with db.session() as session:
