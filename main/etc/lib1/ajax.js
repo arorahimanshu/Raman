@@ -1,6 +1,7 @@
 fitx.utils.require(['fitx', 'lib1'])
 
 fitx.lib1.TRIGGER_CUSTOM = 0
+fitx.lib1.TRIGGER_FILE_UPLOAD = 1
 
 fitx.lib1.AjaxControl = function (config, trigger) {
 
@@ -34,11 +35,49 @@ fitx.lib1.AjaxControl = function (config, trigger) {
 			}
 	)
 
+	_self.onFileChanged = fitx.utils.defaultGet (
+		config, 'onFileChanged', function (name) {
+		}
+	)
+
+	var select = function () {
+		return jQuery (_self.selector)
+	}
+
+	if (trigger == fitx.lib1.TRIGGER_FILE_UPLOAD) {
+
+		select ().css ('visibility', 'hidden')
+		select ().css ('display', 'none')
+
+		_self.openFileDialog = function () {
+			select ().click ()
+		}
+
+		_self._files = []
+
+		select ().fileupload ({
+			dataType: 'json',
+			autoUpload: false,
+			change: function (e, data) {
+				_self._files = data.files
+				_self.onFileChanged (_self._files[0].name)
+			},
+			done: function (evt, data) {
+				//select ().fileupload ('disable')
+				_self.successFunction (data.result)
+			},
+			fail: function () {
+				_self.failureFunction ()
+			},
+			url:_self.actionUrl,
+		})
+	}
+
 	var fireFunction = function (evt) {
 
 		if (trigger == fitx.lib1.TRIGGER_CUSTOM) {
 			var args = arguments
-		} else {
+		} else if (trigger != fitx.lib1.TRIGGER_FILE_UPLOAD) {
 			evt.preventDefault()
 		}
 
@@ -64,7 +103,7 @@ fitx.lib1.AjaxControl = function (config, trigger) {
 
 		var _actionUrl = _self.actionUrl
 
-		if (!('organizationId' in _dataToSend)) {
+		if (! Object.has (_dataToSend, 'organizationId')) {
 			_dataToSend['organizationId'] = fitx.utils.defaultGet(
 					fitx.config, 'organizationId', null
 			)
@@ -99,19 +138,31 @@ fitx.lib1.AjaxControl = function (config, trigger) {
 		_self.preRequestFunction(control)
 
 		if (!_cancelRequest) {
-			jQuery.ajax(
-				_actionUrl,
-				{
-						type: _self.actionMethod,
-						data: _dataToSend,
-						dataType: 'json',
-						success: _self.successFunction,
-				}
-			).fail(_self.failureFunction)
+			if (trigger != fitx.lib1.TRIGGER_FILE_UPLOAD) {
+				jQuery.ajax(
+					_actionUrl,
+					{
+							type: _self.actionMethod,
+							data: _dataToSend,
+							dataType: 'json',
+							success: _self.successFunction,
+					}
+				).fail(_self.failureFunction)
+			} else {
+				var dataArray = []
+				jQuery.each (_dataToSend, function (k, v) {
+					dataArray.push ({name:k, value:v})
+				})
+
+				select ().fileupload ('send', {
+					files: _self._files,
+					formData: dataArray
+				})
+			}
 		}
 	}
 
-	if (trigger == fitx.lib1.TRIGGER_CUSTOM) {
+	if (trigger == fitx.lib1.TRIGGER_CUSTOM || trigger == fitx.lib1.TRIGGER_FILE_UPLOAD) {
 		_self.fire = fireFunction
 	} else {
 		//jQuery (_self.selector)[trigger] (
@@ -129,5 +180,9 @@ fitx.lib1.AjaxClickable = function (config) {
 
 fitx.lib1.CustomAjax = function (config) {
 	fitx.lib1.AjaxControl.bind (this) (config, fitx.lib1.TRIGGER_CUSTOM)
+}
+
+fitx.lib1.AjaxFileUploader = function (config) {
+	fitx.lib1.AjaxControl.bind (this) (config, fitx.lib1.TRIGGER_FILE_UPLOAD)
 }
 

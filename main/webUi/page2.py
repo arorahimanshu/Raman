@@ -43,6 +43,8 @@ class Page2(Component):
 					   ('lib', 'js', 'jquery_ui.js'),
 					   ('lib', 'js', 'sugar.js'),
 					   ('lib', 'js', 'jquery_cookie.js'),
+						 ('lib', 'js', 'jquery.iframe-transport.js'),
+						 ('lib', 'js', 'jquery.fileupload.js'),
 					   ('lib', 'js', 'mersenne_twister.js'),
 					   ('lib', 'js', 'uuid.js'),
 					   ('lib', 'js', 'xdate.js'),

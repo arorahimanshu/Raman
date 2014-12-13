@@ -5,7 +5,8 @@ import cherrypy
 from sqlalchemy import func
 import json
 import datetime
-
+import os
+import traceback
 
 class Organization(Page2Component):
 	def __init__(self, parent, **kwargs):
@@ -146,7 +147,8 @@ class Organization(Page2Component):
 	#
 
 	def _organizationManagementFormAction(self, requestPath):
-		formData = json.loads(cherrypy.request.params['formData'])
+		#formData = json.loads(cherrypy.request.params['formData'])
+		formData = cherrypy.request.params
 		dataUtils = self.app.component('dataUtils')
 		db = self.app.component('dbManager')
 
@@ -173,6 +175,40 @@ class Organization(Page2Component):
 			'preference': 0,
 			'data': address,
 			}))
+
+			try:
+				readHandle = formData['image'].file
+				chunkSize = 1<<13 # 2^13
+				with db.session () as session :
+					newFile = db.logo ()
+					newFile.id = db.Entity.newUuid ()
+					newFile.fileName = formData['image'].filename
+					extension = newFile.fileName[-4:].lower ()
+					if extension not in ['.jpg','.jpeg','.png']:
+						self.jsonFailure('Incompatible Extension')
+					session.add (newFile)
+
+					#with open (os.path.join (Config.WebServer.DbAssets, newFile.id + extension), 'wb') as writeHandle :
+					#with open (os.path.join (self.server._onfig['/dbassets'], newFile.id + extension), 'wb') as writeHandle :
+					with open(newFile.id+extension,'wb') as writeHandle:
+						while True :
+							data = readHandle.read (chunkSize)
+							writeHandle.write (data)
+							if not data :
+								break
+							#
+						#
+					#
+					worker.session.add(db.Info.newFromParams({
+						'id': db.Entity.newUuid(),
+						'entity_id': newOrganization.id,
+						'enumType': db.Info.Type.Image,
+						'preference': 0,
+						'data': newFile.id,
+					}))
+			except:
+				traceback.print_exc ()
+				return self.jsonFailure()
 		#
 		# iF ERROR is Yes then page will not reload ... and if No the page will reload
 		return self.jsonSuccess('Organization created',errors='No')

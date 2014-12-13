@@ -1,7 +1,7 @@
 fitx.utils.require(['fitx', 'page2', 'organizationManagement'])
 jQuery(window).load(function () {
 
-    setupAJAXSubmit('organizationManagementForm', 'organizationManagementFormAction', setupData, setupConstraints, '.ok', errorFunc, successFunc)
+    //setupAJAXSubmit('organizationManagementForm', 'organizationManagementFormAction', setupData, setupConstraints, '.ok', errorFunc, successFunc)
     setupAJAXSubmit('organizationManagementForm', 'editOrganization', setupData2, setupConstraints, '.editbutton', errorFunc, successFunc)
     setupFlexiGrid('#showOrganization', undefined, "Organization Details", undefined, undefined, undefined, undefined, classData)
     sendAjaxRequest('organizationData', setupDataFlexi(), showReport,errorFunc, successFunc)
@@ -50,6 +50,36 @@ jQuery(window).load(function () {
         jQuery('#addOrganization').show();
         jQuery('.flexigrid').hide();
     })
+	
+	var ajaxFileUploader = new fitx.lib1.AjaxFileUploader ({
+		actionUrl : "organizationManagementFormAction",
+
+		selector : ".fileChooser",
+
+		successFunction : function (result) {
+			console.log (result.message)
+		},
+
+		failureFunction : function (result) {
+			console.log ('upload failed')
+		},
+
+		onFileChanged : function (name) {
+			console.log ('file choosen: ' + name)
+		},
+
+		dataFunction : function () {
+			return setupData()
+		}
+	})
+
+	jQuery (".chooseButton").click (function () {
+		ajaxFileUploader.openFileDialog ()
+	})
+
+	jQuery (".ok").click (function () {
+		ajaxFileUploader.fire ()
+	})
 
 })
 function successFunc(result) {
