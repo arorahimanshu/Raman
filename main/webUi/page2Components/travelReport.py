@@ -144,11 +144,11 @@ class TravelReport(Page2Component):
 			rows.append(row)
 			t = 0
 
-		pageNo = int((cherrypy.request.params).get('pageNo', '1'))
-		if 'pageNo' not in cherrypy.request.params:
+		pageNo = int(formData.get('pageNo', '1'))
+		if 'pageNo' not in formData:
 			self.numOfObj = 10
-		if 'rp' in cherrypy.request.params and 'pageNo' in cherrypy.request.params:
-			self.numOfObj = int(cherrypy.request.params['rp'])
+		if 'rp' in formData and 'pageNo' in formData:
+			self.numOfObj = int(formData['rp'])
 
 		rows = dbHelp.getSlicedData(rows, pageNo, self.numOfObj)
 		if len(rows['rows']) == 0:

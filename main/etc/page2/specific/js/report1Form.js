@@ -25,7 +25,6 @@ jQuery (window).load (function (){
 										 jQuery("#fromDate").datepicker("option", "maxDate", selected)
 									 }
 								 });
-	rp = parseInt(jQuery('.pGroup select option:selected').text())
 	onLoadReport1();
 });
 
@@ -143,8 +142,7 @@ function onLoadReport1() {
         onNextPageRequest()
     })
     jQuery('.pGroup select').change(function () {
-        //onRpChange()
-		rp = parseInt(jQuery('.pGroup select option:selected').text())
+        onRpChange()
     })
     jQuery('.pFirst.pButton').click(function () {
         onFirstPageRequest()
@@ -160,7 +158,10 @@ function onLoadReport1() {
         if (key == 13)  // the enter key code
         {
             var pageNo = parseInt(jQuery('.pcontrol input').val())
-            sendAjaxRequest('newReport1FormAction', auxiPaymentData(pageNo), showReport)
+			var data = setupData2()
+			data.pageNo = pageNo
+			if(pageNo>=1 && pageNo<=parseInt(total/rp)+1)
+				sendAjaxRequest('newReport1FormAction', data, showReport)
         }
     })
 }
@@ -172,28 +173,45 @@ function showReport(result) {
 }
 
 var total = 0
+var rp = 10
 function onPrevPageRequest() {
     var pageNo = parseInt(jQuery('.pcontrol input').val()) - 1
-    sendAjaxRequest('newReport1FormAction', auxi(pageNo), showReport)
+	var data = setupData()
+	data.pageNo = pageNo
+	if(pageNo>=1)
+		sendAjaxRequest('newReport1FormAction', data, showReport)
 }
 function onNextPageRequest() {
     var pageNo = parseInt(jQuery('.pcontrol input').val()) + 1
-    sendAjaxRequest('newReport1FormAction', {'pageNo': pageNo}, showReport)
+	var data = setupData()
+	data.pageNo = pageNo
+	if(pageNo<=parseInt(total/rp)+1)
+		sendAjaxRequest('newReport1FormAction', data, showReport)
 }
 function onFirstPageRequest() {
-    sendAjaxRequest('newReport1FormAction', {'pageNo': 1}, showReport)
+	var data = setupData()
+	data.pageNo = 1
+    sendAjaxRequest('newReport1FormAction', data, showReport)
 }
 function onLastPageRequest() {
-	if (!rp)
-		rp = 10
-    pageNo = parseInt(total / rp) + 1
-    sendAjaxRequest('newReport1FormAction', {'pageNo': pageNo}, showReport)
+	var pageNo = parseInt(total / rp) + 1
+	var data = setupData()
+	data.pageNo = pageNo
+    sendAjaxRequest('newReport1FormAction', data, showReport)
 }
 function onReload() {
-    var pageNo = parseInt(jQuery('.pcontrol input').val()) + 1
-    sendAjaxRequest('newReport1FormAction', {'pageNo': pageNo}, showReport)
+    var pageNo = parseInt(jQuery('.pcontrol input').val())
+	var data = setupData()
+	data.pageNo = pageNo
+    sendAjaxRequest('newReport1FormAction', data, showReport)
 }
-
+function onRpChange() {
+	rp = parseInt(jQuery('.pGroup select').val())
+	var data = setupData()
+	data.pageNo = 1
+	data.rp=rp
+    sendAjaxRequest('newReport1FormAction', data, showReport)
+}
 
 var errorFunc = function (data, error) {
 
