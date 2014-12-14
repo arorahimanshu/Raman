@@ -222,11 +222,12 @@ class Organization(Page2Component):
 		dbHelp = self.app.component('dbHelper')
 		classData = ['S.No', 'Organization Name', 'Category', 'Addrs_line1', 'Addrs_line2',
 		             'City', 'State', 'Pincode','OrgID']
-		pageNo = int((cherrypy.request.params).get('pageNo', '1'))
-		if 'pageNo' not in cherrypy.request.params:
+		formData = json.loads(cherrypy.request.params['formData'])
+		pageNo = int(formData.get('pageNo', '1'))
+		if 'pageNo' not in formData:
 			self.numOfObj = 10
-		if 'rp' in cherrypy.request.params and 'pageNo' in cherrypy.request.params:
-			self.numOfObj = int(cherrypy.request.params['rp'])
+		if 'rp' in formData and 'pageNo' in formData:
+			self.numOfObj = int(formData['rp'])
 		with self.server.session() as serverSession:
 			with db.session() as session:
 				id = serverSession['userId']

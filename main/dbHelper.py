@@ -322,7 +322,7 @@ class DbHelper(Component):
 		sessionQueryObj = session.query(db.Organization)
 
 		rows = []
-		i = (pageNo - 1) * numOfObj + 1
+		i = 1
 
 		for data in sessionQueryObj.all():
 
@@ -422,7 +422,7 @@ class DbHelper(Component):
 		sessionQueryObj = session.query(db.VehicleGroup)
 
 		rows = []
-		i = (pageNo - 1) * numOfObj + 1
+		i = 1
 
 
 
@@ -449,7 +449,7 @@ class DbHelper(Component):
 		sessionQueryObj = session.query(db.Gps_Vehicle_Info)
 
 		rows = []
-		i = (pageNo - 1) * numOfObj + 1
+		i = 1
 
 
 

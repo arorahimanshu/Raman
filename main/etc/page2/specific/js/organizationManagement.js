@@ -42,7 +42,8 @@ jQuery(window).load(function () {
         if (key == 13)  // the enter key code
         {
             var pageNo = parseInt(jQuery('.pcontrol input').val())
-            sendAjaxRequest('organizationData', auxiPaymentData(pageNo), showReport)
+			if(pageNo>=1 && pageNo<=parseInt(total/rp)+1)
+				sendAjaxRequest('organizationData', {'pageNo':pageNo}, showReport)
         }
     })
 
@@ -80,7 +81,7 @@ jQuery(window).load(function () {
 	jQuery (".ok").click (function () {
 		ajaxFileUploader.fire ()
 	})
-	
+	/*
 	var editAjaxFileUploader = new fitx.lib1.AjaxFileUploader ({
 		actionUrl : "editOrganization",
 
@@ -106,7 +107,7 @@ jQuery(window).load(function () {
 	jQuery (".editButton").click (function () {
 		editAjaxFileUploader.fire ()
 	})
-
+	*/
 })
 function successFunc(result) {
      alert(result.message)
@@ -194,7 +195,7 @@ function setupFlexiGrid(selector, datatype, title, noOfPages, width, height, sin
     if (title == undefined)
         title = 'Table'
     if (noOfPages == undefined)
-        noOfPages = 20
+        noOfPages = 10
     if (width == undefined)
         width = 1000
     if (height == undefined)
@@ -247,24 +248,31 @@ function showReport(result) {
 }
 
 var total = 0
+var rp = 10
 function onPrevPageRequest() {
     var pageNo = parseInt(jQuery('.pcontrol input').val()) - 1
-    sendAjaxRequest('organizationData', auxi(pageNo), showReport)
+	if(pageNo>=1)
+		sendAjaxRequest('organizationData', {'pageNo': pageNo}, showReport)
 }
 function onNextPageRequest() {
     var pageNo = parseInt(jQuery('.pcontrol input').val()) + 1
-    sendAjaxRequest('organizationData', {'pageNo': pageNo}, showReport)
+	if(pageNo<=parseInt(total/rp)+1)
+		sendAjaxRequest('organizationData', {'pageNo': pageNo}, showReport)
 }
 function onFirstPageRequest() {
     sendAjaxRequest('organizationData', {'pageNo': 1}, showReport)
 }
 function onLastPageRequest() {
-    pageNo = parseInt(total / 10) + 1
+    pageNo = parseInt(total / rp) + 1
     sendAjaxRequest('organizationData', {'pageNo': pageNo}, showReport)
 }
 function onReload() {
-    var pageNo = parseInt(jQuery('.pcontrol input').val()) + 1
+    var pageNo = parseInt(jQuery('.pcontrol input').val())
     sendAjaxRequest('organizationData', {'pageNo': pageNo}, showReport)
+}
+function onRpChange() {
+	rp = parseInt(jQuery('.pGroup select').val())
+	sendAjaxRequest('organizationData',{'pageNo':1,'rp':rp}, showReport)
 }
 function paymentData(pageNo) {
     var data = {}
