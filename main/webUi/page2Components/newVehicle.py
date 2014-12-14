@@ -188,17 +188,16 @@ class Vehicle(Page2Component):
 	def _VehicleFormActionData(self):
 		db = self.app.component('dbManager')
 		dbHelp = self.app.component('dbHelper')
-		formData = json.loads(cherrypy.request.params['formData'])
 
-		numOfObj = int(formData.get('rp', '10'))
-		pageNo = int((cherrypy.request.params).get('pageNo', '1'))
 		classData = [  'Vehicle_Id', 'Vehicle_Name','Device_Id', 'Vehicle_Make', 'Vehicle_Reg_No', 'Vehicle_Type', 'Speed Limit', 'Vehicle Group Id']
 
-
-		if 'pageNo' not in cherrypy.request.params:
+		formData = json.loads(cherrypy.request.params['formData'])
+		pageNo = int(formData.get('pageNo', '1'))
+		if 'pageNo' not in formData:
 			self.numOfObj = 10
-		if 'rp' in cherrypy.request.params and 'pageNo' in cherrypy.request.params:
-			self.numOfObj = int(cherrypy.request.params['rp'])
+		if 'rp' in formData and 'pageNo' in formData:
+			self.numOfObj = int(formData['rp'])
+
 		with self.server.session() as serverSession:
 			with db.session() as session:
 				id = serverSession['userId']
