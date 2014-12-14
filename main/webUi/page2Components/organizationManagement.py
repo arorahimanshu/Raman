@@ -7,7 +7,6 @@ import json
 import datetime
 import os
 import traceback
-from sqlalchemy import and_
 
 class Organization(Page2Component):
 	def __init__(self, parent, **kwargs):
@@ -300,18 +299,7 @@ class Organization(Page2Component):
 								#
 							#
 						#
-
-						oldFileQuery = session.query(db.Info).filter(and_(db.Info.entity_id==formData['id'], db.Info.type==db.Info.Type.Image.value))
-						try:
-							oldInfoRow = oldFileQuery.one()
-							oldImageId = oldInfoRow.data
-							oldLogoRow = session.query(db.logo).filter(db.logo.id==oldImageId).one()
-							oldImageName = oldImageId + oldLogoRow.extension
-							session.delete(oldLogoRow)
-							session.delete(oldInfoRow)
-							os.remove(AppConfig.DbAssets, oldImageName)
-						except:
-							traceback.print_exc()
+						#change here
 						worker.session.add(db.Info.newFromParams({
 							'id': db.Entity.newUuid(),
 							'entity_id': formData['id'],
@@ -319,8 +307,6 @@ class Organization(Page2Component):
 							'preference': 0,
 							'data': newFile.id,
 						}))
-
-
 				except:
 					traceback.print_exc ()
 					return self.jsonFailure()

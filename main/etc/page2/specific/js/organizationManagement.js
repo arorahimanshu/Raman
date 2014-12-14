@@ -81,11 +81,11 @@ jQuery(window).load(function () {
 	jQuery (".ok").click (function () {
 		ajaxFileUploader.fire ()
 	})
-	
+	/*
 	var editAjaxFileUploader = new fitx.lib1.AjaxFileUploader ({
 		actionUrl : "editOrganization",
 
-		selector : ".fileChooserEdit",
+		selector : ".fileChooser",
 
 		successFunction : function (result) {
 			console.log (result.message)
@@ -103,15 +103,11 @@ jQuery(window).load(function () {
 			return setupData2()
 		}
 	})
-	
-	jQuery (".chooseButtonEdit").click (function () {
-		editAjaxFileUploader.openFileDialog ()
-	})
-	
+
 	jQuery (".editButton").click (function () {
 		editAjaxFileUploader.fire ()
 	})
-	
+	*/
 })
 function successFunc(result) {
      alert(result.message)
