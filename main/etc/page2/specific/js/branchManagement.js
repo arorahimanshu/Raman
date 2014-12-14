@@ -41,7 +41,8 @@ jQuery(window).load(function () {
         if (key == 13)  // the enter key code
         {
             var pageNo = parseInt(jQuery('.pcontrol input').val())
-            sendAjaxRequest('branchData', auxiPaymentData(pageNo), showReport)
+			if(pageNo>=1 && pageNo<=parseInt(total/rp)+1)
+				sendAjaxRequest('branchData', {'pageNo': pageNo}, showReport)
         }
     })
 
