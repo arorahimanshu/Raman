@@ -65,14 +65,20 @@
 			<div class="errorBox" id="pincodeError"></div>
 		</div>
 		<div class="field">
-			<label class="genericFormLabel">Logo</label>
-			<input class="fileChooser" type="file" name="image">
-			<button class="chooseButton">Choose</button>
-			<div class="errorBox" id="fileChooserError"></div>
+			<label class="genericFormLabel logoAdd">Logo</label>
+			<input class="fileChooser logoAdd" type="file" name="image">
+			<button class="chooseButton logoAdd">Browse</button>
+			<div class="errorBox logoAdd" id="fileChooserError"></div>
+		</div>
+		<div class="field">
+			<label class="genericFormLabel logoEdit" hidden="true">Logo</label>
+			<input class="fileChooserEdit logoEdit" type="file" name="image" hidden="true">
+			<button class="chooseButtonEdit logoEdit" hidden="true">Browse</button>
+			<div class="errorBox logoEdit" id="fileChooserEditError" hidden="true"></div>
 		</div>
 		<div class="field unselectable">
 			<div class="ok oButton genericButton"  >Ok</div>
-			<div class="editButton oButton genericButton"  >Update</div>
+			<div class="editButton oButton genericButton" hidden="true">Update</div>
 			<div class="cancel oButton genericButton"  >Cancel</div>
 		</div>
 	</div>
