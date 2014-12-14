@@ -92,8 +92,9 @@ class Dashboard(Page2Component):
 
 		formData = json.loads(cherrypy.request.params['formData'])
 
-		gmtAdjust = formData['gmtAdjust']
-
+		if not hasattr(self,'gmtAdjust'):
+			self.gmtAdjust = formData['gmtAdjust']
+		gmtAdjust=self.gmtAdjust
 
 
 		gpsHelp = self.app.component('gpsHelper')
@@ -146,11 +147,11 @@ class Dashboard(Page2Component):
 				row['cell'].append('empty')
 				rows.append(row)
 
-			pageNo = int((cherrypy.request.params).get('pageNo', '1'))
-			if 'pageNo' not in cherrypy.request.params:
+			pageNo = int(formData.get('pageNo', '1'))
+			if 'pageNo' not in formData:
 				self.numOfObj = 10
-			if 'rp' in cherrypy.request.params and 'pageNo' in cherrypy.request.params:
-				self.numOfObj = int(cherrypy.request.params['rp'])
+			if 'rp' in formData and 'pageNo' in formData:
+				self.numOfObj = int(formData['rp'])
 
 			rows = dbHelp.getSlicedData(rows, pageNo, self.numOfObj)
 

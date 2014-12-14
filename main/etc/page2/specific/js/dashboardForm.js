@@ -25,9 +25,6 @@ function setupData() {
 	var curdate = new Date();
     var offset =-1* curdate.getTimezoneOffset();
     gmtAdjust=offset*60;
-		
-
-	
 }
 
 function setupData2() {
@@ -143,6 +140,7 @@ function onLoadDashboard() {
     jQuery('.pGroup select').change(function () {
         //onRpChange()
 		rp = parseInt(jQuery('.pGroup select option:selected').text())
+		onFirstPageRequest()
     })
     jQuery('.pFirst.pButton').click(function () {
         onFirstPageRequest()
@@ -158,7 +156,10 @@ function onLoadDashboard() {
         if (key == 13)  // the enter key code
         {
             var pageNo = parseInt(jQuery('.pcontrol input').val())
-            sendAjaxRequest('newDashboardFormAction', auxiPaymentData(pageNo), showReport)
+			var data = setupData2()
+			data.pageNo = pageNo
+			if(pageNo>=1 && pageNo<=parseInt(total/rp)+1)
+				sendAjaxRequest('newDashboardFormAction', data, showReport)
         }
     })
 }
@@ -203,26 +204,37 @@ function showReport(result) {
 }
 
 var total = 0
+var rp = 10
 function onPrevPageRequest() {
     var pageNo = parseInt(jQuery('.pcontrol input').val()) - 1
-    sendAjaxRequest('newDashboardFormAction', auxi(pageNo), showReport)
+	var data = setupData2()
+	data.pageNo = pageNo
+	if(pageNo>=1)
+		sendAjaxRequest('newDashboardFormAction', data, showReport)
 }
 function onNextPageRequest() {
     var pageNo = parseInt(jQuery('.pcontrol input').val()) + 1
-    sendAjaxRequest('newDashboardFormAction', {'pageNo': pageNo}, showReport)
+	var data = setupData2()
+	data.pageNo = pageNo
+	if(pageNo<=parseInt(total/rp)+1)
+		sendAjaxRequest('newDashboardFormAction', data, showReport)
 }
 function onFirstPageRequest() {
-    sendAjaxRequest('newDashboardFormAction', {'pageNo': 1}, showReport)
+	var data = setupData2()
+	data.pageNo = 1
+    sendAjaxRequest('newDashboardFormAction', data, showReport)
 }
 function onLastPageRequest() {
-	if (!rp)
-		rp = 10
-    pageNo = parseInt(total / rp) + 1
-    sendAjaxRequest('newDashboardFormAction', {'pageNo': pageNo}, showReport)
+	var pageNo = parseInt(total / rp) + 1
+	var data = setupData2()
+	data.pageNo = pageNo
+    sendAjaxRequest('newDashboardFormAction', data, showReport)
 }
 function onReload() {
-    var pageNo = parseInt(jQuery('.pcontrol input').val()) + 1
-    sendAjaxRequest('newDashboardFormAction', {'pageNo': pageNo}, showReport)
+    var pageNo = parseInt(jQuery('.pcontrol input').val())
+	var data = setupData2()
+	data.pageNo = pageNo
+    sendAjaxRequest('newDashboardFormAction', data, showReport)
 }
 
 
