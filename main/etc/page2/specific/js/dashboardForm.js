@@ -138,9 +138,7 @@ function onLoadDashboard() {
         onNextPageRequest()
     })
     jQuery('.pGroup select').change(function () {
-        //onRpChange()
-		rp = parseInt(jQuery('.pGroup select option:selected').text())
-		onFirstPageRequest()
+        onRpChange()
     })
     jQuery('.pFirst.pButton').click(function () {
         onFirstPageRequest()
@@ -236,7 +234,13 @@ function onReload() {
 	data.pageNo = pageNo
     sendAjaxRequest('newDashboardFormAction', data, showReport)
 }
-
+function onRpChange() {
+	rp = parseInt(jQuery('.pGroup select').val())
+	var data = setupData2()
+	data.pageNo = 1
+	data.rp=rp
+    sendAjaxRequest('newDashboardFormAction', data, showReport)
+}
 
 
 var errorFunc = function (data, error) {

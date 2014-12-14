@@ -184,13 +184,6 @@ class GeoFence(Page2Component):
 
 	def _geoFenceData(self,requestPath):
 
-		pageNo = int((cherrypy.request.params).get('pageNo', '1'))
-		if 'pageNo' not in cherrypy.request.params:
-			self.numOfObj = 10
-
-		if 'rp' in cherrypy.request.params and 'pageNo' in cherrypy.request.params:
-			self.numOfObj = int(cherrypy.request.params['rp'])
-
 		with self.server.session() as session:
 			userName=session['username']
 
@@ -221,10 +214,13 @@ class GeoFence(Page2Component):
 
 
 		formData = json.loads(cherrypy.request.params['formData'])
-		rp=formData.get('rp',10)
-		pageNo=formData.get('pageNo',1)
+		pageNo = int(formData.get('pageNo', '1'))
+		if 'pageNo' not in formData:
+			self.numOfObj = 10
+		if 'rp' in formData and 'pageNo' in formData:
+			self.numOfObj = int(formData['rp'])
 		dbHelp = self.app.component('dbHelper')
-		rows = dbHelp.getSlicedData(rows,pageNo,rp)
+		rows = dbHelp.getSlicedData(rows,pageNo,self.numOfObj)
 
 		data = {
  			'classData': self.classData,

@@ -17,8 +17,6 @@ jQuery(window).load(function () {
 	
 	sendAjaxRequest('geoFenceData', {}, showReport);
 	
-	rp = parseInt(jQuery('.pGroup select option:selected').text())
-	
 	onLoad_GeoFence();
 });
 
@@ -144,6 +142,34 @@ function onLoad_GeoFence() {
 	geocoder = new google.maps.Geocoder();
 	
 	map=initialize();
+	
+	jQuery('.pPrev.pButton').click(function () {
+        onPrevPageRequest()
+    })
+    jQuery('.pNext').click(function () {
+        onNextPageRequest()
+    })
+    jQuery('.pGroup select').change(function () {
+        onRpChange()
+    })
+    jQuery('.pFirst.pButton').click(function () {
+        onFirstPageRequest()
+    })
+    jQuery('.pLast.pButton').click(function () {
+        onLastPageRequest()
+    })
+    jQuery('.pReload.pButton').click(function () {
+        onReload()
+    })
+    jQuery('.pcontrol input').keypress(function (e) {
+        var key = e.which;
+        if (key == 13)  // the enter key code
+        {
+            var pageNo = parseInt(jQuery('.pcontrol input').val())
+			if(pageNo>=1 && pageNo<=parseInt(total/rp)+1)
+				sendAjaxRequest('geoFenceData', {'pageNo':pageNo}, showReport)
+        }
+    })
 	
 	/*
 	var drawingManager = new google.maps.drawing.DrawingManager({
@@ -403,28 +429,32 @@ function showReport(result) {
 }
 
 var total = 0
+var rp = 10
 function onPrevPageRequest() {
     var pageNo = parseInt(jQuery('.pcontrol input').val()) - 1
-    sendAjaxRequest('geoFenceData', auxi(pageNo), showReport)
+	if(pageNo>=1)
+		sendAjaxRequest('geoFenceData', {'pageNo':pageNo}, showReport)
 }
 function onNextPageRequest() {
     var pageNo = parseInt(jQuery('.pcontrol input').val()) + 1
-    sendAjaxRequest('geoFenceData', {'pageNo': pageNo}, showReport)
+	if(pageNo<=parseInt(total/rp)+1)
+		sendAjaxRequest('geoFenceData', {'pageNo':pageNo}, showReport)
 }
 function onFirstPageRequest() {
-    sendAjaxRequest('geoFenceData', {'pageNo': 1}, showReport)
+	sendAjaxRequest('geoFenceData', {'pageNo':1}, showReport)
 }
 function onLastPageRequest() {
-	if (!rp)
-		rp = 10
-    pageNo = parseInt(total / rp) + 1
-    sendAjaxRequest('geoFenceData', {'pageNo': pageNo}, showReport)
+	var pageNo = parseInt(total / rp) + 1
+	sendAjaxRequest('geoFenceData', {'pageNo':pageNo}, showReport)
 }
 function onReload() {
-    var pageNo = parseInt(jQuery('.pcontrol input').val()) + 1
-    sendAjaxRequest('geoFenceData', {'pageNo': pageNo}, showReport)
+    var pageNo = parseInt(jQuery('.pcontrol input').val())
+    sendAjaxRequest('geoFenceData', {'pageNo':pageNo}, showReport)
 }
-
+function onRpChange() {
+	rp = parseInt(jQuery('.pGroup select').val())
+	sendAjaxRequest('geoFenceData',{'pageNo':1,'rp':rp}, showReport)
+}
 function successFunc(result) {
 	jQuery('.message').text(result.message);
 	if(result.success == true) {
