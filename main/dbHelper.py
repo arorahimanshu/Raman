@@ -367,8 +367,8 @@ class DbHelper(Component):
 		sessionQueryObj = session.query(db.branch)
 
 		rows = []
-		i = (pageNo - 1) * numOfObj + 1
-
+		#i = (pageNo - 1) * numOfObj + 1
+		i = 1
 		for data in sessionQueryObj.all():
 
 			cell = {}
