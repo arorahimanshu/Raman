@@ -110,12 +110,36 @@ class UserManagement (Page2Component) :
 
 			'fieldInfo' : self._clientFieldInfo,
 		})
+
+		with self.server.session() as serverSession:
+			primaryOrganizationId = serverSession['primaryOrganizationId']
+
+
+		orgList = []
+		# add org name of the logged in user organization & its parent
+		dbNew = self.app.component ('dbManager')
+		with dbNew.session () as session :
+
+			objOrg = session.query (dbNew.Organization).filter_by (id = primaryOrganizationId).one ()
+			orgList.append({
+				"id":primaryOrganizationId,
+				"display":objOrg.name
+			})
+
+			for item in session.query (dbNew.Organization).filter_by (parent_id = primaryOrganizationId).all () :
+
+				if {"id" : item.id,"display":item.name} not in orgList:
+						orgList.append ({
+						"id" : item.id,
+						"display":item.name
+					})
 		db=self.app.component('dbHelper')
-		roleList = db.returnRoleList(cherrypy.request.fitxData['organizationId'])
+		roleList = db.returnRoleList(orgList)
+
 		classData =['S.No','Uid','Name','UserName','DOB','email-address','Phone No.','Address']
 		return self._renderWithTabs (
 			proxy, params,
-			bodyContent = proxy.render ('userManagementForm.html',roleList=roleList,classdata = classData),
+			bodyContent = proxy.render ('userManagementForm.html',roleList=roleList,orgList=orgList,classdata = classData),
 			newTabTitle = 'New User',
 			url = requestPath.allPrevious (),
 		)
@@ -263,15 +287,17 @@ class UserManagement (Page2Component) :
 
 			newFacet = worker.createFacet ({
 				'username' : newUser.username,
-				'organizationId' : formData['organizationId'],
+			#	'organizationId' : formData['organizationId'],   --> NV we are using the org id from the crud itself
+				'organizationId' : formData['organizationLog'],
 			})
 
 			for role in formData['roles'] :
 				newFacetRole = worker.assignFacetRole({
 					'roleName' : role,
 					'username' :  newUser.username,
-					'organizationId' : formData['organizationId']
-				})
+			#		'organizationId' : formData['organizationId']  --> NV we are using the org id from the crud itself
+					'organizationId' : formData['organizationLog'],
+			})
 
 
 		#
@@ -295,7 +321,7 @@ class UserManagement (Page2Component) :
 
 		actuallySendData = {
 			'classData': classData,
-		    'sendData':sendData
+			'sendData':sendData
 		}
 		return self.jsonSuccess(actuallySendData)
 	#
@@ -344,13 +370,15 @@ class UserManagement (Page2Component) :
 
 				newFacet = worker.createFacet({
 					'username': newUser.username,
-					'organizationId': formData['organizationId'],
+				#	'organizationId': formData['organizationId'],  --> NV we are using the org id from the crud itself
+					'organizationId' : formData['organizationLog'],
 				})
 
 				newFacetRole = worker.assignFacetRole({
 					'roleName': 'superuser',
 					'username': newUser.username,
-					'organizationId': formData['organizationId']
+				#	'organizationId': formData['organizationId']  --> NV we are using the org id from the crud itself
+					'organizationId' : formData['organizationLog'],
 				})
 				return self.jsonSuccess('user created')
 			else:
@@ -361,7 +389,7 @@ class UserManagement (Page2Component) :
 				db.Person.updateFromParams ({'id':formData['id']},**{
 					'name' : details.get ('name', None),
 					'dob' : details.get ('dob', details.get ('dateOfBirth', None)),
-				    'sex':details['sex']
+					'sex':details['sex']
 				})
 
 

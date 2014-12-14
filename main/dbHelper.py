@@ -247,13 +247,27 @@ class DbHelper(Component):
 	#
 	def returnRoleList(self, orgId):
 		roleList = []
+	# Old function modified by NV  to handle multiple organization
+	#	db = self.app.component('dbManager')
+	#	with db.session() as session:
+	#		query = session.query(db.Role).filter(db.Role.organization_id == orgId)
+	#		for x in query.all():
+	#			roleList.append(x.name)
 
 		db = self.app.component('dbManager')
 		with db.session() as session:
-			query = session.query(db.Role).filter(db.Role.organization_id == orgId)
-			for x in query.all():
-				roleList.append(x.name)
+			for item in orgId:
+				query = session.query(db.Role).filter(db.Role.organization_id == item['id'])
+				for x in query.all():
+					roleList.append({
+						"id":x.organization_id,
+						"name":x.name
+					})
+
 		return roleList
+
+
+
 	#
 	def updateRolePermissions(self, roleName, permList, orgId):
 		db = self.app.component('dbManager')

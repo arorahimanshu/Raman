@@ -101,6 +101,11 @@ function deleteButtonClick(com, grid, c, selectedData) {
 	}
 }
 
+errorFunc
+
+var errorFunc = function (result) {
+	return undefined
+}
 var successFunc = function (result) {
 
 
@@ -134,22 +139,7 @@ var setupData = function () {
 	return data
 }
 
-var errorFunc = function () {
-	var flag = 1;
-	jQuery('.permission:checked').each(function () {
-		flag = 0;
-	})
 
-	if (flag == 1) {
-
-		error = jQuery.extend({}, error, {'Role': 'Please Select a role'})
-
-	}
-	return error
-
-
-
-}
 
 var setupConstraints = function () {
 	alert('a')
