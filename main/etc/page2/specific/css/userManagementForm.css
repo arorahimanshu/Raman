@@ -30,6 +30,7 @@
 
     width:100%;
 
+
 }
 
 
@@ -138,16 +139,17 @@
 .uButton {
   padding:10px 0 0 0;
   height:30px !important;
-  margin: 20% 0 0 10%;
+  margin: 0% 0 0 10%;
 }
 
 .list {
 	width:250px;
-	min-height:100px;
+	min-height: 100px;
+	height:150px;
     float:right;
     overflow-y:scroll;
     display:block;
-    border: 0px solid #0C57A3;
+    border: 1px solid #0C57A3;
 
 }
 
@@ -172,3 +174,8 @@
     }
 
 
+.roleCont1{
+	margin-bottom:25%;
+	height:180px;
+	display:flex;
+	}

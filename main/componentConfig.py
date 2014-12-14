@@ -522,5 +522,47 @@ PermissionConfig = [
     {
         'name': 'POI',
         'appName': 'addPoi',
-    }
+    },
+    {
+        'name': 'playBack',
+        'appName': 'playback',
+    },
+    {
+        'name': 'dashboard',
+        'appName': 'dashboard',
+    },
+    {
+        'name': 'securitySettings',
+        'appName': 'securitySettings',
+    },
+    {
+        'name': 'roleManagement',
+        'appName': 'roleManagement',
+    },
+    {
+        'name': 'organizationManagement',
+        'appName': 'organizationManagement',
+    },
+    {
+        'name': 'branchManagement',
+        'appName': 'branchManagement',
+    },
+    {
+        'name': 'vehicleGroupManagement',
+        'appName': 'vehicleGroupManagement',
+    },
+    {
+        'name': 'report1',
+        'appName': 'report1',
+    },
+    {
+        'name': 'report4',
+        'appName': 'report4',
+    },
+    {
+        'name': 'travelReport',
+        'appName': 'travelReport',
+    },
+
+
 ]

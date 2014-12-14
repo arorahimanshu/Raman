@@ -139,11 +139,12 @@ function successFunc(result) {
 	jQuery('#genericError').addClass('success');
 	setTimeout(function () {
 		location.reload()
-	}, 2000);
+	}, 100);
 
 }
 function setupData2() {
 	data2 = setupData()
+	console.log(data2)
 	data2.id = jQuery('.personId').val()
 	return data2
 }
@@ -194,7 +195,8 @@ var setupData = function () {
 				dob.getDate()
 			]
 		}
-
+		data.organizationLog = jQuery('.userManagement #organizationLog :selected').val()
+		alert(data.organizationLog)
 		data.sex = jQuery('.userManagement .sex').val()
 
 		data.address = jQuery('.userManagement .address').val()

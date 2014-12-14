@@ -1,3 +1,10 @@
+<%!
+import html, json
+%>
+
+
+
+
 <div
 	%if formId :
 	id="${formId}"
@@ -21,6 +28,16 @@
 	</div>
 
 	<div class="byDetailsContainer">
+
+		<div class="field">
+         <label class="genericFormLabel">Organization</label>
+			<select id="organizationLog" class="genericSelect">
+				%for org in orgList:
+					<option value="${org['id']}">${org['display']}</option>
+				%endfor
+			</select>
+        <div class="  error" id="vehicleGroupName1Error"></div>
+        </div>
 		<div class="field">
 			<label class="genericFormLabel">Name</label>
 			<input type="text" class="name genericInput  " id="name">
@@ -90,13 +107,13 @@
 		<div class="errorBox" id="passwordConfirmError"></div>
 	</div>
 
-    <div class="field  ">
+    <div class="field roleCont1 ">
 		<label class="genericFormLabel">Role : </label>
-        <div class="genericCheckBoxContainer1 list">
+        <div class="list">
 		%for role in roleList:
-        <div class="userCheckbox">
-        <input type="checkbox" id="${role}" class="check">
-        <label for="${role}" class=" checkLabel css-label" >${role}</label>
+        <div class="userCheckbox" >
+        <input type="checkbox" id="${role}" class="check" data-details="${html.escape (json.dumps (role))}">
+        <label for="${role}" class=" checkLabel css-label" >${role['name']}</label>
         </div>
         %endfor
 		</div>
