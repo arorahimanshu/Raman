@@ -330,7 +330,7 @@ class DbHelper(Component):
 			cell['cell'] = []
 			cell['cell'].append(i)
 			cell['cell'].append(data.name)
-			queryObj2 = session.query(db.Info).filter((db.Info.entity_id == data.id))
+			queryObj2 = session.query(db.Info).filter(and_(db.Info.entity_id == data.id, db.Info.type == db.Info.Type.Address.value))
 			try:
 				data2 = queryObj2.one()
 				address=data2.data

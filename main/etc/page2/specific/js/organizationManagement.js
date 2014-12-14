@@ -2,7 +2,7 @@ fitx.utils.require(['fitx', 'page2', 'organizationManagement'])
 jQuery(window).load(function () {
 
     //setupAJAXSubmit('organizationManagementForm', 'organizationManagementFormAction', setupData, setupConstraints, '.ok', errorFunc, successFunc)
-    setupAJAXSubmit('organizationManagementForm', 'editOrganization', setupData2, setupConstraints, '.editbutton', errorFunc, successFunc)
+    //setupAJAXSubmit('organizationManagementForm', 'editOrganization', setupData2, setupConstraints, '.editbutton', errorFunc, successFunc)
     setupFlexiGrid('#showOrganization', undefined, "Organization Details", undefined, undefined, undefined, undefined, classData)
     sendAjaxRequest('organizationData', setupDataFlexi(), showReport,errorFunc, successFunc)
 
@@ -80,6 +80,32 @@ jQuery(window).load(function () {
 	jQuery (".ok").click (function () {
 		ajaxFileUploader.fire ()
 	})
+	
+	var editAjaxFileUploader = new fitx.lib1.AjaxFileUploader ({
+		actionUrl : "editOrganization",
+
+		selector : ".fileChooser",
+
+		successFunction : function (result) {
+			console.log (result.message)
+		},
+
+		failureFunction : function (result) {
+			console.log ('upload failed')
+		},
+
+		onFileChanged : function (name) {
+			console.log ('file choosen: ' + name)
+		},
+
+		dataFunction : function () {
+			return setupData2()
+		}
+	})
+
+	jQuery (".editButton").click (function () {
+		editAjaxFileUploader.fire ()
+	})
 
 })
 function successFunc(result) {
@@ -87,7 +113,6 @@ function successFunc(result) {
      jQuery.cookie("userMessageCok", result.message);
 
      if(result.data.errors=='Yes'){
-
          return;
      }
     location.reload();
@@ -283,9 +308,11 @@ function onAddOrDelete(com, grid) {
 
                 jQuery("#tableDiv").toggle('showOrHide')
                 jQuery('#addOrganization').toggle('showOrHide')
-                div.find('.ok').text('Edit')
-                div.find('.ok').removeClass('ok')
-                    .addClass('editbutton')
+                //div.find('.ok').text('Edit')
+                //div.find('.ok').removeClass('ok')
+                //    .addClass('editbutton')
+				div.find('.ok').hide();
+				div.find('.editButton').show();
 
 
             })
