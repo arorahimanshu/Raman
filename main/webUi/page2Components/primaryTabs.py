@@ -67,14 +67,17 @@ class PrimaryTabs(Page2Component):
 			activeTab = kwargs.get('activeTab', 'home')
 		#
 
-		logoId = None
 		clientLogoUrl = None
 		orgId = params['config']['organizationId']
 		db = self.app.component('dbManager')
 		with db.session() as session:
 			orgName = session.query(db.Organization).filter(db.Organization.id==orgId).one().name
-			logoId = session.query(db.Info).filter(and_(db.Info.entity_id==orgId, db.Info.type==db.Info.Type.Image.value, db.Info.preference==0)).one().data
-			extension = session.query(db.logo).filter(db.logo.id==logoId).one().extension
+			logoId = session.query(db.Info).filter(and_(db.Info.entity_id==orgId, db.Info.type==db.Info.Type.Image.value, db.Info.preference==0))
+			try:
+				logoId = logoId.one().data
+				extension = session.query(db.logo).filter(db.logo.id==logoId).one().extension
+			except:
+				logoId = None
 		if logoId:
 			clientLogoUrl = self.server.appUrl('dbassets',logoId+extension)
 		return proxy.render('base1.html',
