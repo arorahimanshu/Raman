@@ -173,9 +173,8 @@ def defineTables(db):
 		'logo',
 		Column('id', DbTypes.Uuid, nullable=False),
 		Column('fileName', DbTypes.VeryLongString, nullable=False),
-
+		Column('extension', DbTypes.VeryShortString, nullable=False),
 		PrimaryKeyConstraint('id'),
-
 	)
 	class logo(DbEntity): pass
 

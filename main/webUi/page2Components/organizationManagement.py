@@ -184,13 +184,12 @@ class Organization(Page2Component):
 					newFile.id = db.Entity.newUuid ()
 					newFile.fileName = formData['image'].filename
 					extension = newFile.fileName[-4:].lower ()
+					newFile.extension = extension
 					if extension not in ['.jpg','.jpeg','.png']:
 						self.jsonFailure('Incompatible Extension')
 					session.add (newFile)
 
-					#with open (os.path.join (Config.WebServer.DbAssets, newFile.id + extension), 'wb') as writeHandle :
-					#with open (os.path.join (self.server._onfig['/dbassets'], newFile.id + extension), 'wb') as writeHandle :
-					with open(newFile.id+extension,'wb') as writeHandle:
+					with open (os.path.join (AppConfig.DbAssets, newFile.id + extension),'wb' ) as writeHandle:
 						while True :
 							data = readHandle.read (chunkSize)
 							writeHandle.write (data)
