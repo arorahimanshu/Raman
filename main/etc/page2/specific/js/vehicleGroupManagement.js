@@ -41,7 +41,8 @@ jQuery(window).load(function () {
         if (key == 13)  // the enter key code
         {
             var pageNo = parseInt(jQuery('.pcontrol input').val())
-            sendAjaxRequest('vehicleGroupData', auxiPaymentData(pageNo), showReport)
+			if(pageNo>=1 && pageNo<=parseInt(total/rp)+1)
+				sendAjaxRequest('vehicleGroupData', {'pageNo': pageNo}, showReport)
         }
     })
 
@@ -188,24 +189,31 @@ function showReport(result) {
 }
 
 var total = 0
+var rp = 10
 function onPrevPageRequest() {
     var pageNo = parseInt(jQuery('.pcontrol input').val()) - 1
-    sendAjaxRequest('vehicleGroupData', auxi(pageNo), showReport)
+	if(pageNo>=1)
+		sendAjaxRequest('vehicleGroupData', {'pageNo': pageNo}, showReport)
 }
 function onNextPageRequest() {
     var pageNo = parseInt(jQuery('.pcontrol input').val()) + 1
-    sendAjaxRequest('vehicleGroupData', {'pageNo': pageNo}, showReport)
+	if(pageNo<=parseInt(total/rp)+1)
+		sendAjaxRequest('vehicleGroupData', {'pageNo': pageNo}, showReport)
 }
 function onFirstPageRequest() {
     sendAjaxRequest('vehicleGroupData', {'pageNo': 1}, showReport)
 }
 function onLastPageRequest() {
-    pageNo = parseInt(total / 10) + 1
+    pageNo = parseInt(total / rp) + 1
     sendAjaxRequest('vehicleGroupData', {'pageNo': pageNo}, showReport)
 }
 function onReload() {
-    var pageNo = parseInt(jQuery('.pcontrol input').val()) + 1
+    var pageNo = parseInt(jQuery('.pcontrol input').val())
     sendAjaxRequest('vehicleGroupData', {'pageNo': pageNo}, showReport)
+}
+function onRpChange() {
+	rp = parseInt(jQuery('.pGroup select').val())
+	sendAjaxRequest('vehicleGroupData',{'pageNo':1,'rp':rp}, showReport)
 }
 function paymentData(pageNo) {
     var data = {}
