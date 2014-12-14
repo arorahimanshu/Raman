@@ -522,5 +522,15 @@ PermissionConfig = [
     {
         'name': 'POI',
         'appName': 'addPoi',
+    },
+        {
+        'name': 'newPOI',
+        'appName': 'newAddPoi',
+    },
+    {
+        'name': 'nitin',
+        'appName': 'utilUrl',
     }
+
+
 ]

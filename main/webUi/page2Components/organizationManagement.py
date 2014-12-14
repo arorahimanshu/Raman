@@ -39,9 +39,7 @@ class Organization(Page2Component):
 			db.Facet_Role.delete({
 				'organization_id':formData['id']
 			})
-			db.Facet.delete({
-				'organization_id':formData['id']
-			})
+
 			db.Permission.delete({
 				'organization_id':formData['id']
 			})
@@ -49,6 +47,11 @@ class Organization(Page2Component):
 				'organization_id':formData['id']
 			})
 			db.Role.delete({
+				'organization_id':formData['id']
+			})
+
+
+			db.Facet.delete({
 				'organization_id':formData['id']
 			})
 
