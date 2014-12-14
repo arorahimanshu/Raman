@@ -32,8 +32,13 @@ class Poi(Page2Component):
 		# TODO: Himanshu When done with branch of organization just pass the company name and branch too here
 		if formData == {}:
 			formData['reportAddressCategory']='0'
+		pageNo = int(formData.get('pageNo', '1'))
+		if 'pageNo' not in formData:
+			self.numOfObj = 10
+		if 'rp' in formData and 'pageNo' in formData:
+			self.numOfObj = int(formData['rp'])
 		with self.server.session() as session:
-			poidata = db.returnPoiReport(session['username'], formData['reportAddressCategory'])
+			poidata = db.returnPoiReport(session['username'], formData['reportAddressCategory'],self.numOfObj,pageNo)
 
 
 		return self.jsonSuccess(poidata)

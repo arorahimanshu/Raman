@@ -212,7 +212,7 @@ class DbHelper(Component):
 
 		return poiList
 	#
-	def returnPoiReport(self,uid,category):
+	def returnPoiReport(self,uid,category,numOfObj=10,pageNo=1):
 		# pageNo starts from 1
 
 		dataSend={}
@@ -238,12 +238,10 @@ class DbHelper(Component):
 				cell['id'] = i
 				i += 1
 				rows.append(cell)
-		dataSend['rows'] = rows
-		dataSend['total']=i-1
-		dataSend['page']=1
-
-
-		return dataSend
+		#dataSend['rows'] = rows
+		#dataSend['total']=i-1
+		#dataSend['page']=1
+		return self.getSlicedData(rows,pageNo,numOfObj)
 	#
 	def returnRoleList(self, orgId):
 		roleList = []

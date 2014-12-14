@@ -62,7 +62,10 @@ jQuery(window).load(function () {
         if (key == 13)  // the enter key code
         {
             var pageNo = parseInt(jQuery('.pcontrol input').val())
-            //sendAjaxRequest('generateEmployeeData',auxiPaymentData(pageNo), showReport)
+			var data = PoiData()
+			data.pageNo = pageNo
+			if(pageNo>=1 && pageNo<=parseInt(total/rp)+1)
+				sendAjaxRequest('generateReport', data, showReport)
         }
     })
 
@@ -278,25 +281,46 @@ function showReport(result) {
 }
 
 var total = 0
+var rp = 10
 function onPrevPageRequest() {
     var pageNo = parseInt(jQuery('.pcontrol input').val()) - 1
-    sendAjaxRequest('generateReport', auxiPaymentData(pageNo), showReport)
+	var data = PoiData()
+	data.pageNo = pageNo
+	if(pageNo>=1)
+		sendAjaxRequest('generateReport', data, showReport)
 }
 function onNextPageRequest() {
     var pageNo = parseInt(jQuery('.pcontrol input').val()) + 1
-    sendAjaxRequest('generateReport', {'pageNo': pageNo}, showReport)
+	var data = PoiData()
+	data.pageNo = pageNo
+	if(pageNo<=parseInt(total/rp)+1)
+		sendAjaxRequest('generateReport', data, showReport)
 }
 function onFirstPageRequest() {
-    sendAjaxRequest('generateReport', {'pageNo': 1}, showReport)
+	var data = PoiData()
+	data.pageNo = 1
+    sendAjaxRequest('generateReport', data, showReport)
 }
 function onLastPageRequest() {
-    pageNo = parseInt(total / 10) + 1
-    sendAjaxRequest('generateReport', {'pageNo': pageNo}, showReport)
+	var pageNo = parseInt(total / rp) + 1
+	var data = PoiData()
+	data.pageNo = pageNo
+    sendAjaxRequest('generateReport', data, showReport)
 }
 function onReload() {
-    var pageNo = parseInt(jQuery('.pcontrol input').val()) + 1
-    sendAjaxRequest('generateReport', {'pageNo': pageNo}, showReport)
+    var pageNo = parseInt(jQuery('.pcontrol input').val())
+	var data = PoiData()
+	data.pageNo = pageNo
+    sendAjaxRequest('generateReport', data, showReport)
 }
+function onRpChange() {
+	rp = parseInt(jQuery('.pGroup select').val())
+	var data = PoiData()
+	data.pageNo = 1
+	data.rp=rp
+    sendAjaxRequest('generateReport', data, showReport)
+}
+
 function paymentData(pageNo) {
     var data = {}
     data.pageNo = 1

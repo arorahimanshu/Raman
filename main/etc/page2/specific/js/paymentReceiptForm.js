@@ -31,6 +31,37 @@ jQuery(window).load(function () {
 										 jQuery("#fromDate").datepicker("option", "maxDate", selected)
 									 }
 								 });
+								 
+	
+	jQuery('.pPrev.pButton').click(function () {
+        onPrevPageRequest()
+    })
+    jQuery('.pNext').click(function () {
+        onNextPageRequest()
+    })
+    jQuery('.pGroup select').change(function () {
+        onRpChange()
+    })
+    jQuery('.pFirst.pButton').click(function () {
+        onFirstPageRequest()
+    })
+    jQuery('.pLast.pButton').click(function () {
+        onLastPageRequest()
+    })
+    jQuery('.pReload.pButton').click(function () {
+        onReload()
+    })
+    jQuery('.pcontrol input').keypress(function (e) {
+        var key = e.which;
+        if (key == 13)  // the enter key code
+        {
+            var pageNo = parseInt(jQuery('.pcontrol input').val())
+			var data = paymentData()
+			data.pageNo = pageNo
+			if(pageNo>=1 && pageNo<=parseInt(total/rp)+1)
+				sendAjaxRequest('paymentReceiptFormActionFormLoad', data, showReport)
+        }
+    })
 
 
 });
@@ -313,4 +344,45 @@ function onAddOrDelete(com, grid) {
 			alert('select single row to delete')
 		}
 	}
+}
+
+var total = 0
+var rp = 10
+function onPrevPageRequest() {
+    var pageNo = parseInt(jQuery('.pcontrol input').val()) - 1
+	var data = paymentData()
+	data.pageNo = pageNo
+	if(pageNo>=1)
+		sendAjaxRequest('paymentReceiptFormActionFormLoad', data, showReport)
+}
+function onNextPageRequest() {
+    var pageNo = parseInt(jQuery('.pcontrol input').val()) + 1
+	var data = paymentData()
+	data.pageNo = pageNo
+	if(pageNo<=parseInt(total/rp)+1)
+		sendAjaxRequest('paymentReceiptFormActionFormLoad', data, showReport)
+}
+function onFirstPageRequest() {
+	var data = paymentData()
+	data.pageNo = 1
+    sendAjaxRequest('paymentReceiptFormActionFormLoad', data, showReport)
+}
+function onLastPageRequest() {
+	var pageNo = parseInt(total / rp) + 1
+	var data = paymentData()
+	data.pageNo = pageNo
+    sendAjaxRequest('paymentReceiptFormActionFormLoad', data, showReport)
+}
+function onReload() {
+    var pageNo = parseInt(jQuery('.pcontrol input').val())
+	var data = paymentData()
+	data.pageNo = pageNo
+    sendAjaxRequest('paymentReceiptFormActionFormLoad', data, showReport)
+}
+function onRpChange() {
+	rp = parseInt(jQuery('.pGroup select').val())
+	var data = paymentData()
+	data.pageNo = 1
+	data.rp=rp
+    sendAjaxRequest('paymentReceiptFormActionFormLoad', data, showReport)
 }

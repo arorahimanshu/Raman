@@ -56,17 +56,17 @@ class PaymentReceipt(Page2Component):
 		}
 
 	#
-	numOfObj = 10
+	#numOfObj = 10
 	def _paymentReceiptFormActionLoad(self, requestPath):
 		formData = json.loads(cherrypy.request.params['formData'])
 		db = self.app.component('dbManager')
 		dbHelp = self.app.component('dbHelper')
 		classData =['S.No','paymentId','UserName','Date','currency','Mode','Amount']
-		pageNo = int((cherrypy.request.params).get('pageNo','1'))
-		if 'pageNo' not in cherrypy.request.params:
+		pageNo = int(formData.get('pageNo', '1'))
+		if 'pageNo' not in formData:
 			self.numOfObj = 10
-		if 'rp' in cherrypy.request.params and 'pageNo' in cherrypy.request.params:
-			self.numOfObj = int(cherrypy.request.params['rp'])
+		if 'rp' in formData and 'pageNo' in formData:
+			self.numOfObj = int(formData['rp'])
 		with self.server.session() as serverSession:
 			with db.session() as session:
 				sendData = dbHelp.getPaymentDataForFlexiGrid(pageNo,session,db,serverSession['userId'],formData['toDate'],formData['fromDate'],self.numOfObj)
