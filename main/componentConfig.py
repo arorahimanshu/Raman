@@ -211,7 +211,8 @@ Page2Config = [
             'newPoiForm',
             'newPoiFormAction',
             'getPoiData',
-            'generateReport'
+            'generateReport',
+            'delPoi'
         ],
         'component': 'webUi.page2Components.poi.Poi',
         'apps': [

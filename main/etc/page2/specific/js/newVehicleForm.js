@@ -40,7 +40,8 @@ var setupData = function () {
 	data.vehicleDevId = jQuery ('#vehicleDevId').val ();
 	data.vehicleType = jQuery ('#vehicleType').val ();
 	data.vehicleGroupId = jQuery('#vehicleGroup :selected').val();
-
+	data.speedLimit = jQuery ('#speedLimit').val();
+	
 	return data
 };
 function setupData2(){
@@ -114,6 +115,7 @@ function editButtonClick(com, grid, c, selectedData) {
 			editFields.push({'vehicleRegNo': jQuery('td[abbr="Vehicle_Reg_No"] >div', this).html()});
 			editFields.push({'vehicleDevId': jQuery('td[abbr="Device_Id"] >div', this).html()});
 			editFields.push({'vehicleType': jQuery('td[abbr="Vehicle_Type"] >div', this).html()});
+			editFields.push({'speedLimit': jQuery('td[abbr="Speed Limit"] >div', this).html()});
 			var div = jQuery('.newVehicleForm');
 
 
@@ -127,7 +129,7 @@ function editButtonClick(com, grid, c, selectedData) {
 				}
 			});
 
-			var vehicleGroupId = jQuery('td[abbr="Vehicle_Group_Id"] >div', this).html ();
+			var vehicleGroupId = jQuery('td[abbr="Vehicle Group Id"] >div', this).html ();
 			div.find('#vehicleGroup').val(vehicleGroupId);
 				
 			jQuery(".newVehicleForm").show();
@@ -148,6 +150,7 @@ function deleteButtonClick(com, grid, c, selectedData) {
 			var delFields = {};
 			delFields.id = jQuery('td[abbr="Vehicle_Id"] >div', this).html();
 			sendAjaxRequest('delVehicleDataAction', delFields, function () {
+				jQuery('.userMessage').text('Vehicle Deleted');
 				onReload('vehicleData')
 			})
 

@@ -224,7 +224,7 @@ class DbHelper(Component):
 			for data in query.all():
 				cell = {}
 				cell['cell'] = []
-
+				cell['cell'].append(data.Poi_Id)
 				cell['cell'].append(data.Poi_Name)
 				cell['cell'].append(data.Category)
 				query2=session.query(db.Info).filter(db.Info.entity_id==data.Poi_Id)
@@ -475,19 +475,22 @@ class DbHelper(Component):
 
 
 			for  data2 in 	queryObj2.all():
-
-					if data2.type == db.Info.Type.vehicleRegNo.value:
-						vehicleFields1['regNo'] = data2.data
-					elif data2.type == db.Info.Type.vehicleMake.value:
-						vehicleFields1['make'] = data2.data
-					elif data2.type == db.Info.Type.vehicleType.value:
-						vehicleFields1['type'] = data2.data
+				if data2.type == db.Info.Type.vehicleRegNo.value:
+					vehicleFields1['regNo'] = data2.data
+				elif data2.type == db.Info.Type.vehicleMake.value:
+					vehicleFields1['make'] = data2.data
+				elif data2.type == db.Info.Type.vehicleType.value:
+					vehicleFields1['type'] = data2.data
+				elif data2.type == db.Info.Type.speed.value:
+					vehicleFields1['speedLimit'] = data2.data
 
 
 
 			cell['cell'].append(vehicleFields1['make'])
 			cell['cell'].append(vehicleFields1['regNo'])
 			cell['cell'].append(vehicleFields1['type'])
+			cell['cell'].append(vehicleFields1['speedLimit'])
+			cell['cell'].append(data.parent_id)
 
 			cell['cell'].append(data.id)
 			cell['id'] = i

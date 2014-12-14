@@ -11,7 +11,7 @@ var shapes = [];
 
 jQuery(window).load(function () {
 	setupAJAXSubmit('newGeoFenceForm', 'newGeoFenceFormAction', setupData, setupConstraints, '.submit', null, saveSuccess);
-	setupAJAXSubmit('newGeoFenceForm', 'editGeoFence', setupData2, setupConstraints, '.editButton', null, saveSuccess);
+	//setupAJAXSubmit('newGeoFenceForm', 'editGeoFence', setupData2, setupConstraints, '.editButton', null, saveSuccess);
 	
 	setupFlexiGrid('#showGeoFenceReport', undefined, "GeoFence Report", undefined, undefined, undefined, undefined, classData);
 	
@@ -30,7 +30,15 @@ function saveSuccess(result) {
 function setupData() {
 	var filter = jQuery('.filter').filter(':visible');
 	var name = filter.find('.name').val();
-	var vehicleId = filter.find('.vehicles :selected')[0].value;
+	
+	var selectedVehicles = filter.find('.vsVehicleId:checked')
+	var idList = []
+	jQuery(selectedVehicles).each (function(){
+		var vehicleId = jQuery (this).data( "details" ).id
+
+		idList.push (vehicleId)
+	})
+	
 	var type = filter.find('.type').val();
 	
 	var geometry = []
@@ -40,7 +48,7 @@ function setupData() {
 	jQuery.each(addresses,function(index, address){
 		var add = address.value;
 		if(add != '') {
-			var parent = jQuery(address).parent ();
+			var parent = jQuery(address).parent ().parent ();
 			var lat = parseFloat(parent.find('.lat').text());
 			var lng = parseFloat(parent.find('.lng').text());
 			geometry.push([lat,lng]);
@@ -51,8 +59,9 @@ function setupData() {
 	
 	var data = {
 		'fenceName' : name,
-		'vehicleId' : vehicleId
+		'vehicleIds' : idList
 	};
+	
 	
 	if (type=='CIRCLE') {
 		if(geometry.length != 1) {
@@ -69,6 +78,14 @@ function setupData() {
 			alert ('minimum three addresses required')
 		} else {
 			details['type'] = 'POLYGON';
+			
+			details['radius'] = 'N/A';
+		}
+	} else if (type=='RECTANGLE') {
+		if(geometry.length < 3) {
+			alert ('please draw rectangle')
+		} else {
+			details['type'] = 'RECTANGLE';
 			
 			details['radius'] = 'N/A';
 		}
@@ -119,8 +136,6 @@ function initialize()
 
   var map = new google.maps.Map(document.getElementById('googleMap'),
                                 mapOptions);
-
-
     return map;
 }
 
@@ -129,7 +144,30 @@ function onLoad_GeoFence() {
 	geocoder = new google.maps.Geocoder();
 	
 	map=initialize();
-
+	
+	var drawingManager = new google.maps.drawing.DrawingManager({
+		drawingMode: google.maps.drawing.OverlayType.MARKER,
+		drawingControl: true,
+		drawingControlOptions: {
+		  position: google.maps.ControlPosition.RIGHT_TOP,
+		  drawingModes: [null]
+		},
+		/*
+		circleOptions: {
+		  fillColor: 'red',
+		  fillOpacity: 0.3,
+		  strokeWeight: 1,
+		  clickable: false,
+		  editable: true,
+		  zIndex: 1
+		}
+		*/
+	  });
+	  drawingManager.setMap(map);
+	  
+	google.maps.event.addListener(drawingManager,'rectanglecomplete',rectanglecomplete);
+	google.maps.event.addListener(drawingManager,'circlecomplete',circlecomplete);
+	
 	google.maps.event.trigger(map, 'resize');
 
 	jQuery('.BACK').click(function() {
@@ -151,7 +189,9 @@ function onLoad_GeoFence() {
 	});
 	
 	jQuery('.RECTANGLE').click(function () {
+		drawingManager.setDrawingMode(google.maps.drawing.OverlayType.RECTANGLE);
 		jQuery('.rectangle').show();
+		alert('Please search for address and draw the rectangle with mouse');
 	});
 	
 	jQuery('.POLYGON').click(function () {
@@ -197,7 +237,7 @@ function onLoad_GeoFence() {
 	
 	jQuery('.radiusButton').click(function (evt){
 		clearOnMap(shapes);
-		var div = jQuery(evt.target).parent().parent();
+		var div = jQuery(evt.target).parent().parent().parent().parent();
 		var address = div.find('.address').val();
 		if(address != '') {
 			var func = function (latlng) {
@@ -212,10 +252,16 @@ function onLoad_GeoFence() {
 	});
 	
 	jQuery('.searchButton').click(function (evt){
-		var div = jQuery(evt.target).parent();
+		var div = jQuery(evt.target).parent().parent();
 		var address = div.find('.address').val();
-		if(address!='')
+		if(address!='') {
 			codeAddress(address);
+			var func = function (latlng) {
+				div.find('.lat').text(latlng.lat());
+				div.find('.lng').text(latlng.lng());
+			}
+			manageLatLng(address, func);
+		}
 	});
 	
 	jQuery('.circle .searchButton').click(function(){
@@ -225,8 +271,8 @@ function onLoad_GeoFence() {
 	jQuery('.rectangle .searchButton').click(function(){
 	});
 	
-	jQuery('.redraw').click(function(){
-		var fields = jQuery('.polygon .address');
+	jQuery('.redraw').click(function(evt){
+		var fields = jQuery(evt.target).parent().parent().find('.address');
 		var path = []
 		
 		jQuery.each(fields,function(index, field){
@@ -280,7 +326,7 @@ function setupFlexiGrid(selector, datatype, title, noOfPages, width, height, sin
 		buttons: [
             {name: 'Add', bclass: 'add', onpress: onAdd},
             {name: 'Delete', bclass: 'delete', onpress: onDelete},
-            {name: 'Edit', bclass: 'edit', onpress: onEdit},
+            //{name: 'Edit', bclass: 'edit', onpress: onEdit},
             {separator: true}
         ],
         title: title,
@@ -340,9 +386,9 @@ function onReload() {
 }
 
 function successFunc(result) {
-
+	jQuery('.message').text(result.message);
 	if(result.success == true) {
-		location.reload();
+		setTimeout(function(){location.reload();},3000);
 	} else {
 	}
 }
@@ -508,7 +554,7 @@ function draw_circle(center, radius) {
                 fillOpacity: 0.3,
                 strokeWeight: 1,
                 clickable: false,
-                editable: true,
+                editable: false,
                 zIndex: 1,
 				map: map,
 				center: center,
@@ -580,5 +626,33 @@ function clearFilter() {
 	jQuery('.lat').text('');
 	jQuery('.lng').text('');
 	jQuery('.radius').val('');
+}
+
+function circlecomplete(Circle) {
+	alert('circle');
+}
+
+var rectangle=undefined;
+var rectanglecomplete = function (Rectangle){
 	
+	if(rectangle!=undefined) {
+		rectangle.setVisible(false);
+	}
+	
+	rectangle=Rectangle;
+	
+	var lats = jQuery('.rectangle .lat');
+	var lngs = jQuery('.rectangle .lng');
+	
+	var ne = Rectangle.bounds.getNorthEast();
+	var sw = Rectangle.bounds.getSouthWest();
+	
+	jQuery(lats[0]).text(ne.lat());
+	jQuery(lngs[0]).text(ne.lng());
+	
+	jQuery(lats[1]).text(sw.lat());
+	jQuery(lngs[1]).text(sw.lng());
+	
+	jQuery(lats[0]).parent().find('.address').val('Address 1');
+	jQuery(lats[1]).parent().find('.address').val('Address 2');
 }
