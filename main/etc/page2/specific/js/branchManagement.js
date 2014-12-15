@@ -47,8 +47,10 @@ jQuery(window).load(function () {
     })
 
     jQuery('.add').click(function () {
+		resetForm();
         jQuery('#addBranch').show();
-        jQuery('.flexigrid').hide();
+        //jQuery('.flexigrid').hide();
+		jQuery('#tablediv').hide();
     })
 
 })
@@ -232,6 +234,7 @@ function auxiPaymentData(pageNo) {
 
 
 function onAddOrDelete(com, grid) {
+	resetForm();
     if (com == "Edit") {
 
         var c = 0
@@ -264,7 +267,8 @@ function onAddOrDelete(com, grid) {
 				
                 idToEdit=jQuery('td[abbr="BranchId"] >div', this).html()
                 jQuery('.userMessage').text(" ");
-                jQuery("#tableDiv").toggle('showOrHide')
+                //jQuery("#tableDiv").toggle('showOrHide')
+				jQuery('#tablediv').hide();
                 jQuery('#addBranch').toggle('showOrHide')
                 div.find('.ok').text('Edit')
                 div.find('.ok').removeClass('ok')
@@ -302,4 +306,8 @@ function onAddOrDelete(com, grid) {
 
 }
 
-
+var resetForm = function() {
+	jQuery('.userMessage').text('');
+	jQuery('.error').text('');
+	jQuery('#addBranch input').val('');
+}
