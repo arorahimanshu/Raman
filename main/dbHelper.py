@@ -296,38 +296,61 @@ class DbHelper(Component):
 				))
 	#
 	def getEmployeeDataForFlexiGrid(self,pageNo,session,db,orgId,curId,numOfObj=10):
-		sessionQueryObj = session.query(db.Facet).filter(db.Facet.organization_id == orgId)
-		rows = []
+		orgList = []
+		dbNew = self.app.component ('dbManager')
+		with dbNew.session () as session :
+
+			objOrg = session.query (dbNew.Organization).filter_by (id = orgId).one ()
+			orgList.append({
+				"id":objOrg.id,
+				"display":objOrg.name
+			})
+
+			for item in session.query (dbNew.Organization).filter_by (parent_id = orgId).all () :
+
+				if {"id" : item.id,"display":item.name} not in orgList:
+						orgList.append ({
+						"id" : item.id,
+						"display":item.name
+					})
+
 		i=1
-		for data in sessionQueryObj.all():
-			id = self.returnUid(data.username)
+		rows = []
+		for orgItem in orgList:
 
-			if id == curId or data.username == 'vedanshu':
-				continue
+			sessionQueryObj = session.query(db.Facet).filter(db.Facet.organization_id == orgItem['id'])
 
-			queryObj2 = session.query(db.Info).filter((db.Info.entity_id == id))
-			queryObj3 = session.query(db.Person).filter(db.Person.id == id)
-			cell = {}
-			cell['cell'] = []
-			cell['cell'].append(i)
-			cell['cell'].append(id)
-			data2 = queryObj3.one()
-			cell['cell'].append(data2.name)
-			cell['cell'].append(data.username)
-			cell['cell'].append(str(data2.dob))
-			queryObj4 = queryObj2.filter(db.Info.type ==db.Info.Type.Email.value)
-			data3 = queryObj4.one()
-			cell['cell'].append(data3.data)
-			queryObj4 = queryObj2.filter(db.Info.type ==db.Info.Type.Mobile.value)
-			data3 = queryObj4.one()
-			cell['cell'].append(data3.data)
-			queryObj4 = queryObj2.filter(db.Info.type ==db.Info.Type.Address.value)
-			data3 = queryObj4.one()
-			cell['cell'].append(data3.data)
-			cell['cell'].append(data2.enumSex.name.lower())
-			cell['id'] = i
-			i+=1
-			rows.append(cell)
+
+			for data in sessionQueryObj.all():
+				id = self.returnUid(data.username)
+
+				if id == curId :
+					continue
+
+				queryObj2 = session.query(db.Info).filter((db.Info.entity_id == id))
+				queryObj3 = session.query(db.Person).filter(db.Person.id == id)
+				cell = {}
+				cell['cell'] = []
+				cell['cell'].append(i)
+				cell['cell'].append(id)
+				data2 = queryObj3.one()
+				cell['cell'].append(data2.name)
+				cell['cell'].append(orgItem['display'])
+				cell['cell'].append(data.username)
+				cell['cell'].append(str(data2.dob))
+				queryObj4 = queryObj2.filter(db.Info.type ==db.Info.Type.Email.value)
+				data3 = queryObj4.one()
+				cell['cell'].append(data3.data)
+				queryObj4 = queryObj2.filter(db.Info.type ==db.Info.Type.Mobile.value)
+				data3 = queryObj4.one()
+				cell['cell'].append(data3.data)
+				queryObj4 = queryObj2.filter(db.Info.type ==db.Info.Type.Address.value)
+				data3 = queryObj4.one()
+				cell['cell'].append(data3.data)
+				cell['cell'].append(data2.enumSex.name.lower())
+				cell['id'] = i
+				i+=1
+				rows.append(cell)
 
 		return self.getSlicedData(rows,pageNo,numOfObj)
 	#

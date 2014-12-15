@@ -59,9 +59,9 @@ jQuery(window).load(function () {
 
 		selector : ".fileChooser",
 
-		successFunction : function (result) {
-			console.log (result.message)
-		},
+        successFunction : function (result) {
+            successFunc(result);
+        },
 
 		failureFunction : function (result) {
 			console.log ('upload failed')

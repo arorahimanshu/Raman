@@ -133,10 +133,11 @@ class UserManagement (Page2Component) :
 						"id" : item.id,
 						"display":item.name
 					})
+
 		db=self.app.component('dbHelper')
 		roleList = db.returnRoleList(orgList)
 
-		classData =['S.No','Uid','Name','UserName','DOB','email-address','Phone No.','Address','Sex']
+		classData =['S.No','Uid','Name','Organization','UserName','DOB','email-address','Phone No.','Address','Sex']
 		return self._renderWithTabs (
 			proxy, params,
 			bodyContent = proxy.render ('userManagementForm.html',roleList=roleList,orgList=orgList,classdata = classData),
@@ -309,7 +310,7 @@ class UserManagement (Page2Component) :
 	def _employeeData(self,requestPath):
 		db = self.app.component('dbManager')
 		dbHelp = self.app.component('dbHelper')
-		classData =['S.No','Name','UserName','DOB','email-address','Phone No.','Address','Sex']
+		classData =['S.No','Name','Organization','UserName','DOB','email-address','Phone No.','Address','Sex']
 		#todo:remove print
 		formData = json.loads(cherrypy.request.params['formData'])
 		print(formData)
@@ -371,14 +372,14 @@ class UserManagement (Page2Component) :
 
 				newFacet = worker.createFacet({
 					'username': newUser.username,
-				#	'organizationId': formData['organizationId'],  --> NV we are using the org id from the crud itself
+				#	'organizationId': formData['organizationId'],  --> NV we are using the org id from the Form itself
 					'organizationId' : formData['organizationLog'],
 				})
 
 				newFacetRole = worker.assignFacetRole({
 					'roleName': 'superuser',
 					'username': newUser.username,
-				#	'organizationId': formData['organizationId']  --> NV we are using the org id from the crud itself
+				#	'organizationId': formData['organizationId']  --> NV we are using the org id from the Form itself
 					'organizationId' : formData['organizationLog'],
 				})
 				return self.jsonSuccess('user created')
