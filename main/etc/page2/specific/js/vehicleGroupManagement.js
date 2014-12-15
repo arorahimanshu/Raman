@@ -47,6 +47,7 @@ jQuery(window).load(function () {
     })
 
     jQuery('.add').click(function () {
+		resetForm();
         jQuery('.userMessage').text(" ");
         jQuery('#addVehicleGroup').show();
         jQuery('.flexigrid').hide();
@@ -228,6 +229,7 @@ function auxiPaymentData(pageNo) {
 
 
 function onAddOrDelete(com, grid) {
+	resetForm();
     if (com == "Edit") {
         alert("first")
         jQuery('.flexigrid').hide();
@@ -293,4 +295,11 @@ function onAddOrDelete(com, grid) {
 		}
     }
 
+}
+
+var resetForm = function() {
+	jQuery('.error').text('');
+	jQuery('#addVehicleGroup select').val('');
+	jQuery('#addVehicleGroup input').val('');
+	jQuery('.userMessage').text('');
 }
