@@ -29,6 +29,34 @@ var onLoadFunc_newVehicle = function () {
 			jQuery(this).val('')
 		})
 	})
+	
+	jQuery('.pPrev.pButton').click(function () {
+        onPrevPageRequest()
+    })
+    jQuery('.pNext').click(function () {
+        onNextPageRequest()
+    })
+    jQuery('.pGroup select').change(function () {
+        onRpChange()
+    })
+    jQuery('.pFirst.pButton').click(function () {
+        onFirstPageRequest()
+    })
+    jQuery('.pLast.pButton').click(function () {
+        onLastPageRequest()
+    })
+    jQuery('.pReload.pButton').click(function () {
+        onReload()
+    })
+    jQuery('.pcontrol input').keypress(function (e) {
+        var key = e.which;
+        if (key == 13)  // the enter key code
+        {
+            var pageNo = parseInt(jQuery('.pcontrol input').val())
+			if(pageNo>=1 && pageNo<=parseInt(total/rp)+1)
+				sendAjaxRequest('vehicleData', {'pageNo': pageNo}, showReport)
+        }
+    })
 };
 
 var setupData = function () {

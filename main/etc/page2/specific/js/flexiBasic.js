@@ -166,11 +166,13 @@ function createColModel(colList) {
 function onPrevPageRequest(url)
 {
 	var pageNo = parseInt(jQuery('.pcontrol input').val()) -1
-	sendAjaxRequest(url,{'pageNo':pageNo,'rp':flexiNumPages},setData)
+	if(pageNo>=1)
+		sendAjaxRequest(url,{'pageNo':pageNo,'rp':flexiNumPages},setData)
 }
 function onNextPageRequest(url)
 {
 	var pageNo = parseInt(jQuery('.pcontrol input').val()) + 1
+	if(pageNo<=parseInt(flexiTotal/flexiNumPages) +1)
 	sendAjaxRequest(url,{'pageNo':pageNo,'rp':flexiNumPages},setData)
 }
 function onFirstPageRequest(url)
@@ -179,7 +181,7 @@ function onFirstPageRequest(url)
 }
 function onLastPageRequest(url)
 {
-	var pageNo = parseInt(flexiTotal/10) +1
+	var pageNo = parseInt(flexiTotal/flexiNumPages) +1
 	sendAjaxRequest(url,{'pageNo':pageNo,'rp':flexiNumPages},setData)
 }
 function onReload(url)
@@ -189,17 +191,20 @@ function onReload(url)
 }
 
 function onRpChange(url) {
-	var pageNo = parseInt(jQuery('.pcontrol input').val())
+	//var pageNo = parseInt(jQuery('.pcontrol input').val())
+	var pageNo = 1
 	flexiNumPages = parseInt(jQuery('.pGroup select').val())
 	sendAjaxRequest(url,{'pageNo':pageNo,'rp':flexiNumPages}, setData)
 }
 function onManualPageEnter(url) {
 	var pageNo = parseInt(jQuery('.pcontrol input').val())
-	sendAjaxRequest(url,{'pageNo':pageNo,'rp':flexiNumPages}, setData)
+	if(pageNo>=1 && pageNo<=parseInt(flexiTotal/flexiNumPages) +1)
+		sendAjaxRequest(url,{'pageNo':pageNo,'rp':flexiNumPages}, setData)
 }
 function flexiInitialize(url) {
 	onFirstPageRequest(url)
 }
 function setData(data) {
 	jQuery(flexiselector).flexAddData(data.message.sendData)
+	flexiTotal = data.message.sendData.total
 }
