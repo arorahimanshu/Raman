@@ -48,8 +48,10 @@ jQuery(window).load(function () {
     })
 
     jQuery('.add').click(function () {
+		resetForm();
         jQuery('#addOrganization').show();
-        jQuery('.flexigrid').hide();
+        //jQuery('.flexigrid').hide();
+		jQuery('#tablediv').hide();
     })
 	
 	var ajaxFileUploader = new fitx.lib1.AjaxFileUploader ({
@@ -293,6 +295,7 @@ function auxiPaymentData(pageNo) {
 
 
 function onAddOrDelete(com, grid) {
+	resetForm();
     if (com == "Edit") {
         var c = 0
         jQuery('.trSelected', grid).each(function () {
@@ -358,4 +361,11 @@ function onAddOrDelete(com, grid) {
 		}
     }
 
+}
+
+var resetForm = function() {
+	jQuery('.userMessage').text('');
+	jQuery('.errorBox').text('');
+	jQuery('#addOrganization input').val('');
+	//jQuery('#addOrganization select').val('');
 }

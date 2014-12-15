@@ -278,52 +278,51 @@ class Organization(Page2Component):
 				},**{'data':address
 				})
 
-				try:
-					readHandle = formData['image'].file
-					chunkSize = 1<<13 # 2^13
-					with db.session () as session :
-						newFile = db.logo ()
-						newFile.id = db.Entity.newUuid ()
-						newFile.fileName = formData['image'].filename
-						extension = newFile.fileName[-4:].lower ()
-						newFile.extension = extension
-						if extension not in ['.jpg','.jpeg','.png']:
-							self.jsonFailure('Incompatible Extension')
-						session.add (newFile)
+				if 'image' in formData:
+					try:
+						readHandle = formData['image'].file
+						chunkSize = 1<<13 # 2^13
+						with db.session () as session :
+							newFile = db.logo ()
+							newFile.id = db.Entity.newUuid ()
+							newFile.fileName = formData['image'].filename
+							extension = newFile.fileName[-4:].lower ()
+							newFile.extension = extension
+							if extension not in ['.jpg','.jpeg','.png']:
+								self.jsonFailure('Incompatible Extension')
+							session.add (newFile)
 
-						with open (os.path.join (AppConfig.DbAssets, newFile.id + extension),'wb' ) as writeHandle:
-							while True :
-								data = readHandle.read (chunkSize)
-								writeHandle.write (data)
-								if not data :
-									break
+							with open (os.path.join (AppConfig.DbAssets, newFile.id + extension),'wb' ) as writeHandle:
+								while True :
+									data = readHandle.read (chunkSize)
+									writeHandle.write (data)
+									if not data :
+										break
+									#
 								#
 							#
-						#
 
-						oldFileQuery = session.query(db.Info).filter(and_(db.Info.entity_id==formData['id'], db.Info.type==db.Info.Type.Image.value))
-						try:
-							oldInfoRow = oldFileQuery.one()
-							oldImageId = oldInfoRow.data
-							oldLogoRow = session.query(db.logo).filter(db.logo.id==oldImageId).one()
-							oldImageName = oldImageId + oldLogoRow.extension
-							session.delete(oldLogoRow)
-							session.delete(oldInfoRow)
-							os.remove(os.path.join (AppConfig.DbAssets, oldImageName))
-						except:
-							traceback.print_exc()
-						worker.session.add(db.Info.newFromParams({
-							'id': db.Entity.newUuid(),
-							'entity_id': formData['id'],
-							'enumType': db.Info.Type.Image,
-							'preference': 0,
-							'data': newFile.id,
-						}))
-
-
-				except:
-					traceback.print_exc ()
-					return self.jsonFailure()
+							oldFileQuery = session.query(db.Info).filter(and_(db.Info.entity_id==formData['id'], db.Info.type==db.Info.Type.Image.value))
+							try:
+								oldInfoRow = oldFileQuery.one()
+								oldImageId = oldInfoRow.data
+								oldLogoRow = session.query(db.logo).filter(db.logo.id==oldImageId).one()
+								oldImageName = oldImageId + oldLogoRow.extension
+								session.delete(oldLogoRow)
+								session.delete(oldInfoRow)
+								os.remove(os.path.join (AppConfig.DbAssets, oldImageName))
+							except:
+								traceback.print_exc()
+							worker.session.add(db.Info.newFromParams({
+								'id': db.Entity.newUuid(),
+								'entity_id': formData['id'],
+								'enumType': db.Info.Type.Image,
+								'preference': 0,
+								'data': newFile.id,
+							}))
+					except:
+						traceback.print_exc ()
+						return self.jsonFailure()
 
 				return self.jsonSuccess('Organization Edited',errors='No')
 
