@@ -324,6 +324,7 @@ class DbHelper(Component):
 			queryObj4 = queryObj2.filter(db.Info.type ==db.Info.Type.Address.value)
 			data3 = queryObj4.one()
 			cell['cell'].append(data3.data)
+			cell['cell'].append(data2.enumSex.name.lower())
 			cell['id'] = i
 			i+=1
 			rows.append(cell)

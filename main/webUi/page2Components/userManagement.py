@@ -136,7 +136,7 @@ class UserManagement (Page2Component) :
 		db=self.app.component('dbHelper')
 		roleList = db.returnRoleList(orgList)
 
-		classData =['S.No','Uid','Name','UserName','DOB','email-address','Phone No.','Address']
+		classData =['S.No','Uid','Name','UserName','DOB','email-address','Phone No.','Address','Sex']
 		return self._renderWithTabs (
 			proxy, params,
 			bodyContent = proxy.render ('userManagementForm.html',roleList=roleList,orgList=orgList,classdata = classData),
@@ -254,7 +254,8 @@ class UserManagement (Page2Component) :
 			if formData['personDataType'] == 'byDetails' :
 				details = {
 					'name' : formData.get ('name', None),
-					'sex' : db.Person.Sex.Female if formData.get ('sex', 'male') else db.Person.Sex.Male
+					#'sex' : db.Person.Sex.Female if formData.get ('sex', 'male') else db.Person.Sex.Male
+					'sex' : db.Person.Sex.Female if formData['sex']=='female' else db.Person.Sex.Male
 				}
 
 				if 'dob' in formData :
@@ -308,7 +309,7 @@ class UserManagement (Page2Component) :
 	def _employeeData(self,requestPath):
 		db = self.app.component('dbManager')
 		dbHelp = self.app.component('dbHelper')
-		classData =['S.No','Name','UserName','DOB','email-address','Phone No.','Address']
+		classData =['S.No','Name','UserName','DOB','email-address','Phone No.','Address','Sex']
 		#todo:remove print
 		formData = json.loads(cherrypy.request.params['formData'])
 		print(formData)

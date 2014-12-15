@@ -37,7 +37,8 @@ jQuery(window).load(function () {
 	jQuery('#addUser').hide()
 
 	jQuery('.cancel').click(function(){
-		jQuery('.flexigrid').show()
+		//jQuery('.flexigrid').show()
+		jQuery('#tableDiv').show();
 		jQuery('#addUser').hide()
 		jQuery('input').each(function(){
 			jQuery(this).val('')
@@ -71,12 +72,15 @@ function saveSuccess(result){
 	}
 
 function addButtonClick(com, grid, c, selectedData) {
+	resetForm();
 	jQuery.cookie("userMessageCok", " ");
 	jQuery('#addUser').show();
-	jQuery('.flexigrid').hide();
+	//jQuery('.flexigrid').hide();
+	jQuery('#tableDiv').hide();
 }
 
 function editButtonClick(com, grid, c, selectedData) {
+	resetForm();
 	if (c == 1) {
 		jQuery('.trSelected', grid).each(function () {
 			var editFields = Array()
@@ -96,6 +100,7 @@ function editButtonClick(com, grid, c, selectedData) {
 
 				}
 			})
+			jQuery('#sex').val(jQuery('td[abbr="Sex"] >div', this).html())
 			jQuery.cookie("userMessageCok", " ");
 			jQuery("#tableDiv").toggle('showOrHide')
 			jQuery('#addUser').toggle('showOrHide')
@@ -298,4 +303,12 @@ var errorFunc = function (data, error) {
 	}
 	return error
 
+}
+
+var resetForm = function() {
+	jQuery('.message').text('');
+	jQuery('#addUser input').val('');
+	//jQuery('#addUser select').val('');
+	jQuery('.errorBox').text('');
+	jQuery('input[type=checkbox]').prop('checked',false);
 }
