@@ -177,7 +177,7 @@ class Vehicle(Page2Component):
 				'entity_id': newVehicleID.id,
 				'enumType': db.Info.Type.speed,
 				'preference': 0,
-				'data': formData['vehicleRegNo'],
+				'data': formData['speedLimit'],
 			}))
 
 			return self.jsonSuccess('Vehicle Added',errors='No')
