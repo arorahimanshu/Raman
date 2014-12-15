@@ -311,4 +311,5 @@ var resetForm = function() {
 	//jQuery('#addUser select').val('');
 	jQuery('.errorBox').text('');
 	jQuery('input[type=checkbox]').prop('checked',false);
+	jQuery('.userMessage').text('');
 }

@@ -310,6 +310,7 @@ function onLoad_GeoFence() {
 	});
 	
 	jQuery('.searchButton').click(function (evt){
+		resetRectangle();
 		var div = jQuery(evt.target).parent().parent();
 		var address = div.find('.address').val();
 		if(address!='') {
