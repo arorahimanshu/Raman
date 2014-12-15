@@ -112,8 +112,8 @@ import html, json
         <div class="list">
 		%for role in roleList:
         <div class="userCheckbox" >
-        <input type="checkbox" id="${role}" class="check" data-details="${html.escape (json.dumps (role))}">
-        <label for="${role}" class=" checkLabel css-label" >${role['name']}</label>
+        <input type="checkbox" id="${role['name']}" class="check" data-details="${html.escape (json.dumps (role))}">
+        <label for="${role['name']}" class=" checkLabel css-label" >${role['name']}</label>
         </div>
         %endfor
 		</div>
