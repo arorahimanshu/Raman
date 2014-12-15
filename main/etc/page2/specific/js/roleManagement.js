@@ -31,15 +31,16 @@ function setupButtonDict() {
 function onLoad_RoleManagement() {
 	jQuery('#addRole').hide()
 	jQuery('.cancel').click(function(){
-		jQuery('.flexigrid').show()
+		//jQuery('.flexigrid').show()
+		jQuery('#tableDiv').show()
 		jQuery('#addRole').hide()
 	})
 }
 
 function addButtonClick(com, grid, c, selectedData) {
 	jQuery('#addRole').show();
-	jQuery('.flexigrid').hide();
-	
+	//jQuery('.flexigrid').hide();
+	jQuery('#tableDiv').hide();
 	jQuery('input').val('');
 	jQuery('input[type=checkbox]:checked').prop("checked", false);
 	
@@ -48,6 +49,7 @@ function addButtonClick(com, grid, c, selectedData) {
 }
 
 function editButtonClick(com, grid, c, selectedData) {
+	resetForm();
 	if (c == 1) {
 		jQuery('.trSelected', grid).each(function () {
 			var editFields = Array()
@@ -152,4 +154,12 @@ var setupConstraints = function () {
 
 	
 	return constraints
+}
+
+var resetForm = function() {
+	jQuery('.message').text('');
+	jQuery('.userMessage').text('');
+	jQuery('.errorBox').text('');
+	jQuery('#name').val('');
+	jQuery('input[type=checkbox]').prop('checked',false);
 }
