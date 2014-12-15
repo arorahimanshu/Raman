@@ -253,11 +253,22 @@ class _Worker:
 		#
 
 		for name in db.Roles._asDict().values():
-			self.session.add(db.Role.newFromParams({
-			'name': name,
-			'organization_id': newOrganization.id,
-			}))
-		#
+			if name == "administrator":  # added by nitin
+				self.session.add(db.Role.newFromParams({
+				'name': name,
+				'organization_id': newOrganization.id,
+				}))
+
+		for role_name in db.Roles._asDict().values():
+			if role_name == "administrator": # added by nitin
+				for permission_name in db.Permissions._asDict().values():
+					self.session.add(db.Permission_Role.newFromParams({
+						'permission_name': permission_name,
+						'organization_id': newOrganization.id,
+						'role_name':role_name
+					}))
+
+		#administrator
 
 		return newOrganization
 

@@ -563,6 +563,29 @@ PermissionConfig = [
         'name': 'travelReport',
         'appName': 'travelReport',
     },
+    {
+        'name': 'reportParent',
+        'appName': 'reportParent',
+    },
+    {
+        'name': 'userManagementParent',
+        'appName': 'userManagementParent',
+    },
+    {
+        'name': 'organizationManagementParent',
+        'appName': 'organizationManagementParent',
+    },
+    {
+        'name': 'vehicleGroupManagementParent',
+        'appName': 'vehicleGroupManagementParent',
+    },
+
+    {
+        'name': 'utilUrl',
+        'appName': 'utilUrl',
+    },
+
+
 
 
 ]

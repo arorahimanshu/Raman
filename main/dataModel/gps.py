@@ -15,8 +15,8 @@ import enum
 def defineTables(db):
 	db.addRoles(
 		Administrator='administrator',
-		MainUser='mainUser',
-		SubUser='subUser'
+	#	MainUser='mainUser',
+	#	SubUser='subUser'
 	)
 
 	loadPermission(db)
