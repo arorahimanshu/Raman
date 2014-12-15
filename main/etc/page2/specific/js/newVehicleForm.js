@@ -128,11 +128,13 @@ function setupButtonDict() {
 }
 
 function addButtonClick(com, grid, c, selectedData) {
+	resetForm();
 	jQuery('.newVehicleForm').show();
 	jQuery('.vehicleTable').hide();
 }
 
 function editButtonClick(com, grid, c, selectedData) {
+	resetForm();
 	if (c == 1) {
 		jQuery('.trSelected', grid).each(function () {
 			var editFields = [];
@@ -187,4 +189,11 @@ function deleteButtonClick(com, grid, c, selectedData) {
 	else {
 		alert('select single row to delete')
 	}
+}
+
+var resetForm = function() {
+	jQuery('.newVehicleForm select').val('');
+	jQuery('.newVehicleForm input').val('');
+	jQuery('.error').text('');
+	jQuery('.userMessage').text('');
 }
