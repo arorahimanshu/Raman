@@ -54,6 +54,18 @@ jQuery(window).load(function () {
 		}
 	})
 	*/
+
+	jQuery( "#organizationLog" ).change( function () {
+
+
+			console.log(jQuery( "#organizationLog option:selected" ).val());
+
+ 	});
+
+
+
+
+
 })
 function setupButtonDict() {
 	var buttons = []
