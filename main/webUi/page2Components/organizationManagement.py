@@ -38,6 +38,12 @@ class Organization(Page2Component):
 
 		with db.session () as session:
 
+
+			for data in session.query(db.branch).filter_by(parent_id = formData['id']).all():
+				worker.delBranchCascade(data['id'])
+
+			# user data delete part
+
 			db.Facet_Role.delete({
 				'organization_id':formData['id']
 			})
@@ -54,11 +60,7 @@ class Organization(Page2Component):
 				'organization_id':formData['id']
 			})
 
-
-			for data in session.query(db.branch).filter_by(parent_id = formData['id']).all():
-
-				worker.delBranchCascade(data['id'])
-
+			# USer delete part ends
 			db.Info.delete({
 				'entity_id':formData['id'],
 			})
