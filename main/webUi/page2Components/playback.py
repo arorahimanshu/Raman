@@ -47,7 +47,7 @@ class Playback(Page2Component):
 
 
 		with dataUtils.worker() as worker:
- 			vehicleStructure= worker.getVehicleTree(primaryOrganizationId)
+			vehicleStructure= worker.getVehicleTree(primaryOrganizationId)
 		#-------------- Code block to implement Vehicle Selector
 
 
@@ -78,14 +78,32 @@ class Playback(Page2Component):
 
 	def _newPlaybackFormAction(self, requestPath):
 
-		#data was coming directly in cherrypy.request.params not as JSON but dictionary itself
-		#formData = json.loads(cherrypy.request.params['formData'])
 		formData = cherrypy.request.params
-		print(formData)
+		data = json.loads(formData['data'])
+		deviceId = formData['id']
 		db = self.app.component('dbHelper')
-		deviceId =formData['deviceId[]']
 		#data = db.returnCarsDataByDates(formData['fromDate'],formData['toDate'])
-		data = db.returnLiveCarsData(deviceId)
+		timeHelper = self.app.component('timeHelper')
+		dateTpe = data['dateType']
+		gmtAdjust = 19800
+		if dateTpe == 'Relative':
+			now = timeHelper.getGMTDateAndTime()
+			now = timeHelper.getDateAndTime_add(gmtAdjust, now)
+			if data['relativeDay'] == 'today':
+				fromDate = timeHelper.getDateAndTime(now.year, now.month, now. day, 0, 0, 0)
+				toDate = now
+			elif data['relativeDay'] == 'yesterday':
+				fromDate = timeHelper.getDateAndTime(now.year, now.month, now. day - 1, 0, 0, 0)
+				toDate = timeHelper.getDateAndTime(now.year, now.month, now. day, 0, 0, 0)
+			elif data['relativeDay'] == 'yesterday1':
+				fromDate = timeHelper.getDateAndTime(now.year, now.month, now. day - 2, 0, 0, 0)
+				toDate = timeHelper.getDateAndTime(now.year, now.month, now. day - 1, 0, 0, 0)
+		else:
+			fromDate = timeHelper.getDateAndTime(data['fromDate'][0],data['fromDate'][1],data['fromDate'][2], 0, 0, 0)
+			toDate = timeHelper.getDateAndTime(data['toDate'][0],data['toDate'][1],data['toDate'][2], 0, 0, 0)
+		fromDate = timeHelper.getDateAndTime_subtract(gmtAdjust, fromDate)
+		toDate = timeHelper.getDateAndTime_subtract(gmtAdjust, toDate)
+		data = db.returnLiveCarsData([deviceId], fromDate, toDate)
 		#errors = self._newPlaybackFormValidate(formData)
 		#if errors:
 		#	return self.jsonFailure('validation failed', errors=errors)

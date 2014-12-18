@@ -538,7 +538,7 @@ class DbHelper(Component):
 		return self.getSlicedData(rows,pageNo,numOfObj)
 	#
 
-	def returnLiveCarsData(self,deviceId):
+	def returnLiveCarsData(self,deviceId, fromDate=None, toDate=None):
 		num = []
 		status = []
 		db = self.app.component('dbManager')
@@ -546,8 +546,15 @@ class DbHelper(Component):
 			# add time filter here
 			# TODO  Discuss the number of  variable returned from here
 			for deviceNum in deviceId:
-				query = session.query(db.gpsDeviceMessage1).filter( and_ (db.gpsDeviceMessage1.deviceId ==  deviceNum ,
+				query = session.query(db.gpsDeviceMessage1).filter( and_ (db.gpsDeviceMessage1.deviceId == '00'+deviceNum ,
 																		  db.gpsDeviceMessage1.messageType == "BR00"))
+				if fromDate!=None:
+					query = query.filter(db.gpsDeviceMessage1.timestamp>=fromDate)
+				if toDate!=None:
+					query = query.filter(db.gpsDeviceMessage1.timestamp<=toDate)
+
+				query = query.filter(db.gpsDeviceMessage1.timestamp>='2014-08-31')
+
 				if query.count() == 0:
 					status.append({"deviceId":deviceNum,"dataPresent":0})
 				elif query.count() > 0:
@@ -558,10 +565,9 @@ class DbHelper(Component):
 					timeDetail = obj.timestamp
 					num.append({"position": {"latitude": str(obj.latitude), "longitude": str(obj.longitude)},
 					            "time": {"hour": timeDetail.hour, "minute": timeDetail.minute,
-					            "second":  timeDetail.second} ,
+					            "second":  timeDetail.second, "year": timeDetail.year, "month": timeDetail.month, "day": timeDetail.day} ,
 								"speed":obj.speed,
 								"deviceId":obj.deviceId,
-
 								})
 		return num,status
 	#

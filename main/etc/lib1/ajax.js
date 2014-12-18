@@ -60,7 +60,9 @@ fitx.lib1.AjaxControl = function (config, trigger) {
 			autoUpload: false,
 			change: function (e, data) {
 				_self._files = data.files
-				_self.onFileChanged (_self._files[0].name)
+				if (_self._files.length > 0) {
+					_self.onFileChanged (_self._files[0].name)
+				}
 			},
 			done: function (evt, data) {
 				//select ().fileupload ('disable')
@@ -71,6 +73,11 @@ fitx.lib1.AjaxControl = function (config, trigger) {
 			},
 			url:_self.actionUrl,
 		})
+
+		_self.cancelFileSelection = function () {
+			_self._files = []
+			_self.onFileChanged (null)
+		}
 	}
 
 	var fireFunction = function (evt) {
@@ -138,17 +145,9 @@ fitx.lib1.AjaxControl = function (config, trigger) {
 		_self.preRequestFunction(control)
 
 		if (!_cancelRequest) {
-			if (trigger != fitx.lib1.TRIGGER_FILE_UPLOAD) {
-				jQuery.ajax(
-					_actionUrl,
-					{
-							type: _self.actionMethod,
-							data: _dataToSend,
-							dataType: 'json',
-							success: _self.successFunction,
-					}
-				).fail(_self.failureFunction)
-			} else {
+
+			if (trigger == fitx.lib1.TRIGGER_FILE_UPLOAD && _self._files.length > 0) {
+
 				var dataArray = []
 				jQuery.each (_dataToSend, function (k, v) {
 					dataArray.push ({name:k, value:v})
@@ -158,6 +157,17 @@ fitx.lib1.AjaxControl = function (config, trigger) {
 					files: _self._files,
 					formData: dataArray
 				})
+
+			} else {
+				jQuery.ajax(
+					_actionUrl,
+					{
+							type: _self.actionMethod,
+							data: _dataToSend,
+							dataType: 'json',
+							success: _self.successFunction,
+					}
+				).fail(_self.failureFunction)
 			}
 		}
 	}

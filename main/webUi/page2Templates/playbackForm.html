@@ -15,8 +15,10 @@
 		<button class="resetMap genericButtonGeo">Reset Map</button>
         </div>
         <div class="buttonBlock">
-		<button class="start genericButtonGeo">start</button>
-		<button class="pause genericButtonGeo">pause</button>
+		<button class="restart genericButtonGeo" hidden="true">Restart</button>
+		<button class="start genericButtonGeo">Start</button>
+		<button class="pause genericButtonGeo" hidden="true">Pause</button>
+		<button class="resume genericButtonGeo" hidden="true">Resume</button>
         <div class="label genericButtonGeo "> Speed</div>
 		<button class="increaseAnimationSpeed genericButtonGeo">+</button>
 		<button class="decreaseAnimationSpeed genericButtonGeo">-</button>
@@ -29,37 +31,39 @@
         </div>
 		<div class="dateType buttonBlock">
 			<div class="label  ">Date Type </div>
-			<input type="radio" name="type" value="Relative">Relative
+			<input type="radio" name="type" value="Relative" checked>Relative
 			<input type="radio" name="type" value="Fix">Fix
 		</div>
 
 		<div class="typeRelative buttonBlock">
 			<div class="label  ">Relative Day</div>
-			<input type="radio" name="relative" value="today">Today
+			<input type="radio" name="relative" value="today" checked>Today
 			<input type="radio" name="relative" value="yesterday">Yesterday
 			<input type="radio" name="relative" value="yesterday1">Yesterday-1
 		</div>
 
-		<div class="typeFix buttonBlock">
+		<div class="typeFix buttonBlock" hidden="true">
 			<div class="label  ">From </div>
 
 			<input class="from genericInput">
 			<div class="label  ">To</div>
 			<input class="to genericInput">
 		</div>
-
+		
+		<!--
 		<div class="search buttonBlock">
 			<div class="label  ">Search Vehicle:</div>
 			<input class="searchField genericInput">
             <div class="searchButton   ">
                     <img class="searchImg" src="/etc/page2/specific/images/search.png"></img>
             </div>
-
+			
 
 
 
 
 		</div>
+		-->
 		
 
 		<!--

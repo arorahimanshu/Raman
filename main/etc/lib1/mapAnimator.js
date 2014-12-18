@@ -22,15 +22,60 @@ fitx.lib1.MapAnimator = function (config) {
 	_self._animations = {}
 
 	_self.newAnimation = function (name, config) {
-		var animationConfig = {mapAnimator:_self}
+		var animationConfig = {mapAnimator:_self, name:name}
 		Object.merge (animationConfig, config)
 		var animation = new fitx.lib1.Animation (animationConfig)
-		_self._animations[config.name] = animation
+		_self._animations[name] = animation
 		return animation
 	}
 
 	_self.getAnimation = function (name) {
-		return self._animations[name]
+		return _self._animations[name]
+	}
+
+	_self._markers = {}
+
+	_self.newMarker = function (name, config) {
+		var _config = {
+			url:config.url,
+			position: new google.maps.LatLng (config.position[0], config.position[1])
+		}
+
+		if (Object.has (config, "scale")) {
+			_config.scale = new google.maps.Size (config.scale[0], config.scale[1])
+		} else {
+			_config.scale = null
+		}
+
+		if (Object.has (config, "anchor")) {
+			_config.anchor = new google.maps.Point (config.anchor[0], config.anchor[1])
+		} else {
+			_config.anchor = null
+		}
+
+		var iconSpec = {url:_config.url}
+		if (_config.scale) {
+			iconSpec.scaledSize = _config.scale
+		}
+		if (_config.anchor) {
+			iconSpec.anchor = _config.anchor
+		}
+
+		var newMarker = new google.maps.Marker ({icon:iconSpec})
+		_self._markers[name] = newMarker
+		newMarker.setPosition (_config.position)
+		newMarker.setMap (_self._map)
+
+		return newMarker
+	}
+
+	_self.removeMarker = function (name) {
+		var marker = _self._markers[name]
+		if (marker) {
+			marker.setMap (null)
+		}
+
+		delete _self._markers[name]
 	}
 }
 
@@ -38,9 +83,10 @@ fitx.lib1.Animation = function (config) {
 	var _self = this
 
 	_self._mapAnimator = config.mapAnimator
+	_self._name = config.name
 
 	_self._steps = config.steps
-	_self._stepDelay = config.stepDelay
+	_self._timeMultiplier = config.timeMultiplier
 
 	_self._iconSpec = fitx.utils.getattr (config, "iconSpec", null)
 
@@ -54,6 +100,10 @@ fitx.lib1.Animation = function (config) {
 
 	_self._stepCallback = fitx.utils.getattr (config, "stepCallback", null)
 
+	_self.name = function () {
+		return _self._name
+	}
+
 	_self.steps = function () {
 		var args = arguments
 		if (args.length == 0) {
@@ -63,12 +113,12 @@ fitx.lib1.Animation = function (config) {
 		}
 	}
 
-	_self.stepDelay = function () {
+	_self.timeMultiplier = function () {
 		var args = arguments
 		if (args.length == 0) {
-			return _self._stepDelay
+			return _self._timeMultiplier
 		} else {
-			_self._stepDelay = args[0]
+			_self._timeMultiplier = args[0]
 		}
 	}
 
@@ -79,10 +129,13 @@ fitx.lib1.Animation = function (config) {
 		} else {
 			var lastInfoContent = _self._infoContent
 			_self._infoContent = "" + args[0]
-			if (lastInfoContent == null) {
-				_self._openInfoWindow ()
-			} else {
-				_self._updateInfoWindow ()
+
+			if (_self._isVisible) {
+				if (lastInfoContent == null) {
+					_self._openInfoWindow ()
+				} else {
+					_self._updateInfoWindow ()
+				}
 			}
 		}
 	}
@@ -124,6 +177,11 @@ fitx.lib1.Animation = function (config) {
 	_self._nextAnimationStep = null
 	_self._nextAnimationControl = null
 
+	_self._stepDelay = 250
+
+	_self._isVisible = true
+	_self._drawnLines = []
+
 	var resume = function () {
 		var args = arguments
 		if (args.length > 0) {
@@ -135,7 +193,7 @@ fitx.lib1.Animation = function (config) {
 				_self._nextAnimationStep = null
 				_self._nextAnimationControl = null
 				animationStep ()
-			}).delay (_self._stepDelay)
+			}).delay (Math.round (_self._stepDelay))
 		}
 	}
 
@@ -152,8 +210,17 @@ fitx.lib1.Animation = function (config) {
 			return
 		}
 
-		var p1 = _self._path[pathIndex]
-		var p2 = _self._path[pathIndex + 1]
+		var p1 = _self._path[pathIndex][0]
+		var p2 = _self._path[pathIndex + 1][0]
+
+		var t1 = _self._path[pathIndex][1]
+		var t2 = _self._path[pathIndex + 1][1]
+
+		_self._stepDelay = (t2 - t1) * 1000 / _self._timeMultiplier
+
+		if (_self._stepDelay <= 0) {
+			_self._stepDelay = 1
+		}
 
 		var points = [p1]
 		var latStep = (p2.lat() - p1.lat()) / _self._steps
@@ -174,7 +241,7 @@ fitx.lib1.Animation = function (config) {
 			} else {
 
 				if (pathIndex == 0 && _self._headerMarker != null) {
-					_self._headerMarker.setPosition (_self._path[pathIndex])
+					_self._headerMarker.setPosition (_self._path[pathIndex][0])
 					_self._headerMarker.setMap (_self._mapAnimator._map)
 				}
 
@@ -184,6 +251,9 @@ fitx.lib1.Animation = function (config) {
 					strokeOpacity: _self._lineOpacity,
 					strokeWidth: _self._lineWidth,
 				})
+
+				drawnLine.setVisible (_self._isVisible)
+				_self._drawnLines.push (drawnLine)
 
 				if (_self._headerMarker != null) {
 					_self._headerMarker.setPosition (points[n2])
@@ -206,7 +276,11 @@ fitx.lib1.Animation = function (config) {
 	}
 
 	_self.reset = function () {
+		jQuery.each (_self._drawnLines, function (index, item) {
+			item.setMap (null)
+		})
 		_self._nextAnimationStep = function () { playSegment (0) }
+		_self._drawnLines = []
 	}
 
 	_self.reset ()
@@ -217,6 +291,52 @@ fitx.lib1.Animation = function (config) {
 
 	_self.pause = function () {
 		pause ()
+	}
+
+	_self._updateDrawnLinesVisibility = function () {
+		jQuery.each (_self._drawnLines, function (index, item) {
+			item.setVisible (_self._isVisible)
+		})
+	}
+
+	_self._updateMarkerVisibility = function () {
+		if (_self._headerMarker != null) {
+			_self._headerMarker.setVisible (_self._isVisible)
+		}
+	}
+
+	_self.hide = function () {
+		_self._isVisible = false
+		_self._updateDrawnLinesVisibility ()
+		_self._updateMarkerVisibility ()
+
+		if (_self._infoWindow != null) {
+			_self._infoWindow.close ()
+			_self._infoWindow = null
+		}
+	}
+
+	_self.unhide = function () {
+		_self._isVisible = true
+		_self._updateDrawnLinesVisibility ()
+		_self._updateMarkerVisibility ()
+
+		var temp = _self.infoContent ()
+		_self._infoContent = null
+		_self.infoContent (temp)
+	}
+
+	_self.remove = function () {
+		_self.pause ()
+		jQuery.each (_self._drawnLines, function (index, item) {
+			item.setMap (null)
+		})
+
+		if (_self._headerMarker != null) {
+			_self._headerMarker.setMap (null)
+		}
+
+		delete _self._mapAnimator._animations[_self._name]
 	}
 }
 
