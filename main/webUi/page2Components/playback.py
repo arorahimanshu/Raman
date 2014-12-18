@@ -85,7 +85,7 @@ class Playback(Page2Component):
 		#data = db.returnCarsDataByDates(formData['fromDate'],formData['toDate'])
 		timeHelper = self.app.component('timeHelper')
 		dateTpe = data['dateType']
-		gmtAdjust = 19800
+		gmtAdjust = data['gmtAdjust']
 		if dateTpe == 'Relative':
 			now = timeHelper.getGMTDateAndTime()
 			now = timeHelper.getDateAndTime_add(gmtAdjust, now)

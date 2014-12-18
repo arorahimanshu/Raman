@@ -1,309 +1,188 @@
-fitx.utils.require(['fitx', 'page2', 'newGpsDataForm']);
+fitx.utils.require(['fitx', 'page2', 'newPlaybackForm']);
+fitx.utils.require(['fitx', 'page2', 'newPlaybackFormAction']);
 
-jQuery(window).load(function () {
-    //setupAJAXSubmit('newGpsDataFrom', 'newGpsDataFormAction', setupData, setupConstraints, '.searchButton', null, successFunc);
-	//sendAjaxRequest('newGpsDataFormVehicleList',{},allVehicles)
-
-	onLoad_liveTracking()
-
-});
-var speedLimit = false;
-var maxSpeed = 0;
-var unitAnimationSpeed = 10000;
-var vehiclesData = {};
-var map;
-var rawData;
-var marker;
-var previousPath;
-var trackRequestTime = 10000;
-
-function initializeMap() {
-    var centre = new google.maps.LatLng(23.25, 77.417);
-    var mapOptions = setMapProperties(12, centre, google.maps.MapTypeId.ROADMAP);
-    map = new google.maps.Map(document.getElementById('map'), mapOptions);
-}
-
-function getColor(vehicleId) {
-    switch (vehicleId) {
-        case 1:
-            return '#FF0000';
-        case 2:
-            return '#00FF00';
-        case 3:
-            return '#0000FF';
-        case 4:
-            return '#000000';
-    }
-    return '#FFFFFF';
-}
-
-function getIcon(vehicleId) {
-    switch (vehicleId) {
-        case 1:
-            return './etc/page2/specific/images/red.jpg'
-        case 2:
-            return './etc/page2/specific/images/green.jpg'
-        case 3:
-            return './etc/page2/specific/images/blue.jpg'
-        case 4:
-            return './etc/page2/specific/images/black.jpg'
-    }
-    return './etc/page2/specific/images/white.jpg'
-}
-
-function successFunc(rawData) {
-
-	if (rawData == undefined)
-		return;
-
-    rawData = rawData.message;
-
-	if (rawData.length == 0)
-		return;
-
-    map.setCenter(getPositionObject(rawData[0].position));
-
-    function animatePath(index) {
-        if (index < rawData.length) {
-            var obj = rawData[index];
-            if(obj.found == "yes") {
-
-            var currentId = obj.vehicleId;
-            if (jQuery ('.remainingVehicles #' + currentId)) {
-            	jQuery ('.remainingVehicles').remove ('#' + currentId)
-            }
-            var position = getPositionObject(obj.position);
-
-			try {
-                vehiclesData[currentId].path.push(position);
-                vehiclesData[currentId].previousTime = vehiclesData[currentId].currentTime;
-                vehiclesData[currentId].currentTime = obj.time;
-
-                vehiclesData[currentId].previousPosition = vehiclesData[currentId].currentPosition;
-                vehiclesData[currentId].currentPosition = position;
-
-                var pathLength = vehiclesData[currentId].path.length;
-
-                if (pathLength > 1) {
-                    var time = getTimeDifference(vehiclesData[currentId].previousTime, vehiclesData[currentId].currentTime);
-                    var distance = google.maps.geometry.spherical.computeDistanceBetween(vehiclesData[currentId].previousPosition, vehiclesData[currentId].currentPosition);
-                    vehiclesData[currentId].totalDistance += convertMToKm(distance);
-                    var speed = obj.speed;
-                    vehiclesData[currentId].speed = speed;
-                    setTimeout(function () {
-                        var path = setPath(vehiclesData[currentId].path, vehiclesData[currentId].color);
-                        if (vehiclesData[currentId].visible == true) {
-                            vehiclesData[currentId].oldFlightPaths.push(path);
-                            drawLine(path, map);
-                            vehiclesData[currentId].marker.setMap(map);
-                            vehiclesData[currentId].marker.setPosition(getPositionObject(obj.position));
-                        } else {
-                            jQuery.each(vehiclesData[currentId].oldFlightPaths, function (index, p) {
-                                p.setMap(null);
-                            });
-                            vehiclesData[currentId].marker.setMap(null);
-                        }
-                        animatePath(index + 1);
-                        if (speed > vehiclesData[currentId].maxSpeed) {
-                            if (vehiclesData[currentId].checkBrokenSpeedLimit == true) {
-                                vehiclesData[currentId].brokenSpeedLimit++;
-                            }
-                            vehiclesData[currentId].checkBrokenSpeedLimit = false;
-                            if (index == rawData.length - 1 || currentId != rawData[index + 1].vehicleId) {
-                                vehiclesData[currentId].checkBrokenSpeedLimit = true;
-                            }
-                        } else {
-                            vehiclesData[currentId].checkBrokenSpeedLimit = true;
-                        }
-                    }, 2000);//unitAnimationSpeed / vehiclesData[currentId].speed);
-                } else {
-                    animatePath(index + 1);
-                }
-            } catch (err) {
-
-                var name = 'empty';
-
-                var marker = new google.maps.Marker({
-                    position: position,
-                    icon: getIcon(currentId)
-                });
-                marker.setMap(map);
-
-                var infoWindowContent = getLiveInfoWindowContent('empty', 'empty', 0, 0, 0);//, 0, 0, 0);
-                var infoWindow = new google.maps.InfoWindow({
-                    content: infoWindowContent
-                });
-                infoWindow.open(map, marker);
-
-				/*
-                var div = jQuery('<div/>', {
-                    'class': 'vehicle' + currentId,
-                });
-
-                div.append('<input class="vehicleId" type="checkbox" value="' + currentId + '" checked> vehicle ' + currentId + '</input>')
-
-                jQuery('<span/>', {
-                    'class': 'ign',
-                    'text': ' IGN' + '-'
-                }).appendTo(div);
-
-                jQuery('<span/>', {
-                    'class': 'pwr',
-                    'text': 'PWR' + '-'
-                }).appendTo(div);
-
-                jQuery('<span/>', {
-                    'class': 'ac',
-                    'text': 'AC' + '-'
-                }).appendTo(div);
-
-                jQuery('<span/>', {
-                    'class': 'gps',
-                    'text': 'GPS' + '-'
-                }).appendTo(div);
-
-                jQuery('<span/>', {
-                    'class': 'path',
-                    'text': 'Show Path' + '-'
-                }).appendTo(div);
-
-                jQuery('<span/>', {
-                    'class': 'playback',
-                    'text': 'Playback' + '-'
-                }).appendTo(div);
-
-                div.hide();
-
-                div.appendTo('.delhi');
-
-                jQuery('.delhi .vehicle' + currentId + ' .vehicleId').change(function (evt) {
-                    var parent = jQuery(evt.target).parent();
-                    var vehicleId = parseInt(parent[0].className.substring(7));
-                    vehiclesData[vehicleId].visible = !vehiclesData[vehicleId].visible;
-                });
-				*/
-                vehiclesData[currentId] = {
-                    'vehicleName': name,
-                    'companyName': name,
-                    'totalDistance': 0,
-                    'color': getColor(currentId),
-                    'marker': marker,
-                    'infoWindow': infoWindow,
-                    'path': [position],
-                    'previousTime': 0,
-                    'currentTime': obj.time,
-                    'previousPosition': 0,
-                    'currentPosition': position,
-                    'speed': 0,
-                    'maxSpeed': 20,
-                    'brokenSpeedLimit': 0,
-                    'checkBrokenSpeedLimit': true,
-                    'visible': true,
-                    'oldFlightPaths': []
-                };
-
-                animatePath(index + 1);
-            }
-
-            var currentData = vehiclesData[currentId];
-
-            vehiclesData[currentId].infoWindow.setContent(getLiveInfoWindowContent(currentData.vehicleName, currentData.companyName, currentData.speed, currentData.totalDistance, currentData.brokenSpeedLimit));//, 0, 0, 0));
-		} else {
-			manageVehiclesWithNoTrack (obj);
-			animatePath (index+1);
-		}
-        }
-    }
-
-    animatePath(0);
-}
-
-
-google.maps.event.addDomListener(window, 'load', initializeMap);
-
-/*
-vehicleIdsWithNoData = []
-function allVehicles(result) {
-	result = JSON.parse(result)
-	jQuery.each (result, function (index, branch){
-		var branchName = branch['branchDetails']['branchName']
-		var vehicleGroups = branch['vehicleGroups']
-		jQuery.each (vehicleGroups, function (i, vehicleGroup){
-			var vehicleGroupName = vehicleGroup['vehicleGroupDetails']['vehicleGroupName']
-			var vehicles = vehicleGroup['vehicles']
-			jQuery.each (vehicles, function (j, vehicle){
-				vehicleIdsWithNoData.push(vehicle['value'])
-			})
-		})
+jQuery(window).load(function() {
+	/************************Control Related**********************/
+	makeMapAnimator()
+	startNewAnimation()
+	var dataTimer = 1
+	
+	function setupData() {
+		var curdate = new Date();
+		var offset =-1* curdate.getTimezoneOffset();
+		var gmtAdjust=offset*60;
+		
+		var specificFormData = {}
+		
+		specificFormData['gmtAdjust'] = gmtAdjust
+		
+        return specificFormData;
+	}
+	
+	jQuery('.vehicleSelector input[type=checkbox]').change(function(){
+		hideAnimation()
+		jQuery('.vsVehicleId:checked').each (function(){
+		    var vehicleId = jQuery (this).data( "details" ).deviceId
+			unhideAnimation(vehicleId)
+	    })
 	})
-}
-*/
+	
+	/*************************Animation Related******************/
+	var mapAnimator, map;
+	var epoch = new Date (1970, 0, 1, 0, 0, 0)
+	
+	function makeMapAnimator () {
+		mapAnimator = new fitx.lib1.MapAnimator ({
+			canvas:jQuery ('#map')[0],
+			center: new google.maps.LatLng (23.25, 77.417)
+		})
+		map = mapAnimator.map ()
+	}
+	
+	var animations = {}
+	function startNewAnimation() {
+		
+		var idList = []
+        var vehicleId
+        jQuery('.vsVehicleId:checked').each (function(){
+		    vehicleId = jQuery (this).data( "details" ).deviceId
+            idList.push (vehicleId)
+	    })
+		
+		jQuery.each(idList, function(index, id) {
+			var ajaxReq = new fitx.lib1.CustomAjax ({
+				actionUrl : fitx.utils.appUrl('newGpsDataFormAction'),
+				actionMethod : 'GET',
+				dataFunction : function () {
+					return {
+						'data' : JSON.stringify(setupData()),
+						'id' : id
+					}
+				},
+				successFunction : function (result) {
+					var coordinates = result.message[0]
+					var path = []
+					jQuery.each (coordinates, function (index, item) {
+						var lat = parseFloat(item.position.latitude)
+						var lng = parseFloat(item.position.longitude)
+						var point = new google.maps.LatLng (lat, lng)
+						var time = new Date (
+							item.time.year, item.time.month, item.time.day,
+							item.time.hour, item.time.minute, item.time.second
+						)
+						var seconds = time.secondsSince (epoch)
 
-function onLoad_liveTracking () {
-	//jQuery ('.branch').hide ()
-	//jQuery ('.vehicleGroup').hide ()
-	//jQuery ('.vehicle').hide ()
+						//console.log (item[0] + ", " + item[1] + ", " + seconds)
 
-	jQuery ('.vehicle').change (function (){
-		setupCarsAndTime ();
-	});
-	setupCarsAndTime ();
+						path.push ([point, seconds])
+					})
 
-}
+					var animation1 = mapAnimator.newAnimation ('animation1', {
+						steps: 2,
+						timeMultiplier: 40,
+						path: path,
+						iconSpec: {
+							url: fitx.utils.appUrl ("assets", "car1.png"),
+							scale: [20, 20],
+							anchor: [10, 10],
+						},
+						stepCallback: function (animation, index) {
+							animation.infoContent ('currentIndex: ' + index)
+						},
+					})
 
-var carsToTrack = []
-var trackRequest;
-function setupCarsAndTime () {
-	clearInterval(trackRequest)
-	carsToTrack = []
-	for (var key in vehiclesData) {
-		try {
-			vehiclesData[key].visible = false;
-		} catch (err) {
+					map.setZoom (13)
+					map.setCenter (path[0][0])
+					animation1.play ()
+					animations[result.message[1][0].deviceId] = animation1
+				},
+				failureFunction : function () {
+					console.log ('failed...')
+				},
+			})
+			ajaxReq.fire ()
+		})
+	}
+	
+	function removeAnimation (id) {
+		if (id != undefined) {
+			if (id in animations) {
+				animations[id].remove ()
+				delete animations[id]
+			}
+		} else {
+			jQuery.each (animations, function (id, animation){
+				animation.remove ()
+			})
 		}
 	}
-    jQuery('.vehicle:checked').each(function () {
-    	var id = jQuery (this).prop ('value');
-        carsToTrack.push(id)
-		try {
-        	vehiclesData[id].visible = true;
-        } catch (err) {
-        }
-    })
-    if (carsToTrack != null && carsToTrack.length!=0) {
-
-        var specific={}
-        var curdate = new Date()
-        var offset =-1* curdate.getTimezoneOffset()
-        specific.gmt=(parseInt(offset/60)*3600)+(offset%60)*60
-        specific.carToTracked=carsToTrack
-
-        sendAjaxRequest('newCarSetup', specific, undefined);
-
-        trackRequest=setInterval(function () {
-            sendAjaxRequest('newGpsDataFormAction',undefined,successFunc)
-        }, trackRequestTime);
-    }
-}
-
-function manageVehiclesWithNoTrack (obj) {
-	var id = obj.vehicleId;
-	var remainingVehicles = jQuery ('.remainingVehicles');
-	var notFoundId = remainingVehicles.find ("#" + id);
-	if(notFoundId == undefined || notFoundId.length == 0) {
-		remainingVehicles.append ('<div id="' + id + '"></div>')
+	
+	function hideAnimation (id) {
+		if (id != undefined) {
+			if (id in animations) {
+				animations[id].hide ()
+			}
+		} else {
+			jQuery.each (animations, function (id, animation){
+				animation.hide ()
+			})
+		}
 	}
-	if (obj.found == "old") {
-	jQuery ('.remainingVehicles #' + id).text (
-		"" + id + " " + getLocation (obj.position) + " at " +
-		obj.time.day + "-" + obj.time.month + "-" + obj.time.year + " " +
-		obj.time.hour + ":" + obj.time.minute + ":" + obj.time.second
-	)
-	} else if (obj.found == "no"){
-		jQuery ('.remainingVehicles #' + id).text ("No Data")
+	
+	function unhideAnimation (id) {
+		if (id != undefined) {
+			if (id in animations) {
+				animations[id].unhide ()
+			}
+		} else {
+			jQuery.each (animations, function (id, animation){
+				animation.unhide ()
+			})
+		}
 	}
-}
-
-function getLocation (position) {
-	return "here";
-}
+	
+	function pauseAnimation (id) {
+		if (id != undefined) {
+			if (id in animations) {
+				animations[id].pause ()
+			}
+		} else {
+			jQuery.each (animations, function (id, animation){
+				animation.pause ()
+			})
+		}
+	}
+	
+	function playAnimation (id) {
+		if (id != undefined) {
+			if (id in animations) {
+				animations[id].play ()
+			}
+		} else {
+			jQuery.each (animations, function (id, animation){
+				animation.play ()
+			})
+		}
+	}
+	
+	function changeAnimationSpeed(task, id) {
+		var multiplier = 1.5
+		if (id != undefined) {
+			if (id in animations) {
+				if(task == 'increase') {
+					animations[id].timeMultiplier(animations[id].timeMultiplier() * multiplier)
+				} else if(task=='decrease') {
+					animations[id].timeMultiplier(animations[id].timeMultiplier() / multiplier)
+				}
+			}
+		} else {
+			jQuery.each (animations, function (id, animation){
+				if(task == 'increase') {
+					animation.timeMultiplier(animation.timeMultiplier() * multiplier)
+				} else if(task=='decrease') {
+					animation.timeMultiplier(animation.timeMultiplier() / multiplier)
+				}
+			})
+		}
+	}
+})

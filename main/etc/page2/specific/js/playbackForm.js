@@ -22,6 +22,10 @@ jQuery(window).load(function() {
 	}
 	
 	function setupData() {
+		var curdate = new Date();
+		var offset =-1* curdate.getTimezoneOffset();
+		var gmtAdjust=offset*60;
+
 		var dateType = jQuery('Input[name=type]:radio:checked').val();
 
         var specificFormData = {
@@ -38,6 +42,8 @@ jQuery(window).load(function() {
                 specificFormData['fromDate'] = from;
                 specificFormData['toDate'] = to;
         }
+		
+		specificFormData['gmtAdjust'] = gmtAdjust
 		
         return specificFormData;
 	}

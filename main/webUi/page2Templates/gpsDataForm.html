@@ -1,41 +1,25 @@
 <div class="errorBox"></div>
 
-<div class="filterSettings" style="border: 2px solid blue; padding: 10px 40px; background: #dddddd; border-radius: 25px;">
-	Filter Settings
+<div class='liveTracking'>
 
-	<div class="search">
-		Search Vehicle:<br/>
-		<input class="searchField">
-		<button class="searchButton">Search</button>
-	</div>
-
-	<div class="branches">
-        %for org in vehiclesList:
-            %for branch in org['branches']:
-                <div class="branch" id="${branch['branchDetails']['branchId']}">
-                    <button class="show">+</button>
-                    <button class="hide">-</button>
-                    <label>${branch['branchDetails']['branchName']}</label>
-                    <div class="vehicleGroups">
-                        %for vehicleGroup in branch['vehicleGroups']:
-                            <div class="vehicleGroup" id="${vehicleGroup['vehicleGroupDetails']['vehicleGroupId']}">
-                                <button class="show">+</button>
-                                <button class="hide">-</button>
-                                <label>${vehicleGroup['vehicleGroupDetails']['vehicleGroupName']}</label>
-                                %for vehicle in vehicleGroup['vehicles']:
-                                    <div class="vehicles" id="S{vehicle}">
-                                        <br/><input class="vehicle" type="checkbox" value="${vehicle['value']}" checked onclick="setupCarsAndTime"><label>${vehicle['display']}</label></input>
-                                    </div>
-                                %endfor
-                            </div>
-                        %endfor
-                    </div>
-                </div>
-            %endfor
-		%endfor
-	</div>
+	<div class='date'></div>
 </div>
 
-<div class="remainingVehicles"></div>
+<div class="options">
+    <div class="geoHeader"> Live Tracking Vehicles
+    </div>
 
-<div id="map" style="height:750px;"></div>
+	%if additionalOptions :
+		%for opt in additionalOptions :
+			${opt}
+		%endfor
+	%endif
+
+
+
+</div>
+<div id="map" style="height:750px">
+	<!--<Button id="loadMap"  class="genericButtonGeo">Load Map</button>-->
+</div>
+<!--<div class="speedDetails" style="position:absolute; top: 500px; left:200px;"></div>-->
+

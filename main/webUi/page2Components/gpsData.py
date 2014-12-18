@@ -87,7 +87,9 @@ class GpsData(Page2Component):
 		proxy, params = self.newProxy()
 
 		params['externalJs'].append('http://maps.googleapis.com/maps/api/js?libraries=geometry&sensor=false')
-
+		params['externalJs'].append (
+			self.server.appUrl ('etc', 'lib1', 'mapAnimator.js')
+		)
 		params['externalCss'].append(
 			self.server.appUrl('etc', 'page2', 'specific', 'css', 'gpsDataForm.css')
 		)
@@ -98,12 +100,44 @@ class GpsData(Page2Component):
 			self.server.appUrl('etc', 'page2', 'specific', 'js', 'basic.js')
 		)
 
+		self.lastRecordTime = {}
+
+		#-------------- Code block to implement Vehicle Selector
+		vehicleStructure = []
+		dataUtils = self.app.component('dataUtils')
+		with self.server.session() as serverSession:
+			primaryOrganizationId = serverSession['primaryOrganizationId']
+
+
+		with dataUtils.worker() as worker:
+			vehicleStructure= worker.getVehicleTree(primaryOrganizationId)
+		#-------------- Code block to implement Vehicle Selector
+
+		'''
 		vehiclesList = self._newVehicleList(requestPath)
 		vehiclesList = json.loads(vehiclesList)
 		return self._renderWithTabs(
 			proxy, params,
 			bodyContent=proxy.render('gpsDataForm.html', vehiclesList = vehiclesList),
 			newTabTitle='Track My Vehicle',
+			url=requestPath.allPrevious(),
+		)
+		'''
+
+		return self._renderWithTabs(
+			proxy, params,
+			bodyContent=proxy.render('gpsDataForm.html',
+				additionalOptions = [
+					"<br><br><br><br>",
+
+					proxy.render ('vehicleSelector.html',
+						branches = vehicleStructure[0],
+						vehicleGroups = vehicleStructure[1],
+						vehicles = vehicleStructure[2],
+					)
+				]
+			),
+			newTabTitle='Live Tracking',
 			url=requestPath.allPrevious(),
 		)
 
@@ -140,8 +174,23 @@ class GpsData(Page2Component):
 
 	def _newGpsDataFormAction(self, requestPath):
 
+		formData = cherrypy.request.params
 		db = self.app.component('dbHelper')
-		data = db.returnLiveCarDataForVehicles (self.carToTracked, self.getGMTDateAndTime())
+		deviceId = formData['id']
+		timeHelper = self.app.component('timeHelper')
+		data = json.loads(formData['data'])
+		gmtAdjust = data['gmtAdjust']
+		now = timeHelper.getGMTDateAndTime()
+		if deviceId in self.lastRecordTime:
+			fromDate = self.lastRecordTime['deviceId']
+		else:
+			recordSearchMinutes = 1
+			fromDate = timeHelper.getDateAndTime_subtract(recordSearchMinutes * 60)
+		#data = db.returnLiveCarDataForVehicles (self.carToTracked, self.getGMTDateAndTime())
+		toDate = now
+		#data = db.returnLiveCarDataForVehicles ([deviceId], now)
+		data = db.returnLiveCarsData([deviceId], fromDate, toDate)
+		self.lastRecordTime['deviceId'] = toDate
 		return self.jsonSuccess(data)
 
 		#
