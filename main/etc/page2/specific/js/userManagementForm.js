@@ -36,6 +36,21 @@ jQuery(window).load(function () {
 
 	jQuery('#addUser').hide()
 
+	jQuery( ".userCheckbox" ).each(function() {
+		//alert(jQuery( this ).attr('id')+"=="+activeOrgId);
+		activeOrgId = 'check'+jQuery( "#organizationLog option:selected" ).val();
+		if ( jQuery( this ).attr('id') == activeOrgId )
+		{
+		  jQuery(this).show();
+		}
+		else{
+			jQuery(this).hide();
+		}
+	});
+
+
+
+
 	jQuery('.cancel').click(function(){
 		//jQuery('.flexigrid').show()
 		jQuery('#tableDiv').show();
@@ -58,7 +73,23 @@ jQuery(window).load(function () {
 	jQuery( "#organizationLog" ).change( function () {
 
 
-			console.log(jQuery( "#organizationLog option:selected" ).val());
+		activeOrgId = 'check'+jQuery( "#organizationLog option:selected" ).val();
+		//console.log(activeOrgId);
+		jQuery('.check').prop('checked', false);
+
+		jQuery( ".userCheckbox" ).each(function() {
+				//alert(jQuery( this ).attr('id')+"=="+activeOrgId);
+				if ( jQuery( this ).attr('id') == activeOrgId )
+				{
+				  jQuery(this).show();
+				}
+				else{
+					jQuery(this).hide();
+				}
+
+		 });
+
+		// add uncheck here
 
  	});
 

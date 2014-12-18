@@ -255,7 +255,7 @@ class DbHelper(Component):
 		db = self.app.component('dbManager')
 		with db.session() as session:
 			for item in orgId:
-				query = session.query(db.Role).filter(db.Role.organization_id == item['id'])
+				query = session.query(db.Role).filter(db.Role.organization_id == item['id']).order_by(db.Role.name)
 				for x in query.all():
 					roleList.append({
 						"id":x.organization_id,

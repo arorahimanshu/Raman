@@ -111,10 +111,10 @@ import html, json
 		<label class="genericFormLabel">Role : </label>
         <div class="list">
 		%for role in roleList:
-        <div class="userCheckbox" >
-        <input type="checkbox" id="${role['name']}" class="check" data-details="${html.escape (json.dumps (role))}">
-        <label for="${role['name']}" class=" checkLabel css-label" >${role['name']}</label>
-        </div>
+        	<div class="userCheckbox" id="${'check'+role['id']}" >
+			<input type="checkbox" id="${role['name']}" class="check" data-details="${html.escape (json.dumps (role))}">
+      		<label for="${role['name']}" class=" checkLabel css-label" >${role['name']}</label>
+        	</div>
         %endfor
 		</div>
         <div class="errorBox" id="RoleError"></div>
