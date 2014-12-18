@@ -129,7 +129,7 @@ function createColModel(colList) {
         var dict = {
             display: v,
             name: v,
-            width: v.length * 15,
+            width: 160,
             align: 'center',
             sortable: true
         }

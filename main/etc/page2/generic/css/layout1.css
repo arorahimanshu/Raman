@@ -67,8 +67,10 @@
 
     float:right;
 	border: 0px solid red;
-    width:15%;
+    width:10%;
     display: inline;
+    text-align:right;
+    padding-right: 1em;
     margin-bottom: auto;
     margin-bottom: auto
 }

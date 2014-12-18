@@ -14,13 +14,14 @@
 }
 .filterSettings{
     width:27%;
-    height:35%;
+    height:34%;
     position:absolute;
     z-index:10;
-    border: 3px solid #5133AB;
+    border: 2px solid #5133AB;
     display: block;
     z-index:10;
     background-color: #5133AB;
+    padding: 0.15em 0;
     margin:6% 0 0 1% ;
 
 }
@@ -28,6 +29,7 @@
 .filterSettings   .vehicleSelector {
     margin-left:auto;
     margin-right:auto;
+    display:table;
 }
 
 .filterSettings   .vehicleSelector  .vehicleSelectorTable  .vehicleGroupsContainer{

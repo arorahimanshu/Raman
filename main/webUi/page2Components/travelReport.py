@@ -50,8 +50,8 @@ class TravelReport(Page2Component):
 		)
 
 		self.classData = ['S.No.', 'Company', 'Branch', 'Vehicle Name', 'Reg No', 'Vehicle Information', 'Driver Information', 'Start Location',
-						  'Total Running(km)', 'Total Running Duration', 'Total Idle Duration', 'Total Stop Duration',
-						  'Total Inactive Duration', 'Avg Duration', 'Avg Speed', 'Max Speed', 'Times Stopped',
+						  'Travel Distance(km)', 'Run Duration', 'Idle Duration', 'Stop Duration',
+						  'Inactive Duration', 'Avg Duration', 'Avg Speed', 'Max Speed', 'Times Stopped',
 						  'Times Idle', 'Alert', 'End Location']
 
 		# Vehicle selector Block Starts

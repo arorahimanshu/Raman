@@ -104,7 +104,7 @@ function saveSuccess(result) {
 
 
 function setData(result) {
-    alert('a');
+    //alert('a');
     addToPoiTable(result.message)
 
 }
@@ -213,7 +213,7 @@ function createColModel(colList) {
         var dict = {
             display: v,
             name: v,
-            width: v.length * 22,
+            width:180,
             align: 'center'
         }
         colModel.push(dict)

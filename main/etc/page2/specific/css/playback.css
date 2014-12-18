@@ -133,8 +133,8 @@
     }
 	
 .vehicleInfoWindow {
-	width: 200px;
-	height: 80px;
+	width: 14em;
+	height: 6em;
 	border: 0px solid black;
     font-size:1.2em;
 }

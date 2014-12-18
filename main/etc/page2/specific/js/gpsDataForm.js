@@ -4,7 +4,7 @@ fitx.utils.require(['fitx', 'page2', 'newGpsDataFormAction']);
 jQuery(window).load(function() {
 	/************************Control Related**********************/
 	makeMapAnimator()
-	var dataTimer = 1			//in seconds
+	var dataTimer = 10			//in seconds
 	startNewAnimation.every(dataTimer * 1000)
 	
 	function setupData() {
@@ -83,11 +83,13 @@ jQuery(window).load(function() {
 				successFunction : function (result) {
 					var coordinates = result.message[0]
 					var status = result.message[1][0]
+
 					var path = []
 					jQuery.each (coordinates, function (index, item) {
 						var lat = parseFloat(item.position.latitude)
 						var lng = parseFloat(item.position.longitude)
 						var point = new google.maps.LatLng (lat, lng)
+						//alert(point)
 						var time = new Date (
 							item.time.year, item.time.month, item.time.day,
 							item.time.hour, item.time.minute, item.time.second
@@ -115,7 +117,7 @@ jQuery(window).load(function() {
 							iconSpec: {
 								url: fitx.utils.appUrl ("assets", "car1.png"),
 								scale: [20, 20],
-								anchor: [10, 10],
+								anchor: [10, 10]
 							},
 							stepCallback: function (animation, index) {
 								var pointData = animation.path()[index][2]
@@ -206,7 +208,7 @@ jQuery(window).load(function() {
 	}
 	
 	function changeAnimationSpeed(task, id) {
-		var multiplier = 1.5
+		var multiplier = 1
 		if (id != undefined) {
 			if (id in animations) {
 				if(task == 'increase') {
