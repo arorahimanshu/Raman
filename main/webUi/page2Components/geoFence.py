@@ -3,6 +3,8 @@ from appConfig import AppConfig
 from utils import Validator
 import cherrypy
 import json
+from sqlalchemy import and_
+import traceback
 
 
 class GeoFence(Page2Component):
@@ -64,7 +66,7 @@ class GeoFence(Page2Component):
 		#
 
 		self.vehicleList = db.returnVehicleList(self.userId)
-		self.classData=['S.No.','GeoFence Id','GeoFence Name','Type','Radius','Coordinates']
+		self.classData=['S.No.','GeoFence Id','GeoFence Name','Vehicle Name','Vehicle Reg No','Vehicle Id','Type','Radius','Coordinates']
 
 				# Vehicle selector Block Starts
 		vehicleStructure = []
@@ -197,20 +199,30 @@ class GeoFence(Page2Component):
 					)
 		rows=[]
 		for data in tableData:
-			row={}
+
 			#queryVehicleId = session.query(db.GeoFence_vehicle).filter_by(GeoFence_id=data['Geofence_Id'])
-			row['cell']=[len(rows)+1]
-			row['cell'].append(data['Geofence_Id'])
-			row['cell'].append(data['Geofence_Name'])
-			#row['cell'].append(queryVehicleId.Vehicle_id)
-			details = json.loads(data['Details'])
-			row['cell'].append(details['type'])
-			if details['type']=='CIRCLE':
-				row['cell'].append(details['radius'])
-			else:
-				row['cell'].append('N/A')
-			row['cell'].append(json.dumps(details['geometry']))
-			rows.append(row)
+			for vehicle in  session.query(db.GeoFence_vehicle).filter_by(GeoFence_id=data['Geofence_Id']).all():
+
+				vehicleData= session.query(db.Gps_Vehicle_Info).filter_by(id=vehicle.Vehicle_id ).one()
+				vehicleDataInfo=session.query(db.Info).filter(and_(db.Info.entity_id==vehicle.Vehicle_id,
+				  db.Info.type==db.Info.Type.vehicleRegNo.value,db.Info.preference== 0)).one()
+				row={}
+				row['cell']=[len(rows)+1]
+				print(len(rows))
+				row['cell'].append(data['Geofence_Id'])
+				row['cell'].append(data['Geofence_Name'])
+				row['cell'].append(vehicleData.name)
+				row['cell'].append(vehicleDataInfo.data)
+				row['cell'].append(vehicle.Vehicle_id)
+				#row['cell'].append(queryVehicleId.Vehicle_id)
+				details = json.loads(data['Details'])
+				row['cell'].append(details['type'])
+				if details['type']=='CIRCLE':
+					row['cell'].append(details['radius'])
+				else:
+					row['cell'].append('N/A')
+				row['cell'].append(json.dumps(details['geometry']))
+				rows.append(row)
 
 
 		formData = json.loads(cherrypy.request.params['formData'])
@@ -258,15 +270,32 @@ class GeoFence(Page2Component):
 	def _delGeoFence(self,requestPath):
 		formData= json.loads(cherrypy.request.params['formData'])
 		db = self.app.component('dbManager')
-		try:
-			with db.session() as session:
-				query = session.query(db.GeoFence_vehicle).filter(db.GeoFence_vehicle.GeoFence_id == formData)
-				for data in query.all():
-					session.delete(data)
-				query = session.query(db.Gps_Geofence_Data).filter(db.Gps_Geofence_Data.Geofence_Id == formData)
+		#try:
+		with db.session() as session:
+
+			vehicleData = session.query(db.GeoFence_vehicle).filter(db.GeoFence_vehicle.GeoFence_id == formData['geoFenceId'])
+
+			if vehicleData.count() == 1:
+				db.GeoFence_vehicle.delete({
+					'GeoFence_id':formData['geoFenceId']
+				})
+				db.Gps_Geofence_Data({
+					'GeoFence_id':formData['geoFenceId']
+				})
+			elif vehicleData.count() > 1:
+				query = session.query(db.GeoFence_vehicle).filter(db.GeoFence_vehicle.Vehicle_id == formData['vehicleId'])
 				session.delete(query.one())
-		except:
-			return self.jsonFailure()
+
+			session.commit()
+				# Himanshu delete part removed by nitin
+				#query = session.query(db.GeoFence_vehicle).filter(db.GeoFence_vehicle.GeoFence_id == formData)
+				#for data in query.all():
+				#	session.delete(data)
+				#query = session.query(db.Gps_Geofence_Data).filter(db.Gps_Geofence_Data.Geofence_Id == formData)
+				#session.delete(query.one())
+		#except:
+		#	traceback.print_exc()
+		#	return self.jsonFailure()
 
 		return self.jsonSuccess('GeoFence Deleted')
 
