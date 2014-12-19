@@ -3,7 +3,7 @@ fitx.utils.require(['fitx', 'page2', 'newReport4Form']);
 jQuery (window).load (function (){
 	setupFlexiGrid('#showReport4', undefined, "Stoppage Summary", undefined, undefined, undefined, undefined, classData);
 
-	setupAJAXSubmit('report4', 'newReport4FormAction', setupData, setupConstraints, '.submit',errorFunc,successFunc,showReport);
+	setupAJAXSubmit('report4', 'newReport4FormAction', setupData, setupConstraints, '.submit',errorFunc,showReport);
 
 
 	
@@ -165,6 +165,11 @@ function onLoadReport4() {
 
 
 function showReport(result) {
+	if(result.data.errors=='Yes'){
+        jQuery('.userMessage').text(result.message);
+         return;
+     }
+	 
 	jQuery('#showReport4').flexAddData(result.message.sendData)
     total = result.message.sendData.total
 }
@@ -217,14 +222,4 @@ var errorFunc = function (data, error) {
 	return error;
 
 }
-
-function successFunc(result) {
-     console.log(result);
-     if(result.data.errors=='Yes'){
-        jQuery('.userMessage').text(result.message);
-         return;
-     }
-
-    location.reload();
-    }
 

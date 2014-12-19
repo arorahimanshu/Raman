@@ -4,7 +4,7 @@ fitx.utils.require(['fitx', 'page2', 'newGpsDataFormAction']);
 jQuery(window).load(function() {
 	/************************Control Related**********************/
 	makeMapAnimator()
-	var dataTimer = 15			//in seconds
+	var dataTimer = 1			//in seconds
 	startNewAnimation.every(dataTimer * 1000)
 	
 	function setupData() {
@@ -99,7 +99,7 @@ jQuery(window).load(function() {
 							},
 						})
 
-						map.setZoom (13)
+						map.setZoom (15)
 						map.setCenter (path[0][0])
 						animation1.play ()
 						animations[result.message[1][0].deviceId] = animation1

@@ -810,7 +810,7 @@ class DbHelper(Component):
 
 		query = None
 		with db.session() as session:
-			query = session.query(db.gpsDeviceMessage1).filter(db.gpsDeviceMessage1.deviceId == deviceId)
+			query = session.query(db.gpsDeviceMessage1).filter(db.gpsDeviceMessage1.deviceId == '00' + deviceId)
 			if (fromTime != None):
 				query = query.filter (db.gpsDeviceMessage1.timestamp >= fromTime)
 			if (toTime != None):

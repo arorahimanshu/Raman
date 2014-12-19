@@ -3,7 +3,7 @@ fitx.utils.require(['fitx', 'page2', 'newReport1Form']);
 jQuery (window).load (function (){
 	setupFlexiGrid('#showReport1', undefined, "Speed Report", undefined, undefined, undefined, undefined, classData);
 
-	setupAJAXSubmit('report1', 'newReport1FormAction', setupData, setupConstraints, '.submit', errorFunc,successFunc,showReport);
+	setupAJAXSubmit('report1', 'newReport1FormAction', setupData, setupConstraints, '.submit', errorFunc,showReport);
 
 
 
@@ -168,6 +168,11 @@ function onLoadReport1() {
 
 
 function showReport(result) {
+	if(result.data.errors=='Yes'){
+        jQuery('.userMessage').text(result.message);
+         return;
+     }
+	 
 	jQuery('#showReport1').flexAddData(result.message.sendData)
     total = result.message.sendData.total
 }
@@ -219,13 +224,3 @@ var errorFunc = function (data, error) {
 	return error;
 
 }
-
-function successFunc(result) {
-
-     if(result.data.errors=='Yes'){
-        jQuery('.userMessage').text(result.message);
-         return;
-     }
-
-    location.reload()
-    }
