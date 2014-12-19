@@ -122,6 +122,10 @@ fitx.lib1.Animation = function (config) {
 		}
 	}
 
+	_self.path = function () {
+		return _self._path
+	}
+
 	_self.infoContent = function () {
 		var args = arguments
 		if (args.length == 0) {

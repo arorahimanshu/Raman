@@ -108,6 +108,16 @@ class Playback(Page2Component):
 		#if errors:
 		#	return self.jsonFailure('validation failed', errors=errors)
 		#
+		'''
+		newData = []
+		newData.append([])
+		newData.append([])
+		for d in data[0]:
+			if d['speed'] != 0.0:
+				newData[0].append(d)
+		newData[1]=data[1]
+		data=newData
+		'''
 		if data != None:
 			return self.jsonSuccess(data)
 		else:

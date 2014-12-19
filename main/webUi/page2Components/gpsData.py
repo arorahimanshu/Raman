@@ -182,15 +182,27 @@ class GpsData(Page2Component):
 		gmtAdjust = data['gmtAdjust']
 		now = timeHelper.getGMTDateAndTime()
 		if deviceId in self.lastRecordTime:
-			fromDate = self.lastRecordTime['deviceId']
+			fromDate = self.lastRecordTime[deviceId]
 		else:
 			recordSearchMinutes = 1
-			fromDate = timeHelper.getDateAndTime_subtract(recordSearchMinutes * 60)
+			fromDate = timeHelper.getDateAndTime_subtract(recordSearchMinutes * 60, now)
+			#fromDate = timeHelper.getDateAndTime(2014,12,18,7,50,0)							#test line
 		#data = db.returnLiveCarDataForVehicles (self.carToTracked, self.getGMTDateAndTime())
+		#toDate = timeHelper.getDateAndTime_add(30 * 60, fromDate)
 		toDate = now
 		#data = db.returnLiveCarDataForVehicles ([deviceId], now)
 		data = db.returnLiveCarsData([deviceId], fromDate, toDate)
-		self.lastRecordTime['deviceId'] = toDate
+		self.lastRecordTime[deviceId] = toDate
+		'''
+		newData = []
+		newData.append([])
+		newData.append([])
+		for d in data[0]:
+			if d['speed'] != 0.0:
+				newData[0].append(d)
+		newData[1]=data[1]
+		data=newData
+		'''
 		return self.jsonSuccess(data)
 
 		#
