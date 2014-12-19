@@ -1,11 +1,11 @@
-fitx.utils.require(['fitx', 'page2', 'newPlaybackForm']);
-fitx.utils.require(['fitx', 'page2', 'newPlaybackFormAction']);
+fitx.utils.require(['fitx', 'page2', 'newGpsDataForm']);
+fitx.utils.require(['fitx', 'page2', 'newGpsDataFormAction']);
 
 jQuery(window).load(function() {
 	/************************Control Related**********************/
 	makeMapAnimator()
-	startNewAnimation()
-	var dataTimer = 1
+	var dataTimer = 15			//in seconds
+	startNewAnimation.every(dataTimer * 1000)
 	
 	function setupData() {
 		var curdate = new Date();
@@ -76,25 +76,31 @@ jQuery(window).load(function() {
 
 						path.push ([point, seconds])
 					})
+					
+					var deviceId = result.message[1][0].deviceId
+					if(deviceId in animations) {
+						animations[deviceId].path().push(path)
+						playAnimation(deviceId)
+					} else {
+						var animation1 = mapAnimator.newAnimation ('animation1', {
+							steps: 2,
+							timeMultiplier: 40,
+							path: path,
+							iconSpec: {
+								url: fitx.utils.appUrl ("assets", "car1.png"),
+								scale: [20, 20],
+								anchor: [10, 10],
+							},
+							stepCallback: function (animation, index) {
+								animation.infoContent ('currentIndex: ' + index)
+							},
+						})
 
-					var animation1 = mapAnimator.newAnimation ('animation1', {
-						steps: 2,
-						timeMultiplier: 40,
-						path: path,
-						iconSpec: {
-							url: fitx.utils.appUrl ("assets", "car1.png"),
-							scale: [20, 20],
-							anchor: [10, 10],
-						},
-						stepCallback: function (animation, index) {
-							animation.infoContent ('currentIndex: ' + index)
-						},
-					})
-
-					map.setZoom (13)
-					map.setCenter (path[0][0])
-					animation1.play ()
-					animations[result.message[1][0].deviceId] = animation1
+						map.setZoom (13)
+						map.setCenter (path[0][0])
+						animation1.play ()
+						animations[result.message[1][0].deviceId] = animation1
+					}
 				},
 				failureFunction : function () {
 					console.log ('failed...')
