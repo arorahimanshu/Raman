@@ -3,7 +3,7 @@ from appConfig import AppConfig
 from utils import Validator
 import cherrypy
 import json
-
+from sqlalchemy import and_
 
 class Poi(Page2Component):
 	def __init__(self, parent, **kwargs):
@@ -47,14 +47,33 @@ class Poi(Page2Component):
 		formData = json.loads(cherrypy.request.params['formData'])
 		db = self.app.component('dbManager')
 		dataUtils = self.app.component('dataUtils')
+
 		with db.session() as session:
-			db.Poi_vehicle.delete({
-				'poi_id':formData['id']
+			vehicleData = session.query(db.Poi_vehicle).filter(db.Poi_vehicle.Poi_Id == formData['poiId'])
+			if vehicleData.count() == 1:
+				db.Poi_vehicle.delete({
+					'Poi_Id':formData['poiId']
 				})
-			db.Gps_Poi_Info.delete({
-				'Poi_Id':formData['id']
+				db.Gps_Poi_Data.delete({
+					'Poi_Id':formData['poiId']
+				})
+				db.Gps_Poi_Info.delete({
+					'Poi_Id':formData['poiId']
 				})
 
+
+			elif vehicleData.count() > 1:
+				query = session.query(db.Poi_vehicle).filter(db.Poi_vehicle.Vehicle_Id == formData['vehicleId'])
+				session.delete(query.one())
+
+			session.commit()
+			#db.Poi_vehicle.delete({
+			#	'poi_id':formData['id']
+			#	})
+			#db.Gps_Poi_Info.delete({
+			#	'Poi_Id':formData['id']
+			#	})
+		return self.jsonSuccess('Poi Deleted')
 		#
 
 	def getPoiData(self, requestPath):
@@ -114,7 +133,7 @@ class Poi(Page2Component):
 				for vehicleGroup in vehicleGroupList:
 					vehicleList = db.returnVehicleListForVehicleGroup(vehicleGroup['value'])
 					vehicleList2.extend(vehicleList)
-		self.classData = [ 'Id', 'Poi Name', 'Address Category', 'Street', 'City', 'State']
+		self.classData = [ 'SNo.','Id', 'Poi Name', 'Address Category','Vehicle Name','Vehicle Reg No','Vehicle Id', 'Street', 'City', 'State']
 
 		# Vehicle selector Block Starts
 		vehicleStructure = []
