@@ -116,6 +116,9 @@ jQuery(window).load(function () {
 	
 	jQuery('.logoEdit').hide();
 	
+	hideColumn('GeoFence Id')
+	hideColumn('Vehicle Id')
+	
 })
 function successFunc(result) {
      alert(result.message)
@@ -249,10 +252,11 @@ function showReport(result) {
               return
         }
 
-
     console.log(result.message.sendData)
     jQuery('#showOrganization').flexAddData(result.message.sendData)
     total = result.message.sendData.total
+	
+	hideColumn('OrgID')
 }
 
 var total = 0
@@ -368,4 +372,9 @@ var resetForm = function() {
 	jQuery('.errorBox').text('');
 	jQuery('#addOrganization input').val('');
 	//jQuery('#addOrganization select').val('');
+}
+
+var hideColumn = function(colName) {
+	jQuery('th[abbr="' + colName + '"]').hide()
+	jQuery('td[abbr="' + colName + '"]').hide()
 }
