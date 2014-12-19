@@ -207,4 +207,6 @@ function flexiInitialize(url) {
 function setData(data) {
 	jQuery(flexiselector).flexAddData(data.message.sendData)
 	flexiTotal = data.message.sendData.total
+	
+	hideColumns()
 }
