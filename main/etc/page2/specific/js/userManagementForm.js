@@ -356,3 +356,12 @@ var resetForm = function() {
 	jQuery('input[type=checkbox]').prop('checked',false);
 	jQuery('.userMessage').text('');
 }
+
+var hideColumn = function(colName) {
+	jQuery('th[abbr="' + colName + '"]').hide()
+	jQuery('td[abbr="' + colName + '"]').hide()
+}
+
+var hideColumns = function() {
+	hideColumn('Uid')
+}
