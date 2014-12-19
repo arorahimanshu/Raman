@@ -483,8 +483,12 @@ function onDelete(com, grid) {
 	if (c == 1) {
 		//code for geting row data and sending to form
 		jQuery('.trSelected', grid).each(function () {
+
 			var id = jQuery('td[abbr="GeoFence Id"] >div', this).html();
-			sendAjaxRequest('delGeoFence',id,successFunc);
+			var vehicleId = jQuery('td[abbr="Vehicle Id"] >div', this).html();
+
+			var delData =  { geoFenceId: id, vehicleId:vehicleId  }
+			sendAjaxRequest('delGeoFence',delData,successFunc);
 		})
 	} else {
 		alert('Select one row');
