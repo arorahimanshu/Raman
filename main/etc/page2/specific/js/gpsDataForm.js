@@ -79,7 +79,10 @@ jQuery(window).load(function() {
 					
 					var deviceId = result.message[1][0].deviceId
 					if(deviceId in animations) {
-						animations[deviceId].path().push(path)
+						jQuery.each(path, function(index, value){
+							animations[deviceId].path().push(value)
+						})
+						//animations[deviceId].path().push(path)
 						playAnimation(deviceId)
 					} else {
 						var animation1 = mapAnimator.newAnimation ('animation1', {
