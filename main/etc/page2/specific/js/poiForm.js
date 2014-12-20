@@ -12,8 +12,6 @@ jQuery(window).load(function () {
             jQuery.removeCookie("userMessageCok");
     }
 
-
-
     jQuery('#addPoiButton').click(function () {
 
         jQuery('#primary').hide();
@@ -249,7 +247,9 @@ function onAddOrDelete(com, grid) {
 			jQuery('.trSelected', grid).each(function (index, data) {
 				var delFields = {}
 				//delFields.id=jQuery('td[abbr="Id"] >div', this).html()
-				delFields.id=data.cells[0].textContent
+				delFields.poiId=data.cells[1].textContent
+                delFields.vehicleId=data.cells[6].textContent
+
 				sendAjaxRequest('delPoi',delFields,function(){
 					jQuery('.userMessage').text('POI Deleted');
 					sendAjaxRequest('generateReport', setupDataFlexi(), showReport)

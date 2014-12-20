@@ -222,22 +222,32 @@ class DbHelper(Component):
 		with db.session() as session:
 			query=session.query(db.Gps_Poi_Info).filter(and_(db.Gps_Poi_Info.User_name==uid,db.Gps_Poi_Info.Category==category))
 			for data in query.all():
-				cell = {}
-				cell['cell'] = []
-				cell['cell'].append(data.Poi_Id)
-				cell['cell'].append(data.Poi_Name)
-				cell['cell'].append(data.Category)
-				query2=session.query(db.Info).filter(db.Info.entity_id==data.Poi_Id)
-				data2=query2.one()
-				print(data2.data)
-				data3=data2.data.split(';')
+				for vehicleDataAll in  session.query(db.Poi_vehicle).filter_by(Poi_Id=data.Poi_Id).all():
 
-				cell['cell'].append(data3[0])
-				cell['cell'].append(data3[2])
-				cell['cell'].append(data3[1])
-				cell['id'] = i
-				i += 1
-				rows.append(cell)
+					vehicleData= session.query(db.Gps_Vehicle_Info).filter_by(id=vehicleDataAll.Vehicle_Id ).one()
+					vehicleDataInfo=session.query(db.Info).filter(and_(db.Info.entity_id==vehicleDataAll.Vehicle_Id,
+				  	db.Info.type==db.Info.Type.vehicleRegNo.value,db.Info.preference== 0)).one()
+
+					cell = {}
+					cell['cell'] = []
+					cell['cell'].append(i)
+					cell['cell'].append(data.Poi_Id)
+					cell['cell'].append(data.Poi_Name)
+					cell['cell'].append(data.Category)
+					cell['cell'].append(vehicleData.name)
+					cell['cell'].append(vehicleDataInfo.data)
+					cell['cell'].append(vehicleDataAll.Vehicle_Id)
+					query2=session.query(db.Info).filter(db.Info.entity_id==data.Poi_Id)
+					data2=query2.one()
+					#print(data2.data)
+					data3=data2.data.split(';')
+
+					cell['cell'].append(data3[0])
+					cell['cell'].append(data3[2])
+					cell['cell'].append(data3[1])
+					cell['id'] = i
+					i += 1
+					rows.append(cell)
 		#dataSend['rows'] = rows
 		#dataSend['total']=i-1
 		#dataSend['page']=1
