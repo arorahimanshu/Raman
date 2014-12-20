@@ -2,14 +2,16 @@ fitx.utils.require(['fitx', 'page2', 'newPlaybackForm']);
 fitx.utils.require(['fitx', 'page2', 'newPlaybackFormAction']);
 
 jQuery(window).load(function() {
-	/**********************Hide/Show in Beginning******************/
+	/**********************Control Setting in Beginning******************/
 	jQuery('.typeFix').hide()
+	jQuery('Input[name=type][value=Relative]').prop('checked',true)
 	
 	/************************Control Related**********************/
 	var mapLoaded = false
 	
+	/*
 	function dateFromDatePicker(element) {
-
+		/*
         var date = element.datepicker('getDate');
         if (date) {
                 data = [
@@ -19,7 +21,9 @@ jQuery(window).load(function() {
                 ]
                 return data
         }
+		
 	}
+	*/
 	
 	function setupData() {
 		var curdate = new Date();
@@ -36,9 +40,12 @@ jQuery(window).load(function() {
                 var relativeDay = jQuery('Input[name=relative]:radio:checked').val();
                 specificFormData['relativeDay'] = relativeDay;
         } else {
-                var from = dateFromDatePicker(jQuery('.from'));
-                var to = dateFromDatePicker(jQuery('.to'));
-
+                //var from = dateFromDatePicker(jQuery('.from'));
+                //var to = dateFromDatePicker(jQuery('.to'));
+				
+				var from = jQuery('.from').val()
+				var to = jQuery('.to').val()
+				
                 specificFormData['fromDate'] = from;
                 specificFormData['toDate'] = to;
         }
@@ -47,7 +54,7 @@ jQuery(window).load(function() {
 		
         return specificFormData;
 	}
-	
+	/*
 	jQuery('.from').datepicker({
 					changeMonth: true,
 					changeYear: true,
@@ -61,6 +68,9 @@ jQuery(window).load(function() {
 					yearRange: '-150:+0',
 					dateFormat: 'DD, dd/MM/yy'
 	});
+	*/
+	jQuery('.from').datetimepicker({step:30});
+	jQuery('.to').datetimepicker({step:30});
 	
 	jQuery('#loadMap').click (function (){
 		makeMapAnimator()
@@ -282,24 +292,42 @@ jQuery(window).load(function() {
 		}
 	}
 	
+	
 	function changeAnimationSpeed(task, id) {
-		var multiplier = 1.5
+		var multiplier = 5
 		if (id != undefined) {
 			if (id in animations) {
 				if(task == 'increase') {
 					animations[id].timeMultiplier(animations[id].timeMultiplier() * multiplier)
+					currentSpeedIndex++
 				} else if(task=='decrease') {
 					animations[id].timeMultiplier(animations[id].timeMultiplier() / multiplier)
+					currentSpeedIndex--
 				}
 			}
 		} else {
 			jQuery.each (animations, function (id, animation){
 				if(task == 'increase') {
 					animation.timeMultiplier(animation.timeMultiplier() * multiplier)
+					currentSpeedIndex++
 				} else if(task=='decrease') {
 					animation.timeMultiplier(animation.timeMultiplier() / multiplier)
+					currentSpeedIndex--
 				}
 			})
+		}
+		
+		var speedChangeLimit = 5
+		var currentSpeedIndex = 0
+		if(currentSpeedIndex > speedChangeLimit) {
+			jQuery('.increaseAnimationSpeed').prop("disabled", true)
+			jQuery('.decreaseAnimationSpeed').prop("disabled", false)			
+		} else if(currentSpeedIndex < -speedChangeLimit){
+			jQuery('.increaseAnimationSpeed').prop("disabled", false)
+			jQuery('.decreaseAnimationSpeed').prop("disabled", true)
+		} else {
+			jQuery('.increaseAnimationSpeed').prop("disabled", false)
+			jQuery('.decreaseAnimationSpeed').prop("disabled", false)
 		}
 	}
 })

@@ -563,14 +563,10 @@ class DbHelper(Component):
 				vehicleInfoQuery = session.query(db.Info).filter(db.Info.entity_id == vehicleId)
 				vehicleRegNo = vehicleInfoQuery.filter(db.Info.type == db.Info.Type.vehicleRegNo.value).one().data
 
-				query = session.query(db.gpsDeviceMessage1).filter( and_ (db.gpsDeviceMessage1.deviceId == '00'+deviceNum ,
-																		  db.gpsDeviceMessage1.messageType == "BR00"))
-				if fromDate!=None:
-					query = query.filter(db.gpsDeviceMessage1.timestamp >= fromDate)
-				if toDate!=None:
-					query = query.filter(db.gpsDeviceMessage1.timestamp < toDate)
-
-				query = query.filter(db.gpsDeviceMessage1.timestamp>='2014-08-31')
+				query = session.query(db.gpsDeviceMessage1).filter( and_ (db.gpsDeviceMessage1.deviceId == '00'+deviceNum,
+																		  db.gpsDeviceMessage1.timestamp >= fromDate,
+																		  db.gpsDeviceMessage1.timestamp < toDate,
+																		  db.gpsDeviceMessage1.messageType == "BR00")).order_by(db.gpsDeviceMessage1.timestamp)
 
 				if query.count() == 0:
 					status.append({"deviceId":deviceNum,"dataPresent":0})

@@ -29,6 +29,12 @@ class Playback(Page2Component):
 		dbHelp = self.app.component('dbHelper')
 
 		params['externalJs'].append('http://maps.googleapis.com/maps/api/js?libraries=geometry&sensor=false')
+		params['externalCss'].append(
+			self.server.appUrl('etc', 'page2', 'generic', 'css', 'jquery.datetimepicker.css')
+		)
+		params['externalJs'].append(
+			self.server.appUrl('etc', 'page2', 'generic', 'js', 'jquery.datetimepicker.js')
+		)
 		params['externalJs'].append(
 			self.server.appUrl('etc', 'page2', 'specific', 'js', 'playbackForm.js')
 		)
@@ -99,8 +105,8 @@ class Playback(Page2Component):
 				fromDate = timeHelper.getDateAndTime(now.year, now.month, now. day - 2, 0, 0, 0)
 				toDate = timeHelper.getDateAndTime(now.year, now.month, now. day - 1, 0, 0, 0)
 		else:
-			fromDate = timeHelper.getDateAndTime(data['fromDate'][0],data['fromDate'][1],data['fromDate'][2], 0, 0, 0)
-			toDate = timeHelper.getDateAndTime(data['toDate'][0],data['toDate'][1],data['toDate'][2], 0, 0, 0)
+			fromDate = timeHelper.getDateAndTime(data['fromDate'][0:4],data['fromDate'][5:7],data['fromDate'][8:10], data['fromDate'][11:13], data['fromDate'][14:16], 0)
+			toDate = timeHelper.getDateAndTime(data['toDate'][0:4],data['toDate'][5:7],data['toDate'][8:10], data['toDate'][11:13], data['toDate'][14:16], 0)
 		fromDate = timeHelper.getDateAndTime_subtract(gmtAdjust, fromDate)
 		toDate = timeHelper.getDateAndTime_subtract(gmtAdjust, toDate)
 		data = db.returnLiveCarsData([deviceId], fromDate, toDate, gmtAdjust)

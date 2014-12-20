@@ -24,7 +24,7 @@ class TimeHelper(Component):
 		return gt
 
 	def getDateAndTime(self, year, mon, day, hour, min, sec):
-		gt = datetime(year,mon,day,hour,min,sec)
+		gt = datetime(int(year),int(mon),int(day),int(hour),int(min),int(sec))
 		return gt
 
 	def getTimeDifferenceInSeconds (self, timestamp1, timestamp2):
