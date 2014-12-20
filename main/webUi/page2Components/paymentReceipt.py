@@ -65,6 +65,8 @@ class PaymentReceipt(Page2Component):
 		pageNo = int(formData.get('pageNo', '1'))
 		if 'pageNo' not in formData:
 			self.numOfObj = 10
+		self.numOfObj = int(formData.get('rp', '10'))
+
 		if 'rp' in formData and 'pageNo' in formData:
 			self.numOfObj = int(formData['rp'])
 		with self.server.session() as serverSession:
@@ -158,9 +160,10 @@ class PaymentReceipt(Page2Component):
 						)
 
 		with db.session() as session:
-			payeeId = session.query(db.User).filter(db.User.username==formData['payeeName']).scalar()
-		if(payeeId):
-			payeeId = payeeId.entity_id
+			payeeId = session.query(db.User).filter(db.User.username==formData['payeeName']).all()
+		if(len(payeeId) > 0):
+			pass
+		#	payeeId = payeeId.entity_id
 		else:
 			if (v.errors) :
 				v.errors['payeeName']='No such username'
