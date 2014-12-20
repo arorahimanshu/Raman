@@ -103,12 +103,13 @@ class Dashboard(Page2Component):
 		timeHelp = self.app.component('timeHelper')
 
 		gmtTime = timeHelp.getGMTDateAndTime()
-		fromTime = timeHelp.getDateAndTime(gmtTime.year, gmtTime.month, gmtTime.day, 0, 0, 0)
-		fromTime = timeHelp.getDateAndTime_subtract(gmtAdjust, fromTime)
-		toTime = timeHelp.getDateAndTime(gmtTime.year, gmtTime.month, gmtTime.day, 23, 59, 59)
-		toTime = timeHelp.getDateAndTime_subtract(gmtAdjust, toTime)
-
 		curTime = timeHelp.getDateAndTime_add(gmtAdjust, gmtTime)
+
+		fromTime = timeHelp.getDateAndTime(curTime.year, curTime.month, curTime.day, 0, 0, 0)
+		toTime = timeHelp.getDateAndTime(curTime.year, curTime.month, curTime.day, 23, 59, 59)
+
+		fromTime = timeHelp.getDateAndTime_subtract(gmtAdjust, fromTime)
+		toTime = timeHelp.getDateAndTime_subtract(gmtAdjust, toTime)
 
 		vehiclesListNested = json.loads(self._dashboardVehicleListNested(requestPath))
 		vehicleIds = formData['vehicleList']
