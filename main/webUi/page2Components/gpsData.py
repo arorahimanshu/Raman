@@ -191,7 +191,7 @@ class GpsData(Page2Component):
 		#toDate = timeHelper.getDateAndTime_add(1, fromDate)
 		toDate = now
 		#data = db.returnLiveCarDataForVehicles ([deviceId], now)
-		data = db.returnLiveCarsData([deviceId], fromDate, toDate)
+		data = db.returnLiveCarsData([deviceId], fromDate, toDate, gmtAdjust)
 		self.lastRecordTime[deviceId] = toDate
 		'''
 		newData = []

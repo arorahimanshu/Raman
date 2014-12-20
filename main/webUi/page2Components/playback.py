@@ -103,7 +103,7 @@ class Playback(Page2Component):
 			toDate = timeHelper.getDateAndTime(data['toDate'][0],data['toDate'][1],data['toDate'][2], 0, 0, 0)
 		fromDate = timeHelper.getDateAndTime_subtract(gmtAdjust, fromDate)
 		toDate = timeHelper.getDateAndTime_subtract(gmtAdjust, toDate)
-		data = db.returnLiveCarsData([deviceId], fromDate, toDate)
+		data = db.returnLiveCarsData([deviceId], fromDate, toDate, gmtAdjust)
 		#errors = self._newPlaybackFormValidate(formData)
 		#if errors:
 		#	return self.jsonFailure('validation failed', errors=errors)

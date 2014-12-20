@@ -26,6 +26,7 @@ jQuery (window).load (function (){
 									 }
 								 });
 	onLoadReport1();
+	hideColumn('Vehicle ID')
 });
 
 function setupData() {
@@ -175,6 +176,7 @@ function showReport(result) {
 	 
 	jQuery('#showReport1').flexAddData(result.message.sendData)
     total = result.message.sendData.total
+	hideColumn('Vehicle ID')
 }
 
 var total = 0
@@ -223,4 +225,9 @@ var errorFunc = function (data, error) {
 
 	return error;
 
+}
+
+var hideColumn = function(colName) {
+	jQuery('th[abbr="' + colName + '"]').hide()
+	jQuery('td[abbr="' + colName + '"]').hide()
 }
