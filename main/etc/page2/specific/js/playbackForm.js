@@ -168,6 +168,7 @@ jQuery(window).load(function() {
 				},
 				successFunction : function (result) {
 					var coordinates = result.message[0]
+					var status = result.message[1][0]
 					var path = []
 					jQuery.each (coordinates, function (index, item) {
 						var lat = parseFloat(item.position.latitude)
@@ -180,8 +181,9 @@ jQuery(window).load(function() {
 						var seconds = time.secondsSince (epoch)
 
 						//console.log (item[0] + ", " + item[1] + ", " + seconds)
-
-						path.push ([point, seconds])
+						
+						var extraData = {'name':status.name, 'regNo':status.regNo, 'timestamp':item.timestamp, 'speed':item.speed}
+						path.push ([point, seconds, extraData])
 					})
 
 					var animation1 = mapAnimator.newAnimation ('animation1', {
@@ -194,7 +196,15 @@ jQuery(window).load(function() {
 							anchor: [10, 10],
 						},
 						stepCallback: function (animation, index) {
-							animation.infoContent ('currentIndex: ' + index)
+							var pointData = animation.path()[index][2]
+							var infoWindowDiv = '<div class="vehicleInfoWindow">\
+									Vehicle Name : ' + pointData.name + '<br/>\
+									Reg No : ' + pointData.regNo + '<br/>\
+									Speed : ' + pointData.speed + '<br/>\
+									Time : ' + pointData.timestamp + '\
+								</div>'
+								
+							animation.infoContent (infoWindowDiv)
 						},
 					})
 

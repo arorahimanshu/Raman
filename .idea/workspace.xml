@@ -76,16 +76,16 @@
         <option value="$PROJECT_DIR$/main/webUi/page2Components/userManagement.py" />
         <option value="$PROJECT_DIR$/main/webUi/page2Components/newVehicle.py" />
         <option value="$PROJECT_DIR$/main/dataModel/gps.py" />
-        <option value="$PROJECT_DIR$/main/webUi/page2Components/playback.py" />
         <option value="$PROJECT_DIR$/main/webUi/page2Components/organizationManagement.py" />
-        <option value="$PROJECT_DIR$/main/webUi/page2Components/gpsData.py" />
         <option value="$PROJECT_DIR$/main/timeHelper.py" />
         <option value="$PROJECT_DIR$/main/gpsHelper.py" />
         <option value="$PROJECT_DIR$/main/webUi/page2Components/report1.py" />
         <option value="$PROJECT_DIR$/main/webUi/page2Components/report4.py" />
         <option value="$PROJECT_DIR$/main/webUi/page2Components/travelReport.py" />
         <option value="$PROJECT_DIR$/main/webUi/page2Components/dashboard.py" />
+        <option value="$PROJECT_DIR$/main/webUi/page2Components/playback.py" />
         <option value="$PROJECT_DIR$/main/dbHelper.py" />
+        <option value="$PROJECT_DIR$/main/webUi/page2Components/gpsData.py" />
       </list>
     </option>
   </component>
@@ -438,8 +438,8 @@
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -466,60 +466,14 @@
           <line>51</line>
           <option name="timeStamp" value="400" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="python-line">
-          <url>file://$PROJECT_DIR$/main/webUi/page2Components/travelReport.py</url>
-          <line>123</line>
-          <option name="timeStamp" value="832" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="python-line">
-          <url>file://$PROJECT_DIR$/main/webUi/page2Components/travelReport.py</url>
-          <line>104</line>
-          <option name="timeStamp" value="836" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="python-line">
-          <url>file://$PROJECT_DIR$/main/webUi/page2Components/travelReport.py</url>
-          <line>105</line>
-          <option name="timeStamp" value="837" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="python-line">
-          <url>file://$PROJECT_DIR$/main/webUi/page2Components/travelReport.py</url>
-          <line>175</line>
-          <option name="timeStamp" value="838" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="python-line">
-          <url>file://$PROJECT_DIR$/main/dbHelper.py</url>
-          <line>768</line>
-          <option name="timeStamp" value="839" />
-        </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
       </breakpoints-dialog>
-      <option name="time" value="840" />
+      <option name="time" value="856" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/main/webUi/page2Templates/poiForm.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.61559886" vertical-offset="561" max-vertical-offset="3264">
-          <caret line="46" column="14" selection-start-line="46" selection-start-column="14" selection-end-line="46" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/securityManager.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="2006">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/userManager.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.9417808" vertical-offset="4329" max-vertical-offset="4981">
-          <caret line="287" column="0" selection-start-line="287" selection-start-column="0" selection-end-line="287" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main/etc/page2/specific/js/organizationManagement.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33415842" vertical-offset="0" max-vertical-offset="7344">
@@ -782,24 +736,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main/webUi/page2Components/playback.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6023392" vertical-offset="1629" max-vertical-offset="2176">
-          <caret line="118" column="20" selection-start-line="118" selection-start-column="20" selection-end-line="118" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main/webUi/page2Components/organizationManagement.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="9.280702" vertical-offset="781" max-vertical-offset="5916">
           <caret line="335" column="36" selection-start-line="335" selection-start-column="36" selection-end-line="335" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/webUi/page2Components/gpsData.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.43274853" vertical-offset="2855" max-vertical-offset="4403">
-          <caret line="187" column="77" selection-start-line="187" selection-start-column="77" selection-end-line="187" selection-end-column="77" />
         </state>
       </provider>
     </entry>
@@ -843,26 +783,65 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/main/webUi/page2Components/poi.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.86159843" vertical-offset="204" max-vertical-offset="3468">
+          <caret line="42" column="0" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/main/webUi/page2Components/travelReport.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.668616" vertical-offset="2564" max-vertical-offset="3077">
-          <caret line="175" column="0" selection-start-line="175" selection-start-column="0" selection-end-line="175" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.0" vertical-offset="1648" max-vertical-offset="3077">
+          <caret line="123" column="50" selection-start-line="123" selection-start-column="33" selection-end-line="123" selection-end-column="50" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Python34/Lib/site-packages/cherrypy/wsgiserver/wsgiserver3.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="28916" max-vertical-offset="37094">
+          <caret line="1711" column="0" selection-start-line="1711" selection-start-column="0" selection-end-line="1711" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Python34/Lib/site-packages/cherrypy/process/plugins.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33333334" vertical-offset="8125" max-vertical-offset="12155">
+          <caret line="496" column="0" selection-start-line="496" selection-start-column="0" selection-end-line="496" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://C:/Python34/Lib/_pyio.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.33333334" vertical-offset="5915" max-vertical-offset="35717">
+          <caret line="361" column="0" selection-start-line="361" selection-start-column="0" selection-end-line="361" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/webUi/page2Components/playback.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.46978557" vertical-offset="1357" max-vertical-offset="2176">
+          <caret line="98" column="89" selection-start-line="98" selection-start-column="89" selection-end-line="98" selection-end-column="89" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main/dbHelper.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8368644" vertical-offset="12797" max-vertical-offset="15045">
-          <caret line="784" column="12" selection-start-line="784" selection-start-column="12" selection-end-line="784" selection-end-column="12" />
+        <state vertical-scroll-proportion="0.128" vertical-offset="9507" max-vertical-offset="15266">
+          <caret line="571" column="0" selection-start-line="571" selection-start-column="0" selection-end-line="571" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main/webUi/page2Components/poi.py">
+    <entry file="file://$PROJECT_DIR$/main/webUi/page2Components/gpsData.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.86159843" vertical-offset="204" max-vertical-offset="3468">
-          <caret line="42" column="0" selection-start-line="42" selection-start-column="0" selection-end-line="42" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.46588695" vertical-offset="2855" max-vertical-offset="4403">
+          <caret line="188" column="13" selection-start-line="188" selection-start-column="13" selection-end-line="188" selection-end-column="13" />
           <folding />
         </state>
       </provider>

@@ -538,20 +538,27 @@ class DbHelper(Component):
 		return self.getSlicedData(rows,pageNo,numOfObj)
 	#
 
-	def returnLiveCarsData(self,deviceId, fromDate=None, toDate=None):
+	def returnLiveCarsData(self,deviceId, fromDate=None, toDate=None, gmtAdjust = None):
 		num = []
 		status = []
 		db = self.app.component('dbManager')
+		timeHelper = self.app.component('timeHelper')
 		with db.session() as session:
 			# add time filter here
 			# TODO  Discuss the number of  variable returned from here
 			for deviceNum in deviceId:
+				vehicleQuery = session.query(db.Gps_Vehicle_Info).filter(db.Gps_Vehicle_Info.device_id == deviceNum)
+				vehicleId = vehicleQuery.one().id
+				vehicleName = vehicleQuery.one().name
+				vehicleInfoQuery = session.query(db.Info).filter(db.Info.entity_id == vehicleId)
+				vehicleRegNo = vehicleInfoQuery.filter(db.Info.type == db.Info.Type.vehicleRegNo.value).one().data
+
 				query = session.query(db.gpsDeviceMessage1).filter( and_ (db.gpsDeviceMessage1.deviceId == '00'+deviceNum ,
 																		  db.gpsDeviceMessage1.messageType == "BR00"))
 				if fromDate!=None:
-					query = query.filter(db.gpsDeviceMessage1.timestamp>=fromDate)
+					query = query.filter(db.gpsDeviceMessage1.timestamp >= fromDate)
 				if toDate!=None:
-					query = query.filter(db.gpsDeviceMessage1.timestamp<=toDate)
+					query = query.filter(db.gpsDeviceMessage1.timestamp < toDate)
 
 				query = query.filter(db.gpsDeviceMessage1.timestamp>='2014-08-31')
 
@@ -560,14 +567,20 @@ class DbHelper(Component):
 				elif query.count() > 0:
 					status.append({"deviceId":deviceNum,"dataPresent":1})
 
+				status[len(status)-1]["name"] = vehicleName
+				status[len(status)-1]["regNo"] = vehicleRegNo
+
 
 				for obj in query.all():
 					timeDetail = obj.timestamp
+					if gmtAdjust != None:
+						timeDetail = timeHelper.getDateAndTime_add(gmtAdjust, timeDetail)
 					num.append({"position": {"latitude": str(obj.latitude), "longitude": str(obj.longitude)},
 					            "time": {"hour": timeDetail.hour, "minute": timeDetail.minute,
 					            "second":  timeDetail.second, "year": timeDetail.year, "month": timeDetail.month, "day": timeDetail.day} ,
-								"speed":obj.speed,
-								"deviceId":obj.deviceId,
+								"speed" : obj.speed,
+								"deviceId" : obj.deviceId,
+								"timestamp" : str(timeDetail),
 								})
 		return num,status
 	#
