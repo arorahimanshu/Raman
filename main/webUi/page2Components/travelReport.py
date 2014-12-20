@@ -49,7 +49,7 @@ class TravelReport(Page2Component):
 			self.server.appUrl('etc', 'page2', 'generic', 'css', 'flexigrid.css')
 		)
 
-		self.classData = ['S.No.', 'Company', 'Branch', 'Vehicle Information', 'Driver Information', 'Start Location',
+		self.classData = ['S.No.', 'Company', 'Branch', 'Vehicle Name', 'Reg No', 'Vehicle Information', 'Driver Information', 'Start Location',
 						  'Total Running(km)', 'Total Running Duration', 'Total Idle Duration', 'Total Stop Duration',
 						  'Total Inactive Duration', 'Avg Duration', 'Avg Speed', 'Max Speed', 'Times Stopped',
 						  'Times Idle', 'Alert', 'End Location']
@@ -126,6 +126,8 @@ class TravelReport(Page2Component):
 			row['cell'] = [len(rows) + 1]
 			row['cell'].append(vehicleData['company'])
 			row['cell'].append(vehicleData['branch'])
+			row['cell'].append(vehicleData['vehicleName'])
+			row['cell'].append(vehicleData['regNo'])
 			row['cell'].append(vehicleData['vehicleInfo'])
 			row['cell'].append(vehicleData['driverInfo'])
 			row['cell'].append(report['startLocation'])

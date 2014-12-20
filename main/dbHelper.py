@@ -832,29 +832,45 @@ class DbHelper(Component):
 		return query
 	#
 
-	def getVehicleDetails(self, vehiclesListNested, deviceId):
-		for org in vehiclesListNested:
-			for branch in org['branches']:
-				for vehicleGroup in branch['vehicleGroups']:
-					for vehicle in vehicleGroup['vehicles']:
-						if vehicle['value'] == deviceId:
-							return {
-								'company' : org['orgDetails']['orgName'],
-								'branch' : branch['branchDetails']['branchName'],
-								'vehicleInfo' : 'empty',
-								'driverInfo' : '',
-                                'vehicleName' : 'empty',
-                                'vehicleModel' : 'empty',
-								}
-		#
-		return {
+	def getVehicleDetails(self, vehiclesListNested, vehicleId):
+		obj = {
 			'company' : 'company',
 			'branch' : 'branch',
 			'vehicleInfo' : 'empty',
 			'driverInfo' : '',
             'vehicleName' : 'empty',
             'vehicleModel' : 'empty',
+			'regNo' : 'empty',
+			'vehicleMake' : 'empty',
+			'vehicleType' : 'empty',
+			'speedLimit' : 'empty',
+			'deviceId' : 0,
 		}
+
+		db = self.app.component('dbManager')
+
+		for org in vehiclesListNested:
+			for branch in org['branches']:
+				for vehicleGroup in branch['vehicleGroups']:
+					for vehicle in vehicleGroup['vehicles']:
+						if vehicle['value'] == vehicleId:
+							obj['company'] = org['orgDetails']['orgName']
+							obj['branch'] = branch['branchDetails']['branchName']
+							obj['vehicleName'] = vehicle['display']
+							with db.session() as session:
+								try:
+									query = session.query(db.Info).filter(db.Info.entity_id == vehicleId)
+									obj['regNo'] = query.filter(db.Info.type == db.Info.Type.vehicleRegNo.value).one().data
+									obj['vehicleMake'] = query.filter(db.Info.type == db.Info.Type.vehicleMake.value).one().data
+									obj['vehicleType'] = query.filter(db.Info.type == db.Info.Type.vehicleType.value).one().data
+									obj['speedLimit'] = query.filter(db.Info.type == db.Info.Type.speed.value).one().data
+
+									query = session.query(db.Gps_Vehicle_Info).filter(db.Gps_Vehicle_Info.id == vehicleId)
+									obj['deviceId'] = query.one().device_id
+
+								except:
+									pass
+		return obj
 	#
 
 	def correctDeviceId(self, deviceId):

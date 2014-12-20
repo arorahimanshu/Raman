@@ -42,7 +42,7 @@ class Report1(Page2Component):
 			self.server.appUrl('etc', 'page2', 'generic', 'css', 'flexigrid.css')
 		)
 
-		self.classData = ['S.No.', 'Vehicle ID', 'Vehicle Name', 'Vehicle Model', 'Running Duration In A Day', 'Distance Travelled', 'Total Idle Duration',
+		self.classData = ['S.No.', 'Vehicle ID', 'Vehicle Name', 'Reg No', 'Vehicle Model', 'Running Duration In A Day', 'Distance Travelled', 'Total Idle Duration',
 						  'Max Speed', 'Avg Speed']
 
 		# Vehicle selector Block Starts
@@ -122,6 +122,7 @@ class Report1(Page2Component):
 			row['cell'] = [len(rows) + 1]
 			row['cell'].append(id)
 			row['cell'].append(vehicleData['vehicleName'])
+			row['cell'].append(vehicleData['regNo'])
 			row['cell'].append(vehicleData['vehicleModel'])
 			row['cell'].append(str(report['avgDuration']))
 			row['cell'].append('{0:.2f}'.format(report['totalRunningDistance']))

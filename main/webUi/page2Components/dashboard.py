@@ -49,7 +49,7 @@ class Dashboard(Page2Component):
 			self.server.appUrl('etc', 'page2', 'generic', 'css', 'flexigrid.css')
 		)
 
-		self.classData = ['S.No.', 'Status', 'Vehicle Information', 'Total Running(km)', 'Total Running Duration', 'Total Idle Duration', 'Total Stop Duration',
+		self.classData = ['S.No.', 'Status','Vehicle Name', 'Reg No', 'Vehicle Information', 'Total Running(km)', 'Total Running Duration', 'Total Idle Duration', 'Total Stop Duration',
 						  'Total Inactive Duration', 'Speed', 'Odometer', 'Location', 'Alert', 'Last Updated Time', 'IGN', 'PWR', 'AC', 'GPS']
 
 		# Vehicle selector Block Starts
@@ -131,6 +131,8 @@ class Dashboard(Page2Component):
 				row = {}
 				row['cell'] = [len(rows) + 1]
 				row['cell'].append('empty')
+				row['cell'].append(vehicleData['vehicleName'])
+				row['cell'].append(vehicleData['regNo'])
 				row['cell'].append(vehicleData['vehicleInfo'])
 				row['cell'].append('{0:.2f}'.format(report['totalRunningDistance']))
 				row['cell'].append(str(report['totalRunningDuration']))
