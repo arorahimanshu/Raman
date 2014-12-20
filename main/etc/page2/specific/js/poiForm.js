@@ -2,9 +2,9 @@ fitx.utils.require(['fitx', 'page2', 'newPoiForm']);
 
 jQuery(window).load(function () {
     setupAJAXSubmit('newPoiForm', 'newPoiFormAction', setupData, setupConstraints, '#save', null, saveSuccess);
-    setupAJAXSubmit('newPoiForm', 'generateReport', PoiData, null, '#show', null, showReport);
+    //setupAJAXSubmit('newPoiForm', 'generateReport', PoiData, null, '#show', null, showReport);
     setupFlexiGrid('#showTable', undefined, "POI Details", undefined, undefined, undefined, undefined, classData)
-
+	sendAjaxRequest('generateReport', {}, showReport)
 
     if (typeof jQuery.cookie('userMessageCok') !== 'undefined'){
 
@@ -66,7 +66,6 @@ jQuery(window).load(function () {
 				sendAjaxRequest('generateReport', data, showReport)
         }
     })
-
 
 })
 
@@ -446,5 +445,17 @@ function codeLatLng(latlng) {
     });
 }
 
-
+var hideColumn = function(colNo) {
+	jQuery('th[axis="col' + colNo + '"]').hide()
+	/*
+	var rows = jQuery('tr')
+	jQuery.each(rows, function(index, tr) {
+		if(tr.attr('id') != undefined) {
+			tr.find('td').hide()
+		}
+	})
+	*/
+	//jQuery('th[axis="' + colNo + '"]').hide()
+	//jQuery('td[abbr="' + colName + '"]').hide()
+}
 
