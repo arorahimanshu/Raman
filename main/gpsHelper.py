@@ -28,7 +28,7 @@ class GpsHelper(Component):
                 prevCoordinates = currentCoordinates
             return distance
 
-    def separateRecords(self, coordinates):
+    def separateRecords(self, coordinates, gmtAdjust = None):
 
         # initialize dayIndex-th day
         def nextDay(modePath, newDayIndex):
@@ -85,7 +85,7 @@ class GpsHelper(Component):
                 while j < length - 1:
                     if coordinates[j].speed != 0:
                         break
-                    if timeHelp.isDayDifferent(coordinates[j].timestamp, coordinates[j + 1].timestamp):
+                    if timeHelp.isDayDifferent(coordinates[j].timestamp, coordinates[j + 1].timestamp, gmtAdjust):
                         flag1 = True
                         j += 1
                         break
@@ -128,7 +128,7 @@ class GpsHelper(Component):
                 runCount = nextEntries(runningPathInDay, dayIndex, runCount, [coordinates[i]])
             prevMode = currentMode
 
-            if flag1 == True or timeHelp.isDayDifferent(coordinates[i].timestamp, coordinates[i + 1].timestamp):
+            if flag1 == True or timeHelp.isDayDifferent(coordinates[i].timestamp, coordinates[i + 1].timestamp, gmtAdjust):
                 dayIndex += 1
 
                 runCount = nextDay(runningPathInDay, dayIndex)
@@ -187,7 +187,7 @@ class GpsHelper(Component):
             field = replacement
         return field
 
-    def makeReport(self, coordinates):
+    def makeReport(self, coordinates, gmtAdjust = None):
         def getDurationAndCount(data):
             timesCount = 0
             totalDuration = None
@@ -205,7 +205,7 @@ class GpsHelper(Component):
         # /getDurationAndCount
 
         timeHelp = self.app.component('timeHelper')
-        data = self.separateRecords(coordinates)
+        data = self.separateRecords(coordinates, gmtAdjust)
 
         running = data['running']
         stopped = data['stopped']

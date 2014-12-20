@@ -52,7 +52,9 @@ jQuery(window).load(function () {
         //jQuery('.flexigrid').hide();
 		jQuery('#tablediv').hide();
     })
-
+	
+	hideColumn('Organization_id')
+	hideColumn('BranchId')
 })
 function successFunc(result) {
 
@@ -184,14 +186,16 @@ function setupDataFlexi() {
 
 function showReport(result) {
 
-
-    if (result.message.sendData.rows.length == 0){
+	if (result.message.sendData.rows.length == 0){
               jQuery('.userMessage').text('No Data Present');
               return
         }
     console.log(result.message.sendData)
     jQuery('#showBranch').flexAddData(result.message.sendData)
     total = result.message.sendData.total
+	
+	hideColumn('Organization_id')
+	hideColumn('BranchId')
 }
 
 var total = 0
@@ -310,4 +314,9 @@ var resetForm = function() {
 	jQuery('.userMessage').text('');
 	jQuery('.error').text('');
 	jQuery('#addBranch input').val('');
+}
+
+var hideColumn = function(colName) {
+	jQuery('th[abbr="' + colName + '"]').hide()
+	jQuery('td[abbr="' + colName + '"]').hide()
 }

@@ -18,6 +18,9 @@ jQuery(window).load(function () {
 	sendAjaxRequest('geoFenceData', {}, showReport);
 	
 	onLoad_GeoFence();
+	
+	hideColumn('GeoFence Id')
+	hideColumn('Vehicle Id')
 });
 
 function saveSuccess(result) {
@@ -427,6 +430,9 @@ function showReport(result) {
 
 	jQuery('#showGeoFenceReport').flexAddData(result.message.sendData)
     total = result.message.sendData.total
+	
+	hideColumn('GeoFence Id')
+	hideColumn('Vehicle Id')
 }
 
 var total = 0
@@ -762,4 +768,9 @@ var resetCircle = function() {
 var resetRectangle = function() {
 	rectanglecomplete(undefined);
 	clearMap();
+}
+
+var hideColumn = function(colName) {
+	jQuery('th[abbr="' + colName + '"]').hide()
+	jQuery('td[abbr="' + colName + '"]').hide()
 }

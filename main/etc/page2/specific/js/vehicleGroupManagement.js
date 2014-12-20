@@ -52,6 +52,9 @@ jQuery(window).load(function () {
         jQuery('#addVehicleGroup').show();
         jQuery('.flexigrid').hide();
     })
+	
+	hideColumn('Branch_id')
+	hideColumn('Id')
 
 })
 function successFunc(result) {
@@ -187,6 +190,9 @@ function showReport(result) {
     console.log(result.message.sendData)
     jQuery('#showVehicleGroup').flexAddData(result.message.sendData)
     total = result.message.sendData.total
+	
+	hideColumn('Branch_id')
+	hideColumn('Id')
 }
 
 var total = 0
@@ -302,4 +308,9 @@ var resetForm = function() {
 	jQuery('#addVehicleGroup select').val('');
 	jQuery('#addVehicleGroup input').val('');
 	jQuery('.userMessage').text('');
+}
+
+var hideColumn = function(colName) {
+	jQuery('th[abbr="' + colName + '"]').hide()
+	jQuery('td[abbr="' + colName + '"]').hide()
 }

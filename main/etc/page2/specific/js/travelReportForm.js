@@ -5,7 +5,7 @@ jQuery (window).load (function (){
 
 	sendAjaxRequest('travelReportVehicleListNested', {}, setupVehicles);
 	
-	setupAJAXSubmit('travelReport', 'newTravelReportFormAction', setupData, setupConstraints, '.submit', errorFunc,successFunc,showReport);
+	setupAJAXSubmit('travelReport', 'newTravelReportFormAction', setupData, setupConstraints, '.submit', errorFunc,showReport);
 
 
 	
@@ -204,6 +204,10 @@ function filterOptions (currentSelector, parentSelector) {
 }
 
 function showReport(result) {
+	if(result.data.errors=='Yes'){
+        jQuery('.userMessage').text(result.message);
+         return;
+     }
 	jQuery('#showTravelReport').flexAddData(result.message.sendData)
     total = result.message.sendData.total
 }
@@ -261,10 +265,7 @@ var errorFunc = function (data, error) {
 
 function successFunc(result) {
 
-     if(result.data.errors=='Yes'){
-        jQuery('.userMessage').text(result.message);
-         return;
-     }
+     
 
-    location.reload()
+    //location.reload()
     }

@@ -197,3 +197,14 @@ var resetForm = function() {
 	jQuery('.error').text('');
 	jQuery('.userMessage').text('');
 }
+
+var hideColumn = function(colName) {
+	jQuery('th[abbr="' + colName + '"]').hide()
+	jQuery('td[abbr="' + colName + '"]').hide()
+}
+
+var hideColumns = function() {
+	hideColumn('Vehicle_Id')
+	//hideColumn('Device_Id')
+	hideColumn('Vehicle Group Id')
+}

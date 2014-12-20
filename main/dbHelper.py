@@ -777,22 +777,22 @@ class DbHelper(Component):
 		orgList = self.returnOrgList (primaryOrganizationId)
 
 		for org in orgList:
-			if org['value'] != primaryOrganizationId:
-				branchList = self.returnBranchListForOrg(org['value'])
-				branches = []
-				for branch in branchList:
-					vehicleGroupList = self.returnVehicleGroupListForBranch(branch['value'])
-					groups = []
-					for vehicleGroup in vehicleGroupList:
-						vehicleList = self.returnVehicleListForVehicleGroup(vehicleGroup['value'])
-						group = {'vehicleGroupDetails':{'vehicleGroupName':vehicleGroup['display'], 'vehicleGroupId':vehicleGroup['value']}, 'vehicles':vehicleList}
-						groups.append (group)
-					#
-					branch = {'branchDetails':{'branchName':branch['display'], 'branchId':branch['value']}, 'vehicleGroups':groups}
-					branches.append (branch)
+			#if org['value'] != primaryOrganizationId:
+			branchList = self.returnBranchListForOrg(org['value'])
+			branches = []
+			for branch in branchList:
+				vehicleGroupList = self.returnVehicleGroupListForBranch(branch['value'])
+				groups = []
+				for vehicleGroup in vehicleGroupList:
+					vehicleList = self.returnVehicleListForVehicleGroup(vehicleGroup['value'])
+					group = {'vehicleGroupDetails':{'vehicleGroupName':vehicleGroup['display'], 'vehicleGroupId':vehicleGroup['value']}, 'vehicles':vehicleList}
+					groups.append (group)
 				#
-				org = {'orgDetails':{'orgName':org['display'], 'orgId':org['value']}, 'branches':branches}
-				vehiclesList.append(org)
+				branch = {'branchDetails':{'branchName':branch['display'], 'branchId':branch['value']}, 'vehicleGroups':groups}
+				branches.append (branch)
+			#
+			org = {'orgDetails':{'orgName':org['display'], 'orgId':org['value']}, 'branches':branches}
+			vehiclesList.append(org)
 			#
 		#
 		return vehiclesList
@@ -820,7 +820,7 @@ class DbHelper(Component):
 
 		query = None
 		with db.session() as session:
-			query = session.query(db.gpsDeviceMessage1).filter(db.gpsDeviceMessage1.deviceId == deviceId)
+			query = session.query(db.gpsDeviceMessage1).filter(db.gpsDeviceMessage1.deviceId == '00' + deviceId)
 			if (fromTime != None):
 				query = query.filter (db.gpsDeviceMessage1.timestamp >= fromTime)
 			if (toTime != None):
@@ -839,7 +839,7 @@ class DbHelper(Component):
 								'company' : org['orgDetails']['orgName'],
 								'branch' : branch['branchDetails']['branchName'],
 								'vehicleInfo' : 'empty',
-								'driverInfo' : 'empty',
+								'driverInfo' : '',
                                 'vehicleName' : 'empty',
                                 'vehicleModel' : 'empty',
 								}
@@ -848,7 +848,7 @@ class DbHelper(Component):
 			'company' : 'company',
 			'branch' : 'branch',
 			'vehicleInfo' : 'empty',
-			'driverInfo' : 'empty',
+			'driverInfo' : '',
             'vehicleName' : 'empty',
             'vehicleModel' : 'empty',
 		}
