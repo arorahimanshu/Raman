@@ -108,7 +108,7 @@ class Report4(Page2Component):
 			rawCoordinates = rawCoordinates.order_by(db.gpsDeviceMessage1.timestamp)
 			if rawCoordinates.count() == 0:
 				continue
-			report = gpsHelp.makeReport(rawCoordinates.all())
+			report = gpsHelp.makeReport(rawCoordinates.all(), gmtAdjust)
 			vehicleData = dbHelp.getVehicleDetails(vehiclesListNested, id)
 			row = {}
 			row['cell'] = [len(rows) + 1]

@@ -46,7 +46,6 @@
         <option value="$PROJECT_DIR$/main/webUi/page2Templates/poiForm.html" />
         <option value="$PROJECT_DIR$/main/etc/page2/specific/css/travelReportForm2.css" />
         <option value="$PROJECT_DIR$/main/webUi/page2Templates/travelReportForm2.html" />
-        <option value="$PROJECT_DIR$/main/timeHelper.py" />
         <option value="$PROJECT_DIR$/main/etc/page2/specific/js/travelReportForm2.js" />
         <option value="$PROJECT_DIR$/main/webUi/page2Components/travelReport2.py" />
         <option value="$PROJECT_DIR$/main/webUi/page2Templates/travelReportForm.html" />
@@ -58,7 +57,6 @@
         <option value="$PROJECT_DIR$/main/webUi/page2Templates/rbacTable.html" />
         <option value="$PROJECT_DIR$/main/webUi/page2Templates/report1Form2.html" />
         <option value="$PROJECT_DIR$/main/etc/page2/specific/js/report1Form2.js" />
-        <option value="$PROJECT_DIR$/main/gpsHelper.py" />
         <option value="$PROJECT_DIR$/main/webUi/page2Components/report12.py" />
         <option value="$PROJECT_DIR$/main/etc/page2/specific/js/roleManagement.js" />
         <option value="$PROJECT_DIR$/main/etc/page2/specific/js/userManagementForm.js" />
@@ -71,7 +69,6 @@
         <option value="$PROJECT_DIR$/main/webUi/page2Components/branchManagement.py" />
         <option value="$PROJECT_DIR$/main/webUi/page2Components/vehicleGroupManagement.py" />
         <option value="$PROJECT_DIR$/main/webUi/page2Components/geoFence.py" />
-        <option value="$PROJECT_DIR$/main/webUi/page2Components/dashboard.py" />
         <option value="$PROJECT_DIR$/main/webUi/page2Components/paymentReceipt.py" />
         <option value="$PROJECT_DIR$/main/webUi/page2Components/poi.py" />
         <option value="$PROJECT_DIR$/main/dataModel/basic1.py" />
@@ -81,11 +78,14 @@
         <option value="$PROJECT_DIR$/main/dataModel/gps.py" />
         <option value="$PROJECT_DIR$/main/webUi/page2Components/playback.py" />
         <option value="$PROJECT_DIR$/main/webUi/page2Components/organizationManagement.py" />
-        <option value="$PROJECT_DIR$/main/dbHelper.py" />
+        <option value="$PROJECT_DIR$/main/webUi/page2Components/gpsData.py" />
+        <option value="$PROJECT_DIR$/main/timeHelper.py" />
+        <option value="$PROJECT_DIR$/main/gpsHelper.py" />
+        <option value="$PROJECT_DIR$/main/webUi/page2Components/report1.py" />
         <option value="$PROJECT_DIR$/main/webUi/page2Components/report4.py" />
         <option value="$PROJECT_DIR$/main/webUi/page2Components/travelReport.py" />
-        <option value="$PROJECT_DIR$/main/webUi/page2Components/report1.py" />
-        <option value="$PROJECT_DIR$/main/webUi/page2Components/gpsData.py" />
+        <option value="$PROJECT_DIR$/main/webUi/page2Components/dashboard.py" />
+        <option value="$PROJECT_DIR$/main/dbHelper.py" />
       </list>
     </option>
   </component>
@@ -442,12 +442,13 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
     <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32885906" sideWeight="0.49947202" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32885906" sideWeight="0.49969456" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32792208" sideWeight="0.49969456" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3809524" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25605902" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.41450217" sideWeight="0.63751316" order="3" side_tool="false" content_ui="tabs" />
@@ -458,10 +459,9 @@
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3809524" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -582,13 +582,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="557">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/main/gpsHelper.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="3558" max-vertical-offset="4454">
-          <caret line="227" column="39" selection-start-line="227" selection-start-column="39" selection-end-line="227" selection-end-column="39" />
         </state>
       </provider>
     </entry>
@@ -784,13 +777,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main/timeHelper.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.49707603" vertical-offset="0" max-vertical-offset="850">
-          <caret line="17" column="22" selection-start-line="17" selection-start-column="22" selection-end-line="17" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://C:/Python34/Lib/site-packages/sqlalchemy/orm/mapper.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.33333334" vertical-offset="20161" max-vertical-offset="46274">
@@ -819,50 +805,65 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main/webUi/page2Components/dashboard.py">
+    <entry file="file://$PROJECT_DIR$/main/webUi/page2Components/gpsData.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1546" max-vertical-offset="3196">
-          <caret line="105" column="0" selection-start-line="105" selection-start-column="0" selection-end-line="105" selection-end-column="0" />
-          <folding />
+        <state vertical-scroll-proportion="0.43274853" vertical-offset="2855" max-vertical-offset="4403">
+          <caret line="187" column="77" selection-start-line="187" selection-start-column="77" selection-end-line="187" selection-end-column="77" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main/webUi/page2Components/report1.py">
+    <entry file="file://$PROJECT_DIR$/main/webUi/page2Components/dashboard.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.1832359" vertical-offset="1416" max-vertical-offset="2822">
-          <caret line="123" column="52" selection-start-line="123" selection-start-column="52" selection-end-line="123" selection-end-column="52" />
+        <state vertical-scroll-proportion="0.33272058" vertical-offset="1910" max-vertical-offset="3196">
+          <caret line="127" column="64" selection-start-line="127" selection-start-column="64" selection-end-line="127" selection-end-column="64" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main/webUi/page2Components/report4.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.71929824" vertical-offset="1875" max-vertical-offset="2669">
-          <caret line="136" column="19" selection-start-line="136" selection-start-column="19" selection-end-line="136" selection-end-column="19" />
+        <state vertical-scroll-proportion="0.80330884" vertical-offset="1365" max-vertical-offset="2669">
+          <caret line="110" column="71" selection-start-line="110" selection-start-column="71" selection-end-line="110" selection-end-column="71" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main/webUi/page2Components/travelReport.py">
+    <entry file="file://$PROJECT_DIR$/main/webUi/page2Components/report1.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5984405" vertical-offset="1631" max-vertical-offset="3077">
-          <caret line="118" column="8" selection-start-line="118" selection-start-column="8" selection-end-line="118" selection-end-column="8" />
+        <state vertical-scroll-proportion="0.77205884" vertical-offset="1518" max-vertical-offset="2822">
+          <caret line="118" column="71" selection-start-line="118" selection-start-column="71" selection-end-line="118" selection-end-column="71" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/main/webUi/page2Components/gpsData.py">
+    <entry file="file://$PROJECT_DIR$/main/timeHelper.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.43274853" vertical-offset="2855" max-vertical-offset="4403">
-          <caret line="187" column="77" selection-start-line="187" selection-start-column="77" selection-end-line="187" selection-end-column="77" />
+        <state vertical-scroll-proportion="1.15625" vertical-offset="0" max-vertical-offset="918">
+          <caret line="39" column="0" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/gpsHelper.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.5514706" vertical-offset="3032" max-vertical-offset="4454">
+          <caret line="199" column="36" selection-start-line="199" selection-start-column="36" selection-end-line="199" selection-end-column="36" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/main/dbHelper.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33262712" vertical-offset="13528" max-vertical-offset="15045">
-          <caret line="813" column="0" selection-start-line="813" selection-start-column="0" selection-end-line="813" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.7758945" vertical-offset="13732" max-vertical-offset="15045">
+          <caret line="840" column="28" selection-start-line="840" selection-start-column="28" selection-end-line="840" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/main/webUi/page2Components/travelReport.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.15290178" vertical-offset="1376" max-vertical-offset="3077">
+          <caret line="93" column="0" selection-start-line="93" selection-start-column="0" selection-end-line="93" selection-end-column="0" />
           <folding />
         </state>
       </provider>

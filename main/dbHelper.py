@@ -829,7 +829,7 @@ class DbHelper(Component):
 								'company' : org['orgDetails']['orgName'],
 								'branch' : branch['branchDetails']['branchName'],
 								'vehicleInfo' : 'empty',
-								'driverInfo' : 'empty',
+								'driverInfo' : '',
                                 'vehicleName' : 'empty',
                                 'vehicleModel' : 'empty',
 								}
@@ -838,7 +838,7 @@ class DbHelper(Component):
 			'company' : 'company',
 			'branch' : 'branch',
 			'vehicleInfo' : 'empty',
-			'driverInfo' : 'empty',
+			'driverInfo' : '',
             'vehicleName' : 'empty',
             'vehicleModel' : 'empty',
 		}

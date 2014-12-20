@@ -33,7 +33,11 @@ class TimeHelper(Component):
 		return difference
 	#
 
-	def isDayDifferent (self, timestamp1, timestamp2):
+	def isDayDifferent (self, timestamp1, timestamp2, gmtAdjust = None):
+		if gmtAdjust != None:
+			timestamp1 = self.getDateAndTime_add(gmtAdjust, timestamp1)
+			timestamp2 = self.getDateAndTime_add(gmtAdjust, timestamp2)
+
 		if timestamp1.date() == timestamp2.date():
 			return False
 		else:

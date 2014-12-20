@@ -116,7 +116,7 @@ class Report1(Page2Component):
 
 			if rawCoordinates.count() == 0:
 				continue
-			report = gpsHelp.makeReport(rawCoordinates.all())
+			report = gpsHelp.makeReport(rawCoordinates.all(), gmtAdjust)
 			vehicleData = dbHelp.getVehicleDetails(vehiclesListNested, id)
 			row = {}
 			row['cell'] = [len(rows) + 1]
