@@ -28,6 +28,7 @@ jQuery (window).load (function (){
 									 }
 								 });
 	onLoadTravelReport();
+	hideColumn('Vehicle Information')
 });
 
 function setupData() {
@@ -210,6 +211,7 @@ function showReport(result) {
      }
 	jQuery('#showTravelReport').flexAddData(result.message.sendData)
     total = result.message.sendData.total
+	hideColumn('Vehicle Information')
 }
 
 var total = 0
@@ -269,3 +271,8 @@ function successFunc(result) {
 
     //location.reload()
     }
+	
+var hideColumn = function(colName) {
+	jQuery('th[abbr="' + colName + '"]').hide()
+	jQuery('td[abbr="' + colName + '"]').hide()
+}
