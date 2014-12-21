@@ -19,6 +19,7 @@ jQuery (window).load (function (){
 
 	rp = parseInt(jQuery('.pGroup select option:selected').text())
 	onLoadDashboard();
+	hideColumn('Vehicle Information')
 });
 
 function setupData() {
@@ -198,7 +199,7 @@ function showReport(result) {
               return
         }
 
-
+	hideColumn('Vehicle Information')
 }
 
 var total = 0
@@ -256,4 +257,9 @@ function successFunc(result) {
      }
 
     location.reload()
-    }
+}
+
+var hideColumn = function(colName) {
+	jQuery('th[abbr="' + colName + '"]').hide()
+	jQuery('td[abbr="' + colName + '"]').hide()
+}
