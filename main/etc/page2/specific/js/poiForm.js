@@ -66,19 +66,11 @@ jQuery(window).load(function () {
 				sendAjaxRequest('generateReport', data, showReport)
         }
     })
-
+	
+	hideColumn(1)
+	hideColumn(6)
 })
 
-
-function showReport(result) {
-    alert('asd');
-    list = result.message;
-    console.log(result.message)
-
-    jQuery('#showTable').flexAddData(result.message)
-
-
-}
 
 function addToPoiTable(list) {
 
@@ -277,6 +269,9 @@ function showReport(result) {
               return
         }
     total = result.message.total
+	
+	hideColumn(1)
+	hideColumn(6)
 }
 
 var total = 0
@@ -447,15 +442,10 @@ function codeLatLng(latlng) {
 
 var hideColumn = function(colNo) {
 	jQuery('th[axis="col' + colNo + '"]').hide()
-	/*
-	var rows = jQuery('tr')
+	var rows = jQuery('tr[id]')
 	jQuery.each(rows, function(index, tr) {
-		if(tr.attr('id') != undefined) {
-			tr.find('td').hide()
-		}
+		var td = jQuery(tr).find('td')[colNo]
+		jQuery(td).hide()
 	})
-	*/
-	//jQuery('th[axis="' + colNo + '"]').hide()
-	//jQuery('td[abbr="' + colName + '"]').hide()
 }
 
