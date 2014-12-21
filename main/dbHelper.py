@@ -280,7 +280,8 @@ class DbHelper(Component):
 	def updateRolePermissions(self, roleName, permList, orgId):
 		db = self.app.component('dbManager')
 		with db.session() as session:
-			query = session.query(db.Permission_Role).filter(db.Permission_Role.role_name == roleName)
+			query = session.query(db.Permission_Role).filter(and_ (db.Permission_Role.role_name == roleName,
+																   db.Permission_Role.organization_id == orgId ))
 			for x in query.all():
 				session.delete(x)
 

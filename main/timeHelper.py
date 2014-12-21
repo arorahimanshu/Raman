@@ -49,3 +49,11 @@ class TimeHelper(Component):
 		else:
 			timeDifference = timestamp1 - timestamp2
 		return timeDifference
+	#
+
+	def goBackInTime(self, gt=None, days = 0, hours = 0, minutes = 0, seconds = 0):
+		if gt == None:
+			gt = self.getGMTDateAndTime()
+		newTime = gt - timedelta(days=days, hours=hours, minutes=minutes, seconds=seconds)
+		return newTime
+	#

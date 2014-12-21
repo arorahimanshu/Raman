@@ -95,15 +95,15 @@ class Playback(Page2Component):
 		if dateTpe == 'Relative':
 			now = timeHelper.getGMTDateAndTime()
 			now = timeHelper.getDateAndTime_add(gmtAdjust, now)
+			fromDate = timeHelper.getDateAndTime(now.year, now.month, now. day, 0, 0, 0)
 			if data['relativeDay'] == 'today':
-				fromDate = timeHelper.getDateAndTime(now.year, now.month, now. day, 0, 0, 0)
 				toDate = now
 			elif data['relativeDay'] == 'yesterday':
-				fromDate = timeHelper.getDateAndTime(now.year, now.month, now. day - 1, 0, 0, 0)
-				toDate = timeHelper.getDateAndTime(now.year, now.month, now. day, 0, 0, 0)
+				toDate = fromDate
+				fromDate = timeHelper.goBackInTime(fromDate, days=1)
 			elif data['relativeDay'] == 'yesterday1':
-				fromDate = timeHelper.getDateAndTime(now.year, now.month, now. day - 2, 0, 0, 0)
-				toDate = timeHelper.getDateAndTime(now.year, now.month, now. day - 1, 0, 0, 0)
+				toDate = timeHelper.goBackInTime(fromDate, days=1)
+				fromDate = timeHelper.goBackInTime(fromDate, days=2)
 		else:
 			fromDate = timeHelper.getDateAndTime(data['fromDate'][0:4],data['fromDate'][5:7],data['fromDate'][8:10], data['fromDate'][11:13], data['fromDate'][14:16], 0)
 			toDate = timeHelper.getDateAndTime(data['toDate'][0:4],data['toDate'][5:7],data['toDate'][8:10], data['toDate'][11:13], data['toDate'][14:16], 0)
