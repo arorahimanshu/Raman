@@ -249,7 +249,7 @@ var errorFunc = function (data, error) {
 }
 
 function successFunc(result) {
-     alert('b');
+     //alert('b');
      if(result.data.errors=='Yes'){
         jQuery('.userMessage').text(result.message);
          return;

@@ -283,7 +283,8 @@ class GeoFence(Page2Component):
 					'GeoFence_id':formData['geoFenceId']
 				})
 			elif vehicleData.count() > 1:
-				query = session.query(db.GeoFence_vehicle).filter(db.GeoFence_vehicle.Vehicle_id == formData['vehicleId'])
+				query = session.query(db.GeoFence_vehicle).filter(and_(db.GeoFence_vehicle.Vehicle_id == formData['vehicleId'],
+																	   db.GeoFence_vehicle.GeoFence_id == formData['geoFenceId']))
 				session.delete(query.one())
 
 			session.commit()
@@ -303,7 +304,7 @@ class GeoFence(Page2Component):
 		formData= json.loads(cherrypy.request.params['formData'])
 		errors = self._newGeoFenceFormValidate(formData)
 		db = self.app.component('dbManager')
-		print(formData)
+		#print(formData)
 		if errors:
 			return self.jsonFailure('validation failed', errors=errors)
 

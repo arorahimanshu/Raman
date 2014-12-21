@@ -212,7 +212,7 @@ class DbHelper(Component):
 
 		return poiList
 	#
-	def returnPoiReport(self,uid,category,numOfObj=10,pageNo=1):
+	def returnPoiReport(self,uid,numOfObj=10,pageNo=1):
 		# pageNo starts from 1
 
 		dataSend={}
@@ -220,7 +220,7 @@ class DbHelper(Component):
 		i=1
 		db=self.app.component('dbManager');
 		with db.session() as session:
-			query=session.query(db.Gps_Poi_Info).filter(and_(db.Gps_Poi_Info.User_name==uid,db.Gps_Poi_Info.Category==category))
+			query=session.query(db.Gps_Poi_Info).filter(and_(db.Gps_Poi_Info.User_name==uid))
 			for data in query.all():
 				for vehicleDataAll in  session.query(db.Poi_vehicle).filter_by(Poi_Id=data.Poi_Id).all():
 

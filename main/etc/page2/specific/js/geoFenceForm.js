@@ -21,10 +21,18 @@ jQuery(window).load(function () {
 	
 	hideColumn('GeoFence Id')
 	hideColumn('Vehicle Id')
+	if (typeof jQuery.cookie('userMessageCok') !== 'undefined'){
+
+            jQuery('.userMessage').text(jQuery.cookie("userMessageCok"));
+            jQuery.removeCookie("userMessageCok");
+    }
+
+
 });
 
 function saveSuccess(result) {
-	alert('saved');
+	jQuery.cookie("userMessageCok", result.message);
+	//alert('saved');
 	location.reload();
 }
 
@@ -463,9 +471,10 @@ function onRpChange() {
 	sendAjaxRequest('geoFenceData',{'pageNo':1,'rp':rp}, showReport)
 }
 function successFunc(result) {
-	jQuery('.message').text(result.message);
+	jQuery.cookie("userMessageCok", result.message);
+
 	if(result.success == true) {
-		setTimeout(function(){location.reload();},3000);
+		setTimeout(function(){location.reload();},200);
 	} else {
 	}
 }
@@ -478,6 +487,7 @@ function onAdd() {
 	jQuery('#tableDiv').hide();
 
 	jQuery('#newGeoFence').show();
+	jQuery('.userMessage').text('');
     google.maps.event.trigger(map, 'resize');
 }
 
@@ -497,7 +507,9 @@ function onDelete(com, grid) {
 			sendAjaxRequest('delGeoFence',delData,successFunc);
 		})
 	} else {
-		alert('Select one row');
+		//alert('Select one row');
+		displayUserMessageInCrud('emptyDeleteRow');
+
 	}
 }
 
@@ -572,7 +584,8 @@ function onEdit(com, grid) {
 				.addClass('editButton')
 		})
 	} else {
-		alert('Select one row');
+		//alert('Select one row');
+		displayUserMessageInCrud('emptyEditRow');
 	}	
 }
 

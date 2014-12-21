@@ -237,7 +237,7 @@ function auxiPaymentData(pageNo) {
 function onAddOrDelete(com, grid) {
 	resetForm();
     if (com == "Edit") {
-        alert("first")
+        //alert("first")
         jQuery('.flexigrid').hide();
         var c = 0
         jQuery('.trSelected', grid).each(function () {
@@ -276,7 +276,8 @@ function onAddOrDelete(com, grid) {
             })
         }
         else {
-            alert('select single row to edit')
+            //alert('select single row to edit')
+            displayUserMessageInCrud('emptyEditRow');
         }
     }
 	else if (com == "Delete") {
@@ -288,7 +289,7 @@ function onAddOrDelete(com, grid) {
 			jQuery('.trSelected', grid).each(function () {
 				var delFields = {}
 				delFields.id=jQuery('td[abbr="Id"] >div', this).html()
-				alert(delFields.id)
+				//alert(delFields.id)
 				sendAjaxRequest('delVehicleGroup',delFields,function(){
 					jQuery('.userMessage').text('Vehicle Group Deleted');
 					sendAjaxRequest('vehicleGroupData', setupDataFlexi(), showReport)
@@ -297,7 +298,8 @@ function onAddOrDelete(com, grid) {
 			})
 		}
 		else {
-			alert('select single row to delete')
+			//alert('select single row to delete')
+            displayUserMessageInCrud('emptyDeleteRow');
 		}
     }
 

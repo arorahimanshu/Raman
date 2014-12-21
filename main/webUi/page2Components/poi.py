@@ -30,16 +30,16 @@ class Poi(Page2Component):
 		formData = json.loads(cherrypy.request.params['formData'])
 		db = self.app.component('dbHelper')
 		# TODO: Himanshu When done with branch of organization just pass the company name and branch too here
-		if formData == {}:
-			formData['reportAddressCategory']='0'
+
 		pageNo = int(formData.get('pageNo', '1'))
 		if 'pageNo' not in formData:
 			self.numOfObj = 10
 		if 'rp' in formData and 'pageNo' in formData:
 			self.numOfObj = int(formData['rp'])
-		with self.server.session() as session:
-			poidata = db.returnPoiReport(session['username'], formData['reportAddressCategory'],self.numOfObj,pageNo)
 
+		with self.server.session() as session:
+			#poidata = db.returnPoiReport(session['username'], formData['reportAddressCategory'],self.numOfObj,pageNo)
+			poidata = db.returnPoiReport(session['username'],self.numOfObj,pageNo)
 
 		return self.jsonSuccess(poidata)
 
@@ -63,7 +63,8 @@ class Poi(Page2Component):
 
 
 			elif vehicleData.count() > 1:
-				query = session.query(db.Poi_vehicle).filter(db.Poi_vehicle.Vehicle_Id == formData['vehicleId'])
+				query = session.query(db.Poi_vehicle).filter(and_(db.Poi_vehicle.Vehicle_Id == formData['vehicleId'],
+																  db.Poi_vehicle.Poi_Id == formData['poiId']))
 				session.delete(query.one())
 
 			session.commit()

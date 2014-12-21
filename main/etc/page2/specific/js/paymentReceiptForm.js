@@ -318,7 +318,8 @@ function onAddOrDelete(com, grid) {
 			})
 		}
 		else {
-			alert('select single row to edit')
+			//alert('select single row to edit')
+			displayUserMessageInCrud('emptyEditRow');
 		}
 	}
 	else if (com == "Add") {
@@ -341,7 +342,8 @@ function onAddOrDelete(com, grid) {
 			})
 		}
 		else {
-			alert('select single row to delete')
+			//alert('select single row to delete')
+			displayUserMessageInCrud('emptyDeleteRow');
 		}
 	}
 }

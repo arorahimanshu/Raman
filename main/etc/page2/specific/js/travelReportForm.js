@@ -35,7 +35,7 @@ function setupData() {
     var offset =-1* curdate.getTimezoneOffset();
     var gmtAdjust=offset*60;
 		
-    alert('a');
+    //alert('a');
 	
 	var fromDate = returnDate ('fromDate');
 	var toDate = returnDate ('toDate');
@@ -62,7 +62,7 @@ function setupData() {
 }
 
 var setupConstraints = function () {
-    alert('success');
+    //alert('success');
     var constraints = {
 
         fromDate : {presence: true},
