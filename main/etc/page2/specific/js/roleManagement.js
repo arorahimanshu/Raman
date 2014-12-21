@@ -83,7 +83,8 @@ function editButtonClick(com, grid, c, selectedData) {
 		})
 	}
 	else {
-		alert('select single row to edit')
+		//alert('select single row to edit')
+		displayUserMessageInCrud('emptyEditRow');
 	}
 }
 function deleteButtonClick(com, grid, c, selectedData) {
@@ -99,7 +100,8 @@ function deleteButtonClick(com, grid, c, selectedData) {
 		})
 	}
 	else {
-		alert('select single row to delete')
+		//alert('select single row to delete')
+		displayUserMessageInCrud('emptyDeleteRow');
 	}
 }
 
@@ -144,7 +146,7 @@ var setupData = function () {
 
 
 var setupConstraints = function () {
-	alert('a')
+	//('a')
 	var constraints = {
 		name: {
 			presence: true

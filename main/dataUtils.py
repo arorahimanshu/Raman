@@ -314,16 +314,16 @@ class _Worker:
 			# delete geofence data
 			# if only one row is present then delete both geofence & geofence vehicle mapping
 			# other wise delete only mapping
-			geoFenceData = session.query(db.GeoFence_vehicle).filter_by( Vehicle_id = vehicleId )
+			geoFenceData = session.query(db.GeoFence_vehicle).filter_by( Vehicle_id = vehicleId ).all()
 
-			if geoFenceData.count() == 1:
+			if len(geoFenceData) == 1:
 				db.GeoFence_vehicle.delete({
 					'Vehicle_id':vehicleId
 					})
 				db.Gps_Geofence_Data.delete({
-					'Geofence_Id':geoFenceData['GeoFence_id']
+					'Geofence_Id':geoFenceData.GeoFence_id
 					})
-			if geoFenceData.count() > 1:
+			if len(geoFenceData) > 1:
 					db.GeoFence_vehicle.delete({
 					'Vehicle_id':vehicleId
 					})
@@ -331,15 +331,15 @@ class _Worker:
 			# if only one row is present then delete both POI & POI vehicle mapping data
 			# other wise delete only mapping
 
-			poiData = session.query(db.Poi_vehicle).filter_by(Vehicle_Id = vehicleId)
-			if poiData.count() == 1:
+			poiData = session.query(db.Poi_vehicle).filter_by(Vehicle_Id = vehicleId).all()
+			if len(poiData) == 1:
 				db.Poi_vehicle.delete({
 					'Vehicle_id':vehicleId
 					})
 				db.Gps_Poi_Info.delete({
-					'Poi_Id':poiData['Poi_Id']
+					'Poi_Id':poiData.Poi_Id
 					})
-			if poiData.count() > 1:
+			if len(poiData) > 1:
 				db.Poi_vehicle.delete({
 					'Vehicle_id':vehicleId
 					})

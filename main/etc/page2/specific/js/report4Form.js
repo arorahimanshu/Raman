@@ -77,7 +77,7 @@ var setupConstraints = function () {
 	               "data":{"errors":"Yes"}
 	             }
 
-       alert('succes');
+       //alert('succes');
        successFunc(message);
        return;
 	}

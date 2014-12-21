@@ -282,7 +282,8 @@ function onAddOrDelete(com, grid) {
             })
         }
         else {
-            alert('select single row to edit')
+            //alert('select single row to edit')
+            displayUserMessageInCrud('emptyEditRow');
         }
     }
 	else if (com == "Delete") {
@@ -294,7 +295,7 @@ function onAddOrDelete(com, grid) {
 			jQuery('.trSelected', grid).each(function () {
 				var delFields = {}
 				delFields.id=jQuery('td[abbr="BranchId"] >div', this).html()
-				alert(delFields.id)
+				//alert(delFields.id)
 				sendAjaxRequest('delBranch',delFields,function(){
 					jQuery('.userMessage').text('Branch Deleted');
 					sendAjaxRequest('branchData', setupDataFlexi(), showReport)
@@ -304,8 +305,9 @@ function onAddOrDelete(com, grid) {
 
 		}
 		else {
-			alert('select single row to delete')
-		}
+			//alert('select single row to delete')
+		    displayUserMessageInCrud('emptyDeleteRow');
+        }
     }
 
 }

@@ -378,3 +378,22 @@ function getPositionObject (position) {
 	var latlng = new google.maps.LatLng(lat,lng);
 	return latlng;
 }
+
+
+function displayUserMessageInCrud (messageType) {
+
+	switch(messageType) {
+    case 'emptyDeleteRow':
+        jQuery('.userMessage').text('Select single row to delete');
+        break;
+    case 'emptyEditRow':
+        jQuery('.userMessage').text('Select single row to edit');
+        break;
+    default:
+
+}
+	}
+
+
+
+

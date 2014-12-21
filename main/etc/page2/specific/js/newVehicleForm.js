@@ -83,7 +83,7 @@ function errorFunc(result) {
 }
 
 function successFunc(result) {
-     alert(result.message) ;
+     //alert(result.message) ;
      jQuery.cookie("userMessageCok", result.message);
 
      if(result.data.errors=='Yes'){
@@ -170,7 +170,8 @@ function editButtonClick(com, grid, c, selectedData) {
 		})
 	}
 	else {
-		alert('select single row to edit')
+		//alert('select single row to edit')
+		displayUserMessageInCrud('emptyEditRow');
 	}
 }
 
@@ -187,7 +188,8 @@ function deleteButtonClick(com, grid, c, selectedData) {
 		})
 	}
 	else {
-		alert('select single row to delete')
+		//alert('select single row to delete')
+		displayUserMessageInCrud('emptyDeleteRow');
 	}
 }
 
