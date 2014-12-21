@@ -1,7 +1,7 @@
 from appConfig import AppConfig
 from component import Component
 from sqlalchemy import func
-from sqlalchemy import and_
+from sqlalchemy import and_, or_
 from utils import Validator
 import datetime
 import time
@@ -563,11 +563,11 @@ class DbHelper(Component):
 				vehicleName = vehicleQuery.one().name
 				vehicleInfoQuery = session.query(db.Info).filter(db.Info.entity_id == vehicleId)
 				vehicleRegNo = vehicleInfoQuery.filter(db.Info.type == db.Info.Type.vehicleRegNo.value).one().data
-
 				query = session.query(db.gpsDeviceMessage1).filter( and_ (db.gpsDeviceMessage1.deviceId == '00'+deviceNum,
 																		  db.gpsDeviceMessage1.timestamp >= fromDate,
 																		  db.gpsDeviceMessage1.timestamp < toDate,
-																		  db.gpsDeviceMessage1.messageType == "BR00")).order_by(db.gpsDeviceMessage1.timestamp)
+																	or_ (db.gpsDeviceMessage1.messageType == "BR00",
+																		 db.gpsDeviceMessage1.messageType == "BP05"))).order_by(db.gpsDeviceMessage1.timestamp)
 
 				if query.count() == 0:
 					status.append({"deviceId":deviceNum,"dataPresent":0})
@@ -830,11 +830,18 @@ class DbHelper(Component):
 
 		query = None
 		with db.session() as session:
+			query = session.query(db.gpsDeviceMessage1).filter( and_ (db.gpsDeviceMessage1.deviceId == '00'+ deviceId,
+																		  db.gpsDeviceMessage1.timestamp >= fromTime,
+																		  db.gpsDeviceMessage1.timestamp < toTime,
+																	or_ (db.gpsDeviceMessage1.messageType == "BR00",
+																		 db.gpsDeviceMessage1.messageType == "BP05"))).order_by(db.gpsDeviceMessage1.timestamp)
+			'''
 			query = session.query(db.gpsDeviceMessage1).filter(db.gpsDeviceMessage1.deviceId == '00' + deviceId)
 			if (fromTime != None):
 				query = query.filter (db.gpsDeviceMessage1.timestamp >= fromTime)
 			if (toTime != None):
 				query = query.filter (db.gpsDeviceMessage1.timestamp <= toTime)
+			'''
 		#
 		return query
 	#

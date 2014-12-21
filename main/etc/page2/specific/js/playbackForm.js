@@ -180,10 +180,32 @@ jQuery(window).load(function() {
 					var coordinates = result.message[0]
 					var status = result.message[1][0]
 					var path = []
+					
+					var prevPoint = new google.maps.LatLng (coordinates[0].position.latitude, coordinates[0].position.longitude)
+					
 					jQuery.each (coordinates, function (index, item) {
+						
+						if(index != 0 && item.speed == 0) {
+							if(coordinates[index-1].speed == 0) {
+								var point = prevPoint
+							} else {
+								var lat = parseFloat(item.position.latitude)
+								var lng = parseFloat(item.position.longitude)
+								var point = new google.maps.LatLng (lat, lng)
+								prevPoint = point
+							}
+						} else {
+							var lat = parseFloat(item.position.latitude)
+							var lng = parseFloat(item.position.longitude)
+							var point = new google.maps.LatLng (lat, lng)
+						}
+						
+						/*
 						var lat = parseFloat(item.position.latitude)
 						var lng = parseFloat(item.position.longitude)
 						var point = new google.maps.LatLng (lat, lng)
+						*/
+						
 						var time = new Date (
 							item.time.year, item.time.month, item.time.day,
 							item.time.hour, item.time.minute, item.time.second

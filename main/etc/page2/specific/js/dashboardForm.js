@@ -5,7 +5,7 @@ jQuery (window).load (function (){
 
 	sendAjaxRequest('dashboardVehicleListNested', {}, setupVehicles);
 	
-	setupAJAXSubmit('dashboard', 'newDashboardFormAction', setupData2, setupConstraints, '.submit', errorFunc,successFunc,showReport);
+	setupAJAXSubmit('dashboard', 'newDashboardFormAction', setupData2, setupConstraints, '.submit', errorFunc,showReport);
 
 	
 	setupData();
@@ -198,6 +198,8 @@ function showReport(result) {
               jQuery('.userMessage').text('No Data Present');
               return
         }
+	jQuery('#showDashboard').flexAddData(result.message.sendData)
+    total = result.message.sendData.total
 
 	hideColumn('Vehicle Information')
 }

@@ -112,7 +112,7 @@ class Report1(Page2Component):
 
 		for id in vehicleIds:
 			rawCoordinates = dbHelp.getRawCoordinatesForDeviceBetween(id, fromTime, toTime)
-			rawCoordinates = rawCoordinates.order_by(db.gpsDeviceMessage1.timestamp)
+			#rawCoordinates = rawCoordinates.order_by(db.gpsDeviceMessage1.timestamp)
 
 			if rawCoordinates.count() == 0:
 				continue
