@@ -2,7 +2,7 @@ from component import Component
 from email._header_value_parser import get_obs_local_part
 from geopy.distance import vincenty
 from geopy.geocoders import GoogleV3
-
+from datetime import timedelta
 
 class GpsHelper(Component):
     def convertCoordinates(self, coordinates):
@@ -114,6 +114,8 @@ class GpsHelper(Component):
                     runCount = nextEntries(runningPathInDay, dayIndex, runCount, slicedCoordinates)
             else:
                 currentMode = 'running'
+                if prevMode != 'running':
+                    runCount = nextCount(runningPathInDay, dayIndex, runCount)
                 '''
                 if prevMode == 'inactive':
                     inactiveCount = nextEntries(inactivePathInDay, dayIndex, inactiveCount-1, [coordinates[i]])
@@ -230,7 +232,9 @@ class GpsHelper(Component):
         if totalRunCount == 0:
             avgDuration = None
         else:
-            avgDuration = totalRunningDuration / totalRunCount
+            #avgDuration = totalRunningDuration / totalRunCount
+            avgDuration = totalRunningDuration /len(data['running'])
+            avgDuration = timedelta(days=avgDuration.days, seconds=avgDuration.seconds)
 
         avgSpeed = self.getAvgSpeed(running, totalRunningDistance)
         maxSpeed = self.getMaxSpeed(running)
