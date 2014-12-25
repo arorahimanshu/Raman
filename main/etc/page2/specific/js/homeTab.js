@@ -36,12 +36,18 @@ jQuery(window).load(
         jQuery('body').on('click', '.unselectable', function () {
                 var _button = jQuery(this)
                 var info = _button.data().info
-
-                //fitx.utils.loadPage (info.url)
-                fitx.utils.pageWithParams(
-                    info.url,
-                    fitx.page2.requestNewTab(info.url)
-                )
+				
+				var maxTabsCount = 6
+				var tabsCount = jQuery('.dynamicButtonContainer').length
+				if(tabsCount < maxTabsCount) {
+					//fitx.utils.loadPage (info.url)
+					fitx.utils.pageWithParams(
+						info.url,
+						fitx.page2.requestNewTab(info.url)
+					)
+				} else {
+					jQuery('.userMessage').text('Can\'t open more than ' + maxTabsCount + ' tabs. Please close some tabs!')
+				}
             }
         )
     }
