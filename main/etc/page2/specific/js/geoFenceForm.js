@@ -124,7 +124,7 @@ function initialize()
     mapTypeControl: true,
     mapTypeControlOptions: {
         style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
-        position: google.maps.ControlPosition.BOTTOM_CENTER
+        position: google.maps.ControlPosition.TOP_RIGHT
     },
     panControl: true,
     panControlOptions: {
@@ -133,7 +133,7 @@ function initialize()
     zoomControl: true,
     zoomControlOptions: {
         style: google.maps.ZoomControlStyle.LARGE,
-        position: google.maps.ControlPosition.RIGHT_BOTTOM
+        position: google.maps.ControlPosition.RIGHT_TOP
     },
     scaleControl: true,
     streetViewControl: false,

@@ -301,6 +301,7 @@ function auxiPaymentData(pageNo) {
 function onAddOrDelete(com, grid) {
 	resetForm();
     if (com == "Edit") {
+        jQuery('#tablediv').hide()
         var c = 0
         jQuery('.trSelected', grid).each(function () {
             c += 1

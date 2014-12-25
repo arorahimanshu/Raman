@@ -363,7 +363,8 @@
 }
 
 .flexigrid div.hDiv th,div.colCopy {
-	font-weight: normal;
+	font-weight: bold;
+	font-size:1.2em;
 	height: 24px;
 	cursor: default;
 	white-space: nowrap;
@@ -456,6 +457,8 @@ div.colCopy {
 .flexigrid div.bDiv td div {
 	border-top: 0px solid #fff;
 	padding-bottom: 4px;
+
+	font-size:1.2em;
 }
 
 .flexigrid tr td.sorted {

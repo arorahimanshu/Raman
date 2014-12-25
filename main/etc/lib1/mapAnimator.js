@@ -5,13 +5,27 @@ fitx.lib1.MapAnimator = function (config) {
 
 	_self._mapCanvas = config.canvas
 	_self._mapCenter = config.center
+	_self._mapTypeControl=config.mapTypeControl
+	_self._mapTypeControlOptions=config.mapTypeControlOptions
+	_self._panControl=config.panControl
+	_self._panControlOptions=config.panControlOptions
+ 	_self._zoomControl=config.zoomControl
+	_self._zoomControlOptions=config.zoomControlOptions
 
 	_self._mapZoom   = fitx.utils.getattr (config, "zoom", 14)
 
 	var mapOptions = {
 		 center: _self._mapCenter
 		,zoom: _self._mapZoom
+		,mapTypeControl:_self._mapTypeControl
+		,mapTypeControlOptions:_self._mapTypeControlOptions
+		,panControl:_self._panControl
+		,panControlOptions:_self._panControlOptions
+		,zoomControl:_self._zoomControl
+		,zoomControlOptions:_self._zoomControlOptions
+
 	}
+	console.log(mapOptions)
 
 	_self._map = new google.maps.Map (_self._mapCanvas, mapOptions)
 

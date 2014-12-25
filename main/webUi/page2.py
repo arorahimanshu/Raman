@@ -328,5 +328,10 @@ class Page2(Component):
 			if url in (item['urls']):
 				return item['name']
 
+		for item in Page2ConfigChild:
+			if url in (item['urls']):
+				return item['name']
+
+
 #
 

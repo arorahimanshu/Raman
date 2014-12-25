@@ -151,7 +151,22 @@ jQuery(window).load(function() {
 	function makeMapAnimator () {
 		mapAnimator = new fitx.lib1.MapAnimator ({
 			canvas:jQuery ('#map')[0],
-			center: new google.maps.LatLng (23.25, 77.417)
+			center: new google.maps.LatLng (23.25, 77.417),
+			mapTypeControl: true,
+    		mapTypeControlOptions: {
+        		style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+       			 position: google.maps.ControlPosition.TOP_RIGHT
+    		},
+			panControl: true,
+    		panControlOptions: {
+        		position: google.maps.ControlPosition.TOP_RIGHT
+    		},
+    		zoomControl: true,
+    		zoomControlOptions: {
+        		style: google.maps.ZoomControlStyle.SMALL,
+        		position: google.maps.ControlPosition.RIGHT_TOP
+    		}
+
 		})
 		map = mapAnimator.map ()
 	}

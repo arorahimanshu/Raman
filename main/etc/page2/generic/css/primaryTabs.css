@@ -230,7 +230,7 @@
 
 
 
-.appButton:hover {
+.appButton:hover ,.childAppButton:hover {
 
       background-color: #1E82E8;
       color: #FFF;
