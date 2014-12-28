@@ -5,7 +5,7 @@ jQuery (window).load (function (){
 
 	sendAjaxRequest('dashboardVehicleListNested', {}, setupVehicles);
 	
-	setupAJAXSubmit('dashboard', 'newDashboardFormAction', setupData2, setupConstraints, '.submit', errorFunc,successFunc,showReport);
+	setupAJAXSubmit('dashboard', 'newDashboardFormAction', setupData2, setupConstraints, '.submit', errorFunc,showReport);
 
 	
 	setupData();
@@ -19,6 +19,7 @@ jQuery (window).load (function (){
 
 	rp = parseInt(jQuery('.pGroup select option:selected').text())
 	onLoadDashboard();
+	hideColumn('Vehicle Information')
 });
 
 function setupData() {
@@ -197,8 +198,10 @@ function showReport(result) {
               jQuery('.userMessage').text('No Data Present');
               return
         }
+	jQuery('#showDashboard').flexAddData(result.message.sendData)
+    total = result.message.sendData.total
 
-
+	hideColumn('Vehicle Information')
 }
 
 var total = 0
@@ -256,4 +259,9 @@ function successFunc(result) {
      }
 
     location.reload()
-    }
+}
+
+var hideColumn = function(colName) {
+	jQuery('th[abbr="' + colName + '"]').hide()
+	jQuery('td[abbr="' + colName + '"]').hide()
+}

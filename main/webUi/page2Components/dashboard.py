@@ -122,7 +122,7 @@ class Dashboard(Page2Component):
 			rows = []
 			for id in vehicleIds:
 				rawCoordinates = dbHelp.getRawCoordinatesForDeviceBetween(id, fromTime, toTime)
-				rawCoordinates = rawCoordinates.order_by(db.gpsDeviceMessage1.timestamp)
+				#rawCoordinates = rawCoordinates.order_by(db.gpsDeviceMessage1.timestamp)
 
 				if rawCoordinates.count() == 0:
 					continue
@@ -139,7 +139,7 @@ class Dashboard(Page2Component):
 				row['cell'].append(str(report['totalIdleDuration']))
 				row['cell'].append(str(report['totalStopDuration']))
 				row['cell'].append(str(report['totalInactiveDuration']))
-				row['cell'].append('empty')
+				row['cell'].append(rawCoordinates.all()[len(rawCoordinates.all())-1].speed)
 				row['cell'].append('empty')
 				row['cell'].append(report['endLocation'])
 				row['cell'].append(report['alert'])

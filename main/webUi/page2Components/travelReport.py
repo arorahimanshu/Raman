@@ -117,7 +117,7 @@ class TravelReport(Page2Component):
 		rows = []
 		for id in vehicleIds:
 			rawCoordinates = dbHelp.getRawCoordinatesForDeviceBetween(id, fromTime, toTime)
-			rawCoordinates = rawCoordinates.order_by(db.gpsDeviceMessage1.timestamp)
+			#rawCoordinates = rawCoordinates.order_by(db.gpsDeviceMessage1.timestamp)
 			if rawCoordinates.count() == 0:
 				continue
 			report = gpsHelp.makeReport(rawCoordinates.all(), gmtAdjust)

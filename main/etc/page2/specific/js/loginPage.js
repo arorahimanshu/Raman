@@ -40,6 +40,7 @@ jQuery(window).load(
                     if (result.success == true) {
                         fitx.utils.loadPage(fitx.config.loginFormSuccessUrl);
                     } else {
+						jQuery('.userMessage').text(result.message)
                         console.log(result.message)
                     }
                 },
