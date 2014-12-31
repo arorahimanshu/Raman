@@ -227,7 +227,7 @@ fitx.lib1.Animation = function (config) {
 
 	var playSegment = function (pathIndex) {
 		if (pathIndex < 0 || pathIndex + 1 >= _self._path.length) {
-			_self._nextAnimationControl = function () { playSegment (pathIndex) }
+			_self._nextAnimationStep = function () { playSegment (pathIndex) }
 			return
 		}
 
