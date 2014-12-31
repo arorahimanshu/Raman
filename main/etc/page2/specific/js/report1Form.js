@@ -124,7 +124,7 @@ function createColModel(colList) {
         var dict = {
             display: v,
             name: v,
-            width: v.length * 6,
+            width: 150,
             align: 'center',
             sortable: true
         }

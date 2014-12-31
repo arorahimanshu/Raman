@@ -133,10 +133,20 @@
     }
 	
 .vehicleInfoWindow {
-	width: 180px;
-	height: 100px;
-	border: 0px solid red;
+	width: 200px;
+	height: 80px;
+	border: 0px solid black;
+    font-size:1.2em;
 }
+
+.vehicleInfoWindow > label {
+	font-weight:bold;
+
+
+
+}
+
+
 
 .filterSettings > .typeFix > .genericInputSmall{
     width:150px;

@@ -490,6 +490,7 @@ span>img {
     height:70px;
     width:200px;
     overflow-y: scroll;
+    background-color: #FFF;
     }
 .vehicleGroupsContainer{
 
@@ -499,6 +500,7 @@ span>img {
     float:right;
     border: 1px solid #5133AB !important;
     text-align: left;
+    background-color: #FFF;
     }
 .vehicleGroups{
     height:70px;
@@ -510,7 +512,7 @@ span>img {
 
     display:block;
     border: 1px solid #5133AB!important;
-
+    background-color: #FFF;
     height:150px;
     text-align: left;
     }

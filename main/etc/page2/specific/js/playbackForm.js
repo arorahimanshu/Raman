@@ -253,10 +253,10 @@ jQuery(window).load(function() {
 						stepCallback: function (animation, index) {
 							var pointData = animation.path()[index][2]
 							var infoWindowDiv = '<div class="vehicleInfoWindow">\
-									Vehicle Name : ' + pointData.name + '<br/>\
-									Reg No : ' + pointData.regNo + '<br/>\
-									Speed : ' + pointData.speed + '<br/>\
-									Time : ' + pointData.timestamp + '\
+									<label>Name</label> : ' + pointData.name + '<br/>\
+									<label>Reg No :</label> ' + pointData.regNo + '<br/>\
+									<label>Speed :</label> ' + pointData.speed + '<br/>\
+									<label>Time :</label> ' + pointData.timestamp + '\
 								</div>'
 								
 							animation.infoContent (infoWindowDiv)

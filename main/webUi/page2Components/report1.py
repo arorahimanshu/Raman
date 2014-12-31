@@ -42,7 +42,7 @@ class Report1(Page2Component):
 			self.server.appUrl('etc', 'page2', 'generic', 'css', 'flexigrid.css')
 		)
 
-		self.classData = ['S.No.', 'Vehicle ID', 'Vehicle Name', 'Reg No', 'Vehicle Model', 'Running Duration In A Day', 'Distance Travelled', 'Total Idle Duration',
+		self.classData = ['S.No.', 'Vehicle ID', 'Vehicle Name', 'Reg No', 'Vehicle Model', 'Run Duration', 'Distance Travelled', 'Total Idle Duration',
 						  'Max Speed', 'Avg Speed']
 
 		# Vehicle selector Block Starts

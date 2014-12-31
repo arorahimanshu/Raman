@@ -21,3 +21,40 @@
 
     }
 
+.vSContainer{
+    width: 420px;
+    height:150px !important;
+    border: 0px solid red;
+    display: table;
+    background-color: #5133AB;
+    padding-left: 3px;
+
+}
+
+.vSContainer .vehicleSelectorTable .vehicleContainer{
+    height:120px !important;
+}
+
+
+.vSContainer   .vehicleSelector  .vehicleSelectorTable  .vehicleGroupsContainer{
+    background-color: #FFF;
+    border: 1px solid white !important;
+}
+
+.vSContainer  .vehicleSelector  .vehicleSelectorTable  .branchesContainer{
+    background-color: #FFF;
+    border: 1px solid #FFF !important;
+}
+.vSContainer  .vehicleSelector  .vehicleSelectorTable  .vehicleContainer{
+    background-color: #FFF;
+    border: 1px solid #FFF !important;
+}
+
+#showDashboard{
+
+    width:1500px;
+}
+
+#tablediv > .flexigrid{
+    width:2300px !important;
+}

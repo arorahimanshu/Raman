@@ -358,7 +358,7 @@
 
 .flexigrid div.hDiv th div,.flexigrid  div.bDiv td  div,div.colCopy div
 	/* common inner cell properties*/ {
-	padding: 5px;
+	padding: 5px 0px;
 	border-left: 0px solid #fff;
 }
 
@@ -366,9 +366,13 @@
 	font-weight: bold;
 	font-size:1.2em;
 	height: 24px;
+	overflow:hidden;
+	max-width: 200px !important;
+	width:100%;
+	min-width: 40px;
 	cursor: default;
 	white-space: nowrap;
-	overflow: hidden;
+	 
 }
 
 div.colCopy {

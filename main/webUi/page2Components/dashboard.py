@@ -49,8 +49,8 @@ class Dashboard(Page2Component):
 			self.server.appUrl('etc', 'page2', 'generic', 'css', 'flexigrid.css')
 		)
 
-		self.classData = ['S.No.', 'Status','Vehicle Name', 'Reg No', 'Vehicle Information', 'Total Running(km)', 'Total Running Duration', 'Total Idle Duration', 'Total Stop Duration',
-						  'Total Inactive Duration', 'Speed', 'Odometer', 'Location', 'Alert', 'Last Updated Time', 'IGN', 'PWR', 'AC', 'GPS']
+		self.classData = ['S.No.', 'Status','Vehicle Name', 'Reg No', 'Vehicle Information', 'Travel Distance', 'Running Duration', 'Idle Duration', 'Stop Duration',
+						  'Inactive Duration', 'Speed', 'Odometer', 'Location', 'Alert', 'Last Contact Time', 'IGN', 'PWR', 'AC', 'GPS']
 
 		# Vehicle selector Block Starts
 		vehicleStructure = []
