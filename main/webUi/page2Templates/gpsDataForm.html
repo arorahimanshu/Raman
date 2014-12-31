@@ -6,16 +6,29 @@
 </div>
 
 <div class="options">
+
+
+
     <div class="geoHeader"> Live Tracking Vehicles
+		<img class="cancelImg" src="/etc/page2/specific/images/Up.png" />
     </div>
+
+	<div class="buttonBlock">
+
+
+
+		<button class="stop genericButtonGeo" hidden="true">Stop</button>
+		<button class="start genericButtonGeo">Start</button>
+    </div>
+</div>
+
+<div class="filterSettings" >
 
 	%if additionalOptions :
 		%for opt in additionalOptions :
 			${opt}
 		%endfor
 	%endif
-
-
 
 </div>
 <div id="map" style="height:750px">

@@ -1,39 +1,78 @@
 .options{
-    width:30%;
-    height:70%;
+    width:27%;
+    height:9%;
     border: 1px solid #5133AB;
     position:absolute;
     z-index:10;
-    background-color: #FFF;
     margin:1% 0 0 1% ;
     font-size: 14px;
-
-}
-
-.filterSettings{
-    width:98%;
-
-    border: 1px solid #5133AB;
-    display block;
-    z-index:10;
     background-color: #FFF;
-    margin:2% 0 0 1% ;
+}
+
+.rotateImg{
+    transform: rotate(180deg);
+}
+.filterSettings{
+    width:27%;
+    height:35%;
+    position:absolute;
+    z-index:10;
+    border: 3px solid #5133AB;
+    display: block;
+    z-index:10;
+    background-color: #5133AB;
+    margin:6% 0 0 1% ;
 
 }
+
+.filterSettings   .vehicleSelector {
+    margin-left:auto;
+    margin-right:auto;
+}
+
+.filterSettings   .vehicleSelector  .vehicleSelectorTable  .vehicleGroupsContainer{
+    background-color: #FFF;
+    border: 1px solid white !important;
+    width:13em !important;
+}
+
+.filterSettings   .vehicleSelector  .vehicleSelectorTable  .branchesContainer{
+    background-color: #FFF;
+    border: 1px solid #FFF !important;
+    width:13em !important;
+}
+
+.filterSettings   .vehicleSelector  .vehicleSelectorTable  .branchesContainer .branches{
+
+    width:100% !important;
+
+}
+
+.filterSettings   .vehicleSelector  .vehicleSelectorTable  .vehicleContainer{
+    background-color: #FFF;
+    border: 1px solid #FFF !important;
+}
+
+
+.filterSettings   .vehicleSelector  .vehicleSelectorTable  .vehicleGroupsContainer .vehicleGroups{
+      width:100% !important;
+}
+
+
 
 
 .geoHeader{
 	display:block;
 	width:100%;
-	height:25px;
+	height:22px;
 	padding-top:5px;
-	font-size:18px;
-
+	font-size:15px;
+    font-weight:bold;
 	vertical-align: middle;
     text-align:center;
     color:#FFF;
     background-color: #5133AB;
-    margin:0 0 0 0;
+    margin: 0 0 0 0;
 }
 
 .buttonBlock{
@@ -44,6 +83,7 @@
     float:left;
     position:relative;
     padding-top:0px;
+    background-color: #FFF;
     }
 
 .subOptions{
@@ -57,10 +97,7 @@
     float:left;
     margin:2%;
 }
-
-#loadMap{
-    margin:20% 0 0 65%;
-    }
+ 
 
 
 
@@ -97,14 +134,14 @@
     margin:18% 0 0 28% ;
     }
 
-.vehicleContainer{
-        margin: 35% 0 2% 0;
-        width:100%;
-    }
+.cancelImg{
+    width:  22px !important;
+    height: 22px !important;
+    vertical-align: top !important;
+    margin: 0 0 0 25% ;
+    position:absolute;
+    float:right;
+    z-index:20;
+    cursor: pointer;
 
-.vehicleCont1   {
-     margin: 35% 0 0 0 !important;
-     width:100% important;
-     border: 0px solid red ! important;
-
-    }
+}

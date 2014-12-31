@@ -9,45 +9,61 @@
     <div class="geoHeader"> PlayBack Vehicles
     </div>
 	<div class="subOptions">
-        <div class="buttonBlock">
-		<!------<button class="toggleGeofence genericButtonGeo">No Geofence Define</button>-->
-		<!------ <button class="toggleDatetime genericButtonGeo">Hide Datetime</button>  -->
-		<button class="resetMap genericButtonGeo">Reset Map</button>
+        <!--
+		<div class="buttonBlock">
+		 <button class="toggleGeofence genericButtonGeo">No Geofence Define</button>
+		 <button class="toggleDatetime genericButtonGeo">Hide Datetime</button>
+
         </div>
+	    -->
         <div class="buttonBlock">
+
+        <div class="label">Controls</div>
+		<button class="resetMap genericButtonGeo">Reset</button>
 		<button class="restart genericButtonGeo" hidden="true">Restart</button>
 		<button class="start genericButtonGeo">Start</button>
 		<button class="pause genericButtonGeo" hidden="true">Pause</button>
 		<button class="resume genericButtonGeo" hidden="true">Resume</button>
-        <div class="label genericButtonGeo "> Speed</div>
 		<button class="increaseAnimationSpeed genericButtonGeo">+</button>
 		<button class="decreaseAnimationSpeed genericButtonGeo">-</button>
         </div>
 
+
 	</div>
+	<div class="geoHeader">
+    	    Filter Settings
+
+				<img class="cancelImg" src="/etc/page2/specific/images/Up.png" />
+
+    </div>
+</div>
 	<div class="filterSettings">
-        <div class="geoHeader">
-        Filter Settings
-        </div>
+
+
+		<!--
 		<div class="dateType buttonBlock">
-			<div class="label  ">Date Type </div>
+			<div class="label  ">Date Selection </div>
+
 			<input type="radio" name="type" value="Relative" checked>Relative
 			<input type="radio" name="type" value="Fix">Fix
 		</div>
-
+         -->
+		<!---
 		<div class="typeRelative buttonBlock">
 			<div class="label  ">Relative Day</div>
 			<input type="radio" name="relative" value="today" checked>Today
 			<input type="radio" name="relative" value="yesterday">Yesterday
 			<input type="radio" name="relative" value="yesterday1">Yesterday-1
 		</div>
-
 		<div class="typeFix buttonBlock" hidden="true">
-			<div class="label ">From </div>
+		--->
 
-			<input class="from genericInputSmall">
-			<div class="label  ">To</div>
-			<input class="to genericInputSmall">
+		<div class="typeFix  " >
+			 <div class="label ">Date </div>
+			<input type="radio" name="type" value="Fix" hidden="true">
+			<input class="from genericInputSmall" placeholder="From Date">
+			<!-- <div class="label  ">To</div>  --->
+			<input class="to genericInputSmall" placeholder="To Date">
 		</div>
 		
 		<!--
@@ -57,32 +73,27 @@
             <div class="searchButton   ">
                     <img class="searchImg" src="/etc/page2/specific/images/search.png"></img>
             </div>
-			
-
-
-
-
 		</div>
-		-->
-		
-
+	-->
 		<!--
 		<div class="hiddenTemplate">
 			<button class="show">Show</button>
 			<button class="hide">Hide</button>
 			<label class="label"></label>
 		</div>-->
-	</div>
+
+
+
 
 	%if additionalOptions :
 		%for opt in additionalOptions :
 			${opt}
 		%endfor
 	%endif
+	</div>
 
 
 
-</div>
 <div id="map" style="height:750px">
 	<Button id="loadMap"  class="genericButtonGeo">Load Map</button>
 </div>

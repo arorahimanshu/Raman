@@ -20,7 +20,10 @@ if vehicleSelectorJs not in externalJs :
 
 	class="vehicleSelector ${vehicleSelectorClass or ''}"
 >
-    <div class="branchesContainer">
+    <table border="0" class="vehicleSelectorTable">
+	<tr>
+	<td>
+	<div class="branchesContainer">
     <div class="vsHeading" >Branches </div>
 	<div class="branches"  >
 
@@ -37,7 +40,8 @@ if vehicleSelectorJs not in externalJs :
 		%endif
 	</div>
     </div>
-
+	</td>
+	<td>
     <div class="vehicleGroupsContainer">
     <div class="vsHeading" > Vehicle Groups  </div>
 	<div class="vehicleGroups" style="border:0px solid black">
@@ -53,7 +57,10 @@ if vehicleSelectorJs not in externalJs :
 		%endif
 	</div>
 	</div>
+	</td>
+    </tr>
 
+		<tr><td colspan="2" >
     <div class="vehicleContainer vehicleCont1">
         <div class="vsHeading" > Vehicles </div>
     <div class="vehicles" style="border:0px solid black">
@@ -69,6 +76,7 @@ if vehicleSelectorJs not in externalJs :
 		%endif
 	</div>
     </div>
-
+		</td></tr>
+	</table>
 </div>
 

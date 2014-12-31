@@ -5,6 +5,7 @@ fitx.lib1.MapAnimator = function (config) {
 
 	_self._mapCanvas = config.canvas
 	_self._mapCenter = config.center
+
 	_self._mapTypeControl=config.mapTypeControl
 	_self._mapTypeControlOptions=config.mapTypeControlOptions
 	_self._panControl=config.panControl
@@ -12,7 +13,9 @@ fitx.lib1.MapAnimator = function (config) {
  	_self._zoomControl=config.zoomControl
 	_self._zoomControlOptions=config.zoomControlOptions
 
-	_self._mapZoom   = fitx.utils.getattr (config, "zoom", 14)
+	//_self._mapZoom   = fitx.utils.getattr (config, "zoom", 5)
+	_self._mapZoom = 5
+
 
 	var mapOptions = {
 		 center: _self._mapCenter

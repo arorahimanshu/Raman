@@ -163,7 +163,7 @@ jQuery (window).load (function () {
 		slideWindow.data ('childHandler') (fitx.FLAG_HIDE_CHILDREN)
 	})
 
-	 jQuery('.logout').click(function () {
+	 jQuery('.logoutButton').click(function () {
 
         var r = confirm("User will be logged out");
         if (r == false) {

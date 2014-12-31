@@ -14,7 +14,8 @@ import html, json
 
 <article class="right_message">
 <p class="welcome_message"> Welcome, ${ userName } </p>
-<p class="logout"> Logout</p>
+
+<!---	<p class="logout"> Logout</p>  --->
 </div>
 </article>
 <div
@@ -48,10 +49,22 @@ class="${containerClass or ''} unselectable primaryTabs"
 		staticButton
 	"> <img class="leftArrow"  src="/etc/img/arrow3.png" ></div>
 
+<div class="inlineClass">
 <div class="
 		scrollRight
 		staticButton
 	"><img class="rightArrow"  src="/etc/img/arrow3.png" ></div>
+
+<div class="
+		dashboardTab
+		staticButton
+		staticTab
+		logoutButton
+		${'activeTab' if activeTab == 'dashboardButton' else ''}
+	">Logout
+</div>
+</div>
+
 
 <div class="dynamicTabContainer">
 	<div class="innerContainer">
@@ -70,6 +83,8 @@ class="${containerClass or ''} unselectable primaryTabs"
 		% endfor
 
 	</div>
+
+</div>
 </div>
 
 

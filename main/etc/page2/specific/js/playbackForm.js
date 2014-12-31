@@ -3,7 +3,7 @@ fitx.utils.require(['fitx', 'page2', 'newPlaybackFormAction']);
 
 jQuery(window).load(function() {
 	/**********************Control Setting in Beginning******************/
-	jQuery('.typeFix').hide()
+	//jQuery('.typeFix').hide()
 	jQuery('Input[name=type][value=Relative]').prop('checked',true)
 	
 	/************************Control Related**********************/
@@ -30,8 +30,8 @@ jQuery(window).load(function() {
 		var offset =-1* curdate.getTimezoneOffset();
 		var gmtAdjust=offset*60;
 
-		var dateType = jQuery('Input[name=type]:radio:checked').val();
-
+		//var dateType = jQuery('Input[name=type]:radio:checked').val();
+		var dateType = "fix"
         var specificFormData = {
                 'dateType': dateType
         };
@@ -71,7 +71,15 @@ jQuery(window).load(function() {
 	*/
 	jQuery('.from').datetimepicker({step:30});
 	jQuery('.to').datetimepicker({step:30});
-	
+
+	jQuery('.cancelImg').click(function() {
+		jQuery('.filterSettings').toggle();
+		jQuery('.cancelImg').toggleClass("rotateImg");
+
+
+	})
+
+
 	jQuery('#loadMap').click (function (){
 		makeMapAnimator()
 		

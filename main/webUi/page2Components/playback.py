@@ -61,9 +61,7 @@ class Playback(Page2Component):
 			proxy, params,
 			bodyContent=proxy.render('playbackForm.html',
 				additionalOptions = [
-					"<br><br><br><br>",
-
-					proxy.render ('vehicleSelector.html',
+	 					proxy.render ('vehicleSelector.html',
 						branches = vehicleStructure[0],
 						vehicleGroups = vehicleStructure[1],
 						vehicles = vehicleStructure[2],

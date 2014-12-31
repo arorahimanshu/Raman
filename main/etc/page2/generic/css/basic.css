@@ -532,10 +532,15 @@ span>img {
 
 .vehicleSelector{
 
-    font-size: 14px;
+    font-size: 16px;
+    font-weight: bold;
+    color:#5133AB;
     border: 0px solid red !important;
     min-height:200px;
     min-width:50%;
+    width:98%;
+    display:table;
+
     }
 
 
@@ -553,6 +558,7 @@ span>img {
     display:inline;
     border-style: solid solid solid solid !important;
     margin: 0 auto;
+
     }
 
 
@@ -577,6 +583,15 @@ span>img {
     display:inline;
     border-style: solid none solid solid !important;
     }
+
+
+.vehicleSelectorTable{
+    width:100%;
+    margin-left: auto;
+    margin-right: auto;
+    height:100%;
+
+}
 
 
 .userMessage{

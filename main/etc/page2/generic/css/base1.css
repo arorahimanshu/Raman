@@ -35,12 +35,14 @@ body {
 	padding:0;
 	border:0;
 	font-family: 'RobotoRegular','Helvetica Neue',Helvetica,sans-serif;
-	height: 100%; /*  NV   SEP14  */
+	  /*  NV   SEP14  */
 	background-color: #5133AB;
-	width:90%;
+	width:100em;
 	margin-top: 10px ;
-    margin-left:9%;
+    margin-left:auto;
     margin-right:auto;
+	display:table;
+
 	 box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	-ms-box-sizing: border-box;
