@@ -76,7 +76,21 @@
 }
 
 #loadMap{
-    margin:20% 0 0 65%;
+    margin:15% 0 0 60%;
+    }
+
+.userMessageMap{
+    margin:1% 0 0 50%;
+    width:25em;
+    height:1.5em;
+    background-color: #FFF;
+    position:absolute;
+    z-index:10;
+    color:red;
+    padding-bottom: auto;
+    padding-top: .3em;
+    text-align: center;
+    border: 1px solid #5133AB;
     }
 
 .typeFix > .label{
