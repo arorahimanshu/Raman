@@ -204,69 +204,71 @@ jQuery(window).load(function() {
 					var status = result.message[1][0]
 					var path = []
 					
-					var prevPoint = new google.maps.LatLng (coordinates[0].position.latitude, coordinates[0].position.longitude)
-					
-					jQuery.each (coordinates, function (index, item) {
+					if(coordinates.length > 0) {
+						var prevPoint = new google.maps.LatLng (coordinates[0].position.latitude, coordinates[0].position.longitude)
 						
-						if(index != 0 && item.speed == 0) {
-							if(coordinates[index-1].speed == 0) {
-								var point = prevPoint
+						jQuery.each (coordinates, function (index, item) {
+							
+							if(index != 0 && item.speed == 0) {
+								if(coordinates[index-1].speed == 0) {
+									var point = prevPoint
+								} else {
+									var lat = parseFloat(item.position.latitude)
+									var lng = parseFloat(item.position.longitude)
+									var point = new google.maps.LatLng (lat, lng)
+									prevPoint = point
+								}
 							} else {
 								var lat = parseFloat(item.position.latitude)
 								var lng = parseFloat(item.position.longitude)
 								var point = new google.maps.LatLng (lat, lng)
-								prevPoint = point
 							}
-						} else {
+							
+							/*
 							var lat = parseFloat(item.position.latitude)
 							var lng = parseFloat(item.position.longitude)
 							var point = new google.maps.LatLng (lat, lng)
-						}
-						
-						/*
-						var lat = parseFloat(item.position.latitude)
-						var lng = parseFloat(item.position.longitude)
-						var point = new google.maps.LatLng (lat, lng)
-						*/
-						
-						var time = new Date (
-							item.time.year, item.time.month, item.time.day,
-							item.time.hour, item.time.minute, item.time.second
-						)
-						var seconds = time.secondsSince (epoch)
+							*/
+							
+							var time = new Date (
+								item.time.year, item.time.month, item.time.day,
+								item.time.hour, item.time.minute, item.time.second
+							)
+							var seconds = time.secondsSince (epoch)
 
-						//console.log (item[0] + ", " + item[1] + ", " + seconds)
-						
-						var extraData = {'name':status.name, 'regNo':status.regNo, 'timestamp':item.timestamp, 'speed':item.speed}
-						path.push ([point, seconds, extraData])
-					})
+							//console.log (item[0] + ", " + item[1] + ", " + seconds)
+							
+							var extraData = {'name':status.name, 'regNo':status.regNo, 'timestamp':item.timestamp, 'speed':item.speed}
+							path.push ([point, seconds, extraData])
+						})
 
-					var animation1 = mapAnimator.newAnimation ('animation1', {
-						steps: 2,
-						timeMultiplier: 40,
-						path: path,
-						iconSpec: {
-							url: fitx.utils.appUrl ("assets", "car1.png"),
-							scale: [20, 20],
-							anchor: [10, 10],
-						},
-						stepCallback: function (animation, index) {
-							var pointData = animation.path()[index][2]
-							var infoWindowDiv = '<div class="vehicleInfoWindow">\
-									<label>Name</label> : ' + pointData.name + '<br/>\
-									<label>Reg No :</label> ' + pointData.regNo + '<br/>\
-									<label>Speed :</label> ' + pointData.speed + '<br/>\
-									<label>Time :</label> ' + pointData.timestamp + '\
-								</div>'
-								
-							animation.infoContent (infoWindowDiv)
-						},
-					})
+						var animation1 = mapAnimator.newAnimation ('animation1', {
+							steps: 2,
+							timeMultiplier: 40,
+							path: path,
+							iconSpec: {
+								url: fitx.utils.appUrl ("assets", "car1.png"),
+								scale: [20, 20],
+								anchor: [10, 10],
+							},
+							stepCallback: function (animation, index) {
+								var pointData = animation.path()[index][2]
+								var infoWindowDiv = '<div class="vehicleInfoWindow">\
+										<label>Name</label> : ' + pointData.name + '<br/>\
+										<label>Reg No :</label> ' + pointData.regNo + '<br/>\
+										<label>Speed :</label> ' + pointData.speed + '<br/>\
+										<label>Time :</label> ' + pointData.timestamp + '\
+									</div>'
+									
+								animation.infoContent (infoWindowDiv)
+							},
+						})
 
-					map.setZoom (13)
-					map.setCenter (path[0][0])
-					animation1.play ()
-					animations[result.message[1][0].deviceId] = animation1
+						map.setZoom (13)
+						map.setCenter (path[0][0])
+						animation1.play ()
+						animations[result.message[1][0].deviceId] = animation1
+					}
 				},
 				failureFunction : function () {
 					console.log ('failed...')

@@ -84,56 +84,58 @@ jQuery(window).load(function() {
 					var coordinates = result.message[0]
 					var status = result.message[1][0]
 					var path = []
-					jQuery.each (coordinates, function (index, item) {
-						var lat = parseFloat(item.position.latitude)
-						var lng = parseFloat(item.position.longitude)
-						var point = new google.maps.LatLng (lat, lng)
-						var time = new Date (
-							item.time.year, item.time.month, item.time.day,
-							item.time.hour, item.time.minute, item.time.second
-						)
-						var seconds = time.secondsSince (epoch)
+					if(coordinates.length > 0) {
+						jQuery.each (coordinates, function (index, item) {
+							var lat = parseFloat(item.position.latitude)
+							var lng = parseFloat(item.position.longitude)
+							var point = new google.maps.LatLng (lat, lng)
+							var time = new Date (
+								item.time.year, item.time.month, item.time.day,
+								item.time.hour, item.time.minute, item.time.second
+							)
+							var seconds = time.secondsSince (epoch)
 
-						//console.log (item[0] + ", " + item[1] + ", " + seconds)
+							//console.log (item[0] + ", " + item[1] + ", " + seconds)
+							
+							var extraData = {'name':status.name, 'regNo':status.regNo, 'timestamp':item.timestamp, 'speed':item.speed}
+							path.push ([point, seconds, extraData])
+						})
 						
-						var extraData = {'name':status.name, 'regNo':status.regNo, 'timestamp':item.timestamp, 'speed':item.speed}
-						path.push ([point, seconds, extraData])
-					})
-					
-					var deviceId = result.message[1][0].deviceId
-					if(deviceId in animations) {
-						jQuery.each(path, function(index, value){
-							animations[deviceId].path().push(value)
-						})
-						//animations[deviceId].path().push(path)
-						playAnimation(deviceId)
-					} else {
-						var animation1 = mapAnimator.newAnimation ('animation1', {
-							steps: 2,
-							timeMultiplier: 40,
-							path: path,
-							iconSpec: {
-								url: fitx.utils.appUrl ("assets", "car1.png"),
-								scale: [20, 20],
-								anchor: [10, 10],
-							},
-							stepCallback: function (animation, index) {
-								var pointData = animation.path()[index][2]
-								var infoWindowDiv = '<div class="vehicleInfoWindow">\
-										Vehicle Name : ' + pointData.name + '<br/>\
-										Reg No : ' + pointData.regNo + '<br/>\
-										Speed : ' + pointData.speed + '<br/>\
-										Time : ' + pointData.timestamp + '\
-									</div>'
-								
-								animation.infoContent (infoWindowDiv)
-							},
-						})
+						var deviceId = result.message[1][0].deviceId
+						if(deviceId in animations) {
+							jQuery.each(path, function(index, value){
+								animations[deviceId].path().push(value)
+							})
+							//animations[deviceId].path().push(path)
+							playAnimation(deviceId)
+						} else {
+							var animation1 = mapAnimator.newAnimation ('animation1', {
+								steps: 2,
+								timeMultiplier: 40,
+								path: path,
+								iconSpec: {
+									url: fitx.utils.appUrl ("assets", "car1.png"),
+									scale: [20, 20],
+									anchor: [10, 10],
+								},
+								stepCallback: function (animation, index) {
+									var pointData = animation.path()[index][2]
+									var infoWindowDiv = '<div class="vehicleInfoWindow">\
+											Vehicle Name : ' + pointData.name + '<br/>\
+											Reg No : ' + pointData.regNo + '<br/>\
+											Speed : ' + pointData.speed + '<br/>\
+											Time : ' + pointData.timestamp + '\
+										</div>'
+									
+									animation.infoContent (infoWindowDiv)
+								},
+							})
 
-						map.setZoom (15)
-						map.setCenter (path[0][0])
-						animation1.play ()
-						animations[result.message[1][0].deviceId] = animation1
+							map.setZoom (15)
+							map.setCenter (path[0][0])
+							animation1.play ()
+							animations[result.message[1][0].deviceId] = animation1
+						}
 					}
 				},
 				failureFunction : function () {
