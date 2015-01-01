@@ -46,7 +46,7 @@ jQuery(window).load(
 						fitx.page2.requestNewTab(info.url)
 					)
 				} else {
-					jQuery('.userMessage').text('Can\'t open more than ' + maxTabsCount + ' tabs. Please close some tabs!')
+					jQuery('.userMessageTab').text('Can\'t open more than ' + maxTabsCount + ' tabs. Please close some tabs!')
 				}
             }
         )

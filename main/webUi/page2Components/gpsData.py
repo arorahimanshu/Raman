@@ -182,15 +182,22 @@ class GpsData(Page2Component):
 		if deviceId in self.lastRecordTime:
 			fromDate = self.lastRecordTime[deviceId]
 		else:
-			recordSearchSeconds = 20
+			recordSearchSeconds = 30
 			fromDate = timeHelper.getDateAndTime_subtract(recordSearchSeconds, now)
 			#fromDate = timeHelper.getDateAndTime(2014,12,18,7,50,0)							#test line
 		#data = db.returnLiveCarDataForVehicles (self.carToTracked, self.getGMTDateAndTime())
 		#toDate = timeHelper.getDateAndTime_add(1, fromDate)
 		toDate = now
+		self.lastRecordTime[deviceId] = toDate
+		############## server time fix ###############3
+		deviceOffset = 6 * 60			#in seconds
+		fromDate = timeHelper.getDateAndTime_subtract(deviceOffset, fromDate)
+		toDate = timeHelper.getDateAndTime_subtract(deviceOffset, toDate)
+		#### end
+
 		#data = db.returnLiveCarDataForVehicles ([deviceId], now)
 		data = db.returnLiveCarsData([deviceId], fromDate, toDate, gmtAdjust)
-		self.lastRecordTime[deviceId] = toDate
+
 		'''
 		newData = []
 		newData.append([])

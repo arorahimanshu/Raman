@@ -4,7 +4,8 @@ fitx.utils.require(['fitx', 'page2', 'newGpsDataFormAction']);
 jQuery(window).load(function() {
 	/************************Control Related**********************/
 	makeMapAnimator()
-	var dataTimer = 10			//in seconds
+	var dataTimer = 20			//in seconds
+	startNewAnimation()
 	startNewAnimation.every(dataTimer * 1000)
 	
 	function setupData() {
