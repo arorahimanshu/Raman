@@ -549,7 +549,7 @@ class DbHelper(Component):
 		return self.getSlicedData(rows,pageNo,numOfObj)
 	#
 
-	def returnLiveCarsData(self,deviceId, fromDate=None, toDate=None, gmtAdjust = None):
+	def returnLiveCarsData(self,deviceId, fromDate=None, toDate=None, gmtAdjust = None, maxRows = None):
 		num = []
 		status = []
 		db = self.app.component('dbManager')
@@ -563,22 +563,34 @@ class DbHelper(Component):
 				vehicleName = vehicleQuery.one().name
 				vehicleInfoQuery = session.query(db.Info).filter(db.Info.entity_id == vehicleId)
 				vehicleRegNo = vehicleInfoQuery.filter(db.Info.type == db.Info.Type.vehicleRegNo.value).one().data
-				query = session.query(db.gpsDeviceMessage1).filter( and_ (db.gpsDeviceMessage1.deviceId == '00'+deviceNum,
+
+				rows = []
+				if fromDate != None and toDate !=None:
+					query = session.query(db.gpsDeviceMessage1).filter( and_ (db.gpsDeviceMessage1.deviceId == '00'+deviceNum,
 																		  db.gpsDeviceMessage1.timestamp >= fromDate,
 																		  db.gpsDeviceMessage1.timestamp < toDate,
 																	or_ (db.gpsDeviceMessage1.messageType == "BR00",
 																		 db.gpsDeviceMessage1.messageType == "BP05"))).order_by(db.gpsDeviceMessage1.timestamp)
+					rows = query.all()
+				elif maxRows != None:
+					query = session.query(db.gpsDeviceMessage1).filter( and_ (db.gpsDeviceMessage1.deviceId == '00'+deviceNum,
+																		  #db.gpsDeviceMessage1.timestamp >= fromDate
+																		  #db.gpsDeviceMessage1.timestamp < toDate,
+																	or_ (db.gpsDeviceMessage1.messageType == "BR00",
+																		 db.gpsDeviceMessage1.messageType == "BP05"))).order_by(db.gpsDeviceMessage1.timestamp.desc()).limit(maxRows)
+					rows = query.all()
+					rows.reverse()
 
-				if query.count() == 0:
+				if len(rows) == 0:
 					status.append({"deviceId":deviceNum,"dataPresent":0})
-				elif query.count() > 0:
+				elif len(rows) > 0:
 					status.append({"deviceId":deviceNum,"dataPresent":1})
 
 				status[len(status)-1]["name"] = vehicleName
 				status[len(status)-1]["regNo"] = vehicleRegNo
 
 
-				for obj in query.all():
+				for obj in rows:
 					timeDetail = obj.timestamp
 					if gmtAdjust != None:
 						timeDetail = timeHelper.getDateAndTime_add(gmtAdjust, timeDetail)
