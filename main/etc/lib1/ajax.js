@@ -114,6 +114,9 @@ fitx.lib1.AjaxControl = function (config, trigger) {
 			_dataToSend['organizationId'] = fitx.utils.defaultGet(
 					fitx.config, 'organizationId', null
 			)
+			_dataToSend['isMobile'] = fitx.utils.defaultGet (
+				fitx.config, 'isMobile', false
+			)
 		}
 
 		var control = {

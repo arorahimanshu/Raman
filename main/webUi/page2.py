@@ -112,9 +112,10 @@ class Page2(Component):
 		'internalCss': str(self._internalCss),
 		'appUrl' : self.server.appUrl,
 		'config': {
-		'BaseUri': list(AppConfig.WebserverConfig.BaseUri),
-		'organizationId': cherrypy.request.fitxData['organizationId'],
-		},
+			'BaseUri': list(AppConfig.WebserverConfig.BaseUri),
+			'organizationId': cherrypy.request.fitxData['organizationId'],
+			'isMobile' : cherrypy.request.fitxData['isMobile'],
+			},
 		}
 
 		return self.templateManager.proxy(params=params), params
@@ -147,7 +148,8 @@ class Page2(Component):
 
 	def handler(self):
 		cherrypy.request.fitxData = {
-		'organizationId': self.organizationId()
+			'organizationId': self.organizationId (),
+			'isMobile' : self.isMobile (),
 		}
 
 		requestPath = self.server.requestPath()
@@ -182,6 +184,38 @@ class Page2(Component):
 		print(requestPath._parts)
 		raise PageNotFound(requestPath.allPrevious())
 
+	#
+
+	def isMobile (self) :
+		isMobile = None
+
+		if isMobile == None :
+			isMobile = cherrypy.request.params.get ('mobile', None)
+		#
+
+		if isMobile == None :
+			isMobile = cherrypy.request.params.get ('isMobile', None)
+		#
+
+		if isMobile == None :
+			with self.server.session () as session :
+				isMobile = session.get ('isMobile', None)
+			#
+		#
+
+		if isMobile == None :
+			isMobile = self.server.requestParams ().get ('mobile', None)
+		#
+
+		if isMobile == None :
+			isMobile = self.server.infoCookie ().get ('isMobile', None)
+		#
+
+		if isMobile == None :
+			return False
+		else :
+			return True
+		#
 	#
 
 	def organizationId(self):
@@ -248,6 +282,7 @@ class Page2(Component):
 				session['primaryOrganizationId'] = organizationId
 				db = self.app.component('dbHelper')
 				session['userId'] = db.returnUid(username)
+				session['isMobile'] = cherrypy.request.fitxData['isMobile']
 				return self.jsonSuccess()
 			except userManager.LoginFailed:
 				return self.jsonFailure('Login Failed')
