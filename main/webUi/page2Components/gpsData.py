@@ -181,23 +181,22 @@ class GpsData(Page2Component):
 		now = timeHelper.getGMTDateAndTime()
 		if deviceId in self.lastRecordTime:
 			fromDate = self.lastRecordTime[deviceId]
+			rowsToFetch = None							#all possible
 		else:
-			recordSearchSeconds = 30
-			fromDate = timeHelper.getDateAndTime_subtract(recordSearchSeconds, now)
-			#fromDate = timeHelper.getDateAndTime(2014,12,18,7,50,0)							#test line
-		#data = db.returnLiveCarDataForVehicles (self.carToTracked, self.getGMTDateAndTime())
-		#toDate = timeHelper.getDateAndTime_add(1, fromDate)
-		toDate = now
-		self.lastRecordTime[deviceId] = toDate
-		############## server time fix ###############3
-		deviceOffset = 6 * 60			#in seconds
-		fromDate = timeHelper.getDateAndTime_subtract(deviceOffset, fromDate)
-		toDate = timeHelper.getDateAndTime_subtract(deviceOffset, toDate)
-		#### end
+			#recordSearchSeconds = 30
+			#fromDate = timeHelper.getDateAndTime_subtract(recordSearchSeconds, now)
+			rowsToFetch = 5							#max rows
+			fromDate = None
+
+		#toDate = now
+		toDate = None		#no upper limit for date
 
 		#data = db.returnLiveCarDataForVehicles ([deviceId], now)
-		data = db.returnLiveCarsData([deviceId], fromDate, toDate, gmtAdjust)
+		data = db.returnLiveCarsData([deviceId], fromDate, toDate, gmtAdjust, rowsToFetch)
 
+		if len(data[0]) > 0:
+			lastRecordTime = time.strptime(data[0][0]['timestamp'],'%Y-%m-%d %H:%M:%S')
+			self.lastRecordTime[deviceId] = timeHelper.getDateAndTime_subtract(gmtAdjust-1, datetime.fromtimestamp(time.mktime(lastRecordTime)))		#-1 so the last record is not fetched again
 		'''
 		newData = []
 		newData.append([])
