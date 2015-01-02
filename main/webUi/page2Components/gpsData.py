@@ -178,7 +178,7 @@ class GpsData(Page2Component):
 		timeHelper = self.app.component('timeHelper')
 		data = json.loads(formData['data'])
 		gmtAdjust = data['gmtAdjust']
-		now = timeHelper.getGMTDateAndTime()
+		#now = timeHelper.getGMTDateAndTime()
 		if deviceId in self.lastRecordTime:
 			fromDate = self.lastRecordTime[deviceId]
 			rowsToFetch = None							#all possible
@@ -196,7 +196,7 @@ class GpsData(Page2Component):
 
 		if len(data[0]) > 0:
 			lastRecordTime = time.strptime(data[0][0]['timestamp'],'%Y-%m-%d %H:%M:%S')
-			self.lastRecordTime[deviceId] = timeHelper.getDateAndTime_subtract(gmtAdjust-1, datetime.fromtimestamp(time.mktime(lastRecordTime)))		#-1 so the last record is not fetched again
+			self.lastRecordTime[deviceId] = timeHelper.getDateAndTime_subtract(gmtAdjust-1, datetime.fromtimestamp(time.mktime(lastRecordTime)))		#-1 so the last record found is not fetched again
 		'''
 		newData = []
 		newData.append([])

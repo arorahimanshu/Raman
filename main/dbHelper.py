@@ -564,22 +564,25 @@ class DbHelper(Component):
 				vehicleInfoQuery = session.query(db.Info).filter(db.Info.entity_id == vehicleId)
 				vehicleRegNo = vehicleInfoQuery.filter(db.Info.type == db.Info.Type.vehicleRegNo.value).one().data
 
+				query = session.query(db.gpsDeviceMessage1).filter( and_ (db.gpsDeviceMessage1.deviceId == '00'+deviceNum,
+																		  or_ (db.gpsDeviceMessage1.messageType == "BR00",
+																		 db.gpsDeviceMessage1.messageType == "BP05")))
+
 				rows = []
-				if fromDate != None and toDate !=None:
-					query = session.query(db.gpsDeviceMessage1).filter( and_ (db.gpsDeviceMessage1.deviceId == '00'+deviceNum,
-																		  db.gpsDeviceMessage1.timestamp >= fromDate,
-																		  db.gpsDeviceMessage1.timestamp < toDate,
-																	or_ (db.gpsDeviceMessage1.messageType == "BR00",
-																		 db.gpsDeviceMessage1.messageType == "BP05"))).order_by(db.gpsDeviceMessage1.timestamp)
-					rows = query.all()
-				elif maxRows != None:
-					query = session.query(db.gpsDeviceMessage1).filter( and_ (db.gpsDeviceMessage1.deviceId == '00'+deviceNum,
-																		  #db.gpsDeviceMessage1.timestamp >= fromDate
-																		  #db.gpsDeviceMessage1.timestamp < toDate,
-																	or_ (db.gpsDeviceMessage1.messageType == "BR00",
-																		 db.gpsDeviceMessage1.messageType == "BP05"))).order_by(db.gpsDeviceMessage1.timestamp.desc()).limit(maxRows)
+				if fromDate != None:
+					query = query.filter(db.gpsDeviceMessage1.timestamp >= fromDate)
+
+				if toDate != None:
+					query = query.filter(db.gpsDeviceMessage1.timestamp < toDate)
+
+				if maxRows != None:
+					query = query.order_by(db.gpsDeviceMessage1.timestamp.desc()).limit(maxRows)
 					rows = query.all()
 					rows.reverse()
+				else:
+					query = query.order_by(db.gpsDeviceMessage1.timestamp)
+					rows = query.all()
+
 
 				if len(rows) == 0:
 					status.append({"deviceId":deviceNum,"dataPresent":0})
