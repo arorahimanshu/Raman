@@ -110,6 +110,13 @@ class CommandConsole (Component) :
 			args = tokens[1:]
 
 			if cmd in ['quit', 'exit'] :
+				try :
+					import ctypes as ct
+					libc = ct.cdll.LoadLibrary ('libc.so.6')
+					libc._exit (0) # instant quit
+				except :
+					pass #ignore
+				#
 				return haltValue
 			elif cmd == 'help' :
 				self.normalPrint ('Basic commands :')
