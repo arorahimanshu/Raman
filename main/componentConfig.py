@@ -250,6 +250,26 @@ Page2Config = [
 
     },
 
+
+
+	    {
+
+        'name': 'dummyForm',
+        'urls': [
+            'displayDummyForm','newStudentFormAction','studentData','editStudent',
+        ],
+        'component': 'webUi.page2Components.dummyForm.DummyForm',
+        'apps': [
+            {
+                'name': 'blahBlah',
+                'displayName': 'Add New Student',
+                'url': ['displayDummyForm'],
+            }
+        ],
+		'type':'child',
+
+    },
+
     {
 
         'name': 'utilUrl',
