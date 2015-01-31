@@ -1,0 +1,68 @@
+<script>
+    var classData = []
+    %for item in classdata:
+     classData.push('${item}')
+    %endfor
+</script>
+
+<div
+	%if formId :
+	id="${formId}"
+	%endif
+
+	class="newStudent ${formClass or ''}"
+>
+
+<div id="newStudent"  class="newStudentForm" hidden="true">
+
+     <div class="field">
+			<div class="genericFormHeader">New Student</div>
+
+	 </div>
+
+    <div class="field">
+         <label class="genericFormLabel">Student Name:</label>
+          <input type="text" id="name" class="genericInput "><span id="nameErrorImg"><img src=""></span>
+        <div class="  error" id="nameError"></div>
+    </div>
+
+    <div class="field">
+         <label class="genericFormLabel">Roll No:</label>
+          <input type="text" id="rno" class="genericInput "><span id="rnoErrorImg"><img src=""></span>
+        <div class="error" id="rnoError"></div>
+    </div>
+
+    <div class="field">
+         <label class="genericFormLabel">Branch:</label>
+			<select id="branch" class="genericSelect">
+				%for branch in branchList:
+					<option value="${branch['value']}">${branch['display']}</option>
+				%endfor
+			</select>
+        <div class="  error" id="vehicleGroupName1Error"></div>
+    </div>
+
+
+    <div class="field">
+         <label class="genericFormLabel">Marks:</label>
+          <input type="text" id="marks" class="genericInput "><span id="marksErrorImg"><img src=""></span>
+        <div class="  error" id="marksError"></div>
+    </div>
+
+
+    <div class="field">
+        
+        <div class=" ">
+            <div id="submit" class="ok bButton genericButton">Submit</div>
+            <div id="cancel" class="cancel bButton genericButton">Cancel</div>
+        </div>
+        <div class=" "></div>
+    </div>
+</div>
+
+	  	<div class="userMessage">  </div>
+        <div id="tablediv">
+            <table id="student"></table>
+        </div>
+
+</div>

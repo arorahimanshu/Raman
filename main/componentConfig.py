@@ -267,7 +267,31 @@ Page2Config = [
 			#'vehicleSelector', # <- Not needed anymore since vehicle selector is preloading from template
 		],
 		'component' : 'webUi.page2Components.vehicleSelector.VehicleSelector',
-	}
+	},
+
+	{
+
+        'name': 'newStudent',
+        'urls': [
+            'newStudentForm',
+             'newStudentFormAction',
+            'newStudentData',
+			'editNewStudent',
+			'delNewStudent',
+        ],
+        'component': 'webUi.page2Components.newStudent.Student',
+        'apps': [
+            {
+                'name': 'newStudent',
+                'displayName': 'Student',
+                'url': ['newStudentForm'],
+            }
+        ],
+		'type':'child',
+
+
+    },
+
 ]
 
 
@@ -477,6 +501,7 @@ Page2ConfigChild = [
 		'parent':'reportParent',
 
     },
+
 
 ]
 
